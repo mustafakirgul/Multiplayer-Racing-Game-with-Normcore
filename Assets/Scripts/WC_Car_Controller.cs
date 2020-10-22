@@ -35,8 +35,9 @@ public class WC_Car_Controller : MonoBehaviour
     public ParticleSystem dustParticles, pebbles;
     [HideInInspector]
     public float actualMaxSpeed;
-    //[HideInInspector]
-    public float totalRPM, RPM, maxTheoreticalRPM;
+    [HideInInspector]
+    public float totalRPM, RPM;
+    public float maxTheoreticalRPM;
     int wheelCount;
     WheelHit _hit;
     public Terrain currentTerrainType = Terrain.nothing;
@@ -91,17 +92,21 @@ public class WC_Car_Controller : MonoBehaviour
         _realtimeTransform.RequestOwnership();
         ListenForInput();
         velocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).z);
-        sidewaysVelocity = Mathf.Abs(carBody.velocity.z);
+        sidewaysVelocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).x);
         currentTorque = verticalInput * torque;
+        if (velocity < .333f && verticalInput == 0f)
+        {
+            isBraking = true;
+        }
         if (currentTorque > 0)
         {
             dustEmission.rateOverTime =
-                Mathf.Clamp((1f - (currentTorque / torque)) *
+                Mathf.Clamp((currentTorque / torque) *
                 dustFactor,
                 0,
                 dustLimit);
             pebbleEmission.rateOverTime =
-                Mathf.Clamp((1f - (currentTorque / torque)) *
+                Mathf.Clamp((currentTorque / torque) *
                 pebbleFactor,
                 0,
                 pebbleLimit);
@@ -110,15 +115,14 @@ public class WC_Car_Controller : MonoBehaviour
         {
             if (isBraking)
                 dustEmission.rateOverTime = velocity * brakeDustFactor;
-            else
+
+            if (sidewaysVelocity > (velocity / 2f))
             {
-                if (sidewaysVelocity > (velocity / 2f))
-                {
-                    dustEmission.rateOverTime = (velocity * brakeDustFactor) * 2f;
-                }
-                else dustEmission.rateOverTime = 0f;
-                pebbleEmission.rateOverTime = 0f;
+                dustEmission.rateOverTime = (velocity * brakeDustFactor) * 2f;
             }
+            else dustEmission.rateOverTime = 0f;
+
+            pebbleEmission.rateOverTime = 0f;
         }
 
         totalRPM = 0f;
@@ -134,8 +138,6 @@ public class WC_Car_Controller : MonoBehaviour
         // If this CubePlayer prefab is not owned by this client, bail.
         if (isNetworkInstance)
             return;
-
-        display.text = Mathf.RoundToInt((velocity * speedDisplayMultiplier)).ToString();
         RunWheels();
         carBody.velocity = Vector3.ClampMagnitude(carBody.velocity, actualMaxSpeed);
     }
@@ -190,6 +192,7 @@ public class WC_Car_Controller : MonoBehaviour
                 wheel.trail.gameObject.SetActive(false);
             }
         }
+        display.text = Mathf.RoundToInt((velocity * speedDisplayMultiplier)).ToString();
     }
 
     private void ListenForInput()
@@ -200,7 +203,7 @@ public class WC_Car_Controller : MonoBehaviour
             verticalInput *= Mathf.Clamp(clutchCurve.Evaluate(clutchTimer / clutchTime), -1, 1);
             clutchTimer += Time.deltaTime;
         }
-        else if (verticalInput <= 0f)
+        else if (verticalInput <= .01f)
         {
             clutchTimer = 0f;
         }

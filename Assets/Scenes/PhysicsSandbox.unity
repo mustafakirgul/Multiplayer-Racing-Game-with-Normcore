@@ -3007,8 +3007,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60c0cc347c3515449888f5933297e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimum: {x: -20, y: 24, z: -20}
-  maximum: {x: 20, y: 24, z: 20}
+  minimum: {x: -10, y: 28, z: -10}
+  maximum: {x: 10, y: 26, z: 10}
 --- !u!1001 &4915209532587630304
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3108,7 +3108,7 @@ PrefabInstance:
     - target: {fileID: 9072222076205165745, guid: 06d857ea5c9455b4cb76e053f46a3212,
         type: 3}
       propertyPath: followSpeed
-      value: 7
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9072222076205165745, guid: 06d857ea5c9455b4cb76e053f46a3212,
         type: 3}
@@ -3123,7 +3123,7 @@ PrefabInstance:
     - target: {fileID: 9072222076205165745, guid: 06d857ea5c9455b4cb76e053f46a3212,
         type: 3}
       propertyPath: fastFocalLength
-      value: 39
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 9072222076205165746, guid: 06d857ea5c9455b4cb76e053f46a3212,
         type: 3}
