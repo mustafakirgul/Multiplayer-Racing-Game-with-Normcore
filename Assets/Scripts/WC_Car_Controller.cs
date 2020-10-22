@@ -76,11 +76,13 @@ public class WC_Car_Controller : MonoBehaviour
         for (int i = 0; i < wheelCount; i++)
         {
             wheels[i].collider.wheelDampingRate = wheels[i].dampingRate;
+            wheels[i].trail.emitting = false;
         }
         dustEmission = dustParticles.emission;
         pebbleEmission = pebbles.emission;
         display = GetComponentInChildren<TextMeshProUGUI>();
         actualMaxSpeed = maxSpeed / speedDisplayMultiplier;
+        
 
     }
     private void Update()
@@ -175,6 +177,7 @@ public class WC_Car_Controller : MonoBehaviour
 
             if (drawSkidmark)
             {
+                _hit = new WheelHit();
                 wheel.collider.GetGroundHit(out _hit);
                 if (_hit.collider != null)
                 {
@@ -183,9 +186,11 @@ public class WC_Car_Controller : MonoBehaviour
                         currentTerrainType = terrainType.type;
                     else
                         currentTerrainType = Terrain.nothing;
+
+                    wheel.trail.emitting = currentTerrainType == Terrain.sand;
+                    wheel.trail.transform.position = _hit.point + skidmarkOffset;
+
                 }
-                wheel.trail.emitting = currentTerrainType == Terrain.sand;
-                wheel.trail.transform.position = _hit.point + skidmarkOffset;
             }
             else if (wheel.trail.gameObject.activeSelf)
             {
