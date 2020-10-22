@@ -30,7 +30,7 @@ public class WC_Car_Controller : MonoBehaviour
     public bool drawSkidmark = false;
     public Vector3 skidmarkOffset;
     public int brakeDustFactor, brakeDustLimit, dustFactor, dustLimit, pebbleFactor, pebbleLimit;
-    public TextMeshProUGUI display;
+    public TextMeshProUGUI speedDisplay, IDDisplay;
     private ParticleSystem.EmissionModule dustEmission, pebbleEmission;
     public ParticleSystem dustParticles, pebbles;
     [HideInInspector]
@@ -47,21 +47,22 @@ public class WC_Car_Controller : MonoBehaviour
     public Transform cameraPlace, lookAtTarget;
     Camera_Controller chaseCam;
     bool isNetworkInstance;
+    public float dashForce;
 
     private void Awake()
     {
         _realtimeView = GetComponent<RealtimeView>();
         _realtimeTransform = GetComponent<RealtimeTransform>();
-
     }
     private void Start()
     {
+        IDDisplay.text = _realtimeView.ownerIDSelf.ToString();
         // If this CubePlayer prefab is not owned by this client, bail.
         if (!_realtimeView.isOwnedLocallySelf)
         {
-            gameObject.GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+            speedDisplay.gameObject.SetActive(false);
             isNetworkInstance = true;
-            carBody.Sleep();
+            //carBody.Sleep();
             return;
         }
         else
@@ -80,9 +81,8 @@ public class WC_Car_Controller : MonoBehaviour
         }
         dustEmission = dustParticles.emission;
         pebbleEmission = pebbles.emission;
-        display = GetComponentInChildren<TextMeshProUGUI>();
+        speedDisplay = GetComponentInChildren<TextMeshProUGUI>();
         actualMaxSpeed = maxSpeed / speedDisplayMultiplier;
-        
 
     }
     private void Update()
@@ -92,6 +92,12 @@ public class WC_Car_Controller : MonoBehaviour
             return;
         // Make sure we own the transform so that RealtimeTransform knows to use this client's transform to synchronize remote clients.
         _realtimeTransform.RequestOwnership();
+        for (int i = 0; i < wheelCount; i++)
+        {
+            wheels[i].model.GetComponent<RealtimeView>().RequestOwnership();
+            if (wheels[i].model.GetComponent<RealtimeView>().isOwnedLocallySelf)
+                wheels[i].model.GetComponent<RealtimeTransform>().RequestOwnership();
+        }
         ListenForInput();
         velocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).z);
         sidewaysVelocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).x);
@@ -197,7 +203,7 @@ public class WC_Car_Controller : MonoBehaviour
                 wheel.trail.gameObject.SetActive(false);
             }
         }
-        display.text = Mathf.RoundToInt((velocity * speedDisplayMultiplier)).ToString();
+        speedDisplay.text = Mathf.RoundToInt((velocity * speedDisplayMultiplier)).ToString();
     }
 
     private void ListenForInput()
