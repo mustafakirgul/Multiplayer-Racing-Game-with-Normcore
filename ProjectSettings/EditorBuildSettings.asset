@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PhysicsSandbox.unity
     guid: 83e42cf3affb9864985945f1679160eb
+  - enabled: 1
+    path: Assets/Scenes/cubeTest.unity
+    guid: dc14a01fe9ba4154c9d431021949c232
   m_configObjects: {}

@@ -3,11 +3,13 @@ using Normal.Realtime;
 using TMPro;
 using System.Collections.Generic;
 using TMPro.Examples;
+using System;
 
 public class WC_Car_Controller : MonoBehaviour
 {
     public float torque;
     public float currentTorque;
+    public bool limitTopSpeed;
     [SerializeField]
     private float maxSpeed;
     public AnimationCurve clutchCurve;
@@ -48,36 +50,49 @@ public class WC_Car_Controller : MonoBehaviour
     Camera_Controller chaseCam;
     bool isNetworkInstance;
     public float dashForce;
+    public bool offlineTest = true;
+    public int numberOfTiresTouchingGround = 0;
 
     private void Awake()
     {
         _realtimeView = GetComponent<RealtimeView>();
         _realtimeTransform = GetComponent<RealtimeTransform>();
+        if (!offlineTest)
+        {
+            _realtimeView.enabled = true;
+            _realtimeTransform.enabled = true;
+        }
     }
     private void Start()
     {
-        IDDisplay.text = _realtimeView.ownerIDSelf.ToString();
-        // If this CubePlayer prefab is not owned by this client, bail.
-        if (!_realtimeView.isOwnedLocallySelf)
+        if (!offlineTest)
         {
-            speedDisplay.gameObject.SetActive(false);
-            isNetworkInstance = true;
-            //carBody.Sleep();
-            return;
+            if (!_realtimeView.isOwnedLocallySelf)
+            {
+                IDDisplay.text = _realtimeView.ownerIDSelf.ToString();
+                speedDisplay.gameObject.SetActive(false);
+                isNetworkInstance = true;
+                //carBody.Sleep();
+                return;
+            }
+            else
+            {
+                InitCam();
+            }
         }
         else
         {
-            chaseCam = GameObject.FindObjectOfType<Camera_Controller>();
-            chaseCam.place = cameraPlace;
-            chaseCam.lookAtTarget = lookAtTarget;
-            chaseCam.velocityReference = gameObject;
-            chaseCam.wcController = this;
+            InitCam();
         }
+
         wheelCount = wheels.Count;
         for (int i = 0; i < wheelCount; i++)
         {
             wheels[i].collider.wheelDampingRate = wheels[i].dampingRate;
-            wheels[i].trail.emitting = false;
+            if (wheels[i].trail != null)
+            {
+                wheels[i].trail.emitting = false;
+            }
         }
         dustEmission = dustParticles.emission;
         pebbleEmission = pebbles.emission;
@@ -85,22 +100,62 @@ public class WC_Car_Controller : MonoBehaviour
         actualMaxSpeed = maxSpeed / speedDisplayMultiplier;
 
     }
+
+    private void InitCam()
+    {
+        chaseCam = GameObject.FindObjectOfType<Camera_Controller>();
+        chaseCam.place = cameraPlace;
+        chaseCam.lookAtTarget = lookAtTarget;
+        chaseCam.velocityReference = gameObject;
+        chaseCam.wcController = this;
+    }
+
     private void Update()
     {
-        // If this CubePlayer prefab is not owned by this client, bail.
         if (isNetworkInstance)
             return;
-        // Make sure we own the transform so that RealtimeTransform knows to use this client's transform to synchronize remote clients.
-        _realtimeTransform.RequestOwnership();
-        for (int i = 0; i < wheelCount; i++)
+        if (!offlineTest)
         {
-            wheels[i].model.GetComponent<RealtimeView>().RequestOwnership();
-            if (wheels[i].model.GetComponent<RealtimeView>().isOwnedLocallySelf)
-                wheels[i].model.GetComponent<RealtimeTransform>().RequestOwnership();
+            for (int i = 0; i < wheelCount; i++)
+            {
+                if (wheels[i].model != null)
+                {
+                    if (wheels[i].model.GetComponent<RealtimeView>() != null)
+                    {
+                        wheels[i].model.GetComponent<RealtimeView>().enabled = true;
+                        if (wheels[i].model.GetComponent<RealtimeTransform>() != null)
+                        {
+                            wheels[i].model.GetComponent<RealtimeTransform>().enabled = true;
+                        }
+                    }
+                }
+            }
+
+            _realtimeTransform.RequestOwnership();
+            for (int i = 0; i < wheelCount; i++)
+            {
+                wheels[i].model.GetComponent<RealtimeView>().RequestOwnership();
+                if (wheels[i].model.GetComponent<RealtimeView>().isOwnedLocallySelf)
+                    wheels[i].model.GetComponent<RealtimeTransform>().RequestOwnership();
+            }
+        }
+        else
+        {
+
         }
         ListenForInput();
         velocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).z);
         sidewaysVelocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).x);
+        
+        ////Downwards force test
+        //carBody.AddRelativeForce(
+        //    -transform.up * (
+        //    (100 * velocity) +
+        //    (100 * verticalInput) +
+        //    (100 * sidewaysVelocity)),
+        //    ForceMode.Force
+        //    );
+
         currentTorque = verticalInput * torque;
         if (velocity < .333f && verticalInput == 0f)
         {
@@ -147,11 +202,13 @@ public class WC_Car_Controller : MonoBehaviour
         if (isNetworkInstance)
             return;
         RunWheels();
-        carBody.velocity = Vector3.ClampMagnitude(carBody.velocity, actualMaxSpeed);
+        if (limitTopSpeed)
+            carBody.velocity = Vector3.ClampMagnitude(carBody.velocity, actualMaxSpeed);
     }
 
     private void RunWheels()
     {
+        numberOfTiresTouchingGround = 0;
         foreach (Wheel wheel in wheels)
         {
             if (isBraking)
@@ -173,34 +230,44 @@ public class WC_Car_Controller : MonoBehaviour
                 wheel.collider.steerAngle = Mathf.Lerp(wheel.collider.steerAngle, horizontalInput * maxSteering, steeringSpeed);
             }
 
-            Quaternion _rotation;
-            Vector3 _position;
-
-            wheel.collider.GetWorldPose(out _position, out _rotation);
-
-            wheel.model.transform.position = _position;
-            wheel.model.transform.rotation = _rotation;
-
-            if (drawSkidmark)
+            if (wheel.model != null)
             {
-                _hit = new WheelHit();
-                wheel.collider.GetGroundHit(out _hit);
-                if (_hit.collider != null)
-                {
-                    terrainType = _hit.collider.gameObject.GetComponent<TerrainType>();
-                    if (terrainType != null)
-                        currentTerrainType = terrainType.type;
-                    else
-                        currentTerrainType = Terrain.nothing;
+                Quaternion _rotation;
+                Vector3 _position;
 
-                    wheel.trail.emitting = currentTerrainType == Terrain.sand;
-                    wheel.trail.transform.position = _hit.point + skidmarkOffset;
+                wheel.collider.GetWorldPose(out _position, out _rotation);
 
-                }
+                wheel.model.transform.position = _position;
+                wheel.model.transform.rotation = _rotation;
             }
-            else if (wheel.trail.gameObject.activeSelf)
+
+            if (wheel.trail != null)
             {
-                wheel.trail.gameObject.SetActive(false);
+                if (drawSkidmark)
+                {
+                    _hit = new WheelHit();
+                    wheel.collider.GetGroundHit(out _hit);
+                    if (_hit.collider != null)
+                    {
+                        terrainType = _hit.collider.gameObject.GetComponent<TerrainType>();
+                        if (terrainType != null)
+                        {
+                            numberOfTiresTouchingGround++;
+                            currentTerrainType = terrainType.type;
+                        }
+
+                        else
+                            currentTerrainType = Terrain.nothing;
+
+                        wheel.trail.emitting = currentTerrainType == Terrain.sand;
+                        wheel.trail.transform.position = _hit.point + skidmarkOffset;
+
+                    }
+                }
+                else if (wheel.trail.gameObject.activeSelf)
+                {
+                    wheel.trail.gameObject.SetActive(false);
+                }
             }
         }
         speedDisplay.text = Mathf.RoundToInt((velocity * speedDisplayMultiplier)).ToString();
@@ -220,7 +287,7 @@ public class WC_Car_Controller : MonoBehaviour
         }
 
         horizontalInput = Input.GetAxisRaw("Horizontal");
-        if (Input.GetKeyDown("r"))//reset
+        if (Input.GetKeyDown(KeyCode.R))//reset
         {
             if (Physics.Raycast(transform.position, transform.up, upSideDownCheckRange))
             {
@@ -230,13 +297,17 @@ public class WC_Car_Controller : MonoBehaviour
                 carBody.velocity = Vector3.zero;
             }
         }
-        if (Input.GetKeyDown("e"))//lights
+        if (Input.GetKeyDown(KeyCode.E))//lights
         {
             lights = !lights;
             RHL.enabled = lights;
             LHL.enabled = lights;
         }
         isBraking = Input.GetKey(KeyCode.Space);//handbrake;
+        if (Input.GetKeyDown(KeyCode.Q) && numberOfTiresTouchingGround > 0)//boost/dash
+        {
+            carBody.AddRelativeForce(transform.forward * dashForce, ForceMode.VelocityChange);
+        }
     }
     [System.Serializable]
     public struct Wheel

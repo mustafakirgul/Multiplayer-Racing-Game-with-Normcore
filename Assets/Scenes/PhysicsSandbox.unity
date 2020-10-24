@@ -3108,7 +3108,7 @@ PrefabInstance:
     - target: {fileID: 9072222076205165745, guid: 06d857ea5c9455b4cb76e053f46a3212,
         type: 3}
       propertyPath: followSpeed
-      value: 4
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9072222076205165745, guid: 06d857ea5c9455b4cb76e053f46a3212,
         type: 3}
@@ -3118,12 +3118,12 @@ PrefabInstance:
     - target: {fileID: 9072222076205165745, guid: 06d857ea5c9455b4cb76e053f46a3212,
         type: 3}
       propertyPath: slowFocalLength
-      value: 40
+      value: 42
       objectReference: {fileID: 0}
     - target: {fileID: 9072222076205165745, guid: 06d857ea5c9455b4cb76e053f46a3212,
         type: 3}
       propertyPath: fastFocalLength
-      value: 38
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 9072222076205165746, guid: 06d857ea5c9455b4cb76e053f46a3212,
         type: 3}
