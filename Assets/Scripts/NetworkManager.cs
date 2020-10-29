@@ -1,4 +1,5 @@
 ﻿using Normal.Realtime;
+using TMPro;
 using UnityEngine;
 
 public class NetworkManager : MonoBehaviour
@@ -6,8 +7,8 @@ public class NetworkManager : MonoBehaviour
     private Realtime _realtime;
     public Vector3 minimum, maximum;
     Vector3 spawnPoint;
-
-
+    public TextMeshProUGUI playerNameInputField;
+    public Canvas _canvas;
 
     private void Awake()
     {
@@ -24,14 +25,25 @@ public class NetworkManager : MonoBehaviour
             );
     }
 
+    public void ConnectToRoom()
+    {
+        if (playerNameInputField.text.Length>0)
+        {
+            _realtime.Connect("GearboxTest");
+        }
+    }
     private void DidConnectToRoom(Realtime realtime)
     {
         // Instantiate the CubePlayer for this client once we've successfully connected to the room
-        Realtime.Instantiate("Car",                 // Prefab name
+        GameObject _temp = Realtime.Instantiate("Car",                 // Prefab name
                             position: spawnPoint,          // Start 1 meter in the air
                             rotation: Quaternion.identity, // No rotation
                        ownedByClient: true,                // Make sure the RealtimeView on this prefab is owned by this client
             preventOwnershipTakeover: true,                // Prevent other clients from calling RequestOwnership() on the root RealtimeView.
                          useInstance: realtime);           // Use the instance of Realtime that fired the didConnectToRoom event.
+
+        _temp.GetComponent<WC_Car_Controller>()._realtime = _realtime;
+        _temp.GetComponent<Player>().SetPlayerName(playerNameInputField.text);
+        _canvas.gameObject.SetActive(false);
     }
 }

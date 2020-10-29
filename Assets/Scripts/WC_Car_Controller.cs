@@ -2,8 +2,6 @@
 using Normal.Realtime;
 using TMPro;
 using System.Collections.Generic;
-using TMPro.Examples;
-using System;
 
 public class WC_Car_Controller : MonoBehaviour
 {
@@ -46,12 +44,17 @@ public class WC_Car_Controller : MonoBehaviour
     private TerrainType terrainType;
     private RealtimeView _realtimeView;
     private RealtimeTransform _realtimeTransform;
+    [HideInInspector]
+    public Realtime _realtime;
     public Transform cameraPlace, lookAtTarget;
     Camera_Controller chaseCam;
     bool isNetworkInstance;
     public float dashForce;
     public bool offlineTest = true;
     public int numberOfTiresTouchingGround = 0;
+
+    public Player _player;
+    public string _currentName;
 
     private void Awake()
     {
@@ -61,15 +64,21 @@ public class WC_Car_Controller : MonoBehaviour
         {
             _realtimeView.enabled = true;
             _realtimeTransform.enabled = true;
+            _player = GetComponent<Player>();
         }
     }
     private void Start()
     {
         if (!offlineTest)
         {
+            if (_currentName != _player.playerName)
+            {
+                _currentName = _player.playerName;
+                IDDisplay.SetText(_currentName);
+            }
+
             if (!_realtimeView.isOwnedLocallySelf)
             {
-                IDDisplay.text = _realtimeView.ownerIDSelf.ToString();
                 speedDisplay.gameObject.SetActive(false);
                 isNetworkInstance = true;
                 //carBody.Sleep();
@@ -146,7 +155,7 @@ public class WC_Car_Controller : MonoBehaviour
         ListenForInput();
         velocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).z);
         sidewaysVelocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).x);
-        
+
         ////Downwards force test
         //carBody.AddRelativeForce(
         //    -transform.up * (
@@ -306,7 +315,7 @@ public class WC_Car_Controller : MonoBehaviour
         isBraking = Input.GetKey(KeyCode.Space);//handbrake;
         if (Input.GetKeyDown(KeyCode.Q) && numberOfTiresTouchingGround > 0)//boost/dash
         {
-            carBody.AddRelativeForce(transform.forward * dashForce, ForceMode.VelocityChange);
+            carBody.AddForce(transform.forward * dashForce, ForceMode.VelocityChange);
         }
     }
     [System.Serializable]

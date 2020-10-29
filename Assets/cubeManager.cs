@@ -9,7 +9,6 @@ public class cubeManager : MonoBehaviour
     {
         // Get the Realtime component on this game object
         _realtime = GetComponent<Realtime>();
-
         // Notify us when Realtime successfully connects to the room
         _realtime.didConnectToRoom += DidConnectToRoom;
     }

@@ -10,13 +10,14 @@ public class cubeController : MonoBehaviour
     {
         _rV = GetComponent<RealtimeView>();
         _rT = GetComponent<RealtimeTransform>();
-    }
-
-    private void Update()
-    {
         if (_rV.isOwnedLocallySelf)
         {
             _rT.RequestOwnership();
         }
+    }
+
+    private void Update()
+    {
+
     }
 }
