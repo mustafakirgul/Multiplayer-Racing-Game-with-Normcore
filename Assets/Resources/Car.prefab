@@ -1038,33 +1038,33 @@ MonoBehaviour:
   verticalInput: 0
   horizontalInput: 0
   speedDisplayMultiplier: 3
-  RHL: {fileID: 0}
-  LHL: {fileID: 0}
-  carBody: {fileID: 0}
+  RHL: {fileID: 3550835013606516952}
+  LHL: {fileID: 3550835014593372549}
+  carBody: {fileID: 3550835013394346515}
   wheels:
-  - model: {fileID: 0}
-    collider: {fileID: 0}
+  - model: {fileID: 3550835013063902092}
+    collider: {fileID: 3550835013340996564}
     isSteeringWheel: 1
     isPowered: 1
-    trail: {fileID: 0}
+    trail: {fileID: 3550835013058102205}
     dampingRate: 0.66
-  - model: {fileID: 0}
-    collider: {fileID: 0}
+  - model: {fileID: 3550835012998921161}
+    collider: {fileID: 3550835014205563338}
     isSteeringWheel: 1
     isPowered: 1
-    trail: {fileID: 0}
+    trail: {fileID: 3550835012700399388}
     dampingRate: 0.66
-  - model: {fileID: 0}
-    collider: {fileID: 0}
+  - model: {fileID: 3550835014399832627}
+    collider: {fileID: 3550835013408514743}
     isSteeringWheel: 0
     isPowered: 1
-    trail: {fileID: 0}
+    trail: {fileID: 3550835014359554545}
     dampingRate: 0.66
-  - model: {fileID: 0}
-    collider: {fileID: 0}
+  - model: {fileID: 3550835013065624230}
+    collider: {fileID: 3550835014163966474}
     isSteeringWheel: 0
     isPowered: 1
-    trail: {fileID: 0}
+    trail: {fileID: 3550835013430178924}
     dampingRate: 0.66
   isBraking: 1
   velocity: 0.0006924466
@@ -1077,23 +1077,23 @@ MonoBehaviour:
   dustLimit: 300
   pebbleFactor: 40
   pebbleLimit: 100
-  speedDisplay: {fileID: 0}
-  IDDisplay: {fileID: 0}
-  dustParticles: {fileID: 0}
-  pebbles: {fileID: 0}
+  speedDisplay: {fileID: 3550835013185590072}
+  IDDisplay: {fileID: 5370264496379288783}
+  dustParticles: {fileID: 3550835013492552488}
+  pebbles: {fileID: 3550835013894637122}
   actualMaxSpeed: 71
   totalRPM: 0
   RPM: 0
   maxTheoreticalRPM: 3000
   currentTerrainType: 0
   _realtime: {fileID: 0}
-  cameraPlace: {fileID: 0}
-  lookAtTarget: {fileID: 0}
+  cameraPlace: {fileID: 3550835014518867907}
+  lookAtTarget: {fileID: 3550835013746297911}
   dashForce: 5
   offlineTest: 0
   numberOfTiresTouchingGround: 4
-  _player: {fileID: 0}
-  _currentName: "q\u200B"
+  _player: {fileID: 7735197493383449936}
+  _currentName: 
 --- !u!33 &3550835013394346518
 MeshFilter:
   m_ObjectHideFlags: 0
