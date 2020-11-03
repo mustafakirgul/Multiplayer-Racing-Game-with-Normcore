@@ -10,9 +10,12 @@ public class Bullet : MonoBehaviour
     Rigidbody rb;
     GameObject explosion;
     WaitForSeconds wait2Secs;
+    TrailRenderer tR;
     RaycastHit[] hits;
     private void Awake()
     {
+        tR = GetComponent<TrailRenderer>();
+        tR.enabled = false;
         wait2Secs = new WaitForSeconds(2f);
         rb = GetComponent<Rigidbody>();
         explosion = transform.GetChild(0).gameObject;
@@ -22,7 +25,8 @@ public class Bullet : MonoBehaviour
 
     public void Fire(Transform _barrelTip, float _barrelFactor)
     {
-
+        tR.enabled = true;
+        explosion.SetActive(false);
         if (GetComponent<RealtimeView>().isOwnedLocallySelf)
             GetComponent<RealtimeTransform>().RequestOwnership();
         if (transform.GetChild(0).GetComponent<RealtimeView>().isOwnedLocallySelf)
@@ -60,6 +64,7 @@ public class Bullet : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        tR.enabled = false;
         Hit();
     }
 }
