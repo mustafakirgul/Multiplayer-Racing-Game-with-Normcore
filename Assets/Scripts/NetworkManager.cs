@@ -8,10 +8,11 @@ public class NetworkManager : MonoBehaviour
     public Vector3 minimum, maximum;
     Vector3 spawnPoint;
     public TextMeshProUGUI playerNameInputField;
-    public Canvas _canvas;
+    public Canvas _enterNameCanvas;
 
     private void Awake()
     {
+        _enterNameCanvas.gameObject.SetActive(true);
         // Get the Realtime component on this game object
         _realtime = GetComponent<Realtime>();
 
@@ -44,6 +45,6 @@ public class NetworkManager : MonoBehaviour
 
         _temp.GetComponent<WC_Car_Controller>()._realtime = _realtime;
         _temp.GetComponent<Player>().SetPlayerName(playerNameInputField.text);
-        _canvas.gameObject.SetActive(false);
+        _enterNameCanvas.gameObject.SetActive(false);
     }
 }

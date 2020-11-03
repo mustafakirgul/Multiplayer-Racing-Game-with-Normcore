@@ -2,6 +2,8 @@
 using Normal.Realtime;
 using TMPro;
 using System.Collections.Generic;
+using System.Collections;
+using UnityEngine.UI;
 
 public class WC_Car_Controller : MonoBehaviour
 {
@@ -56,6 +58,16 @@ public class WC_Car_Controller : MonoBehaviour
     public Player _player;
     public string _currentName;
 
+    [Space]
+    public bool enableBoost = true;
+    public float boostCooldownTime = 5f;
+    public Image boostRadialLoader;
+    public bool boosterReady;
+    private float boosterCounter;
+    private WaitForEndOfFrame waitFrame;
+    private Coroutine boostCounter;
+
+    private UIManager uIManager;
     private void Awake()
     {
         _realtimeView = GetComponent<RealtimeView>();
@@ -69,29 +81,33 @@ public class WC_Car_Controller : MonoBehaviour
     }
     private void Start()
     {
-        if (!offlineTest)
+        dustEmission = dustParticles.emission;
+        pebbleEmission = pebbles.emission;
+        if (_realtimeView.isOwnedLocallySelf)
         {
+            isNetworkInstance = false;
+            carBody.Sleep();
+            uIManager = GameObject.FindObjectOfType<UIManager>();
+            uIManager.EnableUI();
+            speedDisplay = uIManager.speedometer;
+            IDDisplay.gameObject.SetActive(false);
+            IDDisplay = uIManager.playerName;
             if (_currentName != _player.playerName)
             {
                 _currentName = _player.playerName;
                 IDDisplay.SetText(_currentName);
             }
-
-            if (!_realtimeView.isOwnedLocallySelf)
-            {
-                speedDisplay.gameObject.SetActive(false);
-                isNetworkInstance = true;
-                //carBody.Sleep();
-                return;
-            }
-            else
-            {
-                InitCam();
-            }
+            boostRadialLoader = uIManager.boostRadialLoader;
+            waitFrame = new WaitForEndOfFrame();
+            boostCounter = StartCoroutine(BoostCounter());
+            InitCam();
+            return;
         }
         else
         {
-            InitCam();
+            if (offlineTest)
+                InitCam();
+            isNetworkInstance = true;
         }
 
         wheelCount = wheels.Count;
@@ -103,20 +119,41 @@ public class WC_Car_Controller : MonoBehaviour
                 wheels[i].trail.emitting = false;
             }
         }
-        dustEmission = dustParticles.emission;
-        pebbleEmission = pebbles.emission;
-        speedDisplay = GetComponentInChildren<TextMeshProUGUI>();
+
         actualMaxSpeed = maxSpeed / speedDisplayMultiplier;
 
+    }
+    public IEnumerator BoostCounter()
+    {
+        while (enableBoost)
+        {
+            if (!boosterReady)
+            {
+                if (boosterCounter < boostCooldownTime)
+                {
+                    boostRadialLoader.enabled = true;
+                    boosterCounter += Time.deltaTime;
+                    boostRadialLoader.fillAmount = boosterCounter / boostCooldownTime;
+                }
+                else
+                {
+                    boostRadialLoader.fillAmount = 1f;
+                    boosterReady = true;
+                    boosterCounter = 0f;
+                }
+            }
+            else
+            {
+                boostRadialLoader.enabled = Time.realtimeSinceStartup % 1f > .05f;
+            }
+            yield return waitFrame;
+        }
     }
 
     private void InitCam()
     {
         chaseCam = GameObject.FindObjectOfType<Camera_Controller>();
-        chaseCam.place = cameraPlace;
-        chaseCam.lookAtTarget = lookAtTarget;
-        chaseCam.velocityReference = gameObject;
-        chaseCam.wcController = this;
+        chaseCam.InitCamera(gameObject, cameraPlace, lookAtTarget);
     }
 
     private void Update()
@@ -192,9 +229,9 @@ public class WC_Car_Controller : MonoBehaviour
             {
                 dustEmission.rateOverTime = (velocity * brakeDustFactor) * 2f;
             }
-            else dustEmission.rateOverTime = 0f;
+            else dustEmission.rateOverTime = .1f;
 
-            pebbleEmission.rateOverTime = 0f;
+            pebbleEmission.rateOverTime = .1f;
         }
 
         totalRPM = 0f;
@@ -268,10 +305,12 @@ public class WC_Car_Controller : MonoBehaviour
                         else
                             currentTerrainType = Terrain.nothing;
 
-                        wheel.trail.emitting = currentTerrainType == Terrain.sand;
                         wheel.trail.transform.position = _hit.point + skidmarkOffset;
-
                     }
+                    else
+                        currentTerrainType = Terrain.nothing;
+
+                    wheel.trail.emitting = currentTerrainType == Terrain.sand;
                 }
                 else if (wheel.trail.gameObject.activeSelf)
                 {
@@ -315,7 +354,11 @@ public class WC_Car_Controller : MonoBehaviour
         isBraking = Input.GetKey(KeyCode.Space);//handbrake;
         if (Input.GetKeyDown(KeyCode.Q) && numberOfTiresTouchingGround > 0)//boost/dash
         {
-            carBody.AddForce(transform.forward * dashForce, ForceMode.VelocityChange);
+            if (boosterReady)
+            {
+                boosterReady = false;
+                carBody.AddForce(transform.forward * dashForce, ForceMode.VelocityChange);
+            }
         }
     }
     [System.Serializable]
