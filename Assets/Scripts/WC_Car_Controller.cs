@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class WC_Car_Controller : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class WC_Car_Controller : MonoBehaviour
     public float currentTorque;
     public bool limitTopSpeed;
     [SerializeField]
-    private float maxSpeed;
+    private float maxSpeed = 200f;
     public AnimationCurve clutchCurve;
     public float clutchTime = 0.5f;
     public float clutchTimer = 0f;
@@ -65,11 +66,19 @@ public class WC_Car_Controller : MonoBehaviour
     public bool boosterReady;
     private float boosterCounter;
     private WaitForEndOfFrame waitFrame;
+    private WaitForSeconds waitForSec;
     private Coroutine boostCounter;
 
     private UIManager uIManager;
+
+    public Transform _barrelTip;
+    public float fireRate;//number of bullets fired per second
+    public bool isFiring;
+    Coroutine fireCR;
+    public GameObject muzzleFlash;
     private void Awake()
     {
+        _realtime = GameObject.FindObjectOfType<Realtime>();
         _realtimeView = GetComponent<RealtimeView>();
         _realtimeTransform = GetComponent<RealtimeTransform>();
         if (!offlineTest)
@@ -99,7 +108,9 @@ public class WC_Car_Controller : MonoBehaviour
             }
             boostRadialLoader = uIManager.boostRadialLoader;
             waitFrame = new WaitForEndOfFrame();
+            waitForSec = new WaitForSeconds(1f / fireRate);
             boostCounter = StartCoroutine(BoostCounter());
+            fireCR = StartCoroutine(FireCR());
             InitCam();
             return;
         }
@@ -108,6 +119,7 @@ public class WC_Car_Controller : MonoBehaviour
             if (offlineTest)
                 InitCam();
             isNetworkInstance = true;
+            muzzleFlash.SetActive(false);
         }
 
         wheelCount = wheels.Count;
@@ -123,6 +135,20 @@ public class WC_Car_Controller : MonoBehaviour
         actualMaxSpeed = maxSpeed / speedDisplayMultiplier;
 
     }
+
+    private IEnumerator FireCR()
+    {
+        while (true)
+        {
+            if (isFiring)
+            {
+                WeaponPool.instance.Pull(0).GetComponent<Bullet>().Fire(_barrelTip, velocity / actualMaxSpeed);
+                yield return waitForSec;
+            }
+            yield return waitForSec;
+        }
+    }
+
     public IEnumerator BoostCounter()
     {
         while (enableBoost)
@@ -176,8 +202,10 @@ public class WC_Car_Controller : MonoBehaviour
                     }
                 }
             }
-
-            _realtimeTransform.RequestOwnership();
+            if (_realtime.connected)
+            {
+                _realtimeTransform.RequestOwnership();
+            }
             for (int i = 0; i < wheelCount; i++)
             {
                 wheels[i].model.GetComponent<RealtimeView>().RequestOwnership();
@@ -318,7 +346,10 @@ public class WC_Car_Controller : MonoBehaviour
                 }
             }
         }
-        speedDisplay.text = Mathf.RoundToInt((velocity * speedDisplayMultiplier)).ToString();
+        if (speedDisplay != null)
+        {
+            speedDisplay.text = Mathf.RoundToInt((velocity * speedDisplayMultiplier)).ToString();
+        }
     }
 
     private void ListenForInput()
@@ -360,6 +391,9 @@ public class WC_Car_Controller : MonoBehaviour
                 carBody.AddForce(transform.forward * dashForce, ForceMode.VelocityChange);
             }
         }
+
+        isFiring = Input.GetKey(KeyCode.LeftControl);
+        muzzleFlash.SetActive(isFiring);
     }
     [System.Serializable]
     public struct Wheel
