@@ -1,9 +1,11 @@
 ﻿using Normal.Realtime;
+using UnityEngine;
 
 public class Player : RealtimeComponent<PlayerModel>
 {
     public string playerName;
-    public int playerID;
+    public float playerHealth;
+    public Vector3 explosionForce;
     private PlayerModel _model;
     protected override void OnRealtimeModelReplaced(PlayerModel previousModel, PlayerModel currentModel)
     {
@@ -11,14 +13,17 @@ public class Player : RealtimeComponent<PlayerModel>
         {
             // Unregister from events
             previousModel.playerNameDidChange -= PlayerNameChanged;
+            previousModel.healthDidChange -= PlayerHealthChanged;
+            previousModel.forcesDidChange -= PlayerForcesChanged;
         }
         if (currentModel != null)
         {
             // If this is a model that has no data set on it, populate it with the current mesh renderer color.
             // use [ if (currentModel.isFreshModel)] to initialize player prefab
-
             _model = currentModel;
             currentModel.playerNameDidChange += PlayerNameChanged;
+            currentModel.healthDidChange += PlayerHealthChanged;
+            currentModel.forcesDidChange += PlayerForcesChanged;
         }
     }
 
@@ -30,11 +35,24 @@ public class Player : RealtimeComponent<PlayerModel>
         }
     }
 
+    public void ChangeExplosionForce(Vector3 _origin)
+    {
+        _model.forces = _origin;
+    }
+
+    private void PlayerHealthChanged(PlayerModel model, float value)
+    {
+        playerHealth = value;
+    }
+
+    private void PlayerForcesChanged(PlayerModel model, Vector3 value)
+    {
+        explosionForce = value;       
+    }
+
     private void PlayerNameChanged(PlayerModel model, string value)
     {
-        if (model.isFreshModel)
-        {
+
             playerName = value;
-        }
     }
 }

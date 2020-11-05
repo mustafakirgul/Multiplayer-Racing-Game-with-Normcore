@@ -4,7 +4,6 @@ using TMPro;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.UI;
-using System;
 
 public class WC_Car_Controller : MonoBehaviour
 {
@@ -76,10 +75,12 @@ public class WC_Car_Controller : MonoBehaviour
     public bool readyToFire = false;
     public GameObject muzzleFlash;
     float fireTimer;
+    List<Vector3> forces;
 
     public float explosionTestForce;
     private void Awake()
     {
+        forces = new List<Vector3>();
         _realtime = GameObject.FindObjectOfType<Realtime>();
         _realtimeView = GetComponent<RealtimeView>();
         _realtimeTransform = GetComponent<RealtimeTransform>();
@@ -185,12 +186,19 @@ public class WC_Car_Controller : MonoBehaviour
         chaseCam.InitCamera(gameObject, cameraPlace, lookAtTarget);
     }
 
-    public void ExplosionForce(Vector3 _origin, float _power, float _radius, float _upwardsModifier)
+    public void ExplosionForce(Vector3 _origin)
     {
         if (!isNetworkInstance)
         {
-            carBody.AddExplosionForce(_power, _origin, _radius, _upwardsModifier);
+            carBody.AddExplosionForce(200000f, _origin, 20f, 1000f);
             Debug.Log("Explosion Force Applied @ " + _origin);
+        }
+        else
+        {
+            if (_player.explosionForce != _origin)
+            {
+                _player.ChangeExplosionForce(_origin);
+            }
         }
     }
 
@@ -216,29 +224,17 @@ public class WC_Car_Controller : MonoBehaviour
         }
         if (!offlineTest)
         {
-            for (int i = 0; i < wheelCount; i++)
-            {
-                if (wheels[i].model != null)
-                {
-                    if (wheels[i].model.GetComponent<RealtimeView>() != null)
-                    {
-                        wheels[i].model.GetComponent<RealtimeView>().enabled = true;
-                        if (wheels[i].model.GetComponent<RealtimeTransform>() != null)
-                        {
-                            wheels[i].model.GetComponent<RealtimeTransform>().enabled = true;
-                        }
-                    }
-                }
-            }
-            if (_realtime.connected)
-            {
-                _realtimeTransform.RequestOwnership();
-            }
+            _realtimeView.RequestOwnership();
+            _realtimeTransform.RequestOwnership();
             for (int i = 0; i < wheelCount; i++)
             {
                 wheels[i].model.GetComponent<RealtimeView>().RequestOwnership();
                 wheels[i].model.GetComponent<RealtimeTransform>().RequestOwnership();
             }
+        }
+        if (_player.explosionForce != Vector3.zero)
+        {
+            ExplosionForce(_player.explosionForce);
         }
         ListenForInput();
         velocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).z);
@@ -394,10 +390,6 @@ public class WC_Car_Controller : MonoBehaviour
             lights = !lights;
             RHL.enabled = lights;
             LHL.enabled = lights;
-        }
-        if (Input.GetKeyDown(KeyCode.C))//lights
-        {
-            ExplosionForce(transform.position, explosionTestForce, 40f, 200f);
         }
         isBraking = Input.GetKey(KeyCode.Space);//handbrake;
         if (Input.GetKeyDown(KeyCode.Q) && numberOfTiresTouchingGround > 0)//boost/dash

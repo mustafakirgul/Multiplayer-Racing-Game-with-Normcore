@@ -113,7 +113,7 @@ public class Bullet : RealtimeComponent<ProjectileModel>
                     Debug.Log("In Explosion Range:" + colliders[i]);
                     if (colliders[i].gameObject.GetComponent<WC_Car_Controller>() != null)
                     {
-                        colliders[i].gameObject.GetComponent<WC_Car_Controller>().ExplosionForce(transform.position, damage, explosiveRange, 200f);
+                        colliders[i].gameObject.GetComponent<WC_Car_Controller>().ExplosionForce(transform.position);
                     }
 
                 }
