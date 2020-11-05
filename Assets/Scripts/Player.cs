@@ -16,16 +16,10 @@ public class Player : RealtimeComponent<PlayerModel>
         {
             // If this is a model that has no data set on it, populate it with the current mesh renderer color.
             // use [ if (currentModel.isFreshModel)] to initialize player prefab
-                
+
             _model = currentModel;
-            UpdatePlayerName();
             currentModel.playerNameDidChange += PlayerNameChanged;
         }
-    }
-
-    private void UpdatePlayerName()
-    {
-        playerName = _model.playerName;
     }
 
     public void SetPlayerName(string _name)
@@ -38,6 +32,9 @@ public class Player : RealtimeComponent<PlayerModel>
 
     private void PlayerNameChanged(PlayerModel model, string value)
     {
-        UpdatePlayerName();
+        if (model.isFreshModel)
+        {
+            playerName = value;
+        }
     }
 }

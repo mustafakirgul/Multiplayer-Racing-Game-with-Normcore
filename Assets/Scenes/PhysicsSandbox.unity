@@ -4429,7 +4429,7 @@ MonoBehaviour:
   _obsoleteAppKey: 
   _normcoreAppSettings: {fileID: 11400000, guid: f3b76c441542a3e4f89f4299e8edbddf,
     type: 2}
-  _roomToJoinOnStart: UntitledProjectTest
+  _roomToJoinOnStart: UGP_Test
   _joinRoomOnStart: 0
 --- !u!114 &2097422276
 MonoBehaviour:
@@ -4746,77 +4746,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06d857ea5c9455b4cb76e053f46a3212, type: 3}
---- !u!1001 &9221003582319847899
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4510327203961994979, guid: f978395233761094fa45e26b2bdfce67,
-        type: 3}
-      propertyPath: pools.Array.data[0].startCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4639233081440482569, guid: f978395233761094fa45e26b2bdfce67,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4639233081440482569, guid: f978395233761094fa45e26b2bdfce67,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.28500003
-      objectReference: {fileID: 0}
-    - target: {fileID: 4639233081440482569, guid: f978395233761094fa45e26b2bdfce67,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4639233081440482569, guid: f978395233761094fa45e26b2bdfce67,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4639233081440482569, guid: f978395233761094fa45e26b2bdfce67,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4639233081440482569, guid: f978395233761094fa45e26b2bdfce67,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4639233081440482569, guid: f978395233761094fa45e26b2bdfce67,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4639233081440482569, guid: f978395233761094fa45e26b2bdfce67,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4639233081440482569, guid: f978395233761094fa45e26b2bdfce67,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4639233081440482569, guid: f978395233761094fa45e26b2bdfce67,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4639233081440482569, guid: f978395233761094fa45e26b2bdfce67,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6210514560228986277, guid: f978395233761094fa45e26b2bdfce67,
-        type: 3}
-      propertyPath: m_Name
-      value: WeaponPool
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f978395233761094fa45e26b2bdfce67, type: 3}

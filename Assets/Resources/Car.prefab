@@ -896,10 +896,10 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.305
   m_SuspensionSpring:
-    spring: 12000
-    damper: 1000
-    targetPosition: 0.5
-  m_SuspensionDistance: 0.4
+    spring: 8000
+    damper: 4000
+    targetPosition: 0
+  m_SuspensionDistance: 0.25
   m_ForceAppPointDistance: 0.62
   m_Mass: 20
   m_WheelDampingRate: 0.9
@@ -972,8 +972,8 @@ Rigidbody:
   m_GameObject: {fileID: 3550835013394346508}
   serializedVersion: 2
   m_Mass: 2000
-  m_Drag: 0
-  m_AngularDrag: 0.5
+  m_Drag: 0.1
+  m_AngularDrag: 2
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -1042,7 +1042,7 @@ MonoBehaviour:
   upSideDownCheckRange: 1
   verticalInput: 0
   horizontalInput: 0
-  speedDisplayMultiplier: 3
+  speedDisplayMultiplier: 2
   RHL: {fileID: 3550835013606516952}
   LHL: {fileID: 3550835014593372549}
   carBody: {fileID: 3550835013394346515}
@@ -1104,8 +1104,8 @@ MonoBehaviour:
   boostRadialLoader: {fileID: 0}
   boosterReady: 0
   _barrelTip: {fileID: 6012565285120812357}
-  fireRate: 10
-  isFiring: 0
+  fireRate: 3
+  readyToFire: 0
   muzzleFlash: {fileID: 572337853881119421}
 --- !u!33 &3550835013394346518
 MeshFilter:
@@ -1316,10 +1316,10 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.305
   m_SuspensionSpring:
-    spring: 12000
-    damper: 1000
-    targetPosition: 0.5
-  m_SuspensionDistance: 0.4
+    spring: 8000
+    damper: 4000
+    targetPosition: 0
+  m_SuspensionDistance: 0.25
   m_ForceAppPointDistance: 0.62
   m_Mass: 20
   m_WheelDampingRate: 0.9
@@ -11456,10 +11456,10 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.305
   m_SuspensionSpring:
-    spring: 12000
-    damper: 1000
-    targetPosition: 0.5
-  m_SuspensionDistance: 0.4
+    spring: 8000
+    damper: 4000
+    targetPosition: 0
+  m_SuspensionDistance: 0.25
   m_ForceAppPointDistance: 0.62
   m_Mass: 20
   m_WheelDampingRate: 0.9
@@ -11517,10 +11517,10 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.305
   m_SuspensionSpring:
-    spring: 12000
-    damper: 1000
-    targetPosition: 0.5
-  m_SuspensionDistance: 0.4
+    spring: 8000
+    damper: 4000
+    targetPosition: 0
+  m_SuspensionDistance: 0.25
   m_ForceAppPointDistance: 0.62
   m_Mass: 20
   m_WheelDampingRate: 0.9
@@ -12183,15 +12183,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0000112631615
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.151
       objectReference: {fileID: 0}
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_LocalRotation.x

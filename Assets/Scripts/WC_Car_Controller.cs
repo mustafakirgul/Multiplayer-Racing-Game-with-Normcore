@@ -66,16 +66,16 @@ public class WC_Car_Controller : MonoBehaviour
     public bool boosterReady;
     private float boosterCounter;
     private WaitForEndOfFrame waitFrame;
-    private WaitForSeconds waitForSec;
-    private Coroutine boostCounter;
+    private WaitForSeconds wait, muzzleWait;
 
     private UIManager uIManager;
+    GameObject _bulletBuffer;
 
     public Transform _barrelTip;
     public float fireRate;//number of bullets fired per second
-    public bool isFiring;
-    Coroutine fireCR;
+    public bool readyToFire = false;
     public GameObject muzzleFlash;
+    float fireTimer;
     private void Awake()
     {
         _realtime = GameObject.FindObjectOfType<Realtime>();
@@ -101,18 +101,23 @@ public class WC_Car_Controller : MonoBehaviour
             speedDisplay = uIManager.speedometer;
             IDDisplay.gameObject.SetActive(false);
             IDDisplay = uIManager.playerName;
-            if (_currentName != _player.playerName)
-            {
-                _currentName = _player.playerName;
-                IDDisplay.SetText(_currentName);
-            }
             boostRadialLoader = uIManager.boostRadialLoader;
             waitFrame = new WaitForEndOfFrame();
-            waitForSec = new WaitForSeconds(1f / fireRate);
-            boostCounter = StartCoroutine(BoostCounter());
-            fireCR = StartCoroutine(FireCR());
+            fireTimer = 1f / fireRate;
+            wait = new WaitForSeconds(fireTimer);
+            muzzleWait = new WaitForSeconds(.2f);
+            StartCoroutine(BoostCounter());
+            StartCoroutine(FireCR());
             InitCam();
-            return;
+            wheelCount = wheels.Count;
+            for (int i = 0; i < wheelCount; i++)
+            {
+                wheels[i].collider.wheelDampingRate = wheels[i].dampingRate;
+                if (wheels[i].trail != null)
+                {
+                    wheels[i].trail.emitting = false;
+                }
+            }
         }
         else
         {
@@ -121,32 +126,28 @@ public class WC_Car_Controller : MonoBehaviour
             isNetworkInstance = true;
             muzzleFlash.SetActive(false);
         }
-
-        wheelCount = wheels.Count;
-        for (int i = 0; i < wheelCount; i++)
-        {
-            wheels[i].collider.wheelDampingRate = wheels[i].dampingRate;
-            if (wheels[i].trail != null)
-            {
-                wheels[i].trail.emitting = false;
-            }
-        }
+        _currentName = _player.playerName;
+        IDDisplay.SetText(_currentName);
 
         actualMaxSpeed = maxSpeed / speedDisplayMultiplier;
 
     }
-
+    private void OnDisable()
+    {
+        StopCoroutine(FireCR());
+    }
     private IEnumerator FireCR()
     {
-        while (true)
-        {
-            if (isFiring)
-            {
-                WeaponPool.instance.Pull(0).GetComponent<Bullet>().Fire(_barrelTip, velocity / actualMaxSpeed);
-                yield return waitForSec;
-            }
-            yield return waitForSec;
-        }
+        muzzleFlash.SetActive(true);
+        StartCoroutine(MuzzleToggle());
+        yield return wait;
+        readyToFire = true;
+    }
+
+    IEnumerator MuzzleToggle()
+    {
+        yield return muzzleWait;
+        muzzleFlash.SetActive(false);
     }
 
     public IEnumerator BoostCounter()
@@ -185,7 +186,23 @@ public class WC_Car_Controller : MonoBehaviour
     private void Update()
     {
         if (isNetworkInstance)
+        {
+            for (int i = 0; i < wheelCount; i++)
+            {
+                if (wheels[i].model != null)
+                {
+                    if (wheels[i].collider != null)
+                    {
+                        wheels[i].collider.enabled = false;
+                    }
+                }
+            }
             return;
+        }
+        if (fireTimer != 1 / fireRate)
+        {
+            fireTimer = 1 / fireRate;
+        }
         if (!offlineTest)
         {
             for (int i = 0; i < wheelCount; i++)
@@ -209,27 +226,12 @@ public class WC_Car_Controller : MonoBehaviour
             for (int i = 0; i < wheelCount; i++)
             {
                 wheels[i].model.GetComponent<RealtimeView>().RequestOwnership();
-                if (wheels[i].model.GetComponent<RealtimeView>().isOwnedLocallySelf)
-                    wheels[i].model.GetComponent<RealtimeTransform>().RequestOwnership();
+                wheels[i].model.GetComponent<RealtimeTransform>().RequestOwnership();
             }
-        }
-        else
-        {
-
         }
         ListenForInput();
         velocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).z);
         sidewaysVelocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).x);
-
-        ////Downwards force test
-        //carBody.AddRelativeForce(
-        //    -transform.up * (
-        //    (100 * velocity) +
-        //    (100 * verticalInput) +
-        //    (100 * sidewaysVelocity)),
-        //    ForceMode.Force
-        //    );
-
         currentTorque = verticalInput * torque;
         if (velocity < .333f && verticalInput == 0f)
         {
@@ -392,17 +394,27 @@ public class WC_Car_Controller : MonoBehaviour
             }
         }
 
-        isFiring = Input.GetKey(KeyCode.LeftControl);
-        muzzleFlash.SetActive(isFiring);
+        if (Input.GetKey(KeyCode.LeftControl) && readyToFire)
+        {
+            readyToFire = false;
+            _bulletBuffer = Realtime.Instantiate("Bullet",
+            position: _barrelTip.position,
+            rotation: _barrelTip.rotation,
+       ownedByClient: true,
+         useInstance: _realtime);
+            _bulletBuffer.GetComponent<Bullet>().isNetworkInstance = false;
+            _bulletBuffer.GetComponent<Bullet>().Fire(_barrelTip);
+            StartCoroutine(FireCR());
+        }
     }
-    [System.Serializable]
-    public struct Wheel
-    {
-        public GameObject model;
-        public WheelCollider collider;
-        public bool isSteeringWheel;
-        public bool isPowered;
-        public TrailRenderer trail;
-        public float dampingRate;
-    }
+}
+[System.Serializable]
+public struct Wheel
+{
+    public GameObject model;
+    public WheelCollider collider;
+    public bool isSteeringWheel;
+    public bool isPowered;
+    public TrailRenderer trail;
+    public float dampingRate;
 }

@@ -30,7 +30,7 @@ public class NetworkManager : MonoBehaviour
     {
         if (playerNameInputField.text.Length>0)
         {
-            _realtime.Connect("GearboxTest");
+            _realtime.Connect("UGP_Test");
         }
     }
     private void DidConnectToRoom(Realtime realtime)
