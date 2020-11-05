@@ -78,9 +78,12 @@ public class Bullet : RealtimeComponent<ProjectileModel>
     }
     public void Fire(Transform _barrelTip, float _tipVelocity)
     {
-        if (isNetworkInstance)
-            return;
         rb = GetComponent<Rigidbody>();
+        if (isNetworkInstance)
+        {
+            rb.isKinematic = true;
+            return;
+        }
         explosion = transform.GetChild(0).gameObject;
         wait1Sec = new WaitForSeconds(1f);
         GetComponent<MeshRenderer>().enabled = true;
@@ -101,7 +104,10 @@ public class Bullet : RealtimeComponent<ProjectileModel>
     }
     IEnumerator HitCR()
     {
-        rb.isKinematic = true;
+        if (!isNetworkInstance)
+        {
+            rb.isKinematic = true;
+        }        
         GetComponent<TrailRenderer>().emitting = false;
         colliders = Physics.OverlapSphere(transform.position, explosiveRange);
         if (colliders != null)
@@ -111,9 +117,9 @@ public class Bullet : RealtimeComponent<ProjectileModel>
                 for (int i = 0; i < colliders.Length; i++)
                 {
                     Debug.Log("In Explosion Range:" + colliders[i]);
-                    if (colliders[i].gameObject.GetComponent<WC_Car_Controller>() != null)
+                    if (colliders[i].gameObject.GetComponent<Player>() != null)
                     {
-                        colliders[i].gameObject.GetComponent<WC_Car_Controller>().ExplosionForce(transform.position);
+                        colliders[i].gameObject.GetComponent<Player>().ChangeExplosionForce(transform.position);
                     }
 
                 }

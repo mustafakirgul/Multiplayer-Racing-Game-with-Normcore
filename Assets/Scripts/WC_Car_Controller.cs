@@ -81,7 +81,7 @@ public class WC_Car_Controller : MonoBehaviour
     private void Awake()
     {
         forces = new List<Vector3>();
-        _realtime = GameObject.FindObjectOfType<Realtime>();
+        _realtime = FindObjectOfType<Realtime>();
         _realtimeView = GetComponent<RealtimeView>();
         _realtimeTransform = GetComponent<RealtimeTransform>();
         if (!offlineTest)
@@ -98,8 +98,7 @@ public class WC_Car_Controller : MonoBehaviour
         if (_realtimeView.isOwnedLocallySelf)
         {
             isNetworkInstance = false;
-            carBody.Sleep();
-            uIManager = GameObject.FindObjectOfType<UIManager>();
+            uIManager = FindObjectOfType<UIManager>();
             uIManager.EnableUI();
             speedDisplay = uIManager.speedometer;
             IDDisplay.gameObject.SetActive(false);
@@ -128,6 +127,7 @@ public class WC_Car_Controller : MonoBehaviour
                 InitCam();
             isNetworkInstance = true;
             muzzleFlash.SetActive(false);
+            IDDisplay.gameObject.SetActive(true);
         }
         _currentName = _player.playerName;
         IDDisplay.SetText(_currentName);
@@ -235,6 +235,7 @@ public class WC_Car_Controller : MonoBehaviour
         if (_player.explosionForce != Vector3.zero)
         {
             ExplosionForce(_player.explosionForce);
+            _player.explosionForce = Vector3.zero;
         }
         ListenForInput();
         velocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).z);
