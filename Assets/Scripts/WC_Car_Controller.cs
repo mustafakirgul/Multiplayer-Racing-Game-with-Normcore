@@ -76,6 +76,8 @@ public class WC_Car_Controller : MonoBehaviour
     public bool readyToFire = false;
     public GameObject muzzleFlash;
     float fireTimer;
+
+    public float explosionTestForce;
     private void Awake()
     {
         _realtime = GameObject.FindObjectOfType<Realtime>();
@@ -181,6 +183,15 @@ public class WC_Car_Controller : MonoBehaviour
     {
         chaseCam = GameObject.FindObjectOfType<Camera_Controller>();
         chaseCam.InitCamera(gameObject, cameraPlace, lookAtTarget);
+    }
+
+    public void ExplosionForce(Vector3 _origin, float _power, float _radius, float _upwardsModifier)
+    {
+        if (!isNetworkInstance)
+        {
+            carBody.AddExplosionForce(_power, _origin, _radius, _upwardsModifier);
+            Debug.Log("Explosion Force Applied @ " + _origin);
+        }
     }
 
     private void Update()
@@ -384,6 +395,10 @@ public class WC_Car_Controller : MonoBehaviour
             RHL.enabled = lights;
             LHL.enabled = lights;
         }
+        if (Input.GetKeyDown(KeyCode.C))//lights
+        {
+            ExplosionForce(transform.position, explosionTestForce, 40f, 200f);
+        }
         isBraking = Input.GetKey(KeyCode.Space);//handbrake;
         if (Input.GetKeyDown(KeyCode.Q) && numberOfTiresTouchingGround > 0)//boost/dash
         {
@@ -403,7 +418,7 @@ public class WC_Car_Controller : MonoBehaviour
        ownedByClient: true,
          useInstance: _realtime);
             _bulletBuffer.GetComponent<Bullet>().isNetworkInstance = false;
-            _bulletBuffer.GetComponent<Bullet>().Fire(_barrelTip);
+            _bulletBuffer.GetComponent<Bullet>().Fire(_barrelTip, velocity);
             StartCoroutine(FireCR());
         }
     }

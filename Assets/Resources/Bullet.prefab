@@ -111,8 +111,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2305b01f5208d6d46847c350b0582b88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firePower: 100
-  damage: 5000
+  startSpeed: 50
+  damage: 200000
+  explosiveRange: 10
   isNetworkInstance: 1
 --- !u!114 &-2444969834895540377
 MonoBehaviour:
@@ -154,7 +155,7 @@ MonoBehaviour:
   _syncPosition: 1
   _syncRotation: 1
   _syncScale: 0
-  _syncVelocity: 1
+  _syncVelocity: 0
   _maintainOwnershipWhileSleeping: 1
 --- !u!54 &3611583984760835010
 Rigidbody:
