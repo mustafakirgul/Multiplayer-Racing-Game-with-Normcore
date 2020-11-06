@@ -120,6 +120,7 @@ public class Bullet : RealtimeComponent<ProjectileModel>
                     if (colliders[i].gameObject.GetComponent<Player>() != null)
                     {
                         colliders[i].gameObject.GetComponent<Player>().ChangeExplosionForce(transform.position);
+                        colliders[i].gameObject.GetComponent<Player>().DamagePlayer(damage);
                     }
 
                 }

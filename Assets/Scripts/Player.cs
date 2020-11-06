@@ -5,6 +5,7 @@ public class Player : RealtimeComponent<PlayerModel>
 {
     public string playerName;
     public float playerHealth;
+    public float maxPlayerHealth;
     public Vector3 explosionForce;
     private PlayerModel _model;
     protected override void OnRealtimeModelReplaced(PlayerModel previousModel, PlayerModel currentModel)
@@ -40,6 +41,18 @@ public class Player : RealtimeComponent<PlayerModel>
         _model.forces = _origin;
     }
 
+    public void DamagePlayer(float damage)
+    {
+        PlayerHealthChanged(model, (playerHealth - damage));
+        //_model.health -= damage;
+    }
+
+    public void HealPlayer(float damage)
+    {
+        PlayerHealthChanged(model, (playerHealth + damage));
+        //_model.health += damage;
+    }
+
     private void PlayerHealthChanged(PlayerModel model, float value)
     {
         playerHealth = value;
@@ -53,6 +66,6 @@ public class Player : RealtimeComponent<PlayerModel>
     private void PlayerNameChanged(PlayerModel model, string value)
     {
 
-            playerName = value;
+       playerName = value;
     }
 }

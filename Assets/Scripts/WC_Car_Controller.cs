@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class WC_Car_Controller : MonoBehaviour
 {
+    //Car tunables
     public float torque;
     public float currentTorque;
     public bool limitTopSpeed;
@@ -32,9 +33,16 @@ public class WC_Car_Controller : MonoBehaviour
     public bool drawSkidmark = false;
     public Vector3 skidmarkOffset;
     public int brakeDustFactor, brakeDustLimit, dustFactor, dustLimit, pebbleFactor, pebbleLimit;
+
+    //UI display
     public TextMeshProUGUI speedDisplay, IDDisplay;
+    private UIManager uIManager;
+
+    //Trail and particles systems
     private ParticleSystem.EmissionModule dustEmission, pebbleEmission;
     public ParticleSystem dustParticles, pebbles;
+
+
     [HideInInspector]
     public float actualMaxSpeed;
     [HideInInspector]
@@ -48,6 +56,8 @@ public class WC_Car_Controller : MonoBehaviour
     private RealtimeTransform _realtimeTransform;
     [HideInInspector]
     public Realtime _realtime;
+
+    //Camera tunables
     public Transform cameraPlace, lookAtTarget;
     Camera_Controller chaseCam;
     bool isNetworkInstance;
@@ -58,6 +68,7 @@ public class WC_Car_Controller : MonoBehaviour
     public Player _player;
     public string _currentName;
 
+    //Boost UI
     [Space]
     public bool enableBoost = true;
     public float boostCooldownTime = 5f;
@@ -67,7 +78,10 @@ public class WC_Car_Controller : MonoBehaviour
     private WaitForEndOfFrame waitFrame;
     private WaitForSeconds wait, muzzleWait;
 
-    private UIManager uIManager;
+    //Health UI
+    public Image healthRadialLoader;
+    public float m_fplayerLastHealth;
+
     GameObject _bulletBuffer;
 
     public Transform _barrelTip;
@@ -101,6 +115,7 @@ public class WC_Car_Controller : MonoBehaviour
             uIManager = FindObjectOfType<UIManager>();
             uIManager.EnableUI();
             speedDisplay = uIManager.speedometer;
+            healthRadialLoader = uIManager.playerHealthRadialLoader;
             IDDisplay.gameObject.SetActive(false);
             IDDisplay = uIManager.playerName;
             boostRadialLoader = uIManager.boostRadialLoader;
@@ -130,6 +145,9 @@ public class WC_Car_Controller : MonoBehaviour
             IDDisplay.gameObject.SetActive(true);
         }
         _currentName = _player.playerName;
+        _player.playerHealth = _player.maxPlayerHealth;
+        m_fplayerLastHealth = 0f;
+        StartCoroutine(UpdateHealth());
         IDDisplay.SetText(_currentName);
 
         actualMaxSpeed = maxSpeed / speedDisplayMultiplier;
@@ -151,6 +169,21 @@ public class WC_Car_Controller : MonoBehaviour
     {
         yield return muzzleWait;
         muzzleFlash.SetActive(false);
+    }
+
+    public IEnumerator UpdateHealth()
+    {
+        float duration = 0.25f;
+
+        float normalizedTime = 0;
+
+        while (normalizedTime <= 1f)
+        {
+            normalizedTime += Time.deltaTime / duration;
+            healthRadialLoader.fillAmount = (Mathf.Lerp(m_fplayerLastHealth, _player.playerHealth, normalizedTime)) / _player.maxPlayerHealth;
+            yield return null;
+        }
+        m_fplayerLastHealth = _player.playerHealth;
     }
 
     public IEnumerator BoostCounter()
@@ -278,6 +311,8 @@ public class WC_Car_Controller : MonoBehaviour
             totalRPM += wheels[i].collider.rpm;
         }
         RPM = totalRPM / wheelCount;
+
+        CheckHealth();
     }
 
     private void LateUpdate()
@@ -288,6 +323,28 @@ public class WC_Car_Controller : MonoBehaviour
         RunWheels();
         if (limitTopSpeed)
             carBody.velocity = Vector3.ClampMagnitude(carBody.velocity, actualMaxSpeed);
+    }
+
+    private void CheckHealth()
+    {
+        if (m_fplayerLastHealth != _player.playerHealth)
+        {
+            StartCoroutine(UpdateHealth());
+        }
+        else
+        {
+            return;
+        }
+
+        if(_player.playerHealth <= 0)
+        {
+
+        }
+    }
+
+    private void PlayerDeath()
+    {
+
     }
 
     private void RunWheels()
@@ -413,6 +470,12 @@ public class WC_Car_Controller : MonoBehaviour
             _bulletBuffer.GetComponent<Bullet>().isNetworkInstance = false;
             _bulletBuffer.GetComponent<Bullet>().Fire(_barrelTip, velocity);
             StartCoroutine(FireCR());
+        }
+
+        //AutoDamage Debug
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            _player.DamagePlayer(1f);
         }
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public Image boostRadialLoader;
+    public Image playerHealthRadialLoader;
     public TextMeshProUGUI speedometer, playerName;
     private GameObject uIPanel;
     private void Start()

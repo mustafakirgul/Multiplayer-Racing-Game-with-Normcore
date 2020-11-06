@@ -992,7 +992,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: 
-  playerID: 0
+  playerHealth: 0
+  maxPlayerHealth: 20
+  explosionForce: {x: 0, y: 0, z: 0}
 --- !u!114 &3550835013394346516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1103,6 +1105,8 @@ MonoBehaviour:
   boostCooldownTime: 5
   boostRadialLoader: {fileID: 0}
   boosterReady: 0
+  healthRadialLoader: {fileID: 0}
+  m_fplayerLastHealth: 0
   _barrelTip: {fileID: 6012565285120812357}
   fireRate: 3
   readyToFire: 0
