@@ -79,19 +79,19 @@ public class Bullet : RealtimeComponent<ProjectileModel>
     public void Fire(Transform _barrelTip, float _tipVelocity)
     {
         rb = GetComponent<Rigidbody>();
+        explosion = transform.GetChild(0).gameObject;
+        explosion.SetActive(false);
+        wait1Sec = new WaitForSeconds(1f);
         if (isNetworkInstance)
         {
             rb.isKinematic = true;
             return;
         }
-        explosion = transform.GetChild(0).gameObject;
-        wait1Sec = new WaitForSeconds(1f);
         GetComponent<MeshRenderer>().enabled = true;
-        explosion.SetActive(false);
         transform.position = _barrelTip.position;
         transform.rotation = _barrelTip.rotation;
         rb.AddForce(
-            transform.forward * (startSpeed+_tipVelocity),
+            transform.forward * (startSpeed + _tipVelocity),
             ForceMode.VelocityChange);
     }
     void Hit()
@@ -107,7 +107,7 @@ public class Bullet : RealtimeComponent<ProjectileModel>
         if (!isNetworkInstance)
         {
             rb.isKinematic = true;
-        }        
+        }
         GetComponent<TrailRenderer>().emitting = false;
         colliders = Physics.OverlapSphere(transform.position, explosiveRange);
         if (colliders != null)
@@ -119,12 +119,16 @@ public class Bullet : RealtimeComponent<ProjectileModel>
                     Debug.Log("In Explosion Range:" + colliders[i]);
                     if (colliders[i].gameObject.GetComponent<Player>() != null)
                     {
-                        colliders[i].gameObject.GetComponent<Player>().ChangeExplosionForce(transform.position);
+                        colliders[i].gameObject.GetComponent<Player>().ChangeExplosionForce(colliders[i].transform.position-transform.position);
                         colliders[i].gameObject.GetComponent<Player>().DamagePlayer(damage);
                     }
 
                 }
             }
+        }
+        if (explosion==null)
+        {
+            explosion = transform.GetChild(0).gameObject;
         }
         explosion.SetActive(true);
         GetComponent<MeshRenderer>().enabled = false;

@@ -183,7 +183,7 @@ public class WC_Car_Controller : MonoBehaviour
         {
             normalizedTime += Time.deltaTime / duration;
             healthRadialLoader.fillAmount = (Mathf.Lerp(m_fplayerLastHealth, _player.playerHealth, normalizedTime)) / _player.maxPlayerHealth;
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
         m_fplayerLastHealth = _player.playerHealth;
     }
@@ -225,7 +225,7 @@ public class WC_Car_Controller : MonoBehaviour
     {
         if (!isNetworkInstance)
         {
-            carBody.AddExplosionForce(200000f, _origin, 20f, 1000f);
+            carBody.AddExplosionForce(200000f, transform.position + _origin, 20f, 1000f);
             Debug.Log("Explosion Force Applied @ " + _origin);
         }
         else
@@ -343,7 +343,7 @@ public class WC_Car_Controller : MonoBehaviour
             return;
         }
 
-   
+
     }
 
     private void PlayerDeath()

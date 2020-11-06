@@ -155,7 +155,7 @@ MonoBehaviour:
   _syncPosition: 1
   _syncRotation: 1
   _syncScale: 0
-  _syncVelocity: 0
+  _syncVelocity: 1
   _maintainOwnershipWhileSleeping: 1
 --- !u!54 &3611583984760835010
 Rigidbody:

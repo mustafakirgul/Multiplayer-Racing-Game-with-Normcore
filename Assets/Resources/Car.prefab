@@ -1075,8 +1075,8 @@ MonoBehaviour:
     trail: {fileID: 3550835013430178924}
     dampingRate: 0.66
   isBraking: 1
-  velocity: 0.0006924466
-  sidewaysVelocity: 0.0020414148
+  velocity: 0
+  sidewaysVelocity: 0
   drawSkidmark: 1
   skidmarkOffset: {x: 0, y: 0.1, z: 0}
   brakeDustFactor: 10
@@ -1110,7 +1110,7 @@ MonoBehaviour:
   m_fplayerLastHealth: 0
   DeathExplosion: {fileID: 9081492027022627899}
   CarStates:
-  - {fileID: 8509965329068304344, guid: 056e0ab7dcde7444d84ece83287931e6, type: 3}
+  - {fileID: 2100000, guid: d4bcce26f8255bc439f0e5dceae9e6b4, type: 2}
   - {fileID: 2100000, guid: 750fabdd9ac864d41b3afabf213442a8, type: 2}
   _barrelTip: {fileID: 6012565285120812357}
   fireRate: 3
@@ -1143,7 +1143,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8509965329068304344, guid: 056e0ab7dcde7444d84ece83287931e6, type: 3}
+  - {fileID: 2100000, guid: d4bcce26f8255bc439f0e5dceae9e6b4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1251,7 +1251,7 @@ MonoBehaviour:
   _syncPosition: 1
   _syncRotation: 1
   _syncScale: 0
-  _syncVelocity: 0
+  _syncVelocity: 1
   _maintainOwnershipWhileSleeping: 1
 --- !u!114 &7768988539245775044
 MonoBehaviour:
