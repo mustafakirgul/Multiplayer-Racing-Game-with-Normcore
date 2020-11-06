@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startSpeed: 50
-  damage: 200000
+  damage: 5
   explosiveRange: 10
   isNetworkInstance: 1
 --- !u!114 &-2444969834895540377

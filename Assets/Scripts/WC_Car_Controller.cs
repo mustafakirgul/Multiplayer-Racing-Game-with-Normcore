@@ -84,6 +84,8 @@ public class WC_Car_Controller : MonoBehaviour
     public GameObject DeathExplosion;
     bool isPlayerAlive;
 
+    public Material[] CarStates;
+
     GameObject _bulletBuffer;
 
     public Transform _barrelTip;
@@ -330,22 +332,25 @@ public class WC_Car_Controller : MonoBehaviour
         if (m_fplayerLastHealth != _player.playerHealth)
         {
             StartCoroutine(UpdateHealth());
+
+            if (_player.playerHealth <= 0)
+            {
+                PlayerDeath();
+            }
         }
         else
         {
             return;
         }
 
-        if (_player.playerHealth <= 0)
-        {
-            PlayerDeath();
-        }
+   
     }
 
     private void PlayerDeath()
     {
         isPlayerAlive = false;
         DeathExplosion.SetActive(true);
+        GetComponent<Renderer>().material = CarStates[1];
         //DeathExplosion.GetComponent<ParticleSystem>().Play();
         //carBody.AddExplosionForce(200000f, this.transform.position, 20f, 1000f, ForceMode.Impulse);
         carBody.velocity = Vector3.zero;
@@ -363,6 +368,7 @@ public class WC_Car_Controller : MonoBehaviour
     {
         isPlayerAlive = true;
         _player.playerHealth = _player.maxPlayerHealth;
+        GetComponent<Renderer>().material = CarStates[0];
         m_fplayerLastHealth = 0f;
         StartCoroutine(UpdateHealth());
     }

@@ -1109,6 +1109,9 @@ MonoBehaviour:
   healthRadialLoader: {fileID: 0}
   m_fplayerLastHealth: 0
   DeathExplosion: {fileID: 9081492027022627899}
+  CarStates:
+  - {fileID: 8509965329068304344, guid: 056e0ab7dcde7444d84ece83287931e6, type: 3}
+  - {fileID: 2100000, guid: 750fabdd9ac864d41b3afabf213442a8, type: 2}
   _barrelTip: {fileID: 6012565285120812357}
   fireRate: 3
   readyToFire: 0
@@ -1140,7 +1143,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d4bcce26f8255bc439f0e5dceae9e6b4, type: 2}
+  - {fileID: 8509965329068304344, guid: 056e0ab7dcde7444d84ece83287931e6, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
