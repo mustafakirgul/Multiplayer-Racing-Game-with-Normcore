@@ -81,6 +81,8 @@ public class WC_Car_Controller : MonoBehaviour
     //Health UI
     public Image healthRadialLoader;
     public float m_fplayerLastHealth;
+    public GameObject DeathExplosion;
+    bool isPlayerAlive;
 
     GameObject _bulletBuffer;
 
@@ -145,9 +147,7 @@ public class WC_Car_Controller : MonoBehaviour
             IDDisplay.gameObject.SetActive(true);
         }
         _currentName = _player.playerName;
-        _player.playerHealth = _player.maxPlayerHealth;
-        m_fplayerLastHealth = 0f;
-        StartCoroutine(UpdateHealth());
+        ResetPlayerHealth();
         IDDisplay.SetText(_currentName);
 
         actualMaxSpeed = maxSpeed / speedDisplayMultiplier;
@@ -336,15 +336,35 @@ public class WC_Car_Controller : MonoBehaviour
             return;
         }
 
-        if(_player.playerHealth <= 0)
+        if (_player.playerHealth <= 0)
         {
-
+            PlayerDeath();
         }
     }
 
     private void PlayerDeath()
     {
+        isPlayerAlive = false;
+        DeathExplosion.SetActive(true);
+        //DeathExplosion.GetComponent<ParticleSystem>().Play();
+        //carBody.AddExplosionForce(200000f, this.transform.position, 20f, 1000f, ForceMode.Impulse);
+        carBody.velocity = Vector3.zero;
+        StartCoroutine(RespawnCountDown(2f));
+    }
 
+    private IEnumerator RespawnCountDown(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        DeathExplosion.SetActive(false);
+        ResetPlayerHealth();
+    }
+
+    private void ResetPlayerHealth()
+    {
+        isPlayerAlive = true;
+        _player.playerHealth = _player.maxPlayerHealth;
+        m_fplayerLastHealth = 0f;
+        StartCoroutine(UpdateHealth());
     }
 
     private void RunWheels()
@@ -421,61 +441,65 @@ public class WC_Car_Controller : MonoBehaviour
 
     private void ListenForInput()
     {
-        verticalInput = Mathf.Lerp(verticalInput, Input.GetAxisRaw("Vertical"), .1f);
-        if (clutchTimer < clutchTime && verticalInput > 0f)
+        if (isPlayerAlive)
         {
-            verticalInput *= Mathf.Clamp(clutchCurve.Evaluate(clutchTimer / clutchTime), -1, 1);
-            clutchTimer += Time.deltaTime;
-        }
-        else if (verticalInput <= .01f)
-        {
-            clutchTimer = 0f;
-        }
 
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        if (Input.GetKeyDown(KeyCode.R))//reset
-        {
-            if (Physics.Raycast(transform.position, transform.up, upSideDownCheckRange))
+            verticalInput = Mathf.Lerp(verticalInput, Input.GetAxisRaw("Vertical"), .1f);
+            if (clutchTimer < clutchTime && verticalInput > 0f)
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y + resetHeight, transform.position.z);
-                Vector3 _rotation = transform.rotation.eulerAngles;
-                transform.rotation = Quaternion.Euler(_rotation.x, _rotation.y, 0);
-                carBody.velocity = Vector3.zero;
+                verticalInput *= Mathf.Clamp(clutchCurve.Evaluate(clutchTimer / clutchTime), -1, 1);
+                clutchTimer += Time.deltaTime;
             }
-        }
-        if (Input.GetKeyDown(KeyCode.E))//lights
-        {
-            lights = !lights;
-            RHL.enabled = lights;
-            LHL.enabled = lights;
-        }
-        isBraking = Input.GetKey(KeyCode.Space);//handbrake;
-        if (Input.GetKeyDown(KeyCode.Q) && numberOfTiresTouchingGround > 0)//boost/dash
-        {
-            if (boosterReady)
+            else if (verticalInput <= .01f)
             {
-                boosterReady = false;
-                carBody.AddForce(transform.forward * dashForce, ForceMode.VelocityChange);
+                clutchTimer = 0f;
             }
-        }
 
-        if (Input.GetKey(KeyCode.LeftControl) && readyToFire)
-        {
-            readyToFire = false;
-            _bulletBuffer = Realtime.Instantiate("Bullet",
-            position: _barrelTip.position,
-            rotation: _barrelTip.rotation,
-       ownedByClient: true,
-         useInstance: _realtime);
-            _bulletBuffer.GetComponent<Bullet>().isNetworkInstance = false;
-            _bulletBuffer.GetComponent<Bullet>().Fire(_barrelTip, velocity);
-            StartCoroutine(FireCR());
-        }
+            horizontalInput = Input.GetAxisRaw("Horizontal");
+            if (Input.GetKeyDown(KeyCode.R))//reset
+            {
+                if (Physics.Raycast(transform.position, transform.up, upSideDownCheckRange))
+                {
+                    transform.position = new Vector3(transform.position.x, transform.position.y + resetHeight, transform.position.z);
+                    Vector3 _rotation = transform.rotation.eulerAngles;
+                    transform.rotation = Quaternion.Euler(_rotation.x, _rotation.y, 0);
+                    carBody.velocity = Vector3.zero;
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.E))//lights
+            {
+                lights = !lights;
+                RHL.enabled = lights;
+                LHL.enabled = lights;
+            }
+            isBraking = Input.GetKey(KeyCode.Space);//handbrake;
+            if (Input.GetKeyDown(KeyCode.Q) && numberOfTiresTouchingGround > 0)//boost/dash
+            {
+                if (boosterReady)
+                {
+                    boosterReady = false;
+                    carBody.AddForce(transform.forward * dashForce, ForceMode.VelocityChange);
+                }
+            }
 
-        //AutoDamage Debug
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            _player.DamagePlayer(1f);
+            if (Input.GetKey(KeyCode.LeftControl) && readyToFire)
+            {
+                readyToFire = false;
+                _bulletBuffer = Realtime.Instantiate("Bullet",
+                position: _barrelTip.position,
+                rotation: _barrelTip.rotation,
+           ownedByClient: true,
+             useInstance: _realtime);
+                _bulletBuffer.GetComponent<Bullet>().isNetworkInstance = false;
+                _bulletBuffer.GetComponent<Bullet>().Fire(_barrelTip, velocity);
+                StartCoroutine(FireCR());
+            }
+
+            //AutoDamage Debug
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                _player.DamagePlayer(10f);
+            }
         }
     }
 }
