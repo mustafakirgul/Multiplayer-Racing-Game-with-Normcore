@@ -17,7 +17,6 @@ public class Player : RealtimeComponent<PlayerModel>
             previousModel.healthDidChange -= PlayerHealthChanged;
             previousModel.forcesDidChange -= PlayerForcesChanged;
         }
-        _model = currentModel;
         if (currentModel != null)
         {
             // If this is a model that has no data set on it, populate it with the current mesh renderer color.
@@ -26,6 +25,7 @@ public class Player : RealtimeComponent<PlayerModel>
             currentModel.playerNameDidChange += PlayerNameChanged;
             currentModel.healthDidChange += PlayerHealthChanged;
             currentModel.forcesDidChange += PlayerForcesChanged;
+            _model = currentModel;
         }
     }
 
@@ -45,24 +45,24 @@ public class Player : RealtimeComponent<PlayerModel>
 
     public void DamagePlayer(float damage)
     {
-        PlayerHealthChanged(model, (playerHealth - damage));
+        PlayerHealthChanged(_model, (playerHealth - damage));
         //_model.health -= damage;
     }
 
     public void HealPlayer(float damage)
     {
-        PlayerHealthChanged(model, (playerHealth + damage));
+        PlayerHealthChanged(_model, (playerHealth + damage));
         //_model.health += damage;
     }
 
     private void PlayerHealthChanged(PlayerModel model, float value)
     {
-        playerHealth = _model.health;
+        playerHealth = value;
     }
 
     private void PlayerForcesChanged(PlayerModel model, Vector3 value)
     {
-        explosionForce = _model.forces;
+        explosionForce = value;
     }
 
     private void PlayerNameChanged(PlayerModel model, string value)

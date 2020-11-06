@@ -75,7 +75,7 @@ public class WC_Car_Controller : MonoBehaviour
     public Image boostRadialLoader;
     public bool boosterReady;
     private float boosterCounter;
-    private WaitForEndOfFrame waitFrame, waitFrame1;
+    private WaitForEndOfFrame waitFrame;
     private WaitForSeconds wait, muzzleWait;
 
     //Health UI
@@ -122,7 +122,6 @@ public class WC_Car_Controller : MonoBehaviour
             IDDisplay = uIManager.playerName;
             boostRadialLoader = uIManager.boostRadialLoader;
             waitFrame = new WaitForEndOfFrame();
-            waitFrame1 = new WaitForEndOfFrame();
             fireTimer = 1f / fireRate;
             wait = new WaitForSeconds(fireTimer);
             muzzleWait = new WaitForSeconds(.2f);
@@ -178,9 +177,13 @@ public class WC_Car_Controller : MonoBehaviour
 
         while (normalizedTime <= 1f)
         {
-            normalizedTime +=  + Time.deltaTime / duration;
-            healthRadialLoader.fillAmount = (Mathf.Lerp(m_fplayerLastHealth, _player.playerHealth, normalizedTime)) / _player.maxPlayerHealth;
-            yield return waitFrame1;
+            normalizedTime += (Time.deltaTime / duration);
+
+            if (healthRadialLoader != null)
+            {
+                healthRadialLoader.fillAmount = (Mathf.Lerp(m_fplayerLastHealth, _player.playerHealth, normalizedTime)) / _player.maxPlayerHealth;
+            }
+            yield return null;
         }
         m_fplayerLastHealth = _player.playerHealth;
     }
@@ -236,7 +239,7 @@ public class WC_Car_Controller : MonoBehaviour
 
     private void Update()
     {
-        if (_currentName!=_player.playerName||IDDisplay.text!=_currentName)
+        if (_currentName != _player.playerName || IDDisplay.text != _currentName)
         {
             _currentName = _player.playerName;
             IDDisplay.SetText(_currentName);
@@ -352,8 +355,10 @@ public class WC_Car_Controller : MonoBehaviour
         GetComponent<Renderer>().material = CarStates[1];
         //DeathExplosion.GetComponent<ParticleSystem>().Play();
         //carBody.AddExplosionForce(200000f, this.transform.position, 20f, 1000f, ForceMode.Impulse);
+        verticalInput = 0f;
+        horizontalInput = 0f;
         carBody.velocity = Vector3.zero;
-        StartCoroutine(RespawnCountDown(8f));
+        StartCoroutine(RespawnCountDown(5f));
     }
 
     private IEnumerator RespawnCountDown(float duration)
@@ -503,7 +508,7 @@ public class WC_Car_Controller : MonoBehaviour
             //AutoDamage Debug
             if (Input.GetKeyDown(KeyCode.L))
             {
-                _player.DamagePlayer(10f);
+                _player.DamagePlayer(5f);
             }
         }
     }
