@@ -147,6 +147,7 @@ public class WC_Car_Controller : MonoBehaviour
             IDDisplay.gameObject.SetActive(true);
         }
         _currentName = _player.playerName;
+        m_fplayerLastHealth = 0f;
         ResetPlayerHealth();
         IDDisplay.SetText(_currentName);
         actualMaxSpeed = maxSpeed / speedDisplayMultiplier;
@@ -186,6 +187,31 @@ public class WC_Car_Controller : MonoBehaviour
             yield return null;
         }
         m_fplayerLastHealth = _player.playerHealth;
+    }
+
+    public IEnumerator UpdateHealthValue()
+    {
+
+        float timer = 0;
+        while (m_fplayerLastHealth != _player.playerHealth)
+        {
+            timer += Time.deltaTime;
+
+            if (m_fplayerLastHealth > _player.playerHealth)
+            {
+                //Losing health
+                m_fplayerLastHealth -= timer * 0.25f;
+            }
+            else
+            {
+                //Gaining Health
+                m_fplayerLastHealth += timer * 0.25f;
+            }
+            healthRadialLoader.fillAmount = (m_fplayerLastHealth / _player.maxPlayerHealth);
+            yield return new WaitForEndOfFrame();
+        }
+        timer = 0;
+        //m_fplayerLastHealth = _player.playerHealth;
     }
 
     public IEnumerator BoostCounter()
@@ -339,7 +365,7 @@ public class WC_Car_Controller : MonoBehaviour
     {
         if (m_fplayerLastHealth != _player.playerHealth)
         {
-            StartCoroutine(UpdateHealth());
+            StartCoroutine(UpdateHealthValue());
 
             if (_player.playerHealth <= 0)
             {
@@ -365,6 +391,7 @@ public class WC_Car_Controller : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         DeathExplosion.SetActive(false);
+        m_fplayerLastHealth = 0f;
         ResetPlayerHealth();
     }
 
@@ -373,8 +400,7 @@ public class WC_Car_Controller : MonoBehaviour
         isPlayerAlive = true;
         _player.playerHealth = _player.maxPlayerHealth;
         GetComponent<Renderer>().material = CarStates[0];
-        m_fplayerLastHealth = 0f;
-        StartCoroutine(UpdateHealth());
+        StartCoroutine(UpdateHealthValue());
     }
 
     private void RunWheels()
@@ -509,6 +535,11 @@ public class WC_Car_Controller : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.L))
             {
                 _player.DamagePlayer(5f);
+            }
+
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                _player.HealPlayer(5f);
             }
         }
     }
