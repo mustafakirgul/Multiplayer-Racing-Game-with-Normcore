@@ -75,7 +75,7 @@ public class WC_Car_Controller : MonoBehaviour
     public Image boostRadialLoader;
     public bool boosterReady;
     private float boosterCounter;
-    private WaitForEndOfFrame waitFrame;
+    private WaitForEndOfFrame waitFrame, waitFrame1;
     private WaitForSeconds wait, muzzleWait;
 
     //Health UI
@@ -93,12 +93,10 @@ public class WC_Car_Controller : MonoBehaviour
     public bool readyToFire = false;
     public GameObject muzzleFlash;
     float fireTimer;
-    List<Vector3> forces;
 
     public float explosionTestForce;
     private void Awake()
     {
-        forces = new List<Vector3>();
         _realtime = FindObjectOfType<Realtime>();
         _realtimeView = GetComponent<RealtimeView>();
         _realtimeTransform = GetComponent<RealtimeTransform>();
@@ -124,6 +122,7 @@ public class WC_Car_Controller : MonoBehaviour
             IDDisplay = uIManager.playerName;
             boostRadialLoader = uIManager.boostRadialLoader;
             waitFrame = new WaitForEndOfFrame();
+            waitFrame1 = new WaitForEndOfFrame();
             fireTimer = 1f / fireRate;
             wait = new WaitForSeconds(fireTimer);
             muzzleWait = new WaitForSeconds(.2f);
@@ -181,9 +180,9 @@ public class WC_Car_Controller : MonoBehaviour
 
         while (normalizedTime <= 1f)
         {
-            normalizedTime += Time.deltaTime / duration;
+            normalizedTime = (normalizedTime + Time.deltaTime) / duration;
             healthRadialLoader.fillAmount = (Mathf.Lerp(m_fplayerLastHealth, _player.playerHealth, normalizedTime)) / _player.maxPlayerHealth;
-            yield return new WaitForEndOfFrame();
+            yield return waitFrame1;
         }
         m_fplayerLastHealth = _player.playerHealth;
     }
@@ -313,8 +312,10 @@ public class WC_Car_Controller : MonoBehaviour
             totalRPM += wheels[i].collider.rpm;
         }
         RPM = totalRPM / wheelCount;
-
-        CheckHealth();
+        if (_player != null)
+        {
+            CheckHealth();
+        }
     }
 
     private void LateUpdate()
@@ -338,12 +339,6 @@ public class WC_Car_Controller : MonoBehaviour
                 PlayerDeath();
             }
         }
-        else
-        {
-            return;
-        }
-
-
     }
 
     private void PlayerDeath()
@@ -354,7 +349,7 @@ public class WC_Car_Controller : MonoBehaviour
         //DeathExplosion.GetComponent<ParticleSystem>().Play();
         //carBody.AddExplosionForce(200000f, this.transform.position, 20f, 1000f, ForceMode.Impulse);
         carBody.velocity = Vector3.zero;
-        StartCoroutine(RespawnCountDown(2f));
+        StartCoroutine(RespawnCountDown(8f));
     }
 
     private IEnumerator RespawnCountDown(float duration)

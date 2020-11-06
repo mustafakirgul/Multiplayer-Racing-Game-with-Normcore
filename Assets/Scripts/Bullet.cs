@@ -131,6 +131,10 @@ public class Bullet : RealtimeComponent<ProjectileModel>
             explosion = transform.GetChild(0).gameObject;
         }
         explosion.SetActive(true);
+        if (wait1Sec==null)
+        {
+            wait1Sec = new WaitForSeconds(1f);
+        }
         GetComponent<MeshRenderer>().enabled = false;
         yield return wait1Sec;
         yield return wait1Sec;
