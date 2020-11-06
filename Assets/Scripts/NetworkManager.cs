@@ -41,7 +41,7 @@ public class NetworkManager : MonoBehaviour
                             rotation: Quaternion.identity, // No rotation
                        ownedByClient: true,                // Make sure the RealtimeView on this prefab is owned by this client
             preventOwnershipTakeover: true,                // Prevent other clients from calling RequestOwnership() on the root RealtimeView.
-                         useInstance: realtime);           // Use the instance of Realtime that fired the didConnectToRoom event.
+                         useInstance: _realtime);           // Use the instance of Realtime that fired the didConnectToRoom event.
 
         _temp.GetComponent<WC_Car_Controller>()._realtime = _realtime;
         _temp.GetComponent<Player>().SetPlayerName(playerNameInputField.text);

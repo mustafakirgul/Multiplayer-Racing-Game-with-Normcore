@@ -17,11 +17,12 @@ public class Player : RealtimeComponent<PlayerModel>
             previousModel.healthDidChange -= PlayerHealthChanged;
             previousModel.forcesDidChange -= PlayerForcesChanged;
         }
+        _model = currentModel;
         if (currentModel != null)
         {
             // If this is a model that has no data set on it, populate it with the current mesh renderer color.
             // use [ if (currentModel.isFreshModel)] to initialize player prefab
-            _model = currentModel;
+            playerName = currentModel.playerName;
             currentModel.playerNameDidChange += PlayerNameChanged;
             currentModel.healthDidChange += PlayerHealthChanged;
             currentModel.forcesDidChange += PlayerForcesChanged;
@@ -33,6 +34,7 @@ public class Player : RealtimeComponent<PlayerModel>
         if (_name.Length > 0)
         {
             _model.playerName = _name;
+            Debug.LogWarning("Local name set: " + _name);
         }
     }
 
@@ -55,17 +57,17 @@ public class Player : RealtimeComponent<PlayerModel>
 
     private void PlayerHealthChanged(PlayerModel model, float value)
     {
-        playerHealth = value;
+        playerHealth = _model.health;
     }
 
     private void PlayerForcesChanged(PlayerModel model, Vector3 value)
     {
-        explosionForce = value;       
+        explosionForce = _model.forces;
     }
 
     private void PlayerNameChanged(PlayerModel model, string value)
     {
-
-       playerName = value;
+        playerName = value;
+        Debug.LogWarning("Player name changed by the server: " + value);
     }
 }

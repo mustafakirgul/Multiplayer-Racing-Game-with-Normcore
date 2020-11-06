@@ -150,9 +150,7 @@ public class WC_Car_Controller : MonoBehaviour
         _currentName = _player.playerName;
         ResetPlayerHealth();
         IDDisplay.SetText(_currentName);
-
         actualMaxSpeed = maxSpeed / speedDisplayMultiplier;
-
     }
     private void OnDisable()
     {
@@ -180,7 +178,7 @@ public class WC_Car_Controller : MonoBehaviour
 
         while (normalizedTime <= 1f)
         {
-            normalizedTime = (normalizedTime + Time.deltaTime) / duration;
+            normalizedTime +=  + Time.deltaTime / duration;
             healthRadialLoader.fillAmount = (Mathf.Lerp(m_fplayerLastHealth, _player.playerHealth, normalizedTime)) / _player.maxPlayerHealth;
             yield return waitFrame1;
         }
@@ -238,6 +236,12 @@ public class WC_Car_Controller : MonoBehaviour
 
     private void Update()
     {
+        if (_currentName!=_player.playerName||IDDisplay.text!=_currentName)
+        {
+            _currentName = _player.playerName;
+            IDDisplay.SetText(_currentName);
+            Debug.LogWarning("Name display set: " + _currentName);
+        }
         if (isNetworkInstance)
         {
             for (int i = 0; i < wheelCount; i++)
