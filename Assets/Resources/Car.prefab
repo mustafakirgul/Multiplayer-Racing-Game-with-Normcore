@@ -12161,7 +12161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3798262540272008966}
   - component: {fileID: 2606308155202362353}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: miniMapCar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
