@@ -443,7 +443,7 @@ public class WC_Car_Controller : MonoBehaviour
 
             if (wheel.trail != null)
             {
-                if (drawSkidmark)
+                if (drawSkidmark&&!isNetworkInstance)
                 {
                     _hit = new WheelHit();
                     wheel.collider.GetGroundHit(out _hit);
