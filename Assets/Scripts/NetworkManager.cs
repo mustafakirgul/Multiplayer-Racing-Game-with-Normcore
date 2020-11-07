@@ -9,6 +9,7 @@ public class NetworkManager : MonoBehaviour
     Vector3 spawnPoint;
     public TextMeshProUGUI playerNameInputField;
     public Canvas _enterNameCanvas;
+    public Camera _miniMapCamera;
 
     private void Awake()
     {
@@ -45,6 +46,8 @@ public class NetworkManager : MonoBehaviour
 
         _temp.GetComponent<WC_Car_Controller>()._realtime = _realtime;
         _temp.GetComponent<Player>().SetPlayerName(playerNameInputField.text);
+        FindObjectOfType<MiniMapCamera>()._master = _temp.transform;
         _enterNameCanvas.gameObject.SetActive(false);
+        _miniMapCamera.enabled = true;
     }
 }

@@ -34,7 +34,7 @@ public class Player : RealtimeComponent<PlayerModel>
         if (_name.Length > 0)
         {
             _model.playerName = _name;
-            Debug.LogWarning("Local name set: " + _name);
+            //Debug.LogWarning("Local name set: " + _name);
         }
     }
 
@@ -68,6 +68,6 @@ public class Player : RealtimeComponent<PlayerModel>
     private void PlayerNameChanged(PlayerModel model, string value)
     {
         playerName = value;
-        Debug.LogWarning("Player name changed by the server: " + value);
+        //Debug.LogWarning("Player name changed by the server: " + value);
     }
 }

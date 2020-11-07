@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Shootable
+  - BRL
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - Lighting
   - Ground
   - Postprocessing
-  - 
+  - MiniMap
   - 
   - 
   - 

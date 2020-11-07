@@ -95,6 +95,8 @@ public class WC_Car_Controller : MonoBehaviour
     float fireTimer;
 
     public float explosionTestForce;
+
+    public SpriteRenderer _miniMapRenderer;
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
@@ -142,6 +144,7 @@ public class WC_Car_Controller : MonoBehaviour
         {
             if (offlineTest)
                 InitCam();
+            _miniMapRenderer.color = Color.red;
             isNetworkInstance = true;
             muzzleFlash.SetActive(false);
             IDDisplay.gameObject.SetActive(true);
@@ -251,7 +254,7 @@ public class WC_Car_Controller : MonoBehaviour
     {
         if (!isNetworkInstance)
         {
-            carBody.AddExplosionForce(200000f, transform.position + _origin, 20f, 1000f);
+            carBody.AddExplosionForce(200000f, transform.position - _origin, 20f, 1000f);
             Debug.Log("Explosion Force Applied @ " + _origin);
         }
         else
