@@ -139,6 +139,8 @@ public class WC_Car_Controller : MonoBehaviour
                     wheels[i].trail.emitting = false;
                 }
             }
+
+            PlayerManager.instance.AddLocalPlayer(transform);
         }
         else
         {
@@ -148,16 +150,16 @@ public class WC_Car_Controller : MonoBehaviour
             isNetworkInstance = true;
             muzzleFlash.SetActive(false);
             IDDisplay.gameObject.SetActive(true);
+            if (!PlayerManager.instance.networkPlayers.Contains(transform))
+            {
+                PlayerManager.instance.networkPlayers.Add(transform);
+            }
         }
         _currentName = _player.playerName;
         m_fplayerLastHealth = 0f;
         ResetPlayerHealth();
         IDDisplay.SetText(_currentName);
         actualMaxSpeed = maxSpeed / speedDisplayMultiplier;
-    }
-    private void OnDisable()
-    {
-        StopCoroutine(FireCR());
     }
     private IEnumerator FireCR()
     {
@@ -255,7 +257,7 @@ public class WC_Car_Controller : MonoBehaviour
         if (!isNetworkInstance)
         {
             carBody.AddExplosionForce(200000f, transform.position - _origin, 20f, 1000f);
-            Debug.Log("Explosion Force Applied @ " + _origin);
+            //Debug.Log("Explosion Force Applied @ " + _origin);
         }
         else
         {
@@ -272,7 +274,7 @@ public class WC_Car_Controller : MonoBehaviour
         {
             _currentName = _player.playerName;
             IDDisplay.SetText(_currentName);
-            Debug.LogWarning("Name display set: " + _currentName);
+            //Debug.LogWarning("Name display set: " + _currentName);
         }
         if (isNetworkInstance)
         {
@@ -348,6 +350,7 @@ public class WC_Car_Controller : MonoBehaviour
             totalRPM += wheels[i].collider.rpm;
         }
         RPM = totalRPM / wheelCount;
+
         if (_player != null)
         {
             CheckHealth();
@@ -443,7 +446,7 @@ public class WC_Car_Controller : MonoBehaviour
 
             if (wheel.trail != null)
             {
-                if (drawSkidmark&&!isNetworkInstance)
+                if (drawSkidmark && !isNetworkInstance)
                 {
                     _hit = new WheelHit();
                     wheel.collider.GetGroundHit(out _hit);

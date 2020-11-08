@@ -116,11 +116,19 @@ public class Bullet : RealtimeComponent<ProjectileModel>
             {
                 for (int i = 0; i < colliders.Length; i++)
                 {
-                    Debug.Log("In Explosion Range:" + colliders[i]);
+                    Vector3 _origin = colliders[i].transform.position - transform.position;
+                    //Debug.Log("In Explosion Range:" + colliders[i]);
                     if (colliders[i].gameObject.GetComponent<Player>() != null)
                     {
-                        colliders[i].gameObject.GetComponent<Player>().ChangeExplosionForce(colliders[i].transform.position-transform.position);
+                        colliders[i].gameObject.GetComponent<Player>().ChangeExplosionForce(_origin);
                         colliders[i].gameObject.GetComponent<Player>().DamagePlayer(damage);
+                    }
+                    else
+                    {
+                        if (colliders[i].gameObject.GetComponent<Rigidbody>()!=null)
+                        {
+                            colliders[i].gameObject.GetComponent<Rigidbody>().AddExplosionForce(200000f, transform.position - _origin, 20f, 1000f);
+                        }
                     }
 
                 }
