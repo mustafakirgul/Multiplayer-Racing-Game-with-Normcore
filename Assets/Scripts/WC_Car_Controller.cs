@@ -75,7 +75,7 @@ public class WC_Car_Controller : MonoBehaviour
     public Image boostRadialLoader;
     public bool boosterReady;
     private float boosterCounter;
-    private WaitForEndOfFrame waitFrame;
+    private WaitForEndOfFrame waitFrame, waitFrame2;
     private WaitForSeconds wait, muzzleWait;
 
     //Health UI
@@ -124,6 +124,7 @@ public class WC_Car_Controller : MonoBehaviour
             IDDisplay = uIManager.playerName;
             boostRadialLoader = uIManager.boostRadialLoader;
             waitFrame = new WaitForEndOfFrame();
+            waitFrame2 = new WaitForEndOfFrame();
             fireTimer = 1f / fireRate;
             wait = new WaitForSeconds(fireTimer);
             muzzleWait = new WaitForSeconds(.2f);
@@ -196,27 +197,28 @@ public class WC_Car_Controller : MonoBehaviour
 
     public IEnumerator UpdateHealthValue()
     {
-
-        float timer = 0;
+        bool _up = true;
+        bool _start = true;
         while (m_fplayerLastHealth != _player.playerHealth)
         {
-            timer += Time.deltaTime;
-
-            if (m_fplayerLastHealth > _player.playerHealth)
+            if (_start)
             {
-                //Losing health
-                m_fplayerLastHealth -= timer * 0.25f;
+                _start = false;
+                if (m_fplayerLastHealth > _player.playerHealth)
+                {
+                    _up = false;
+                }
             }
-            else
+            if (_up) m_fplayerLastHealth += Time.deltaTime;
+            else m_fplayerLastHealth -= Time.deltaTime;
+
+            if ((_up&& m_fplayerLastHealth > _player.playerHealth)||(!_up&& m_fplayerLastHealth < _player.playerHealth))
             {
-                //Gaining Health
-                m_fplayerLastHealth += timer * 0.25f;
+                m_fplayerLastHealth = _player.playerHealth;
             }
             healthRadialLoader.fillAmount = (m_fplayerLastHealth / _player.maxPlayerHealth);
-            yield return new WaitForEndOfFrame();
+            yield return waitFrame2;
         }
-        timer = 0;
-        //m_fplayerLastHealth = _player.playerHealth;
     }
 
     public IEnumerator BoostCounter()
@@ -408,7 +410,14 @@ public class WC_Car_Controller : MonoBehaviour
         GetComponent<Renderer>().material = CarStates[0];
         StartCoroutine(UpdateHealthValue());
     }
+    private void OnDestroy()
+    {
+        if (isNetworkInstance)
+        {
+            PlayerManager.instance.RemoveNetworkPlayer(transform);
+        }
 
+    }
     private void RunWheels()
     {
         numberOfTiresTouchingGround = 0;

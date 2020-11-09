@@ -7,6 +7,8 @@ TagManager:
   - Shootable
   - BRL
   - TruckTire
+  - LootTruck
+  - TireParent
   layers:
   - Default
   - TransparentFX

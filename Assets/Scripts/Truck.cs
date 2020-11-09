@@ -3,8 +3,9 @@
 public class Truck : MonoBehaviour
 {
     public Transform[] wheels;
-    public float _torque;
+    public float torque;
 
+    Transform _tireParent;
     GameObject[] _temp;
     WheelCollider[] _wcs;
     int _length;
@@ -14,12 +15,13 @@ public class Truck : MonoBehaviour
     private void Start()
     {
         _temp = GameObject.FindGameObjectsWithTag("TruckTire");
+        _tireParent = GameObject.FindGameObjectWithTag("TireParent").transform;
         _length = _temp.Length;
         wheels = new Transform[_length];
         _wcs = new WheelCollider[_length];
         for (int i = 0; i < _length; i++)
         {
-            if (_temp[i].transform.parent == transform)
+            if (_temp[i].transform.parent == _tireParent)
             {
                 wheels[i] = _temp[i].transform.GetChild(0);
                 _wcs[i] = _temp[i].transform.GetChild(1).GetComponent<WheelCollider>();
@@ -32,7 +34,7 @@ public class Truck : MonoBehaviour
         {
             for (int i = 0; i < _length; i++)
             {
-                _wcs[i].motorTorque = _torque;
+                _wcs[i].motorTorque = torque;
                 _wcs[i].GetWorldPose(out _position, out _rotation);
                 wheels[i].position = _position;
                 wheels[i].rotation = _rotation;
