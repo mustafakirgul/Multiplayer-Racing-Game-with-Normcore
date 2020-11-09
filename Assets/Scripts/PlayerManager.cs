@@ -22,12 +22,14 @@ public class PlayerManager : MonoBehaviour
     public GameObject pointer;
 
     GameObject _temp;
+    List<Transform> _pointers;
     Realtime _realtime;
     bool _localPlayerOwnsTruck;
     private void Awake()
     {
         SingletonCheck();
         _realtime = FindObjectOfType<Realtime>();
+        _pointers = new List<Transform>();
     }
     public void AddLocalPlayer(Transform _player)
     {
@@ -51,8 +53,9 @@ public class PlayerManager : MonoBehaviour
     preventOwnershipTakeover: true,
                  useInstance: _realtime);
             _temp.GetComponent<Pointer>().Initialize(localPlayer, networkPlayers[i]);
+            _temp.transform.parent = localPlayer;
+            _pointers.Add(_temp.transform);
         }
-
     }
 
     public void AddNetworkPlayer(Transform _player)
@@ -60,6 +63,27 @@ public class PlayerManager : MonoBehaviour
         if (!networkPlayers.Contains(_player))
         {
             networkPlayers.Add(_player);
+
+            if (localPlayer != null)
+            {
+                _temp = Realtime.Instantiate("Pointer",
+                        position: localPlayer.position,
+                        rotation: Quaternion.identity,
+                   ownedByClient: true,
+        preventOwnershipTakeover: true,
+                     useInstance: _realtime);
+                _temp.GetComponent<Pointer>().Initialize(localPlayer, _player);
+                _temp.transform.parent = localPlayer;
+                _pointers.Add(_temp.transform);
+            }
+        }
+    }
+
+    public void RemovePointer(Transform _pointer)
+    {
+        if (_pointers.Contains(_pointer))
+        {
+            _pointers.Remove(_pointer);
         }
     }
 

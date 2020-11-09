@@ -26,6 +26,7 @@ public class Pointer : MonoBehaviour
         {
             if (_target == null || _master == null)
             {
+                PlayerManager.instance.RemovePointer(transform);
                 Realtime.Destroy(gameObject);
             }
             AnimateRenderer();
@@ -47,7 +48,7 @@ public class Pointer : MonoBehaviour
             _test = false;
         _isInitialized = _test;
 
-        Debug.LogWarning("Init: " + _test + " | _master: " + _master + " | _target: " + _target);
+        //Debug.LogWarning("Init: " + _test + " | _master: " + _master + " | _target: " + _target);
         return _test;
     }
 

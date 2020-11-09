@@ -1039,8 +1039,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   clutchTime: 0.5
   clutchTimer: 0
-  steeringSpeed: 0.33
-  maxSteering: 45
+  steeringSpeed: 0.05
+  maxSteering: 35
   brakePower: 3000
   resetHeight: 2
   upSideDownCheckRange: 1
@@ -12269,7 +12269,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6780099591591558517}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1, z: -0}
+  m_LocalPosition: {x: 0, y: 1.34, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 574258382255259495}

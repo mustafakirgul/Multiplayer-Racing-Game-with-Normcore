@@ -212,7 +212,7 @@ public class WC_Car_Controller : MonoBehaviour
             if (_up) m_fplayerLastHealth += Time.deltaTime;
             else m_fplayerLastHealth -= Time.deltaTime;
 
-            if ((_up&& m_fplayerLastHealth > _player.playerHealth)||(!_up&& m_fplayerLastHealth < _player.playerHealth))
+            if ((_up && m_fplayerLastHealth > _player.playerHealth) || (!_up && m_fplayerLastHealth < _player.playerHealth))
             {
                 m_fplayerLastHealth = _player.playerHealth;
             }
@@ -268,6 +268,7 @@ public class WC_Car_Controller : MonoBehaviour
                 _player.ChangeExplosionForce(_origin);
             }
         }
+        _player.explosionForce = Vector3.zero;
     }
 
     private void Update()
@@ -306,11 +307,12 @@ public class WC_Car_Controller : MonoBehaviour
                 wheels[i].model.GetComponent<RealtimeTransform>().RequestOwnership();
             }
         }
+
         if (_player.explosionForce != Vector3.zero)
         {
             ExplosionForce(_player.explosionForce);
-            _player.explosionForce = Vector3.zero;
         }
+
         ListenForInput();
         velocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).z);
         sidewaysVelocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).x);
