@@ -125,6 +125,12 @@ public class Bullet : RealtimeComponent<ProjectileModel>
                     }
                     else
                     {
+                        if (colliders[i].gameObject.GetComponent<Truck>() != null)
+                        {
+                            colliders[i].gameObject.GetComponent<RealtimeView>().RequestOwnership();
+                            colliders[i].gameObject.GetComponent<RealtimeTransform>().RequestOwnership();
+                        }
+
                         if (colliders[i].gameObject.GetComponent<Rigidbody>()!=null)
                         {
                             colliders[i].gameObject.GetComponent<Rigidbody>().AddExplosionForce(200000f, transform.position - _origin, 20f, 1000f);

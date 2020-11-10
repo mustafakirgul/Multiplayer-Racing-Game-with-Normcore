@@ -1,5 +1,4 @@
 ﻿using Normal.Realtime;
-using Normal.Realtime.Native;
 using TMPro;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ public class NetworkManager : MonoBehaviour
     public Canvas _enterNameCanvas;
     public Camera _miniMapCamera;
 
-    bool isConnected;
+    //bool isConnected;
 
     private void Awake()
     {
@@ -28,14 +27,17 @@ public class NetworkManager : MonoBehaviour
             Random.Range(minimum.z, maximum.z)
         );
     }
-    private void Update()
-    {
-        if (isConnected)
-        {
-            NetworkInfo _networkInfo = _realtime.room.GetNetworkStatistics();
-            Debug.Log("Roundtrip Time: " + _networkInfo.roundTripTime + " | SBw: " + _networkInfo.sentBandwidth + " | RBw: " + _networkInfo.receivedBandwidth);
-        }    
-    }
+    //private void Update()
+    //{
+    //    if (isConnected)
+    //    {
+    //        NetworkInfo _networkInfo = _realtime.room.GetNetworkStatistics();
+    //        Debug.Log("Roundtrip Time: " + _networkInfo.roundTripTime + " | SBw: " + _networkInfo.sentBandwidth + " | RBw: " + _networkInfo.receivedBandwidth + " | LostPac%: " + _networkInfo.percentOfPacketsLost);
+    //        Debug.Log("_______________________");
+    //        Debug.Log(_networkInfo.ToString());
+    //        Debug.Log("_______________________");
+    //    }
+    //}
     public void ConnectToRoom()
     {
         if (playerNameInputField.text.Length > 0)
@@ -45,7 +47,7 @@ public class NetworkManager : MonoBehaviour
     }
     private void DidConnectToRoom(Realtime realtime)
     {
-        isConnected = true;
+        //isConnected = true;
         GameObject _temp = Realtime.Instantiate("Car",
                             position: spawnPoint,
                             rotation: Quaternion.identity,
