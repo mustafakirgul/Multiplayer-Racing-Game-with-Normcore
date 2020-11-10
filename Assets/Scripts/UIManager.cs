@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI speedometer, playerName, timer;
     private GameObject uIPanel;
     int _m, _s;
+    string _mS, _sS;
     private void Start()
     {
         uIPanel = transform.GetChild(0).gameObject;
@@ -19,7 +20,18 @@ public class UIManager : MonoBehaviour
     {
         _m = Mathf.RoundToInt(Time.time / 60);
         _s = Mathf.RoundToInt(Time.time % 60);
-        timer.SetText(_m + ":" + _s);
+
+        if (_m < 10)
+            _mS = "0" + _m.ToString();
+        else
+            _mS = _m.ToString();
+
+        if (_s < 10)
+            _sS = "0" + _s.ToString();
+        else
+            _sS = _s.ToString();
+
+        timer.SetText(_mS + ":" + _sS);
     }
 
     public void EnableUI()
