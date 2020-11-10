@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
     public Image playerHealthRadialLoader;
     public TextMeshProUGUI speedometer, playerName, timer;
     private GameObject uIPanel;
+    int _m, _s;
     private void Start()
     {
         uIPanel = transform.GetChild(0).gameObject;
@@ -16,7 +17,9 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        timer.SetText(Mathf.RoundToInt(Time.time).ToString());
+        _m = Mathf.RoundToInt(Time.time / 60);
+        _s = Mathf.RoundToInt(Time.time % 60);
+        timer.SetText(_m + ":" + _s);
     }
 
     public void EnableUI()
