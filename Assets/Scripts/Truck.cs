@@ -26,9 +26,16 @@ public class Truck : MonoBehaviour
             for (int i = 0; i < _length; i++)
             {
                 if (_handBrake)
+                {
+                    _wheels[i].collider.motorTorque = 0f;
                     _wheels[i].collider.brakeTorque = _torque;
+                }
                 else if (_wheels[i].isPowered)
-                    _wheels[i].collider.motorTorque = _torque*_torqueFactor;
+                {
+                    _wheels[i].collider.brakeTorque = 0f;
+                    _wheels[i].collider.motorTorque = _torque * _torqueFactor;
+                }
+
 
                 if (_wheels[i].isSteeringWheel)
                 {
