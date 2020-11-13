@@ -17,6 +17,7 @@ public class Camera_Controller : MonoBehaviour
     private bool isInitialized;
     private Transform YReference;
     private WC_Car_Controller wcController;
+    public bool fixedFocalLength;
 
     private void Start()
     {
@@ -40,13 +41,16 @@ public class Camera_Controller : MonoBehaviour
 
     private void Update()
     {
-        if (isInitialized)
+        if (!fixedFocalLength)
         {
-            if (wcController != null)
+            if (isInitialized)
             {
-                zoomRange = slowFocalLength - fastFocalLength;
-                currentZoomLevel = wcController.velocity / wcController.actualMaxSpeed;
-                focalLength = slowFocalLength - (currentZoomLevel * zoomRange);
+                if (wcController != null)
+                {
+                    zoomRange = slowFocalLength - fastFocalLength;
+                    currentZoomLevel = wcController.velocity / wcController.actualMaxSpeed;
+                    focalLength = slowFocalLength - (currentZoomLevel * zoomRange);
+                }
             }
         }
     }

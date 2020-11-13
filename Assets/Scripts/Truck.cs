@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Normal.Realtime;
 
 public class Truck : MonoBehaviour
 {
@@ -7,13 +8,19 @@ public class Truck : MonoBehaviour
     public float _torque;//per powered wheel
     [Range(0f, 1f)]
     public float _torqueFactor;
+    public Vector3 startPosition => Vector3.zero + Vector3.up * 30f;
     [Range(-45f, 45f)]
     public float _steeringAngle;
     public bool _handBrake;
     int _length;
     Vector3 _position;
     Quaternion _rotation;
+    Realtime _realtime;
 
+    private void Awake()
+    {
+        _realtime = FindObjectOfType<Realtime>();
+    }
     private void Start()
     {
         _length = _wheels.Length;
@@ -21,6 +28,16 @@ public class Truck : MonoBehaviour
 
     private void Update()
     {
+        if (_realtime != null)
+        {
+            if (GetComponent<RealtimeTransform>().isUnownedSelf)
+            {
+                if (PlayerManager.instance != null)
+                {
+                    GetComponent<RealtimeTransform>().SetOwnership(_realtime.room.clientID);
+                }
+            }
+        }
         if (_length > 0)
         {
             for (int i = 0; i < _length; i++)
@@ -36,6 +53,8 @@ public class Truck : MonoBehaviour
                     _wheels[i].collider.motorTorque = _torque * _torqueFactor;
                 }
 
+                if (_wheels[i].model.GetComponent<RealtimeTransform>().ownerIDSelf != GetComponent<RealtimeTransform>().ownerIDSelf)
+                    _wheels[i].model.GetComponent<RealtimeTransform>().SetOwnership(GetComponent<RealtimeTransform>().ownerIDSelf);
 
                 if (_wheels[i].isSteeringWheel)
                 {

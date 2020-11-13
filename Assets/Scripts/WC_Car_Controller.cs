@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.Analytics;
 
 public class WC_Car_Controller : MonoBehaviour
 {
@@ -94,9 +95,11 @@ public class WC_Car_Controller : MonoBehaviour
     public GameObject muzzleFlash;
     float fireTimer;
 
-    public float explosionTestForce;
-
     public SpriteRenderer _miniMapRenderer;
+
+    public bool isFlyingCar;
+    int _bombs;
+    int _resets;
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
@@ -111,8 +114,12 @@ public class WC_Car_Controller : MonoBehaviour
     }
     private void Start()
     {
-        dustEmission = dustParticles.emission;
-        pebbleEmission = pebbles.emission;
+        if (!isFlyingCar)
+        {
+            dustEmission = dustParticles.emission;
+            pebbleEmission = pebbles.emission;
+        }
+
         if (_realtimeView.isOwnedLocallySelf)
         {
             isNetworkInstance = false;
@@ -164,6 +171,7 @@ public class WC_Car_Controller : MonoBehaviour
     }
     private IEnumerator FireCR()
     {
+        _bombs++;
         muzzleFlash.SetActive(true);
         StartCoroutine(MuzzleToggle());
         yield return wait;
@@ -273,12 +281,12 @@ public class WC_Car_Controller : MonoBehaviour
 
     private void Update()
     {
-        if (_currentName != _player.playerName || IDDisplay.text != _currentName)
-        {
+        if (_currentName != _player.playerName)
             _currentName = _player.playerName;
+
+        if (IDDisplay.text != _currentName)
             IDDisplay.SetText(_currentName);
-            //Debug.LogWarning("Name display set: " + _currentName);
-        }
+
         if (isNetworkInstance)
         {
             for (int i = 0; i < wheelCount; i++)
@@ -293,6 +301,8 @@ public class WC_Car_Controller : MonoBehaviour
             }
             return;
         }
+        uIManager._bombs = _bombs;
+        uIManager._resets = _resets;
         if (fireTimer != 1 / fireRate)
         {
             fireTimer = 1 / fireRate;
@@ -321,33 +331,35 @@ public class WC_Car_Controller : MonoBehaviour
         {
             isBraking = true;
         }
-        if (currentTorque > 0)
+        if (!isFlyingCar)
         {
-            dustEmission.rateOverTime =
-                Mathf.Clamp((currentTorque / torque) *
-                dustFactor,
-                0,
-                dustLimit);
-            pebbleEmission.rateOverTime =
-                Mathf.Clamp((currentTorque / torque) *
-                pebbleFactor,
-                0,
-                pebbleLimit);
-        }
-        else
-        {
-            if (isBraking)
-                dustEmission.rateOverTime = velocity * brakeDustFactor;
-
-            if (sidewaysVelocity > (velocity / 2f))
+            if (currentTorque > 0)
             {
-                dustEmission.rateOverTime = (velocity * brakeDustFactor) * 2f;
+                dustEmission.rateOverTime =
+                    Mathf.Clamp((currentTorque / torque) *
+                    dustFactor,
+                    0,
+                    dustLimit);
+                pebbleEmission.rateOverTime =
+                    Mathf.Clamp((currentTorque / torque) *
+                    pebbleFactor,
+                    0,
+                    pebbleLimit);
             }
-            else dustEmission.rateOverTime = .1f;
+            else
+            {
+                if (isBraking)
+                    dustEmission.rateOverTime = velocity * brakeDustFactor;
 
-            pebbleEmission.rateOverTime = .1f;
+                if (sidewaysVelocity > (velocity / 2f))
+                {
+                    dustEmission.rateOverTime = (velocity * brakeDustFactor) * 2f;
+                }
+                else dustEmission.rateOverTime = .1f;
+
+                pebbleEmission.rateOverTime = .1f;
+            }
         }
-
         totalRPM = 0f;
         for (int i = 0; i < wheelCount; i++)
         {
@@ -386,9 +398,16 @@ public class WC_Car_Controller : MonoBehaviour
 
     private void PlayerDeath()
     {
+        Analytics.CustomEvent("DEAD", new Dictionary<string, object>
+        {
+            { "name", _currentName},
+            { "id", _realtime.room.clientID },
+            {"time",System.DateTime.Now },
+        });
         isPlayerAlive = false;
         DeathExplosion.SetActive(true);
-        GetComponent<Renderer>().material = CarStates[1];
+        if (!isFlyingCar)
+            GetComponent<Renderer>().material = CarStates[1];
         //DeathExplosion.GetComponent<ParticleSystem>().Play();
         //carBody.AddExplosionForce(200000f, this.transform.position, 20f, 1000f, ForceMode.Impulse);
         verticalInput = 0f;
@@ -409,15 +428,27 @@ public class WC_Car_Controller : MonoBehaviour
     {
         isPlayerAlive = true;
         _player.playerHealth = _player.maxPlayerHealth;
-        GetComponent<Renderer>().material = CarStates[0];
+        if (!isFlyingCar)
+            GetComponent<Renderer>().material = CarStates[0];
         StartCoroutine(UpdateHealthValue());
     }
     private void OnDestroy()
     {
         if (isNetworkInstance)
-        {
             PlayerManager.instance.RemoveNetworkPlayer(transform);
+        else
+        {
+            Analytics.CustomEvent("LEFTGAME", new Dictionary<string, object>
+        {
+            { "name", _currentName},
+            { "id", _realtime.room.clientID },
+            {"time",System.DateTime.Now },
+            {"bombs", _bombs},
+            {"resets", _resets},
+        });
         }
+
+
 
     }
     private void RunWheels()
@@ -517,6 +548,7 @@ public class WC_Car_Controller : MonoBehaviour
                     Vector3 _rotation = transform.rotation.eulerAngles;
                     transform.rotation = Quaternion.Euler(_rotation.x, _rotation.y, 0);
                     carBody.velocity = Vector3.zero;
+                    _resets++;
                 }
             }
             if (Input.GetKeyDown(KeyCode.E))//lights

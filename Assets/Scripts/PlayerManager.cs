@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Normal.Realtime;
+using UnityEngine.Analytics;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class PlayerManager : MonoBehaviour
     GameObject _temp;
     List<Transform> _pointers;
     Realtime _realtime;
+    bool playerOwnsTruck;
     private void Awake()
     {
         SingletonCheck();
@@ -33,14 +35,29 @@ public class PlayerManager : MonoBehaviour
     public void AddLocalPlayer(Transform _player)
     {
         localPlayer = _player;
+        Analytics.CustomEvent("JOIN", new Dictionary<string, object>
+        {
+            { "name", localPlayer.GetComponent<Player>().playerName},
+            { "id", _realtime.room.clientID },
+            {"time",System.DateTime.Now },
+        });
         if (FindObjectOfType<Truck>() == null)
         {
             Realtime.Instantiate("WeirdTruck",
-                    position: localPlayer.position + -transform.right * 8f,
+                    position: localPlayer.position - Vector3.right * 30f,
                     rotation: Quaternion.identity,
                ownedByClient: true,
     preventOwnershipTakeover: false,
+    destroyWhenOwnerOrLastClientLeaves: false,
                  useInstance: _realtime);
+        }
+        else if(FindObjectOfType<Truck>().GetComponent<RealtimeTransform>().isUnownedSelf)
+        {
+            _temp = FindObjectOfType<Truck>().gameObject;
+            _temp.GetComponent<RealtimeView>().RequestOwnership();
+            _temp.GetComponent<RealtimeTransform>().RequestOwnership();
+            _temp.transform.position = localPlayer.position - Vector3.right * 30f;
+            _temp.transform.rotation = Quaternion.identity;
         }
         for (int i = 0; i < networkPlayers.Count; i++)
         {
@@ -48,7 +65,7 @@ public class PlayerManager : MonoBehaviour
                     position: localPlayer.position,
                     rotation: Quaternion.identity,
                ownedByClient: true,
-    preventOwnershipTakeover: false,
+    preventOwnershipTakeover: true,
                  useInstance: _realtime);
             //_temp.GetComponent<RealtimeView>().RequestOwnership();
             //_temp.GetComponent<RealtimeTransform>().RequestOwnership();

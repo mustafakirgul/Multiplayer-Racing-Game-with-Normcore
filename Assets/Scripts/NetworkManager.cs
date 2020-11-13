@@ -10,6 +10,8 @@ public class NetworkManager : MonoBehaviour
     public TextMeshProUGUI playerNameInputField;
     public Canvas _enterNameCanvas;
     public Camera _miniMapCamera;
+    public string preferredCar;
+    string _tempName;
 
     //bool isConnected;
 
@@ -42,13 +44,14 @@ public class NetworkManager : MonoBehaviour
     {
         if (playerNameInputField.text.Length > 0)
         {
-            _realtime.Connect("UGP_Test");
+            _realtime.Connect("UGP_PlayTest0");
         }
     }
     private void DidConnectToRoom(Realtime realtime)
     {
         //isConnected = true;
-        GameObject _temp = Realtime.Instantiate("Car",
+        _tempName = preferredCar != "" ? preferredCar : "Car";
+        GameObject _temp = Realtime.Instantiate(_tempName,
                             position: spawnPoint,
                             rotation: Quaternion.identity,
                        ownedByClient: true,

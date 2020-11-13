@@ -980,7 +980,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!114 &7735197493383449936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1117,8 +1117,8 @@ MonoBehaviour:
   fireRate: 3
   readyToFire: 0
   muzzleFlash: {fileID: 572337853881119421}
-  explosionTestForce: 500
   _miniMapRenderer: {fileID: 2606308155202362353}
+  isFlyingCar: 0
 --- !u!33 &3550835013394346518
 MeshFilter:
   m_ObjectHideFlags: 0
