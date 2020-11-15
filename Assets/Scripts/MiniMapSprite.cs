@@ -7,13 +7,17 @@ public class MiniMapSprite : MonoBehaviour
     void Start()
     {
         _parent = transform.parent;
-        transform.parent = null;
         _origin = transform.rotation.eulerAngles;
     }
 
     void Update()
     {
-        transform.position = _parent.position;
-        transform.rotation = Quaternion.Euler(_origin.x, _parent.rotation.eulerAngles.y, _origin.z);
+        if (transform != null && _parent != null)
+        {
+            transform.rotation = Quaternion.Euler(
+                _origin.x,
+                _parent.rotation.eulerAngles.y,
+                _origin.z);
+        }
     }
 }

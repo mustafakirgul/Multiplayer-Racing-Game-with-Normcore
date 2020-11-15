@@ -25,22 +25,25 @@ public class PlayerManager : MonoBehaviour
     GameObject _temp;
     List<Transform> _pointers;
     Realtime _realtime;
-    bool playerOwnsTruck;
     private void Awake()
     {
         SingletonCheck();
         _realtime = FindObjectOfType<Realtime>();
         _pointers = new List<Transform>();
     }
+
+    internal Transform RequestOwner(List<RealtimeTransform> _transforms)
+    {
+        for (int i = 0; i < _transforms.Count; i++)
+        {
+            _transforms[i].SetOwnership(_realtime.clientID);
+        }
+        return localPlayer;
+    }
+
     public void AddLocalPlayer(Transform _player)
     {
         localPlayer = _player;
-        Analytics.CustomEvent("JOIN", new Dictionary<string, object>
-        {
-            { "name", localPlayer.GetComponent<Player>().playerName},
-            { "id", _realtime.room.clientID },
-            {"time",System.DateTime.Now },
-        });
         if (FindObjectOfType<Truck>() == null)
         {
             Realtime.Instantiate("WeirdTruck",

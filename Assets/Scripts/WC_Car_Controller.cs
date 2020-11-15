@@ -110,6 +110,11 @@ public class WC_Car_Controller : MonoBehaviour
             _realtimeView.enabled = true;
             _realtimeTransform.enabled = true;
             _player = GetComponent<Player>();
+            waitFrame = new WaitForEndOfFrame();
+            waitFrame2 = new WaitForEndOfFrame();
+            fireTimer = 1f / fireRate;
+            wait = new WaitForSeconds(fireTimer);
+            muzzleWait = new WaitForSeconds(.2f);
         }
     }
     private void Start()
@@ -130,11 +135,6 @@ public class WC_Car_Controller : MonoBehaviour
             IDDisplay.gameObject.SetActive(false);
             IDDisplay = uIManager.playerName;
             boostRadialLoader = uIManager.boostRadialLoader;
-            waitFrame = new WaitForEndOfFrame();
-            waitFrame2 = new WaitForEndOfFrame();
-            fireTimer = 1f / fireRate;
-            wait = new WaitForSeconds(fireTimer);
-            muzzleWait = new WaitForSeconds(.2f);
             StartCoroutine(BoostCounter());
             StartCoroutine(FireCR());
             InitCam();
@@ -177,13 +177,11 @@ public class WC_Car_Controller : MonoBehaviour
         yield return wait;
         readyToFire = true;
     }
-
     IEnumerator MuzzleToggle()
     {
         yield return muzzleWait;
         muzzleFlash.SetActive(false);
     }
-
     public IEnumerator UpdateHealth()
     {
         float duration = 0.25f;
@@ -202,7 +200,6 @@ public class WC_Car_Controller : MonoBehaviour
         }
         m_fplayerLastHealth = _player.playerHealth;
     }
-
     public IEnumerator UpdateHealthValue()
     {
         bool _up = true;
@@ -224,11 +221,13 @@ public class WC_Car_Controller : MonoBehaviour
             {
                 m_fplayerLastHealth = _player.playerHealth;
             }
-            healthRadialLoader.fillAmount = (m_fplayerLastHealth / _player.maxPlayerHealth);
+            if (healthRadialLoader != null)
+            {
+                healthRadialLoader.fillAmount = (m_fplayerLastHealth / _player.maxPlayerHealth);
+            }
             yield return waitFrame2;
         }
     }
-
     public IEnumerator BoostCounter()
     {
         while (enableBoost)
@@ -255,19 +254,16 @@ public class WC_Car_Controller : MonoBehaviour
             yield return waitFrame;
         }
     }
-
     private void InitCam()
     {
         chaseCam = GameObject.FindObjectOfType<Camera_Controller>();
         chaseCam.InitCamera(gameObject, cameraPlace, lookAtTarget);
     }
-
     public void ExplosionForce(Vector3 _origin)
     {
         if (!isNetworkInstance)
         {
             carBody.AddExplosionForce(200000f, transform.position - _origin, 20f, 1000f);
-            //Debug.Log("Explosion Force Applied @ " + _origin);
         }
         else
         {
@@ -278,7 +274,6 @@ public class WC_Car_Controller : MonoBehaviour
         }
         _player.explosionForce = Vector3.zero;
     }
-
     private void Update()
     {
         if (_currentName != _player.playerName)
@@ -300,6 +295,10 @@ public class WC_Car_Controller : MonoBehaviour
                 }
             }
             return;
+        }
+        if (transform.position.y < -300)
+        {
+            transform.position = new Vector3(0f, 45f, 0f);
         }
         uIManager._bombs = _bombs;
         uIManager._resets = _resets;
@@ -372,7 +371,6 @@ public class WC_Car_Controller : MonoBehaviour
             CheckHealth();
         }
     }
-
     private void LateUpdate()
     {
         // If this CubePlayer prefab is not owned by this client, bail.
@@ -382,7 +380,6 @@ public class WC_Car_Controller : MonoBehaviour
         if (limitTopSpeed)
             carBody.velocity = Vector3.ClampMagnitude(carBody.velocity, actualMaxSpeed);
     }
-
     private void CheckHealth()
     {
         if (m_fplayerLastHealth != _player.playerHealth)
@@ -395,15 +392,8 @@ public class WC_Car_Controller : MonoBehaviour
             }
         }
     }
-
     private void PlayerDeath()
     {
-        Analytics.CustomEvent("DEAD", new Dictionary<string, object>
-        {
-            { "name", _currentName},
-            { "id", _realtime.room.clientID },
-            {"time",System.DateTime.Now },
-        });
         isPlayerAlive = false;
         DeathExplosion.SetActive(true);
         if (!isFlyingCar)
@@ -415,7 +405,6 @@ public class WC_Car_Controller : MonoBehaviour
         carBody.velocity = Vector3.zero;
         StartCoroutine(RespawnCountDown(5f));
     }
-
     private IEnumerator RespawnCountDown(float duration)
     {
         yield return new WaitForSeconds(duration);
@@ -423,7 +412,6 @@ public class WC_Car_Controller : MonoBehaviour
         m_fplayerLastHealth = 0f;
         ResetPlayerHealth();
     }
-
     private void ResetPlayerHealth()
     {
         isPlayerAlive = true;
@@ -436,20 +424,6 @@ public class WC_Car_Controller : MonoBehaviour
     {
         if (isNetworkInstance)
             PlayerManager.instance.RemoveNetworkPlayer(transform);
-        else
-        {
-            Analytics.CustomEvent("LEFTGAME", new Dictionary<string, object>
-        {
-            { "name", _currentName},
-            { "id", _realtime.room.clientID },
-            {"time",System.DateTime.Now },
-            {"bombs", _bombs},
-            {"resets", _resets},
-        });
-        }
-
-
-
     }
     private void RunWheels()
     {
@@ -522,7 +496,6 @@ public class WC_Car_Controller : MonoBehaviour
             speedDisplay.text = Mathf.RoundToInt((velocity * speedDisplayMultiplier)).ToString();
         }
     }
-
     private void ListenForInput()
     {
         if (isPlayerAlive)

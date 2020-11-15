@@ -46,13 +46,11 @@ public class Player : RealtimeComponent<PlayerModel>
     public void DamagePlayer(float damage)
     {
         PlayerHealthChanged(_model, (playerHealth - damage));
-        //_model.health -= damage;
     }
 
-    public void HealPlayer(float damage)
+    public void HealPlayer(float healingPower)
     {
-        PlayerHealthChanged(_model, (playerHealth + damage));
-        //_model.health += damage;
+        PlayerHealthChanged(_model, (playerHealth + healingPower));
     }
 
     private void PlayerHealthChanged(PlayerModel model, float value)
@@ -68,6 +66,5 @@ public class Player : RealtimeComponent<PlayerModel>
     private void PlayerNameChanged(PlayerModel model, string value)
     {
         playerName = value;
-        //Debug.LogWarning("Player name changed by the server: " + value);
     }
 }

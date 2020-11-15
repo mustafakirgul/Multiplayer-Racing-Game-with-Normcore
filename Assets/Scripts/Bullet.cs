@@ -123,29 +123,26 @@ public class Bullet : RealtimeComponent<ProjectileModel>
                         colliders[i].gameObject.GetComponent<Player>().ChangeExplosionForce(_origin);
                         colliders[i].gameObject.GetComponent<Player>().DamagePlayer(damage);
                     }
-                    else
+                    else if (colliders[i].gameObject.GetComponent<Truck>() != null)
                     {
-                        if (colliders[i].gameObject.GetComponent<Truck>() != null)
-                        {
-                            colliders[i].gameObject.GetComponent<RealtimeView>().RequestOwnership();
-                            colliders[i].gameObject.GetComponent<RealtimeTransform>().RequestOwnership();
-                        }
-
-                        if (colliders[i].gameObject.GetComponent<Rigidbody>()!=null)
-                        {
-                            colliders[i].gameObject.GetComponent<Rigidbody>().AddExplosionForce(200000f, transform.position - _origin, 20f, 1000f);
-                        }
+                        colliders[i].gameObject.GetComponent<Truck>().AddExplosionForce(_origin);
                     }
+
+                    else if (colliders[i].gameObject.GetComponent<Rigidbody>() != null)
+                    {
+                        colliders[i].gameObject.GetComponent<Rigidbody>().AddExplosionForce(200000f, transform.position - _origin, 20f, 1000f);
+                    }
+
 
                 }
             }
         }
-        if (explosion==null)
+        if (explosion == null)
         {
             explosion = transform.GetChild(0).gameObject;
         }
         explosion.SetActive(true);
-        if (wait1Sec==null)
+        if (wait1Sec == null)
         {
             wait1Sec = new WaitForSeconds(1f);
         }

@@ -54,11 +54,14 @@ public class Pointer : MonoBehaviour
 
     private void PositionPointer()
     {
-        transform.position =
+        if (transform!=null&&_master!=null)
+        {
+            transform.position =
             _master.position +
             (_target.position - _master.position).normalized *
             distanceFromMaster;
-        transform.position = new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z);
+        }        
     }
 
     private void AnimateRenderer()

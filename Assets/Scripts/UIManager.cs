@@ -28,9 +28,9 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            Analytics.CustomEvent("LEFTGAME", new Dictionary<string, object>
+            AnalyticsEvent.Custom("LEFTGAME", new Dictionary<string, object>
         {
-            { "name", playerName},
+            { "name", playerName.text},
             { "id", _realtime.room.clientID },
             {"time",System.DateTime.Now },
             {"bombs", _bombs},
