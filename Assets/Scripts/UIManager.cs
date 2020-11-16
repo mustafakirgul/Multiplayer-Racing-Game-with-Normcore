@@ -15,8 +15,7 @@ public class UIManager : MonoBehaviour
     int _m, _s;
     string _mS, _sS;
     float _time;
-    [HideInInspector]
-    public int _bombs, _resets;
+
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
@@ -28,14 +27,6 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            AnalyticsEvent.Custom("LEFTGAME", new Dictionary<string, object>
-        {
-            { "name", playerName.text},
-            { "id", _realtime.room.clientID },
-            {"time",System.DateTime.Now },
-            {"bombs", _bombs},
-            {"resets", _resets},
-        });
             Application.Quit();
         }
         if (_realtime.room == null)
