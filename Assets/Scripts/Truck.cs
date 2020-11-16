@@ -22,6 +22,7 @@ public class Truck : RealtimeComponent<TruckModel>
     Transform _ownerTransform;
     bool isNetworkInstance;
     Rigidbody truckBody;
+    Vector3 _startPosition => new Vector3(0, 30, 0);
 
     private void Awake()
     {
@@ -36,6 +37,11 @@ public class Truck : RealtimeComponent<TruckModel>
         _rTTransforms.Add(GetComponent<RealtimeTransform>());
         _length = _wheels.Length;
     }
+    void ResetTransform()
+    {
+        transform.position = _startPosition;
+        transform.rotation = Quaternion.identity;
+    }
     private void Update()
     {
         if (_ownerTransform == null)
@@ -48,13 +54,12 @@ public class Truck : RealtimeComponent<TruckModel>
 #if (UNITY_EDITOR)
         if (Input.GetKeyDown(KeyCode.P))
         {
-            transform.position = new Vector3(0, 15, 0);
-            transform.rotation = Quaternion.identity;
+            ResetTransform();
         }
 #endif
         if (transform.position.y < -300)
         {
-            transform.position = new Vector3(0, 15, 0);
+            ResetTransform();
         }
         if (_length > 0)
         {

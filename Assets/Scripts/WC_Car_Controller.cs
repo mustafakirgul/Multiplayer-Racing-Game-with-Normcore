@@ -98,8 +98,10 @@ public class WC_Car_Controller : MonoBehaviour
     public SpriteRenderer _miniMapRenderer;
 
     public bool isFlyingCar;
-    int _bombs;
-    int _resets;
+    [HideInInspector]
+    public int _bombs;
+    [HideInInspector]
+    public int _resets;
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
@@ -300,8 +302,6 @@ public class WC_Car_Controller : MonoBehaviour
         {
             transform.position = new Vector3(0f, 45f, 0f);
         }
-        uIManager._bombs = _bombs;
-        uIManager._resets = _resets;
         if (fireTimer != 1 / fireRate)
         {
             fireTimer = 1 / fireRate;
