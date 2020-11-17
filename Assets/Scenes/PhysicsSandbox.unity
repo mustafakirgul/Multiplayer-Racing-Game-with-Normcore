@@ -640,8 +640,6 @@ MonoBehaviour:
   speedometer: {fileID: 2014397572}
   playerName: {fileID: 1498207601}
   timer: {fileID: 1053453445}
-  _bombs: 0
-  _resets: 0
 --- !u!114 &707250628
 MonoBehaviour:
   m_ObjectHideFlags: 0
