@@ -44,7 +44,7 @@ public class NetworkManager : MonoBehaviour
     {
         if (playerNameInputField.text.Length > 0)
         {
-            _realtime.Connect("UGP_PlayTest0");
+            _realtime.Connect("UGP_");
         }
     }
     private void DidConnectToRoom(Realtime realtime)
