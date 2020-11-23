@@ -1031,6 +1031,7 @@ MonoBehaviour:
   speedometer: {fileID: 2014397572}
   playerName: {fileID: 1498207601}
   timer: {fileID: 1053453445}
+  enterNamePanel: {fileID: 2144996357}
 --- !u!114 &707250628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3693,8 +3694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60c0cc347c3515449888f5933297e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimum: {x: -10, y: 60, z: -10}
-  maximum: {x: 10, y: 80, z: 10}
+  minimum: {x: -10, y: 15, z: -10}
+  maximum: {x: 10, y: 20, z: 10}
   playerNameInputField: {fileID: 2051660890}
   _enterNameCanvas: {fileID: 2144996360}
   _miniMapCamera: {fileID: 898381102}

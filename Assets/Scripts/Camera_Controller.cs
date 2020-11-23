@@ -39,6 +39,11 @@ public class Camera_Controller : MonoBehaviour
         }
     }
 
+    public void ResetCam()
+    {
+        isInitialized = false;
+    }
+
     private void Update()
     {
         if (!fixedFocalLength)

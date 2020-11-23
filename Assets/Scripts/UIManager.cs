@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public Image playerHealthRadialLoader;
     public TextMeshProUGUI speedometer, playerName, timer;
     private GameObject uIPanel;
+    public GameObject enterNamePanel;
     Realtime _realtime;
     int _m, _s;
     string _mS, _sS;
@@ -20,14 +21,16 @@ public class UIManager : MonoBehaviour
     {
         _realtime = FindObjectOfType<Realtime>();
         uIPanel = transform.GetChild(0).gameObject;
-        uIPanel.SetActive(false);
+        EnableUI();
     }
 
     private void Update()
     {
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            Application.Quit();
+            _realtime.Disconnect();
+            DisableUI();
+            enterNamePanel.SetActive(true);
         }
         if (_realtime.room == null)
             return;

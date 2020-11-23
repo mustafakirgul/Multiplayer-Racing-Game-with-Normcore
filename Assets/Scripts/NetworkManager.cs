@@ -12,23 +12,32 @@ public class NetworkManager : MonoBehaviour
     public Camera _miniMapCamera;
     public string preferredCar;
     string _tempName;
+    Camera_Controller chaseCam;
 
     //bool isConnected;
 
     private void Awake()
     {
+        chaseCam = GameObject.FindObjectOfType<Camera_Controller>();
         _enterNameCanvas.gameObject.SetActive(true);
         // Get the Realtime component on this game object
         _realtime = GetComponent<Realtime>();
 
         // Notify us when Realtime successfully connects to the room
         _realtime.didConnectToRoom += DidConnectToRoom;
+        _realtime.didDisconnectFromRoom += DidDisconnectFromRoom;
         spawnPoint = new Vector3(
             Random.Range(minimum.x, maximum.x),
             Random.Range(minimum.y, maximum.y),
             Random.Range(minimum.z, maximum.z)
         );
     }
+
+    private void DidDisconnectFromRoom(Realtime realtime)
+    {
+        chaseCam.ResetCam();
+    }
+
     //private void Update()
     //{
     //    if (isConnected)
