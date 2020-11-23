@@ -40,8 +40,22 @@ public class NetworkManager : MonoBehaviour
     //        Debug.Log("_______________________");
     //    }
     //}
-    public void ConnectToRoom()
+    public void ConnectToRoom(int _selection)
     {
+        switch (_selection)
+        {
+            case 1:
+                preferredCar = "Car1";
+                break;
+            case 2:
+                preferredCar = "Car2";
+                break;
+            case 3:
+                preferredCar = "Car3";
+                break; 
+            default:
+                break;
+        }
         if (playerNameInputField.text.Length > 0)
         {
             _realtime.Connect("UGP_");

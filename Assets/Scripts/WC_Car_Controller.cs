@@ -97,7 +97,7 @@ public class WC_Car_Controller : MonoBehaviour
 
     public SpriteRenderer _miniMapRenderer;
 
-    public bool isFlyingCar;
+    public bool experimentalCar;
     [HideInInspector]
     public int _bombs;
     [HideInInspector]
@@ -121,7 +121,7 @@ public class WC_Car_Controller : MonoBehaviour
     }
     private void Start()
     {
-        if (!isFlyingCar)
+        if (!experimentalCar)
         {
             dustEmission = dustParticles.emission;
             pebbleEmission = pebbles.emission;
@@ -330,7 +330,7 @@ public class WC_Car_Controller : MonoBehaviour
         {
             isBraking = true;
         }
-        if (!isFlyingCar)
+        if (!experimentalCar)
         {
             if (currentTorque > 0)
             {
@@ -396,7 +396,7 @@ public class WC_Car_Controller : MonoBehaviour
     {
         isPlayerAlive = false;
         DeathExplosion.SetActive(true);
-        if (!isFlyingCar)
+        if (!experimentalCar)
             GetComponent<Renderer>().material = CarStates[1];
         //DeathExplosion.GetComponent<ParticleSystem>().Play();
         //carBody.AddExplosionForce(200000f, this.transform.position, 20f, 1000f, ForceMode.Impulse);
@@ -416,7 +416,7 @@ public class WC_Car_Controller : MonoBehaviour
     {
         isPlayerAlive = true;
         _player.playerHealth = _player.maxPlayerHealth;
-        if (!isFlyingCar)
+        if (!experimentalCar)
             GetComponent<Renderer>().material = CarStates[0];
         StartCoroutine(UpdateHealthValue());
     }
