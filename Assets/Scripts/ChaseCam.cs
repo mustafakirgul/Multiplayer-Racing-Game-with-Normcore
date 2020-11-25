@@ -30,8 +30,14 @@ public class ChaseCam : MonoBehaviour
     {
         if (isInitialized)
         {
-            lookAtTarget = target.position + lookAtOffset;
-            positionTarget = target.position + placeOffset;
+            lookAtTarget = target.TransformPoint(lookAtOffset);
+            positionTarget = target.TransformPoint( placeOffset);
+            Debug.DrawLine(target.position, lookAtTarget, Color.red);
+            Debug.DrawLine(target.position, positionTarget, Color.yellow);
+            Debug.DrawLine(transform.position, lookAtTarget, Color.green);
+            Debug.DrawLine(transform.position, positionTarget, Color.blue);
+            
+
             transform.LookAt(lookAtTarget);
             transform.position = Vector3.Lerp(
                 transform.position,

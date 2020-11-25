@@ -3,24 +3,17 @@
 public class Car_Controller : MonoBehaviour
 {
     Rigidbody Rb => GetComponent<Rigidbody>();
-    public float forwardThrust;
+    public float forwardThrust = 100f;
+    public float rotationPower = 1f;
     void Update()
     {
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            Rb.AddForce(
-                transform.forward *
-                Time.deltaTime *
-                forwardThrust,
-                ForceMode.Acceleration
-                );
-        }
-
-/*        Rb.MovePosition(
-            new Vector3(
-             transform.position.x,
-             transform.position.y + (Mathf.Sin(Time.timeSinceLevelLoad) * Time.deltaTime),
-             transform.position.z
-             ));*/
+        Rb.AddForce(
+            Input.GetAxisRaw("Vertical") * 
+            transform.forward *
+            Time.deltaTime *
+            forwardThrust,
+            ForceMode.Acceleration
+        );
+        Rb.AddTorque(0, Input.GetAxisRaw("Horizontal") * Time.deltaTime * rotationPower, 0, ForceMode.VelocityChange);
     }
 }
