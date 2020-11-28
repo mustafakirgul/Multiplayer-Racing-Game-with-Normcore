@@ -8,6 +8,7 @@ public class ChaseCam : MonoBehaviour
     Vector3 lookAtTarget, positionTarget;
     public Vector3 placeOffset, lookAtOffset;
     public float LERPSpeed;
+    public bool drawDebugLines;
     private bool isInitialized;
 
     private void Start()
@@ -31,13 +32,14 @@ public class ChaseCam : MonoBehaviour
         if (isInitialized)
         {
             lookAtTarget = target.TransformPoint(lookAtOffset);
-            positionTarget = target.TransformPoint( placeOffset);
-            Debug.DrawLine(target.position, lookAtTarget, Color.red);
-            Debug.DrawLine(target.position, positionTarget, Color.yellow);
-            Debug.DrawLine(transform.position, lookAtTarget, Color.green);
-            Debug.DrawLine(transform.position, positionTarget, Color.blue);
-            
-
+            positionTarget = target.TransformPoint(placeOffset);
+            if (drawDebugLines)
+            {
+                Debug.DrawLine(target.position, lookAtTarget, Color.red);
+                Debug.DrawLine(target.position, positionTarget, Color.yellow);
+                Debug.DrawLine(transform.position, lookAtTarget, Color.green);
+                Debug.DrawLine(transform.position, positionTarget, Color.blue);
+            }
             transform.LookAt(lookAtTarget);
             transform.position = Vector3.Lerp(
                 transform.position,
