@@ -38,13 +38,13 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -383,6 +383,7 @@ MonoBehaviour:
   placeOffset: {x: 0, y: 6, z: -12}
   lookAtOffset: {x: 0, y: 4, z: 5}
   LERPSpeed: 6
+  drawDebugLines: 0
 --- !u!114 &1073529368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,19 +490,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &343651098589618012
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 998360314383224462}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3.924374, y: 2.1199744, z: 10.741646}
-  m_Center: {x: 0.031110734, y: 0.02074061, z: -0.83739483}
 --- !u!4 &473216361382319156
 Transform:
   m_ObjectHideFlags: 0
@@ -510,7 +498,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 998360314383224462}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.1, z: 0}
+  m_LocalPosition: {x: 0, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8168659080279413043}
@@ -642,12 +630,12 @@ GameObject:
   m_Component:
   - component: {fileID: 473216361382319156}
   - component: {fileID: 3077590294005729722}
-  - component: {fileID: 343651098589618012}
   - component: {fileID: 998360314383224463}
   - component: {fileID: 998360314383224467}
   - component: {fileID: 998360314383224466}
   - component: {fileID: 998360314383224465}
   - component: {fileID: 998360314383224464}
+  - component: {fileID: 998360314383224468}
   m_Layer: 0
   m_Name: TestFlier
   m_TagString: Untagged
@@ -667,8 +655,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4ee1c78b7930b645b02f6c34ac437c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardThrust: 400
-  rotationPower: 6
+  forwardThrust: 1600
+  rotationPower: 100
+  brakePower: 0.05
+  safeMaxHeight: 8
+  rotationDampener: 6
+  downForce: 666
+  downForceHeight: 5
+  upForce: 9999
+  leftHeadLight: {fileID: 2917760254972682936}
+  rightHeadLight: {fileID: 8633009077602701998}
 --- !u!135 &998360314383224464
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -680,8 +676,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
-  m_Center: {x: -2, y: -1, z: 2.75}
+  m_Radius: 1
+  m_Center: {x: -2, y: -1, z: 4.87}
 --- !u!135 &998360314383224465
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -693,8 +689,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
-  m_Center: {x: 2, y: -1, z: 2.75}
+  m_Radius: 1
+  m_Center: {x: 2, y: -1, z: 4.87}
 --- !u!135 &998360314383224466
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -706,7 +702,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 1
   m_Center: {x: -2, y: -1, z: -4}
 --- !u!135 &998360314383224467
 SphereCollider:
@@ -719,8 +715,22 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 1
   m_Center: {x: 2, y: -1, z: -4}
+--- !u!136 &998360314383224468
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998360314383224462}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.71
+  m_Height: 11.37
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: -0.75}
 --- !u!4 &1022272685313225988
 Transform:
   m_ObjectHideFlags: 0
@@ -67958,8 +67968,8 @@ Rigidbody:
   m_GameObject: {fileID: 998360314383224462}
   serializedVersion: 2
   m_Mass: 1000
-  m_Drag: 0
-  m_AngularDrag: 0
+  m_Drag: 0.5
+  m_AngularDrag: 3
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
