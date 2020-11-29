@@ -132,8 +132,6 @@ public class Bullet : RealtimeComponent<ProjectileModel>
                     {
                         colliders[i].gameObject.GetComponent<Rigidbody>().AddExplosionForce(200000f, transform.position - _origin, 20f, 1000f);
                     }
-
-
                 }
             }
         }
@@ -156,6 +154,7 @@ public class Bullet : RealtimeComponent<ProjectileModel>
 
     private void OnTriggerEnter(Collider other)
     {
+        //TODO Logic for target type detection
         if (isNetworkInstance)
             return;
         Hit();
