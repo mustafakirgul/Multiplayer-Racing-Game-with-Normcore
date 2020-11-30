@@ -40,30 +40,30 @@ public partial class TruckModel : RealtimeModel {
         }
     }
     
-    public UnityEngine.Vector3 forces {
+    public UnityEngine.Vector3 explosionPoint {
         get {
-            return _cache.LookForValueInCache(_explosionPoint, entry => entry.forcesSet, entry => entry.forces);
+            return _cache.LookForValueInCache(_explosionPoint, entry => entry.explosionPointSet, entry => entry.explosionPoint);
         }
         set {
-            if (this.forces == value) return;
-            _cache.UpdateLocalCache(entry => { entry.forcesSet = true; entry.forces = value; return entry; });
+            if (this.explosionPoint == value) return;
+            _cache.UpdateLocalCache(entry => { entry.explosionPointSet = true; entry.explosionPoint = value; return entry; });
             InvalidateReliableLength();
-            FireForcesDidChange(value);
+            FireExplosionPointDidChange(value);
         }
     }
     
     public delegate void PropertyChangedHandler<in T>(TruckModel model, T value);
     public event PropertyChangedHandler<int> ownerDidChange;
     public event PropertyChangedHandler<float> healthDidChange;
-    public event PropertyChangedHandler<UnityEngine.Vector3> forcesDidChange;
+    public event PropertyChangedHandler<UnityEngine.Vector3> explosionPointDidChange;
     
     private struct LocalCacheEntry {
         public bool ownerSet;
         public int owner;
         public bool healthSet;
         public float health;
-        public bool forcesSet;
-        public UnityEngine.Vector3 forces;
+        public bool explosionPointSet;
+        public UnityEngine.Vector3 explosionPoint;
     }
     
     private LocalChangeCache<LocalCacheEntry> _cache = new LocalChangeCache<LocalCacheEntry>();
@@ -71,7 +71,7 @@ public partial class TruckModel : RealtimeModel {
     public enum PropertyID : uint {
         Owner = 1,
         Health = 2,
-        Forces = 3,
+        ExplosionPoint = 3,
     }
     
     public TruckModel() : this(null) {
@@ -100,9 +100,9 @@ public partial class TruckModel : RealtimeModel {
         }
     }
     
-    private void FireForcesDidChange(UnityEngine.Vector3 value) {
+    private void FireExplosionPointDidChange(UnityEngine.Vector3 value) {
         try {
-            forcesDidChange?.Invoke(this, value);
+            explosionPointDidChange?.Invoke(this, value);
         } catch (System.Exception exception) {
             UnityEngine.Debug.LogException(exception);
         }
@@ -114,7 +114,7 @@ public partial class TruckModel : RealtimeModel {
             FlattenCache();
             length += WriteStream.WriteVarint32Length((uint)PropertyID.Owner, (uint)_owner);
             length += WriteStream.WriteFloatLength((uint)PropertyID.Health);
-            length += WriteStream.WriteBytesLength((uint)PropertyID.Forces, WriteStream.Vector3ToBytesLength());
+            length += WriteStream.WriteBytesLength((uint)PropertyID.ExplosionPoint, WriteStream.Vector3ToBytesLength());
         } else if (context.reliableChannel) {
             LocalCacheEntry entry = _cache.localCache;
             if (entry.ownerSet) {
@@ -123,8 +123,8 @@ public partial class TruckModel : RealtimeModel {
             if (entry.healthSet) {
                 length += WriteStream.WriteFloatLength((uint)PropertyID.Health);
             }
-            if (entry.forcesSet) {
-                length += WriteStream.WriteBytesLength((uint)PropertyID.Forces, WriteStream.Vector3ToBytesLength());
+            if (entry.explosionPointSet) {
+                length += WriteStream.WriteBytesLength((uint)PropertyID.ExplosionPoint, WriteStream.Vector3ToBytesLength());
             }
         }
         return length;
@@ -136,10 +136,10 @@ public partial class TruckModel : RealtimeModel {
         if (context.fullModel) {
             stream.WriteVarint32((uint)PropertyID.Owner, (uint)_owner);
             stream.WriteFloat((uint)PropertyID.Health, _health);
-            stream.WriteBytes((uint)PropertyID.Forces, WriteStream.Vector3ToBytes(_explosionPoint));
+            stream.WriteBytes((uint)PropertyID.ExplosionPoint, WriteStream.Vector3ToBytes(_explosionPoint));
         } else if (context.reliableChannel) {
             LocalCacheEntry entry = _cache.localCache;
-            if (entry.ownerSet || entry.healthSet || entry.forcesSet) {
+            if (entry.ownerSet || entry.healthSet || entry.explosionPointSet) {
                 _cache.PushLocalCacheToInflight(context.updateID);
                 ClearCacheOnStreamCallback(context);
             }
@@ -151,8 +151,8 @@ public partial class TruckModel : RealtimeModel {
                 stream.WriteFloat((uint)PropertyID.Health, entry.health);
                 didWriteProperties = true;
             }
-            if (entry.forcesSet) {
-                stream.WriteBytes((uint)PropertyID.Forces, WriteStream.Vector3ToBytes(entry.forces));
+            if (entry.explosionPointSet) {
+                stream.WriteBytes((uint)PropertyID.ExplosionPoint, WriteStream.Vector3ToBytes(entry.explosionPoint));
                 didWriteProperties = true;
             }
             
@@ -181,12 +181,12 @@ public partial class TruckModel : RealtimeModel {
                     }
                     break;
                 }
-                case (uint)PropertyID.Forces: {
+                case (uint)PropertyID.ExplosionPoint: {
                     UnityEngine.Vector3 previousValue = _explosionPoint;
                     _explosionPoint = ReadStream.Vector3FromBytes(stream.ReadBytes());
-                    bool forcesExistsInChangeCache = _cache.ValueExistsInCache(entry => entry.forcesSet);
-                    if (!forcesExistsInChangeCache && _explosionPoint != previousValue) {
-                        FireForcesDidChange(_explosionPoint);
+                    bool explosionPointExistsInChangeCache = _cache.ValueExistsInCache(entry => entry.explosionPointSet);
+                    if (!explosionPointExistsInChangeCache && _explosionPoint != previousValue) {
+                        FireExplosionPointDidChange(_explosionPoint);
                     }
                     break;
                 }
@@ -205,7 +205,7 @@ public partial class TruckModel : RealtimeModel {
     private void FlattenCache() {
         _owner = owner;
         _health = health;
-        _explosionPoint = forces;
+        _explosionPoint = explosionPoint;
         _cache.Clear();
     }
     

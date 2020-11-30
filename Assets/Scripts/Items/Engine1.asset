@@ -9,13 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aea1ea25c597714e941284086099dcb, type: 3}
+  m_Script: {fileID: 11500000, guid: 38e7efa47463ff74fb62589c6c453217, type: 3}
   m_Name: Engine1
-  m_EditorClassIdentifier: Assembly-CSharp::ItemBase
-  m_player: {fileID: 0}
-  m_listOfItems: []
-  mf_ItemMeleeAttack: 0
-  mf_ItemDefense: 0
-  mf_ItemHealth: 0
-  mf_ItemSpeed: 0
-  mf_maxItemCount: 0
+  m_EditorClassIdentifier: 
+  _ItemType: 4
+  f_attack: 0
+  f_defense: 0
+  f_health: 0
+  f_speed: 1
+  Model: {fileID: 0}

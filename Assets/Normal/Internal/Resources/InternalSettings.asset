@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38e7efa47463ff74fb62589c6c453217, type: 3}
-  m_Name: Body1
+  m_Script: {fileID: 1251306160, guid: 5173c3ea7f8dbdc47871e62b3e5c7906, type: 3}
+  m_Name: InternalSettings
   m_EditorClassIdentifier: 
-  _ItemType: 3
-  f_attack: 0
-  f_defense: 0
-  f_health: 1
-  f_speed: 0
-  Model: {fileID: 0}
+  _migration:
+    lastPromptedVersion: 2
+    version: 2
+  _projectGUID: de041299-1bab-413e-a39e-c09c92568c44

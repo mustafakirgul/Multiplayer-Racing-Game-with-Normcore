@@ -120,7 +120,7 @@ public class Truck : RealtimeComponent<TruckModel>
             // Unregister from events
             previousModel.ownerDidChange -= OwnerChanged;
             previousModel.healthDidChange -= HealthChanged;
-            previousModel.forcesDidChange -= ForcesChanged;
+            previousModel.explosionPointDidChange -= ForcesChanged;
         }
         if (currentModel != null)
         {
@@ -128,10 +128,10 @@ public class Truck : RealtimeComponent<TruckModel>
                 _maxHealth = currentModel.health;
             _health = currentModel.health;
             _owner = currentModel.owner;
-            _explosionForce = currentModel.forces;
+            _explosionForce = currentModel.explosionPoint;
             currentModel.ownerDidChange += OwnerChanged;
             currentModel.healthDidChange += HealthChanged;
-            currentModel.forcesDidChange += ForcesChanged;
+            currentModel.explosionPointDidChange += ForcesChanged;
             _truck = currentModel;
         }
     }
@@ -145,11 +145,11 @@ public class Truck : RealtimeComponent<TruckModel>
     }
     void ResetExplosionPoint()
     {
-        _truck.forces = Vector3.zero;
+        _truck.explosionPoint = Vector3.zero;
     }
     void ChangeExplosionForce(Vector3 _origin)
     {
-        _truck.forces += _origin;
+        _truck.explosionPoint += _origin;
     }
 
     void DamagePlayer(float damage)

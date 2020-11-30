@@ -1296,8 +1296,8 @@ MonoBehaviour:
   m_listOfItems:
   - {fileID: 11400000, guid: 042e8a027e3b4e2449acd1f8471caf54, type: 2}
   - {fileID: 11400000, guid: 61026f1df7c6d8344849f6da13801624, type: 2}
-  - {fileID: 11400000, guid: d994a80b08dcbdb46825af43c5d8faa0, type: 2}
-  - {fileID: 11400000, guid: 840774102772c5343a46b21577241bf2, type: 2}
+  - {fileID: 11400000, guid: 3e6e53f0fdc6c3c41b6b6d548a07439c, type: 2}
+  - {fileID: 11400000, guid: e28629993c1879c4d8ca0b8585d3c884, type: 2}
   mf_ItemMeleeAttack: 0
   mf_ItemDefense: 0
   mf_ItemHealth: 0
