@@ -10961,6 +10961,7 @@ GameObject:
   - component: {fileID: 987718138121117371}
   - component: {fileID: 987718138121117348}
   - component: {fileID: 7292926974069472570}
+  - component: {fileID: -1101362328942048974}
   m_Layer: 0
   m_Name: Car3
   m_TagString: Untagged
@@ -11139,6 +11140,9 @@ MonoBehaviour:
   CarStates:
   - {fileID: 2100000, guid: d4bcce26f8255bc439f0e5dceae9e6b4, type: 2}
   - {fileID: 2100000, guid: 750fabdd9ac864d41b3afabf213442a8, type: 2}
+  WeaponProjectile: {fileID: 3112086905854782875, guid: faaa7fc8be60d0744a8fa08762d869e4,
+    type: 3}
+  WeaponProjectiles: []
   _barrelTip: {fileID: 3824969809188139813}
   fireRate: 3
   readyToFire: 0
@@ -11275,6 +11279,29 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.2824541, y: 0.8312988, z: 3.3267083}
   m_Center: {x: 0.021967947, y: -0.13494682, z: -0.044803858}
+--- !u!114 &-1101362328942048974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6278844860742739052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aea1ea25c597714e941284086099dcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_player: {fileID: 0}
+  m_listOfItems:
+  - {fileID: 11400000, guid: 042e8a027e3b4e2449acd1f8471caf54, type: 2}
+  - {fileID: 11400000, guid: 61026f1df7c6d8344849f6da13801624, type: 2}
+  - {fileID: 11400000, guid: d994a80b08dcbdb46825af43c5d8faa0, type: 2}
+  - {fileID: 11400000, guid: 840774102772c5343a46b21577241bf2, type: 2}
+  mf_ItemMeleeAttack: 0
+  mf_ItemDefense: 0
+  mf_ItemHealth: 0
+  mf_ItemSpeed: 0
+  mf_maxItemCount: 0
 --- !u!1 &6278844860782764558
 GameObject:
   m_ObjectHideFlags: 0

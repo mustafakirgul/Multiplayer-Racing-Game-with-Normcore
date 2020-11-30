@@ -42,8 +42,7 @@ public class WC_Car_Controller : MonoBehaviour
     //Trail and particles systems
     private ParticleSystem.EmissionModule dustEmission, pebbleEmission;
     public ParticleSystem dustParticles, pebbles;
-
-
+    
     [HideInInspector]
     public float actualMaxSpeed;
     [HideInInspector]
@@ -89,8 +88,16 @@ public class WC_Car_Controller : MonoBehaviour
 
     GameObject _bulletBuffer;
 
+
+    //Weapons systems
+    [SerializeField]
+    private GameObject WeaponProjectile;
+
+    [SerializeField]
+    private List<GameObject> WeaponProjectiles;
+
     public Transform _barrelTip;
-    public float fireRate;//number of bullets fired per second
+    public float fireRate;//number of bullets fired per second //Weapon Change should affect this variable
     public bool readyToFire = false;
     public GameObject muzzleFlash;
     float fireTimer;
@@ -543,13 +550,19 @@ public class WC_Car_Controller : MonoBehaviour
             if (Input.GetKey(KeyCode.LeftControl) && readyToFire)
             {
                 readyToFire = false;
-                _bulletBuffer = Realtime.Instantiate("Bullet",
+                _bulletBuffer = Realtime.Instantiate(WeaponProjectile.name,
                 position: _barrelTip.position,
                 rotation: _barrelTip.rotation,
-           ownedByClient: true,
-             useInstance: _realtime);
-                _bulletBuffer.GetComponent<Bullet>().isNetworkInstance = false;
-                _bulletBuffer.GetComponent<Bullet>().Fire(_barrelTip, velocity);
+                ownedByClient: true,
+                useInstance: _realtime);
+
+                //Old code
+                //_bulletBuffer.GetComponent<Bullet>().isNetworkInstance = false;
+                //_bulletBuffer.GetComponent<Bullet>().Fire(_barrelTip, velocity);
+
+                _bulletBuffer.GetComponent<WeaponProjectileBase>().isNetworkInstance = false;
+                _bulletBuffer.GetComponent<WeaponProjectileBase>().Fire(_barrelTip, velocity);
+
                 StartCoroutine(FireCR());
             }
 

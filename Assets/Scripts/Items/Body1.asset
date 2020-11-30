@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1251306160, guid: 5173c3ea7f8dbdc47871e62b3e5c7906, type: 3}
-  m_Name: InternalSettings
-  m_EditorClassIdentifier: 
-  _migration:
-    lastPromptedVersion: 2
-    version: 2
-  _projectGUID: b939ed6c-92b6-46bd-a648-cb01641b2149
+  m_Script: {fileID: 11500000, guid: 2d002b5f5b471ff4aae45b2ac549683d, type: 3}
+  m_Name: Body1
+  m_EditorClassIdentifier: Assembly-CSharp::ItemBase
+  startSpeed: 0
+  damage: 0
+  explosiveRange: 0
+  weaponLifeTime: 0
+  isNetworkInstance: 1
