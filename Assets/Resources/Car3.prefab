@@ -260,13 +260,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6278844859560458215}
-  m_LocalRotation: {x: 0.035073906, y: 0, z: 0, w: 0.99938476}
-  m_LocalPosition: {x: 0.3, y: 0.161, z: 0.308}
+  m_LocalRotation: {x: 0.2473424, y: -0, z: -0, w: 0.96892816}
+  m_LocalPosition: {x: 0.3, y: 3.0500002, z: -0.8800009}
   m_LocalScale: {x: 0.4000003, y: 0.4, z: 0.4000003}
   m_Children: []
   m_Father: {fileID: 6278844861025063448}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 4.02, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 28.641, y: 0, z: 0}
 --- !u!108 &6278844859560458213
 Light:
   m_ObjectHideFlags: 0
@@ -281,7 +281,7 @@ Light:
   m_Color: {r: 0.9886583, g: 1, b: 0.7688679, a: 1}
   m_Intensity: 200
   m_Range: 20
-  m_SpotAngle: 179
+  m_SpotAngle: 135
   m_InnerSpotAngle: 0
   m_CookieSize: 10
   m_Shadows:
@@ -5911,13 +5911,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6278844860454747834}
-  m_LocalRotation: {x: 0.035073906, y: 0, z: 0, w: 0.99938476}
-  m_LocalPosition: {x: -0.3, y: 0.161, z: 0.3080011}
+  m_LocalRotation: {x: 0.2473424, y: -0, z: -0, w: 0.96892816}
+  m_LocalPosition: {x: -0.3, y: 3.05, z: -0.88}
   m_LocalScale: {x: 0.4000003, y: 0.4, z: 0.4000003}
   m_Children: []
   m_Father: {fileID: 6278844861025063448}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 4.02, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 28.641, y: 0, z: 0}
 --- !u!108 &6278844860454747832
 Light:
   m_ObjectHideFlags: 0
@@ -5932,7 +5932,7 @@ Light:
   m_Color: {r: 0.9886583, g: 1, b: 0.7688679, a: 1}
   m_Intensity: 200
   m_Range: 20
-  m_SpotAngle: 179
+  m_SpotAngle: 135
   m_InnerSpotAngle: 0
   m_CookieSize: 10
   m_Shadows:
@@ -11295,8 +11295,8 @@ MonoBehaviour:
   m_listOfItems:
   - {fileID: 11400000, guid: 042e8a027e3b4e2449acd1f8471caf54, type: 2}
   - {fileID: 11400000, guid: 61026f1df7c6d8344849f6da13801624, type: 2}
-  - {fileID: 11400000, guid: d994a80b08dcbdb46825af43c5d8faa0, type: 2}
-  - {fileID: 11400000, guid: 840774102772c5343a46b21577241bf2, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   mf_ItemMeleeAttack: 0
   mf_ItemDefense: 0
   mf_ItemHealth: 0
