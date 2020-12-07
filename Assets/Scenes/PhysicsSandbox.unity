@@ -3087,7 +3087,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17360
+  m_Name: pb_Mesh17936
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4989,6 +4989,7 @@ GameObject:
   - component: {fileID: 1818484510}
   - component: {fileID: 1818484509}
   - component: {fileID: 1818484508}
+  - component: {fileID: 1818484513}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -41819,6 +41820,19 @@ Transform:
   m_Father: {fileID: 370183945}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -86, z: 0}
+--- !u!114 &1818484513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818484507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f2e5fbdec078e40a8d3d24aeb48ba7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
 --- !u!1 &1821898513
 GameObject:
   m_ObjectHideFlags: 0
@@ -43458,8 +43472,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60c0cc347c3515449888f5933297e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimum: {x: 600, y: 150, z: 1}
-  maximum: {x: 600, y: 150, z: -1}
+  minimum: {x: 600, y: 105, z: 1}
+  maximum: {x: 600, y: 105, z: -1}
   playerNameInputField: {fileID: 2051660890}
   _enterNameCanvas: {fileID: 2144996360}
   _miniMapCamera: {fileID: 898381102}

@@ -1928,6 +1928,8 @@ MonoBehaviour:
   dustLimit: 0
   pebbleFactor: 0
   pebbleLimit: 0
+  turnAid: 1
+  turnAidLevel: 5
   speedDisplay: {fileID: 0}
   IDDisplay: {fileID: 1995843897710487414}
   dustParticles: {fileID: 0}
@@ -1946,19 +1948,21 @@ MonoBehaviour:
   _player: {fileID: 5336889700571441458}
   _currentName: 
   enableBoost: 1
-  boostCooldownTime: 5
+  boostCooldownTime: 180
   boostRadialLoader: {fileID: 0}
   boosterReady: 0
   healthRadialLoader: {fileID: 0}
   m_fplayerLastHealth: 0
   DeathExplosion: {fileID: 5567500066772359840}
   CarStates: []
+  WeaponProjectile: {fileID: 0}
+  WeaponProjectiles: []
   _barrelTip: {fileID: 8814341778376484425}
   fireRate: 0
   readyToFire: 0
   muzzleFlash: {fileID: 524162671478898408}
   _miniMapRenderer: {fileID: 3246874487872237770}
-  isFlyingCar: 1
+  experimentalCar: 0
   _bombs: 0
   _resets: 0
 --- !u!114 &8090709731188801889

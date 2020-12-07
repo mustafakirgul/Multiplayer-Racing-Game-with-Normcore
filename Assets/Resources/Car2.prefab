@@ -5782,7 +5782,7 @@ WheelCollider:
   m_Radius: 0.25
   m_SuspensionSpring:
     spring: 8000
-    damper: 2000
+    damper: 800
     targetPosition: 0
   m_SuspensionDistance: 0.2
   m_ForceAppPointDistance: 0.62
@@ -6032,9 +6032,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca8a749f7ccba2409f28481b657c341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  torque: 9999
+  torque: 4444
   currentTorque: 0
-  limitTopSpeed: 1
+  limitTopSpeed: 0
   maxSpeed: 350
   clutchCurve:
     serializedVersion: 2
@@ -6071,9 +6071,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   clutchTime: 0.5
   clutchTimer: 0
-  steeringSpeed: 0.05
-  maxSteering: 35
-  brakePower: 3000
+  steeringSpeed: 0.25
+  maxSteering: 40
+  brakePower: 555
   resetHeight: 2
   upSideDownCheckRange: 1
   verticalInput: 0
@@ -6118,6 +6118,8 @@ MonoBehaviour:
   dustLimit: 300
   pebbleFactor: 40
   pebbleLimit: 100
+  turnAid: 1
+  turnAidLevel: 9
   speedDisplay: {fileID: 0}
   IDDisplay: {fileID: 3197908265794020138}
   dustParticles: {fileID: 6314427268137110733}
@@ -6156,6 +6158,7 @@ MonoBehaviour:
   experimentalCar: 1
   _bombs: 0
   _resets: 0
+  explosionForce: 400000
 --- !u!33 &6314427268500803059
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -6179,7 +6182,7 @@ MonoBehaviour:
   carBody: {fileID: 6314427268500803062}
   WheelL: {fileID: 6314427268456226130}
   WheelR: {fileID: 6314427268804859375}
-  AntiRoll: 5000
+  AntiRoll: 20000
 --- !u!114 &6314427268500803063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6195,7 +6198,7 @@ MonoBehaviour:
   carBody: {fileID: 6314427268500803062}
   WheelL: {fileID: 6314427268522433585}
   WheelR: {fileID: 6314427268782988847}
-  AntiRoll: 5000
+  AntiRoll: 20000
 --- !u!114 &952157753973356326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6300,8 +6303,8 @@ MonoBehaviour:
   m_listOfItems:
   - {fileID: 11400000, guid: 042e8a027e3b4e2449acd1f8471caf54, type: 2}
   - {fileID: 11400000, guid: 61026f1df7c6d8344849f6da13801624, type: 2}
-  - {fileID: 11400000, guid: d994a80b08dcbdb46825af43c5d8faa0, type: 2}
-  - {fileID: 11400000, guid: 840774102772c5343a46b21577241bf2, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   mf_ItemMeleeAttack: 0
   mf_ItemDefense: 0
   mf_ItemHealth: 0
@@ -6349,7 +6352,7 @@ WheelCollider:
   m_Radius: 0.25
   m_SuspensionSpring:
     spring: 8000
-    damper: 2000
+    damper: 800
     targetPosition: 0
   m_SuspensionDistance: 0.2
   m_ForceAppPointDistance: 0.62
@@ -6441,7 +6444,7 @@ WheelCollider:
   m_Radius: 0.25
   m_SuspensionSpring:
     spring: 8000
-    damper: 2000
+    damper: 800
     targetPosition: 0
   m_SuspensionDistance: 0.2
   m_ForceAppPointDistance: 0.62
@@ -6581,7 +6584,7 @@ WheelCollider:
   m_Radius: 0.25
   m_SuspensionSpring:
     spring: 8000
-    damper: 2000
+    damper: 800
     targetPosition: 0
   m_SuspensionDistance: 0.2
   m_ForceAppPointDistance: 0.62

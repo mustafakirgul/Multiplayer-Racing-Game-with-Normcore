@@ -896,8 +896,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.4
   m_SuspensionSpring:
-    spring: 24000
-    damper: 6666
+    spring: 40000
+    damper: 1000
     targetPosition: 0.33
   m_SuspensionDistance: 0.66
   m_ForceAppPointDistance: 0.62
@@ -1013,7 +1013,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   torque: 6666
   currentTorque: 0
-  limitTopSpeed: 1
+  limitTopSpeed: 0
   maxSpeed: 213
   clutchCurve:
     serializedVersion: 2
@@ -1039,11 +1039,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  clutchTime: 0.5
+  clutchTime: 1
   clutchTimer: 0
   steeringSpeed: 0.05
   maxSteering: 35
-  brakePower: 3000
+  brakePower: 999
   resetHeight: 2
   upSideDownCheckRange: 1
   verticalInput: 0
@@ -1088,6 +1088,8 @@ MonoBehaviour:
   dustLimit: 300
   pebbleFactor: 40
   pebbleLimit: 100
+  turnAid: 1
+  turnAidLevel: 12
   speedDisplay: {fileID: 0}
   IDDisplay: {fileID: 5370264496379288783}
   dustParticles: {fileID: 3550835013492552488}
@@ -1100,7 +1102,7 @@ MonoBehaviour:
   _realtime: {fileID: 0}
   cameraPlace: {fileID: 3550835014518867907}
   lookAtTarget: {fileID: 3550835013746297911}
-  dashForce: 15
+  dashForce: 60
   offlineTest: 0
   numberOfTiresTouchingGround: 4
   _player: {fileID: 7735197493383449936}
@@ -1126,6 +1128,7 @@ MonoBehaviour:
   experimentalCar: 1
   _bombs: 0
   _resets: 0
+  explosionForce: 400000
 --- !u!33 &3550835013394346518
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1188,7 +1191,7 @@ MonoBehaviour:
   carBody: {fileID: 3550835013394346515}
   WheelL: {fileID: 3550835013408514743}
   WheelR: {fileID: 3550835014163966474}
-  AntiRoll: 5000
+  AntiRoll: 60000
 --- !u!114 &3550835013394346514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1204,7 +1207,7 @@ MonoBehaviour:
   carBody: {fileID: 3550835013394346515}
   WheelL: {fileID: 3550835013340996564}
   WheelR: {fileID: 3550835014205563338}
-  AntiRoll: 5000
+  AntiRoll: 60000
 --- !u!114 &7768988539245775043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1357,8 +1360,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.4
   m_SuspensionSpring:
-    spring: 24000
-    damper: 6666
+    spring: 40000
+    damper: 1000
     targetPosition: 0.33
   m_SuspensionDistance: 0.66
   m_ForceAppPointDistance: 0.62
@@ -11506,8 +11509,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.4
   m_SuspensionSpring:
-    spring: 24000
-    damper: 6666
+    spring: 40000
+    damper: 1000
     targetPosition: 0.33
   m_SuspensionDistance: 0.66
   m_ForceAppPointDistance: 0.62
@@ -11567,8 +11570,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.4
   m_SuspensionSpring:
-    spring: 24000
-    damper: 6666
+    spring: 40000
+    damper: 1000
     targetPosition: 0.33
   m_SuspensionDistance: 0.66
   m_ForceAppPointDistance: 0.62

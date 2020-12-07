@@ -849,8 +849,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.45
   m_SuspensionSpring:
-    spring: 32000
-    damper: 10000
+    spring: 60000
+    damper: 6000
     targetPosition: 0
   m_SuspensionDistance: 0.5
   m_ForceAppPointDistance: 0.62
@@ -989,8 +989,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.45
   m_SuspensionSpring:
-    spring: 32000
-    damper: 10000
+    spring: 60000
+    damper: 6000
     targetPosition: 0
   m_SuspensionDistance: 0.5
   m_ForceAppPointDistance: 0.62
@@ -10922,8 +10922,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.45
   m_SuspensionSpring:
-    spring: 32000
-    damper: 10000
+    spring: 60000
+    damper: 6000
     targetPosition: 0
   m_SuspensionDistance: 0.5
   m_ForceAppPointDistance: 0.62
@@ -11036,9 +11036,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca8a749f7ccba2409f28481b657c341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  torque: 12000
+  torque: 9999
   currentTorque: 0
-  limitTopSpeed: 1
+  limitTopSpeed: 0
   maxSpeed: 165
   clutchCurve:
     serializedVersion: 2
@@ -11113,6 +11113,8 @@ MonoBehaviour:
   dustLimit: 300
   pebbleFactor: 40
   pebbleLimit: 100
+  turnAid: 1
+  turnAidLevel: 12
   speedDisplay: {fileID: 0}
   IDDisplay: {fileID: 3234405423942224559}
   dustParticles: {fileID: 6278844860569363784}
@@ -11125,7 +11127,7 @@ MonoBehaviour:
   _realtime: {fileID: 0}
   cameraPlace: {fileID: 6278844859483853219}
   lookAtTarget: {fileID: 6278844860323994199}
-  dashForce: 15
+  dashForce: 30
   offlineTest: 0
   numberOfTiresTouchingGround: 4
   _player: {fileID: 953945775130598192}
@@ -11151,6 +11153,7 @@ MonoBehaviour:
   experimentalCar: 1
   _bombs: 0
   _resets: 0
+  explosionForce: 400000
 --- !u!33 &6278844860742739062
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -11480,8 +11483,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.45
   m_SuspensionSpring:
-    spring: 32000
-    damper: 10000
+    spring: 60000
+    damper: 6000
     targetPosition: 0
   m_SuspensionDistance: 0.5
   m_ForceAppPointDistance: 0.62

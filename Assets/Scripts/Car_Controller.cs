@@ -52,7 +52,7 @@ public class Car_Controller : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal");
         isBreaking = Input.GetKey(KeyCode.Space) || (Mathf.Abs(vertical) < .1f && velocity < .25f);
         trueVelocity = transform.InverseTransformVector(Rb.velocity).z;
-        inReverse = trueVelocity < 0f;
+        inReverse = vertical < 0f;
         velocity = Mathf.Abs(trueVelocity);
         sidewaysVelocity = Mathf.Abs(transform.InverseTransformVector(Rb.velocity).x);
         applyDownforce = !Physics.Raycast(transform.position, -transform.up, out hit2, downForceHeight);

@@ -34,6 +34,8 @@ public class WC_Car_Controller : MonoBehaviour
     public bool drawSkidmark = false;
     public Vector3 skidmarkOffset;
     public int brakeDustFactor, brakeDustLimit, dustFactor, dustLimit, pebbleFactor, pebbleLimit;
+    public bool turnAid;
+    public float turnAidLevel;
 
     //UI display
     public TextMeshProUGUI speedDisplay, IDDisplay;
@@ -42,7 +44,7 @@ public class WC_Car_Controller : MonoBehaviour
     //Trail and particles systems
     private ParticleSystem.EmissionModule dustEmission, pebbleEmission;
     public ParticleSystem dustParticles, pebbles;
-    
+
     [HideInInspector]
     public float actualMaxSpeed;
     [HideInInspector]
@@ -109,6 +111,10 @@ public class WC_Car_Controller : MonoBehaviour
     public int _bombs;
     [HideInInspector]
     public int _resets;
+
+    public float explosionForce = 2000000f;
+    bool inReverse;
+    float trueVelocity;
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
@@ -258,7 +264,10 @@ public class WC_Car_Controller : MonoBehaviour
             }
             else
             {
-                boostRadialLoader.enabled = Time.realtimeSinceStartup % 1f > .05f;
+                Color _temp = boostRadialLoader.color;
+                _temp.a = Mathf.Abs(Mathf.Cos(Time.realtimeSinceStartup));
+                boostRadialLoader.color = _temp;
+                //boostRadialLoader.enabled = Time.realtimeSinceStartup % 1f > .05f;
             }
             yield return waitFrame;
         }
@@ -272,7 +281,7 @@ public class WC_Car_Controller : MonoBehaviour
     {
         if (!isNetworkInstance)
         {
-            carBody.AddExplosionForce(200000f, transform.position - _origin, 20f, 1000f);
+            carBody.AddExplosionForce(explosionForce, transform.position - _origin, 20f, 1000f);
         }
         else
         {
@@ -330,9 +339,11 @@ public class WC_Car_Controller : MonoBehaviour
         }
 
         ListenForInput();
-        velocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).z);
+        trueVelocity = transform.InverseTransformVector(carBody.velocity).z;
+        velocity = Mathf.Abs(trueVelocity);
         sidewaysVelocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).x);
         currentTorque = verticalInput * torque;
+        inReverse = trueVelocity < 0f;
         if (velocity < .333f && verticalInput == 0f)
         {
             isBraking = true;
@@ -378,7 +389,7 @@ public class WC_Car_Controller : MonoBehaviour
             CheckHealth();
         }
     }
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         // If this CubePlayer prefab is not owned by this client, bail.
         if (isNetworkInstance)
@@ -453,7 +464,12 @@ public class WC_Car_Controller : MonoBehaviour
 
             if (wheel.isSteeringWheel)
             {
-                wheel.collider.steerAngle = Mathf.Lerp(wheel.collider.steerAngle, horizontalInput * maxSteering, steeringSpeed);
+                if (inReverse)
+                    wheel.collider.steerAngle = -horizontalInput * maxSteering;
+                else
+                    wheel.collider.steerAngle = horizontalInput * maxSteering;
+
+                Debug.LogWarning(horizontalInput * maxSteering);
             }
 
             if (wheel.model != null)
@@ -498,6 +514,12 @@ public class WC_Car_Controller : MonoBehaviour
                 }
             }
         }
+
+        //steering aid
+        if (turnAid && numberOfTiresTouchingGround > 1)
+            //transform.Rotate(transform.up, turnAidLevel * Time.deltaTime * horizontalInput);
+            carBody.AddRelativeTorque(transform.up * horizontalInput * turnAidLevel * Time.deltaTime, ForceMode.VelocityChange);
+
         if (speedDisplay != null)
         {
             speedDisplay.text = Mathf.RoundToInt((velocity * speedDisplayMultiplier)).ToString();
@@ -508,7 +530,7 @@ public class WC_Car_Controller : MonoBehaviour
         if (isPlayerAlive)
         {
 
-            verticalInput = Mathf.Lerp(verticalInput, Input.GetAxisRaw("Vertical"), .1f);
+            verticalInput = Input.GetAxisRaw("Vertical");
             if (clutchTimer < clutchTime && verticalInput > 0f)
             {
                 verticalInput *= Mathf.Clamp(clutchCurve.Evaluate(clutchTimer / clutchTime), -1, 1);
@@ -519,10 +541,15 @@ public class WC_Car_Controller : MonoBehaviour
                 clutchTimer = 0f;
             }
 
-            horizontalInput = Input.GetAxisRaw("Horizontal");
+            if (verticalInput > 0f)
+                horizontalInput = Input.GetAxisRaw("Horizontal");
+            else
+                horizontalInput = -Input.GetAxisRaw("Horizontal");
+
+
             if (Input.GetKeyDown(KeyCode.R))//reset
             {
-                if (Physics.Raycast(transform.position, transform.up, upSideDownCheckRange))
+                if (Quaternion.Angle(Quaternion.identity, transform.rotation) > 90)
                 {
                     transform.position = new Vector3(transform.position.x, transform.position.y + resetHeight, transform.position.z);
                     Vector3 _rotation = transform.rotation.eulerAngles;
@@ -531,13 +558,16 @@ public class WC_Car_Controller : MonoBehaviour
                     _resets++;
                 }
             }
+
             if (Input.GetKeyDown(KeyCode.E))//lights
             {
                 lights = !lights;
                 RHL.enabled = lights;
                 LHL.enabled = lights;
             }
+
             isBraking = Input.GetKey(KeyCode.Space);//handbrake;
+
             if (Input.GetKeyDown(KeyCode.Q) && numberOfTiresTouchingGround > 0)//boost/dash
             {
                 if (boosterReady)
