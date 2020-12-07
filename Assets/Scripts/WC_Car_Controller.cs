@@ -465,11 +465,9 @@ public class WC_Car_Controller : MonoBehaviour
             if (wheel.isSteeringWheel)
             {
                 if (inReverse)
-                    wheel.collider.steerAngle = -horizontalInput * maxSteering;
+                    wheel.collider.steerAngle = Mathf.Lerp(wheel.collider.steerAngle, - horizontalInput * maxSteering, steeringSpeed);
                 else
-                    wheel.collider.steerAngle = horizontalInput * maxSteering;
-
-                Debug.LogWarning(horizontalInput * maxSteering);
+                    wheel.collider.steerAngle = Mathf.Lerp(wheel.collider.steerAngle, horizontalInput * maxSteering, steeringSpeed);
             }
 
             if (wheel.model != null)

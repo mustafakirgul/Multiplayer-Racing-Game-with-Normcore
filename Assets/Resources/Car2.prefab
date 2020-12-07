@@ -5781,9 +5781,9 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.25
   m_SuspensionSpring:
-    spring: 8000
-    damper: 800
-    targetPosition: 0
+    spring: 14000
+    damper: 1400
+    targetPosition: 0.5
   m_SuspensionDistance: 0.2
   m_ForceAppPointDistance: 0.62
   m_Mass: 10
@@ -6032,7 +6032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca8a749f7ccba2409f28481b657c341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  torque: 4444
+  torque: 4000
   currentTorque: 0
   limitTopSpeed: 0
   maxSpeed: 350
@@ -6351,9 +6351,9 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.25
   m_SuspensionSpring:
-    spring: 8000
-    damper: 800
-    targetPosition: 0
+    spring: 14000
+    damper: 1400
+    targetPosition: 0.5
   m_SuspensionDistance: 0.2
   m_ForceAppPointDistance: 0.62
   m_Mass: 10
@@ -6443,9 +6443,9 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.25
   m_SuspensionSpring:
-    spring: 8000
-    damper: 800
-    targetPosition: 0
+    spring: 14000
+    damper: 1400
+    targetPosition: 0.5
   m_SuspensionDistance: 0.2
   m_ForceAppPointDistance: 0.62
   m_Mass: 10
@@ -6583,9 +6583,9 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.25
   m_SuspensionSpring:
-    spring: 8000
-    damper: 800
-    targetPosition: 0
+    spring: 14000
+    damper: 1400
+    targetPosition: 0.5
   m_SuspensionDistance: 0.2
   m_ForceAppPointDistance: 0.62
   m_Mass: 10
