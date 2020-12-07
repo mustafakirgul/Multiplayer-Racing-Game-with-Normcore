@@ -115,11 +115,14 @@ public class WC_Car_Controller : MonoBehaviour
     public float explosionForce = 2000000f;
     bool inReverse;
     float trueVelocity;
+    //[HideInInspector]
+    public int ownerID;
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
         _realtimeView = GetComponent<RealtimeView>();
         _realtimeTransform = GetComponent<RealtimeTransform>();
+        ownerID = _realtime.room.clientID;
         if (!offlineTest)
         {
             _realtimeView.enabled = true;
@@ -465,7 +468,7 @@ public class WC_Car_Controller : MonoBehaviour
             if (wheel.isSteeringWheel)
             {
                 if (inReverse)
-                    wheel.collider.steerAngle = Mathf.Lerp(wheel.collider.steerAngle, - horizontalInput * maxSteering, steeringSpeed);
+                    wheel.collider.steerAngle = Mathf.Lerp(wheel.collider.steerAngle, -horizontalInput * maxSteering, steeringSpeed);
                 else
                     wheel.collider.steerAngle = Mathf.Lerp(wheel.collider.steerAngle, horizontalInput * maxSteering, steeringSpeed);
             }
@@ -590,6 +593,7 @@ public class WC_Car_Controller : MonoBehaviour
 
                 _bulletBuffer.GetComponent<WeaponProjectileBase>().isNetworkInstance = false;
                 _bulletBuffer.GetComponent<WeaponProjectileBase>().Fire(_barrelTip, velocity);
+                _bulletBuffer.GetComponent<WeaponProjectileBase>().ownerID = ownerID;
 
                 StartCoroutine(FireCR());
             }

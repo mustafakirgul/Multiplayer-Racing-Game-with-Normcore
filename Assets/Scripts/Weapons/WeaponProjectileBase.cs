@@ -22,6 +22,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     Collider[] colliders;
     private ProjectileModel _model;
     public bool isNetworkInstance = true;
+    public int ownerID = -1;
     RealtimeView _realtimeView;
     RealtimeTransform _realtimeTransform;
 
@@ -163,8 +164,13 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     private void OnTriggerEnter(Collider other)
     {
         //TODO Logic for target type detection
-        if (isNetworkInstance)
+        if (isNetworkInstance || ownerID < 0)
             return;
-        Hit();
+        if (other.GetComponent<WC_Car_Controller>() != null)
+            if (other.GetComponent<WC_Car_Controller>().ownerID == ownerID)
+                return;
+            else
+                Hit();
+
     }
 }

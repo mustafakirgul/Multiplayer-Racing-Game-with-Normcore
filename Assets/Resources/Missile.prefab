@@ -114,8 +114,9 @@ MonoBehaviour:
   startSpeed: 15
   damage: 5
   explosiveRange: 5
-  weaponLifeTime: 60
-  isNetworkInstance: 1
+  weaponLifeTime: 30
+  isNetworkInstance: 0
+  ownerID: -1
   missileSpeed: 75
   missileRotationSpeed: 50
   missileDectectionRange: 10
