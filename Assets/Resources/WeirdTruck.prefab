@@ -916,7 +916,7 @@ GameObject:
   - component: {fileID: 1553214668230054600}
   m_Layer: 0
   m_Name: WeirdTruck
-  m_TagString: Untagged
+  m_TagString: target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

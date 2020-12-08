@@ -551,7 +551,7 @@ public class WC_Car_Controller : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.R))//reset
             {
-                if (Quaternion.Angle(Quaternion.identity, transform.rotation) > 90)
+                if (Quaternion.Angle(Quaternion.identity, transform.rotation) > 45f)
                 {
                     transform.position = new Vector3(transform.position.x, transform.position.y + resetHeight, transform.position.z);
                     Vector3 _rotation = transform.rotation.eulerAngles;
