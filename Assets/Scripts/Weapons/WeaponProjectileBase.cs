@@ -165,12 +165,27 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     {
         //TODO Logic for target type detection
         if (isNetworkInstance || ownerID < 0)
+        {
+            Debug.Log("Owner Id < 0");
             return;
-        if (other.GetComponent<WC_Car_Controller>() != null)
-            if (other.GetComponent<WC_Car_Controller>().ownerID == ownerID)
-                return;
-            else
-                Hit();
+        }
 
+        if (other.GetComponent<WC_Car_Controller>() != null)
+        {
+            if (other.GetComponent<WC_Car_Controller>().ownerID == ownerID)
+            {
+                Debug.Log("Did not Hit Target!");
+                return;
+            }
+            else
+            {
+                Debug.Log("Did hit Target!");
+                Hit();
+            }
+        }
+        else
+        {
+            Hit();
+        }
     }
 }
