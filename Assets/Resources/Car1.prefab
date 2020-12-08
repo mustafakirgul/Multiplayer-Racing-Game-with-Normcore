@@ -896,10 +896,10 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.4
   m_SuspensionSpring:
-    spring: 40000
-    damper: 1000
-    targetPosition: 0.33
-  m_SuspensionDistance: 0.66
+    spring: 25000
+    damper: 2500
+    targetPosition: 0.5
+  m_SuspensionDistance: 0.4
   m_ForceAppPointDistance: 0.62
   m_Mass: 20
   m_WheelDampingRate: 0.9
@@ -1129,6 +1129,7 @@ MonoBehaviour:
   _bombs: 0
   _resets: 0
   explosionForce: 400000
+  ownerID: 0
 --- !u!33 &3550835013394346518
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1360,10 +1361,10 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.4
   m_SuspensionSpring:
-    spring: 40000
-    damper: 1000
-    targetPosition: 0.33
-  m_SuspensionDistance: 0.66
+    spring: 25000
+    damper: 2500
+    targetPosition: 0.5
+  m_SuspensionDistance: 0.4
   m_ForceAppPointDistance: 0.62
   m_Mass: 20
   m_WheelDampingRate: 0.9
@@ -11509,10 +11510,10 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.4
   m_SuspensionSpring:
-    spring: 40000
-    damper: 1000
-    targetPosition: 0.33
-  m_SuspensionDistance: 0.66
+    spring: 25000
+    damper: 2500
+    targetPosition: 0.5
+  m_SuspensionDistance: 0.4
   m_ForceAppPointDistance: 0.62
   m_Mass: 20
   m_WheelDampingRate: 0.9
@@ -11570,10 +11571,10 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.4
   m_SuspensionSpring:
-    spring: 40000
-    damper: 1000
-    targetPosition: 0.33
-  m_SuspensionDistance: 0.66
+    spring: 25000
+    damper: 2500
+    targetPosition: 0.5
+  m_SuspensionDistance: 0.4
   m_ForceAppPointDistance: 0.62
   m_Mass: 20
   m_WheelDampingRate: 0.9

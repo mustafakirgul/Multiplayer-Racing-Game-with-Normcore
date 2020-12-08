@@ -340,13 +340,14 @@ public class WC_Car_Controller : MonoBehaviour
         {
             ExplosionForce(_player.explosionForce);
         }
-
-        ListenForInput();
         trueVelocity = transform.InverseTransformVector(carBody.velocity).z;
         velocity = Mathf.Abs(trueVelocity);
         sidewaysVelocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).x);
-        currentTorque = verticalInput * torque;
         inReverse = trueVelocity < 0f;
+        ListenForInput();
+        
+        currentTorque = verticalInput * torque;
+        
         if (velocity < .333f && verticalInput == 0f)
         {
             isBraking = true;
@@ -542,7 +543,7 @@ public class WC_Car_Controller : MonoBehaviour
                 clutchTimer = 0f;
             }
 
-            if (verticalInput > 0f)
+            if (verticalInput >= 0f)
                 horizontalInput = Input.GetAxisRaw("Horizontal");
             else
                 horizontalInput = -Input.GetAxisRaw("Horizontal");
