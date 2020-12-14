@@ -2,39 +2,20 @@
 
 public class Camera_Controller : MonoBehaviour
 {
-    public Transform place;
-    public Transform lookAtTarget;
-    public float followSpeed;
-    public GameObject velocityReference;
-    public float slowFocalLength, fastFocalLength;
-    private float zoomRange;
-    private float currentZoomLevel;
-    [SerializeField]
-    private float focalLength;
-    public bool overrideCameraY;
-    public float overrideCameraYOffset;
-    private Camera _camera;
+    public float smoothTime;
+    public float lookAtLERPSpeed;
+    public float lookAtDistance;
+    public Rigidbody target;
+    public Transform cameraPlaceTarget;
     private bool isInitialized;
-    private Transform YReference;
-    private WC_Car_Controller wcController;
-    public bool fixedFocalLength;
+    Vector3 _temp, velocity;
 
-    private void Start()
-    {
-        _camera = GetComponent<Camera>();
-    }
-
-    public void InitCamera(GameObject _target, Transform _place, Transform _lookTarget)
+    public void InitCamera(Rigidbody _target)
     {
         if (!isInitialized)
         {
-            wcController = _target.GetComponent<WC_Car_Controller>();
-            velocityReference = _target;
-            YReference = velocityReference.transform;
-            place = _place;
-            lookAtTarget = _lookTarget;
-            place.gameObject.SetActive(false);
-            lookAtTarget.gameObject.SetActive(false);
+            target = _target;
+            cameraPlaceTarget = target.transform.GetChild(0).transform;
             isInitialized = true;
         }
     }
@@ -44,46 +25,32 @@ public class Camera_Controller : MonoBehaviour
         isInitialized = false;
     }
 
-    private void Update()
-    {
-        if (!fixedFocalLength)
-        {
-            if (isInitialized)
-            {
-                if (wcController != null)
-                {
-                    zoomRange = slowFocalLength - fastFocalLength;
-                    currentZoomLevel = wcController.velocity / wcController.actualMaxSpeed;
-                    focalLength = slowFocalLength - (currentZoomLevel * zoomRange);
-                }
-            }
-        }
-    }
-
     private void LateUpdate()
     {
         if (isInitialized)
         {
-            if (wcController != null)
-            {
-                transform.LookAt(lookAtTarget);
+            _temp = target.transform.TransformPoint(cameraPlaceTarget.localPosition);
+            transform.position = Vector3.SmoothDamp(
+                transform.position,
+                _temp,
+                ref velocity,
+                smoothTime * Time.deltaTime
+                );
 
-                if (overrideCameraY)
-                {
-                    transform.position = Vector3.Lerp(transform.position
-                    , new Vector3(place.position.x,
-                    YReference.position.y + overrideCameraYOffset,
-                    place.position.z)
-                    , Time.deltaTime * followSpeed);
-                }
-                else
-                {
-                    transform.position = Vector3.Lerp(transform.position
-                    , place.position
-                    , Time.deltaTime * followSpeed);
-                }
-                _camera.focalLength = focalLength;
-            }
+            Debug.DrawLine(transform.position, _temp, Color.blue);
+            Debug.DrawLine(target.transform.position, _temp, Color.blue);
+
+            _temp = target.transform.position + (target.transform.forward * lookAtDistance) + target.velocity.normalized;
+
+            Debug.DrawLine(transform.position, _temp, Color.green);
+
+            transform.rotation = Quaternion.Lerp(
+                                    transform.rotation,
+                                    Quaternion.LookRotation(
+                                        (_temp - transform.position).normalized
+                                    ),
+                                    lookAtLERPSpeed * Time.deltaTime
+                                );
         }
     }
 }

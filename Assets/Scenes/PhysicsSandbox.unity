@@ -38,13 +38,13 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2072423802}
-  m_IndirectSpecularColor: {r: 0.07040538, g: 0.047994196, b: 0.04224196, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -43731,6 +43731,36 @@ PrefabInstance:
         type: 3}
       propertyPath: fixedFocalLength
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9072222076205165745, guid: 06d857ea5c9455b4cb76e053f46a3212,
+        type: 3}
+      propertyPath: cameraY
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9072222076205165745, guid: 06d857ea5c9455b4cb76e053f46a3212,
+        type: 3}
+      propertyPath: distanceToTarget
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9072222076205165745, guid: 06d857ea5c9455b4cb76e053f46a3212,
+        type: 3}
+      propertyPath: lookAtdistance
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9072222076205165745, guid: 06d857ea5c9455b4cb76e053f46a3212,
+        type: 3}
+      propertyPath: smoothTime
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9072222076205165745, guid: 06d857ea5c9455b4cb76e053f46a3212,
+        type: 3}
+      propertyPath: lookAtLERPSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9072222076205165745, guid: 06d857ea5c9455b4cb76e053f46a3212,
+        type: 3}
+      propertyPath: lookAtDistance
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 9072222076205165746, guid: 06d857ea5c9455b4cb76e053f46a3212,
         type: 3}

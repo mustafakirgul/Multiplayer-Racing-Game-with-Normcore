@@ -117,8 +117,14 @@ public class WC_Car_Controller : MonoBehaviour
     float trueVelocity;
     //[HideInInspector]
     public int ownerID;
+
+    public float centerOfMassY;
+    Vector3 initialCenterOfMass;
     private void Awake()
     {
+        initialCenterOfMass = carBody.centerOfMass;
+        carBody.centerOfMass = new Vector3(carBody.centerOfMass.x, centerOfMassY, carBody.centerOfMass.z);
+
         _realtime = FindObjectOfType<Realtime>();
         _realtimeView = GetComponent<RealtimeView>();
         _realtimeTransform = GetComponent<RealtimeTransform>();
@@ -278,7 +284,7 @@ public class WC_Car_Controller : MonoBehaviour
     private void InitCam()
     {
         chaseCam = GameObject.FindObjectOfType<Camera_Controller>();
-        chaseCam.InitCamera(gameObject, cameraPlace, lookAtTarget);
+        chaseCam.InitCamera(carBody);
     }
     public void ExplosionForce(Vector3 _origin)
     {
@@ -345,9 +351,9 @@ public class WC_Car_Controller : MonoBehaviour
         sidewaysVelocity = Mathf.Abs(transform.InverseTransformVector(carBody.velocity).x);
         inReverse = trueVelocity < 0f;
         ListenForInput();
-        
+
         currentTorque = verticalInput * torque;
-        
+
         if (velocity < .333f && verticalInput == 0f)
         {
             isBraking = true;
@@ -395,12 +401,18 @@ public class WC_Car_Controller : MonoBehaviour
     }
     private void FixedUpdate()
     {
+#if UNITY_EDITOR
+        carBody.centerOfMass = new Vector3(carBody.centerOfMass.x, centerOfMassY, carBody.centerOfMass.z);
+        Debug.DrawLine(transform.TransformPoint(initialCenterOfMass), transform.TransformPoint(carBody.centerOfMass), Color.cyan);
+#endif
         // If this CubePlayer prefab is not owned by this client, bail.
         if (isNetworkInstance)
             return;
         RunWheels();
         if (limitTopSpeed)
             carBody.velocity = Vector3.ClampMagnitude(carBody.velocity, actualMaxSpeed);
+
+        Debug.DrawLine(transform.position, transform.position + carBody.velocity, Color.yellow);
     }
     private void CheckHealth()
     {
