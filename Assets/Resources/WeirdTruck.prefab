@@ -1005,15 +1005,17 @@ MonoBehaviour:
     model: {fileID: 6917883557532416066}
     isPowered: 1
     isSteeringWheel: 1
-  _torque: 6666
+  _torque: 19998
   _torqueFactor: 1
-  _steeringAngle: 4
+  _steeringAngle: 0
+  maxSteeringAngle: 10
   _handBrake: 0
   explosionPoint: {x: 0, y: 0, z: 0}
   m_wayPoints: []
   currentWP: {fileID: 0}
   steerRefreshTimer: 1
   currentWPindex: 0
+  waypointSwitchThreshold: 30
   _owner: 0
   _health: 0
   _maxHealth: 0

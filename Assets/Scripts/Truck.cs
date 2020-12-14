@@ -12,6 +12,7 @@ public class Truck : RealtimeComponent<TruckModel>
     public float _torqueFactor;
     [Range(-20f, 20f)]
     public float _steeringAngle;
+    public float maxSteeringAngle;
     public bool _handBrake;
     int _length;
     Vector3 _position;
@@ -35,6 +36,8 @@ public class Truck : RealtimeComponent<TruckModel>
     [SerializeField]
     private int currentWPindex = 0;
 
+    public float waypointSwitchThreshold;
+
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
@@ -54,7 +57,7 @@ public class Truck : RealtimeComponent<TruckModel>
     public void ResetWayPoints()
     {
         //Find all waypoints with the waypoints tag
-        for (int i = (FindObjectsOfType<WayPoint>().Length-1); i > -1; i--)
+        for (int i = (FindObjectsOfType<WayPoint>().Length - 1); i > -1; i--)
         {
             m_wayPoints.Add(FindObjectsOfType<WayPoint>()[i].transform);
         }
@@ -107,7 +110,7 @@ public class Truck : RealtimeComponent<TruckModel>
 
                 if (_wheels[i].isSteeringWheel)
                 {
-                    _wheels[i].collider.steerAngle = _steeringAngle;
+                    _wheels[i].collider.steerAngle = Mathf.Lerp(_wheels[i].collider.steerAngle,_steeringAngle, Time.deltaTime);
                 }
 
                 _wheels[i].collider.GetWorldPose(out _position, out _rotation);
@@ -166,15 +169,15 @@ public class Truck : RealtimeComponent<TruckModel>
     {
         while (true)
         {
-            CheckWayPointTarget(currentWP, 2f);
+            CheckWayPointTarget(currentWP);
             SetWayPointDirection(currentWP);
             yield return new WaitForSeconds(steerRefreshTimer);
         }
     }
 
-    void CheckWayPointTarget(Transform currentWaypoint, float distanceThreshold)
+    void CheckWayPointTarget(Transform currentWaypoint)
     {
-        if (Vector3.Distance(this.transform.position, currentWaypoint.position) < distanceThreshold)
+        if (Vector3.Distance(this.transform.position, currentWaypoint.position) < waypointSwitchThreshold)
         {
             currentWPindex++;
             SetWayPoint(currentWPindex);
@@ -192,7 +195,7 @@ public class Truck : RealtimeComponent<TruckModel>
             currentWPindex = wayPointIndex % m_wayPoints.Count;
             currentWP = m_wayPoints[currentWPindex];
             Debug.Log("spill over going to" + currentWPindex);
-    
+
         }
         else
         {
@@ -204,12 +207,11 @@ public class Truck : RealtimeComponent<TruckModel>
 
     void SetWayPointDirection(Transform WP)
     {
-        var steeringAngle =
-        Mathf.Clamp((Quaternion.FromToRotation(transform.forward, WP.transform.position - this.transform.position).y * 10f), -45, 45);
-         
-        Debug.Log("Current Steering Angle is" + steeringAngle);
+        float CrossProductConstant = Vector3.Cross(this.transform.forward, WP.transform.position - this.transform.position).y;
 
-        _steeringAngle = steeringAngle;
+        _steeringAngle = Mathf.Clamp((Math.Sign(CrossProductConstant) * 10f), -maxSteeringAngle, maxSteeringAngle); ;
+
+        Debug.Log("Current Steering Angle is" + _steeringAngle);
     }
 
     void SetOwner(int _id)
