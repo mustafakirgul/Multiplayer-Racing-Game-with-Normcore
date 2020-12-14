@@ -190,7 +190,7 @@ public class Truck : RealtimeComponent<TruckModel>
 
     void SetWayPoint(int wayPointIndex)
     {
-        if (wayPointIndex > m_wayPoints.Count)
+        if (wayPointIndex >= m_wayPoints.Count)
         {
             currentWPindex = wayPointIndex % m_wayPoints.Count;
             currentWP = m_wayPoints[currentWPindex];
