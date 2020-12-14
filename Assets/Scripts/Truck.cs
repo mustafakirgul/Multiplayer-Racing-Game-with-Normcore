@@ -167,7 +167,6 @@ public class Truck : RealtimeComponent<TruckModel>
         while (true)
         {
             CheckWayPointTarget(currentWP, 2f);
-            SetWayPointDirection(currentWP);
             yield return new WaitForSeconds(steerRefreshTimer);
         }
     }
@@ -181,6 +180,7 @@ public class Truck : RealtimeComponent<TruckModel>
         }
         else
         {
+            SetWayPoint(currentWPindex);
             return;
         }
     }
@@ -191,25 +191,23 @@ public class Truck : RealtimeComponent<TruckModel>
         {
             currentWPindex = wayPointIndex % m_wayPoints.Count;
             currentWP = m_wayPoints[currentWPindex];
+            SetWayPointDirection(currentWP);
             Debug.Log("spill over going to" + currentWPindex);
     
         }
         else
         {
             currentWP = m_wayPoints[wayPointIndex];
-
+            SetWayPointDirection(currentWP);
             Debug.Log("Going to" + wayPointIndex);
         }
     }
 
     void SetWayPointDirection(Transform WP)
     {
-        var steeringAngle =
-        Mathf.Clamp((Quaternion.FromToRotation(transform.forward, WP.transform.position - this.transform.position).y * 10f), -45, 45);
-         
-        Debug.Log("Current Steering Angle is" + steeringAngle);
-
-        _steeringAngle = steeringAngle;
+        _steeringAngle = Mathf.Clamp((Quaternion.FromToRotation(transform.forward, WP.transform.position - this.transform.position).y * 50f), -45, 45); ;
+        
+        Debug.Log("Current Steering Angle is" + _steeringAngle);
     }
 
     void SetOwner(int _id)
