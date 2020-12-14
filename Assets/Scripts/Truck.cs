@@ -166,7 +166,7 @@ public class Truck : RealtimeComponent<TruckModel>
     {
         while (true)
         {
-            CheckWayPointTarget(currentWP, 5f);
+            CheckWayPointTarget(currentWP, 2f);
             SetWayPointDirection(currentWP);
             yield return new WaitForSeconds(steerRefreshTimer);
         }
@@ -205,7 +205,7 @@ public class Truck : RealtimeComponent<TruckModel>
     void SetWayPointDirection(Transform WP)
     {
         var steeringAngle =
-        Mathf.Clamp((Quaternion.FromToRotation(transform.forward, WP.transform.position - this.transform.position).y), -45, 45);
+        Mathf.Clamp((Quaternion.FromToRotation(transform.forward, WP.transform.position - this.transform.position).y * 10f), -45, 45);
          
         Debug.Log("Current Steering Angle is" + steeringAngle);
 
