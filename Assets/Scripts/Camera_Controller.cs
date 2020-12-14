@@ -40,7 +40,7 @@ public class Camera_Controller : MonoBehaviour
             Debug.DrawLine(transform.position, _temp, Color.blue);
             Debug.DrawLine(target.transform.position, _temp, Color.blue);
 
-            _temp = target.transform.position + (target.transform.forward * lookAtDistance) + target.velocity.normalized;
+            _temp = target.transform.position + (target.transform.forward * lookAtDistance);
 
             Debug.DrawLine(transform.position, _temp, Color.green);
 

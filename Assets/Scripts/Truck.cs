@@ -42,6 +42,7 @@ public class Truck : RealtimeComponent<TruckModel>
     {
         _realtime = FindObjectOfType<Realtime>();
         truckBody = GetComponent<Rigidbody>();
+        truckBody.centerOfMass = new Vector3(truckBody.centerOfMass.x, -5, truckBody.centerOfMass.z);
     }
     private void Start()
     {
