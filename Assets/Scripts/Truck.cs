@@ -2,6 +2,7 @@
 using UnityEngine;
 using Normal.Realtime;
 using System.Collections.Generic;
+using System.Collections;
 
 public class Truck : RealtimeComponent<TruckModel>
 {
@@ -24,6 +25,16 @@ public class Truck : RealtimeComponent<TruckModel>
     Rigidbody truckBody;
     Vector3 _startPosition => new Vector3(0, 30, 0);
 
+    //Truck Way Points System
+    [SerializeField]
+    private List<Transform> m_wayPoints;
+    [SerializeField]
+    private Transform currentWP;
+    [SerializeField]
+    private float steerRefreshTimer;
+    [SerializeField]
+    private int currentWPindex = 0;
+
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
@@ -36,6 +47,21 @@ public class Truck : RealtimeComponent<TruckModel>
         _rTTransforms.AddRange(GetComponentsInChildren<RealtimeTransform>());
         _rTTransforms.Add(GetComponent<RealtimeTransform>());
         _length = _wheels.Length;
+
+        ResetWayPoints();
+    }
+
+    public void ResetWayPoints()
+    {
+        //Find all waypoints with the waypoints tag
+        for (int i = (FindObjectsOfType<WayPoint>().Length-1); i > -1; i--)
+        {
+            m_wayPoints.Add(FindObjectsOfType<WayPoint>()[i].transform);
+        }
+
+        currentWP = m_wayPoints[0];
+        SetWayPointDirection(currentWP);
+        StartCoroutine(CheckSteering());
     }
     void ResetTransform()
     {
@@ -136,6 +162,56 @@ public class Truck : RealtimeComponent<TruckModel>
         }
     }
 
+    private IEnumerator CheckSteering()
+    {
+        while (true)
+        {
+            CheckWayPointTarget(currentWP, 5f);
+            SetWayPointDirection(currentWP);
+            yield return new WaitForSeconds(steerRefreshTimer);
+        }
+    }
+
+    void CheckWayPointTarget(Transform currentWaypoint, float distanceThreshold)
+    {
+        if (Vector3.Distance(this.transform.position, currentWaypoint.position) < distanceThreshold)
+        {
+            currentWPindex++;
+            SetWayPoint(currentWPindex);
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    void SetWayPoint(int wayPointIndex)
+    {
+        if (wayPointIndex > m_wayPoints.Count)
+        {
+            currentWPindex = wayPointIndex % m_wayPoints.Count;
+            currentWP = m_wayPoints[currentWPindex];
+            Debug.Log("spill over going to" + currentWPindex);
+    
+        }
+        else
+        {
+            currentWP = m_wayPoints[wayPointIndex];
+
+            Debug.Log("Going to" + wayPointIndex);
+        }
+    }
+
+    void SetWayPointDirection(Transform WP)
+    {
+        var steeringAngle =
+        Mathf.Clamp((Quaternion.FromToRotation(transform.forward, WP.transform.position - this.transform.position).y), -45, 45);
+         
+        Debug.Log("Current Steering Angle is" + steeringAngle);
+
+        _steeringAngle = steeringAngle;
+    }
+
     void SetOwner(int _id)
     {
         if (_id >= 0)
@@ -174,6 +250,8 @@ public class Truck : RealtimeComponent<TruckModel>
     #endregion
 
 }
+
+
 [Serializable]
 public class TruckWheel
 {

@@ -1010,6 +1010,10 @@ MonoBehaviour:
   _steeringAngle: 4
   _handBrake: 0
   explosionPoint: {x: 0, y: 0, z: 0}
+  m_wayPoints: []
+  currentWP: {fileID: 0}
+  steerRefreshTimer: 1
+  currentWPindex: 0
   _owner: 0
   _health: 0
   _maxHealth: 0
