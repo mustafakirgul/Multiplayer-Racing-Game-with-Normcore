@@ -359,7 +359,7 @@ public class WC_Car_Controller : MonoBehaviour
         inReverse = trueVelocity < 0f;
         ListenForInput();
 
-        currentTorque = Mathf.Lerp(currentTorque, verticalInput * torque, Time.deltaTime);
+        currentTorque = verticalInput * torque;
 
         if (velocity < .333f && verticalInput == 0f)
         {
