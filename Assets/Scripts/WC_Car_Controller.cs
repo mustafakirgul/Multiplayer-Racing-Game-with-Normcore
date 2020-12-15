@@ -11,6 +11,10 @@ public class WC_Car_Controller : MonoBehaviour
     //Car tunables
     public float torque;
     public float currentTorque;
+
+    [SerializeField]
+    private float torqueDistributionValue;
+
     public bool limitTopSpeed;
     [SerializeField]
     private float maxSpeed = 200f;
@@ -149,6 +153,8 @@ public class WC_Car_Controller : MonoBehaviour
             pebbleEmission = pebbles.emission;
         }
 
+        torqueDistributionValue = 1f / wheels.Count;
+
         if (_realtimeView.isOwnedLocallySelf)
         {
             isNetworkInstance = false;
@@ -166,6 +172,7 @@ public class WC_Car_Controller : MonoBehaviour
             for (int i = 0; i < wheelCount; i++)
             {
                 wheels[i].collider.wheelDampingRate = wheels[i].dampingRate;
+                wheels[i].collider.ConfigureVehicleSubsteps(5, 12, 15);
                 if (wheels[i].trail != null)
                 {
                     wheels[i].trail.emitting = false;
@@ -352,7 +359,7 @@ public class WC_Car_Controller : MonoBehaviour
         inReverse = trueVelocity < 0f;
         ListenForInput();
 
-        currentTorque = verticalInput * torque;
+        currentTorque = Mathf.Lerp(currentTorque ,verticalInput * torque, Time.deltaTime);
 
         if (velocity < .333f && verticalInput == 0f)
         {
@@ -462,8 +469,10 @@ public class WC_Car_Controller : MonoBehaviour
     private void RunWheels()
     {
         numberOfTiresTouchingGround = 0;
+      
         foreach (Wheel wheel in wheels)
         {
+            wheel.collider.ConfigureVehicleSubsteps(3, 10, 14);
             if (isBraking)
             {
                 wheel.collider.motorTorque = 0f;
@@ -474,7 +483,7 @@ public class WC_Car_Controller : MonoBehaviour
                 wheel.collider.brakeTorque = 0f;
                 if (wheel.isPowered)
                 {
-                    wheel.collider.motorTorque = currentTorque / wheels.Count;
+                    wheel.collider.motorTorque = currentTorque * torqueDistributionValue;
                 }
             }
 
