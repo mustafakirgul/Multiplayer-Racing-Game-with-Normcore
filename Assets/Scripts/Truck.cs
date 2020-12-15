@@ -3,6 +3,7 @@ using UnityEngine;
 using Normal.Realtime;
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 
 public class Truck : RealtimeComponent<TruckModel>
 {
@@ -62,6 +63,8 @@ public class Truck : RealtimeComponent<TruckModel>
         {
             m_wayPoints.Add(FindObjectsOfType<WayPoint>()[i].transform);
         }
+
+        m_wayPoints = m_wayPoints.OrderBy(waypoint => waypoint.transform.name).ToList();
 
         currentWP = m_wayPoints[0];
         SetWayPointDirection(currentWP);
