@@ -900,7 +900,7 @@ WheelCollider:
     damper: 12500
     targetPosition: 0.25
   m_SuspensionDistance: 0.4
-  m_ForceAppPointDistance: 0.2
+  m_ForceAppPointDistance: 0
   m_Mass: 200
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
@@ -1317,7 +1317,7 @@ WheelCollider:
     damper: 12500
     targetPosition: 0.25
   m_SuspensionDistance: 0.4
-  m_ForceAppPointDistance: 0.2
+  m_ForceAppPointDistance: 0
   m_Mass: 200
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
@@ -11436,7 +11436,7 @@ WheelCollider:
     damper: 12500
     targetPosition: 0.25
   m_SuspensionDistance: 0.4
-  m_ForceAppPointDistance: 0.2
+  m_ForceAppPointDistance: 0
   m_Mass: 200
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
@@ -11497,7 +11497,7 @@ WheelCollider:
     damper: 12500
     targetPosition: 0.25
   m_SuspensionDistance: 0.4
-  m_ForceAppPointDistance: 0.2
+  m_ForceAppPointDistance: 0
   m_Mass: 200
   m_WheelDampingRate: 0.25
   m_ForwardFriction:

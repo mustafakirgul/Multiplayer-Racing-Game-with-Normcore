@@ -359,7 +359,7 @@ public class WC_Car_Controller : MonoBehaviour
         inReverse = trueVelocity < 0f;
         ListenForInput();
 
-        currentTorque = Mathf.Lerp(currentTorque ,verticalInput * torque, Time.deltaTime);
+        currentTorque = Mathf.Lerp(currentTorque, verticalInput * torque, Time.deltaTime);
 
         if (velocity < .333f && verticalInput == 0f)
         {
@@ -469,7 +469,7 @@ public class WC_Car_Controller : MonoBehaviour
     private void RunWheels()
     {
         numberOfTiresTouchingGround = 0;
-      
+
         foreach (Wheel wheel in wheels)
         {
             wheel.collider.ConfigureVehicleSubsteps(3, 10, 14);
@@ -570,7 +570,7 @@ public class WC_Car_Controller : MonoBehaviour
                 horizontalInput = -Input.GetAxisRaw("Horizontal");
 
 
-            if (Input.GetKeyDown(KeyCode.R))//reset
+            if (Input.GetKeyDown(KeyCode.R) || Input.GetButton("Reset"))//reset
             {
                 if (Quaternion.Angle(Quaternion.identity, transform.rotation) > 45f)
                 {
@@ -582,42 +582,46 @@ public class WC_Car_Controller : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.E))//lights
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("Lights"))//lights
             {
                 lights = !lights;
                 RHL.enabled = lights;
                 LHL.enabled = lights;
             }
 
-            isBraking = Input.GetKey(KeyCode.Space);//handbrake;
+            isBraking = Input.GetKey(KeyCode.Space) || Input.GetButton("Brake");//handbrake;
 
-            if (Input.GetKeyDown(KeyCode.Q) && numberOfTiresTouchingGround > 0)//boost/dash
+            if (Input.GetKeyDown(KeyCode.Q) || Input.GetButtonDown("Boost"))//boost/dash
             {
-                if (boosterReady)
+                if (boosterReady && numberOfTiresTouchingGround > 0)
                 {
                     boosterReady = false;
                     carBody.AddForce(transform.forward * dashForce, ForceMode.VelocityChange);
                 }
             }
 
-            if (Input.GetKey(KeyCode.LeftControl) && readyToFire)
+            if (Input.GetKey(KeyCode.LeftControl) || Input.GetButton("Fire"))
             {
-                readyToFire = false;
-                _bulletBuffer = Realtime.Instantiate(WeaponProjectile.name,
-                position: _barrelTip.position,
-                rotation: _barrelTip.rotation,
-                ownedByClient: true,
-                useInstance: _realtime);
+                if (readyToFire)
+                {
+                    readyToFire = false;
+                    _bulletBuffer = Realtime.Instantiate(WeaponProjectile.name,
+                    position: _barrelTip.position,
+                    rotation: _barrelTip.rotation,
+                    ownedByClient: true,
+                    useInstance: _realtime);
 
-                //Old code
-                //_bulletBuffer.GetComponent<Bullet>().isNetworkInstance = false;
-                //_bulletBuffer.GetComponent<Bullet>().Fire(_barrelTip, velocity);
+                    //Old code
+                    //_bulletBuffer.GetComponent<Bullet>().isNetworkInstance = false;
+                    //_bulletBuffer.GetComponent<Bullet>().Fire(_barrelTip, velocity);
 
-                _bulletBuffer.GetComponent<WeaponProjectileBase>().isNetworkInstance = false;
-                _bulletBuffer.GetComponent<WeaponProjectileBase>().Fire(_barrelTip, velocity);
-                _bulletBuffer.GetComponent<WeaponProjectileBase>().ownerID = ownerID;
+                    _bulletBuffer.GetComponent<WeaponProjectileBase>().isNetworkInstance = false;
+                    _bulletBuffer.GetComponent<WeaponProjectileBase>().Fire(_barrelTip, velocity);
+                    _bulletBuffer.GetComponent<WeaponProjectileBase>().ownerID = ownerID;
 
-                StartCoroutine(FireCR());
+                    StartCoroutine(FireCR());
+                }
+
             }
 
             //AutoDamage Debug
