@@ -9,14 +9,11 @@ public class NewCarController : MonoBehaviour
     Rigidbody CarRB;
 
     private float moveInput, turnInput;
-
-    public float fwdSpeed, reverseSpd, turnSpd;
-
+    public float fwdSpeed, reverseSpd, turnSpd, turningFwdSpeed;
     public float airDrag, groundDrag;
 
     public LayerMask groundLayer;
-
-    public float rotationLerpSpeedforNormalBasedRotation;
+    public float lerpRotationSpeed;
 
     [SerializeField]
     private bool isGrounded;
@@ -32,10 +29,10 @@ public class NewCarController : MonoBehaviour
         DetectInput();
         DragCheck();
         GroundCheck();
+        RotationCheck();
 
         transform.position = CarRB.transform.position;
     }
-
     void DetectInput()
     {
         moveInput = Input.GetAxis("Vertical");
@@ -55,6 +52,8 @@ public class NewCarController : MonoBehaviour
     {
         RaycastHit hit;
         isGrounded = Physics.Raycast(transform.position, -transform.up, out hit, 1f, groundLayer);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, (Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation), Time.deltaTime * lerpRotationSpeed);
     }
 
 
@@ -74,29 +73,44 @@ public class NewCarController : MonoBehaviour
         if (isGrounded)
         {
             CarRB.AddForce(transform.forward * moveInput, ForceMode.Acceleration);
-
-            if (turnInput == 0)
-            {
-                RotationCheck();
-            }
-            else
-            {
-                float newRotation = turnInput * turnSpd * Time.fixedDeltaTime;
-                CarRB.rotation = Quaternion.Euler(transform.rotation.x, newRotation, transform.rotation.z);
-                //transform.Rotate(0, newRotation, 0, Space.World);
-            }
         }
         else
         {
-            //CarRB.AddForce(transform.up * -30f);
+            //Increase artifical gravity when in freefall
+            CarRB.AddForce(transform.up * -30f);
         }
-
     }
 
     private void RotationCheck()
     {
-        Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, Mathf.Infinity, groundLayer);
+        //transform.rotation = Quaternion.Euler(transform.rotation.x, newRotation, transform.rotation.z);
+        //transform.Rotate(0, Mathf.Lerp(transform.rotation.eulerAngles.y, newRotation, Time.deltaTime), 0, Space.World);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, newRotation, 0), Time.deltaTime);
 
+        //Debug.Log(" Vertical input is: " + moveInput);
+        //if only pressing turning there should be a small amount of acceleration/speed so car is not turning on its own without momentum
+
+        if (turnInput != 0 && moveInput == 0)
+        {
+            //Debug.Log("Stationary Turning");
+            float StationaryRotation = turnInput * turnSpd * Time.deltaTime;
+            CarRB.AddForce(transform.forward * turningFwdSpeed, ForceMode.Acceleration);
+            transform.Rotate(0, StationaryRotation, 0, Space.World);
+        }
+        else
+        {
+            float motionRotation = turnInput * turnSpd * Time.deltaTime* Input.GetAxisRaw("Vertical");
+            transform.Rotate(0, motionRotation, 0, Space.World);
+        }
+
+        //if (newRotation == 0)
+        //{
+        //}
+        //else
+        //{
+        //    transform.Rotate(0, newRotation, 0, Space.World);
+        //    transform.Rotate(0, Mathf.Lerp(transform.rotation.eulerAngles.y, newRotation, Time.deltaTime), 0, Space.World);
+        //}
 
         //transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal.normalized);
 
@@ -108,7 +122,7 @@ public class NewCarController : MonoBehaviour
         //Damp(transform.rotation.z, hit.point.z, rotationLerpSpeedforNormalBasedRotation, Time.fixedDeltaTime)
         //));
 
-        CarRB.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.up, hit.normal), 1 - Mathf.Exp(-Time.fixedDeltaTime * rotationLerpSpeedforNormalBasedRotation));
+        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.up, hit.normal), 1 - Mathf.Exp(-Time.fixedDeltaTime * rotationLerpSpeedforNormalBasedRotation));
     }
 
     //Framerate aware damping

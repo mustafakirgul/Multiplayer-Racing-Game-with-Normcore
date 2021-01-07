@@ -246,11 +246,13 @@ MonoBehaviour:
   fwdSpeed: 100
   reverseSpd: 50
   turnSpd: 75
+  turningFwdSpeed: 35
   airDrag: 1
   groundDrag: 4
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
+  lerpRotationSpeed: 6
   isGrounded: 0
 --- !u!4 &70626758
 Transform:
@@ -606,7 +608,7 @@ GameObject:
   - component: {fileID: 333287404}
   - component: {fileID: 333287403}
   - component: {fileID: 333287402}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -882,7 +884,7 @@ GameObject:
   - component: {fileID: 362395106}
   - component: {fileID: 362395105}
   - component: {fileID: 362395104}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1048,7 +1050,7 @@ GameObject:
   - component: {fileID: 385850811}
   - component: {fileID: 385850810}
   - component: {fileID: 385850809}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
