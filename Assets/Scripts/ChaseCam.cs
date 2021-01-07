@@ -27,7 +27,7 @@ public class ChaseCam : MonoBehaviour
             isInitialized = true;
         }
     }
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         if (isInitialized)
         {
@@ -44,7 +44,7 @@ public class ChaseCam : MonoBehaviour
             transform.position = Vector3.Lerp(
                 transform.position,
                 positionTarget,
-                Time.deltaTime * LERPSpeed);
+                1 - Mathf.Exp(-Time.fixedDeltaTime * LERPSpeed));
         }
         else if (target != null)
         {
