@@ -254,6 +254,37 @@ MonoBehaviour:
     m_Bits: 512
   lerpRotationSpeed: 6
   isGrounded: 0
+  wheels:
+  - t: {fileID: 360251292}
+    wheelT: {fileID: 1466153169}
+    trail: {fileID: 635076008}
+    isPowered: 1
+    isSteeringWheel: 0
+    suspensionHeight: 0.25
+    wheelSize: 0.2
+  - t: {fileID: 363153593}
+    wheelT: {fileID: 1672071401}
+    trail: {fileID: 315544010}
+    isPowered: 1
+    isSteeringWheel: 0
+    suspensionHeight: 0.25
+    wheelSize: 0.2
+  - t: {fileID: 1758699783}
+    wheelT: {fileID: 2075063734}
+    trail: {fileID: 1213410461}
+    isPowered: 0
+    isSteeringWheel: 1
+    suspensionHeight: 0.25
+    wheelSize: 0.2
+  - t: {fileID: 1012296030}
+    wheelT: {fileID: 138027161}
+    trail: {fileID: 884196433}
+    isPowered: 0
+    isSteeringWheel: 1
+    suspensionHeight: 0.25
+    wheelSize: 0.2
+  maxSteeringAngle: 45
+  wheelTurnFactor: 100
 --- !u!4 &70626758
 Transform:
   m_ObjectHideFlags: 0
@@ -409,7 +440,7 @@ Transform:
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_Children: []
   m_Father: {fileID: 1038648111}
-  m_RootOrder: 3
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &315544012
 TrailRenderer:
@@ -871,7 +902,13 @@ MonoBehaviour:
   _components:
   - componentID: 1
     component: {fileID: 360251293}
-  _childViews: []
+  _childViews:
+  - viewID: 1
+    view: {fileID: 363153595}
+  - viewID: 2
+    view: {fileID: 1758699785}
+  - viewID: 3
+    view: {fileID: 1012296032}
 --- !u!1 &362395103
 GameObject:
   m_ObjectHideFlags: 0
@@ -996,7 +1033,7 @@ Transform:
   m_Children:
   - {fileID: 1672071401}
   m_Father: {fileID: 1038648111}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!114 &363153594
 MonoBehaviour:
@@ -1225,7 +1262,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b9c60115efc954da68b06b063046862b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.093364716
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b9c60115efc954da68b06b063046862b,
         type: 3}
@@ -1334,7 +1371,7 @@ Transform:
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_Children: []
   m_Father: {fileID: 1038648111}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &635076010
 TrailRenderer:
@@ -1471,7 +1508,7 @@ Transform:
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_Children: []
   m_Father: {fileID: 1038648111}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &884196435
 TrailRenderer:
@@ -1610,7 +1647,7 @@ Transform:
   m_Children:
   - {fileID: 138027161}
   m_Father: {fileID: 1038648111}
-  m_RootOrder: 7
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1012296031
 MonoBehaviour:
@@ -1681,13 +1718,13 @@ Transform:
   m_Children:
   - {fileID: 581492367}
   - {fileID: 360251292}
-  - {fileID: 635076009}
-  - {fileID: 315544011}
   - {fileID: 363153593}
   - {fileID: 1758699783}
-  - {fileID: 1213410462}
   - {fileID: 1012296030}
+  - {fileID: 635076009}
+  - {fileID: 315544011}
   - {fileID: 884196434}
+  - {fileID: 1213410462}
   m_Father: {fileID: 70626758}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1720,7 +1757,7 @@ Transform:
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_Children: []
   m_Father: {fileID: 1038648111}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &1213410463
 TrailRenderer:
@@ -1990,7 +2027,7 @@ MonoBehaviour:
   target: {fileID: 70626758}
   placeOffset: {x: 0, y: 6, z: -12}
   lookAtOffset: {x: 0, y: 4, z: 5}
-  LERPSpeed: 6
+  LERPSpeed: 2
   drawDebugLines: 0
 --- !u!114 &1697502379
 MonoBehaviour:
@@ -2054,7 +2091,7 @@ Transform:
   m_Children:
   - {fileID: 2075063734}
   m_Father: {fileID: 1038648111}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1758699784
 MonoBehaviour:

@@ -17,12 +17,19 @@ public class NewCarController : MonoBehaviour
 
     [SerializeField]
     private bool isGrounded;
-
+    [SerializeField]
     public ArcadeWheel[] wheels;
+    int wheelCount;
+    Quaternion _tempQ;
+    Vector3 _tempV;
+    public float maxSteeringAngle;
+    public float wheelTurnFactor;
+
     // Start is called before the first frame update
     void Start()
     {
         CarRB.transform.parent = null;
+        wheelCount = wheels.Length;
     }
 
     // Update is called once per frame
@@ -32,8 +39,48 @@ public class NewCarController : MonoBehaviour
         DragCheck();
         GroundCheck();
         RotationCheck();
-
+        TurnTheWheels();
         transform.position = CarRB.transform.position;
+    }
+
+    private void TurnTheWheels()
+    {
+        for (int i = 0; i < wheelCount; i++)
+        {
+            Debug.DrawLine(wheels[i].t.position, wheels[i].t.position + (-wheels[i].t.up * wheels[i].suspensionHeight), Color.white);
+            if (Physics.Raycast(wheels[i].t.position, -wheels[i].t.up, out RaycastHit hit, wheels[i].suspensionHeight, groundLayer))
+            {
+                Debug.DrawLine(wheels[i].t.position, hit.point, Color.red);
+                _tempV = wheels[i].wheelT.InverseTransformPoint(hit.point);
+                wheels[i].wheelT.localPosition = new Vector3(_tempV.x, _tempV.y-wheels[i].wheelSize, _tempV.z);
+            }
+            else
+            {
+                wheels[i].wheelT.localPosition = new Vector3(wheels[i].wheelT.localPosition.x, wheels[i].suspensionHeight - wheels[i].wheelSize, wheels[i].wheelT.localPosition.z);
+            }
+            if (wheels[i].isSteeringWheel)
+            {
+                _tempQ = wheels[i].t.localRotation;
+                wheels[i].wheelT.localEulerAngles = new Vector3(_tempQ.eulerAngles.x, turnInput * maxSteeringAngle, _tempQ.eulerAngles.z);
+            }
+
+            if (wheels[i].isPowered)
+            {
+                if (moveInput != 0)
+                {
+                    wheels[i].wheelT.Rotate(Vector3.right * Time.deltaTime * moveInput * wheelTurnFactor);
+                }
+                else
+                {
+                    wheels[i].wheelT.Rotate(Vector3.right * Time.deltaTime * LocalVelocity() * wheelTurnFactor);
+                }
+            }
+            else
+            {
+                wheels[i].wheelT.Rotate(Vector3.right * Time.deltaTime * LocalVelocity() * wheelTurnFactor);
+            }
+        }
+
     }
     void DetectInput()
     {
@@ -52,9 +99,7 @@ public class NewCarController : MonoBehaviour
 
     void GroundCheck()
     {
-        RaycastHit hit;
-        isGrounded = Physics.Raycast(transform.position, -transform.up, out hit, 1f, groundLayer);
-
+        isGrounded = Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, 1f, groundLayer);
         transform.rotation = Quaternion.Slerp(transform.rotation, (Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation), Time.deltaTime * lerpRotationSpeed);
     }
 
@@ -91,7 +136,6 @@ public class NewCarController : MonoBehaviour
 
         //Debug.Log(" Vertical input is: " + moveInput);
         //if only pressing turning there should be a small amount of acceleration/speed so car is not turning on its own without momentum
-
         if (turnInput != 0 && moveInput == 0)
         {
             //Debug.Log("Stationary Turning");
@@ -101,12 +145,12 @@ public class NewCarController : MonoBehaviour
         }
         else
         {
-            float motionRotation = turnInput * turnSpd * Time.deltaTime* Input.GetAxisRaw("Vertical");
+            float motionRotation = turnInput * turnSpd * Time.deltaTime * Input.GetAxisRaw("Vertical");
             transform.Rotate(0, motionRotation, 0, Space.World);
-        }        
+        }
     }
-    
-    public float _localVelovity()
+
+    public float LocalVelocity()
     {
         Vector3 localVelocity = CarRB.transform.InverseTransformDirection(CarRB.velocity);
         return localVelocity.z;
@@ -138,7 +182,11 @@ public class NewCarController : MonoBehaviour
 [Serializable]
 public struct ArcadeWheel
 {
-    Transform t;
-    bool isPowered;
-    bool isSteeringWheel;
+    public Transform t;//connection point to the car
+    public Transform wheelT;//transform of actual wheel
+    public GameObject trail;
+    public bool isPowered;
+    public bool isSteeringWheel;
+    public float suspensionHeight;
+    public float wheelSize;//radius of the wheel (r)
 }
