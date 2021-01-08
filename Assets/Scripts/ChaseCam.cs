@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class ChaseCam : MonoBehaviour
 {
+    // The target we are following
     public Transform target;
-    Vector3 lookAtTarget, positionTarget;
-    public Vector3 placeOffset, lookAtOffset;
-    public float LERPSpeed;
-    public bool drawDebugLines;
     private bool isInitialized;
+
+    // The distance in the x-z plane to the target
+    public float distance = 10.0f;
+    // the height we want the camera to be above the target
+    public float height = 5.0f;
+    public float rotationDamping;
+    public float heightDamping;
 
     private void Start()
     {
@@ -18,7 +22,6 @@ public class ChaseCam : MonoBehaviour
             InitCamera(target);
         }
     }
-
     public void InitCamera(Transform _target)
     {
         if (!isInitialized)
@@ -31,20 +34,31 @@ public class ChaseCam : MonoBehaviour
     {
         if (isInitialized)
         {
-            lookAtTarget = target.TransformPoint(lookAtOffset);
-            positionTarget = target.TransformPoint(placeOffset);
-            if (drawDebugLines)
-            {
-                Debug.DrawLine(target.position, lookAtTarget, Color.red);
-                Debug.DrawLine(target.position, positionTarget, Color.yellow);
-                Debug.DrawLine(transform.position, lookAtTarget, Color.green);
-                Debug.DrawLine(transform.position, positionTarget, Color.blue);
-            }
-            transform.LookAt(lookAtTarget);
-            transform.position = Vector3.Lerp(
-                transform.position,
-                positionTarget,
-                1 - Mathf.Exp(-Time.deltaTime * LERPSpeed));
+            float wantedRotationAngle = target.eulerAngles.y;
+            float wantedHeight = target.position.y + height;
+
+            float currentRotationAngle = transform.eulerAngles.y;
+            float currentHeight = transform.position.y;
+
+            // Damp the rotation around the y-axis
+            currentRotationAngle = Mathf.LerpAngle(currentRotationAngle, wantedRotationAngle, rotationDamping * Time.deltaTime);
+
+            // Damp the height
+            currentHeight = Mathf.Lerp(currentHeight, wantedHeight, heightDamping * Time.deltaTime);
+
+            // Convert the angle into a rotation
+            Quaternion currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
+
+            // Set the position of the camera on the x-z plane to:
+            // distance meters behind the target
+            transform.position = target.position;
+            transform.position -= currentRotation * Vector3.forward * distance;
+
+            // Set the height of the camera
+            transform.position = new Vector3(transform.position.x, currentHeight, transform.position.z);
+
+            // Always look at the target
+            transform.LookAt(target);
         }
         else if (target != null)
         {
