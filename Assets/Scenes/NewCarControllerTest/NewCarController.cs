@@ -17,6 +17,8 @@ public class NewCarController : MonoBehaviour
 
     [SerializeField]
     private bool isGrounded;
+
+    public ArcadeWheel[] wheels;
     // Start is called before the first frame update
     void Start()
     {
@@ -101,28 +103,13 @@ public class NewCarController : MonoBehaviour
         {
             float motionRotation = turnInput * turnSpd * Time.deltaTime* Input.GetAxisRaw("Vertical");
             transform.Rotate(0, motionRotation, 0, Space.World);
-        }
-
-        //if (newRotation == 0)
-        //{
-        //}
-        //else
-        //{
-        //    transform.Rotate(0, newRotation, 0, Space.World);
-        //    transform.Rotate(0, Mathf.Lerp(transform.rotation.eulerAngles.y, newRotation, Time.deltaTime), 0, Space.World);
-        //}
-
-        //transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal.normalized);
-
-        //transform.up = Vector3.Lerp(transform.up, hit.normal, Time.fixedDeltaTime * rotationLerpSpeedforNormalBasedRotation);
-
-        //(
-        //Quaternion.Euler(Damp(transform.rotation.x,hit.point.x,rotationLerpSpeedforNormalBasedRotation,Time.fixedDeltaTime), 
-        //transform.rotation.y,
-        //Damp(transform.rotation.z, hit.point.z, rotationLerpSpeedforNormalBasedRotation, Time.fixedDeltaTime)
-        //));
-
-        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.up, hit.normal), 1 - Mathf.Exp(-Time.fixedDeltaTime * rotationLerpSpeedforNormalBasedRotation));
+        }        
+    }
+    
+    public float _localVelovity()
+    {
+        Vector3 localVelocity = CarRB.transform.InverseTransformDirection(CarRB.velocity);
+        return localVelocity.z;
     }
 
     //Framerate aware damping
@@ -147,4 +134,11 @@ public class NewCarController : MonoBehaviour
         }
         return carAngle;
     }
+}
+[Serializable]
+public struct ArcadeWheel
+{
+    Transform t;
+    bool isPowered;
+    bool isSteeringWheel;
 }
