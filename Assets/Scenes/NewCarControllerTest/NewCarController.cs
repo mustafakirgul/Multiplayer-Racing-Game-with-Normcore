@@ -21,7 +21,7 @@ public class NewCarController : MonoBehaviour
     public ArcadeWheel[] wheels;
     int wheelCount;
     Quaternion _tempQ;
-    Vector3 _tempV;
+    float _tempSuspensionDistance;
     public float maxSteeringAngle;
     public float wheelTurnFactor;
 
@@ -30,6 +30,10 @@ public class NewCarController : MonoBehaviour
     {
         CarRB.transform.parent = null;
         wheelCount = wheels.Length;
+        for (int i = 0; i < wheels.Length; i++)
+        {
+            wheels[i].originY = wheels[i].wheelT.localPosition.y;
+        }
     }
 
     // Update is called once per frame
@@ -47,17 +51,15 @@ public class NewCarController : MonoBehaviour
     {
         for (int i = 0; i < wheelCount; i++)
         {
-            Debug.DrawLine(wheels[i].t.position, wheels[i].t.position + (-wheels[i].t.up * wheels[i].suspensionHeight), Color.white);
-            if (Physics.Raycast(wheels[i].t.position, -wheels[i].t.up, out RaycastHit hit, wheels[i].suspensionHeight, groundLayer))
-            {
-                Debug.DrawLine(wheels[i].t.position, hit.point, Color.red);
-                _tempV = wheels[i].wheelT.InverseTransformPoint(hit.point);
-                wheels[i].wheelT.localPosition = new Vector3(_tempV.x, _tempV.y-wheels[i].wheelSize, _tempV.z);
-            }
-            else
-            {
-                wheels[i].wheelT.localPosition = new Vector3(wheels[i].wheelT.localPosition.x, wheels[i].suspensionHeight - wheels[i].wheelSize, wheels[i].wheelT.localPosition.z);
-            }
+            Debug.DrawRay(wheels[i].t.position, -wheels[i].t.up, Color.white);
+            Physics.Raycast(wheels[i].t.position, -wheels[i].t.up, out RaycastHit hit, Mathf.Infinity, groundLayer);
+            _tempSuspensionDistance = Mathf.Clamp(hit.distance, 0, wheels[i].suspensionHeight);
+            wheels[i].trail.GetComponent<TrailRenderer>().emitting = hit.distance < wheels[i].suspensionHeight + wheels[i].wheelSize;
+
+            Debug.DrawLine(wheels[i].t.position, hit.point, Color.red);
+
+            wheels[i].wheelT.localPosition = new Vector3(wheels[i].wheelT.localPosition.x, wheels[i].originY - _tempSuspensionDistance + wheels[i].wheelSize, wheels[i].wheelT.localPosition.z);
+
             if (wheels[i].isSteeringWheel)
             {
                 _tempQ = wheels[i].t.localRotation;
@@ -189,4 +191,5 @@ public struct ArcadeWheel
     public bool isSteeringWheel;
     public float suspensionHeight;
     public float wheelSize;//radius of the wheel (r)
+    public float originY;
 }
