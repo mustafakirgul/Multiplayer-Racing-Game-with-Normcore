@@ -24,6 +24,12 @@ public class NewCarController : MonoBehaviour
     float _tempSuspensionDistance;
     public float maxSteeringAngle;
     public float wheelTurnFactor;
+    public Transform carBody;
+    public float maxZrotation, maxXRotation;
+    public float zRotationLERPSpeed, xRotationLERPSpeed;
+    public float rotationCooldownTime;
+    float currentZ, currentX;
+    float XTimer, ZTimer, XFactor, ZFactor;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +40,8 @@ public class NewCarController : MonoBehaviour
         {
             wheels[i].originY = wheels[i].wheelT.localPosition.y;
         }
+        currentX = carBody.localEulerAngles.x;
+        currentZ = carBody.localEulerAngles.z;
     }
 
     // Update is called once per frame
@@ -86,8 +94,39 @@ public class NewCarController : MonoBehaviour
     }
     void DetectInput()
     {
+        if (moveInput != Input.GetAxis("Vertical") && moveInput == 0)
+        {
+            XTimer = rotationCooldownTime;
+        }
+
+        if (turnInput == 0 && Input.GetAxis("Horizontal") != turnInput)
+        {
+            ZTimer = rotationCooldownTime;
+        }
+
         moveInput = Input.GetAxis("Vertical");
         turnInput = Input.GetAxis("Horizontal");
+
+
+
+        if (XTimer > 0f)
+        {
+            XTimer -= Time.deltaTime;
+            XFactor = (XTimer / rotationCooldownTime)*maxXRotation;
+            currentX = Mathf.Clamp(Mathf.LerpAngle(currentX, -moveInput * maxXRotation, xRotationLERPSpeed * Time.deltaTime), -XFactor, XFactor);
+
+        }
+
+        if (ZTimer > 0f)
+        {
+            ZTimer -= Time.deltaTime;
+            ZFactor = (ZTimer / rotationCooldownTime) * maxZrotation;
+            currentZ = Mathf.Clamp(Mathf.LerpAngle(currentZ, turnInput * maxZrotation, zRotationLERPSpeed * Time.deltaTime), -ZFactor, ZFactor);
+        }
+
+
+        carBody.localEulerAngles = new Vector3(currentX, carBody.localEulerAngles.y, currentZ);
+
 
         if (moveInput > 0)
         {

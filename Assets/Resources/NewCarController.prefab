@@ -81,7 +81,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1132834544037804679}
@@ -706,7 +706,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1132834545439077072}
@@ -779,7 +779,7 @@ GameObject:
   - component: {fileID: 1132834545575147081}
   - component: {fileID: 1132834545575147082}
   m_Layer: 0
-  m_Name: Car
+  m_Name: NewCarController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -860,6 +860,12 @@ MonoBehaviour:
     originY: 0
   maxSteeringAngle: 45
   wheelTurnFactor: 100
+  carBody: {fileID: 0}
+  maxZrotation: 0
+  maxXRotation: 0
+  zRotationLERPSpeed: 0
+  xRotationLERPSpeed: 0
+  rotationCooldownTime: 0
 --- !u!1 &1132834545641700119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1346,7 +1352,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1132834545855456274}
@@ -1425,7 +1431,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1132834545869837109}
