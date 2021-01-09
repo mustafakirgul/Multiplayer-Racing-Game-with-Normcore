@@ -30,6 +30,12 @@ public class ChaseCam : MonoBehaviour
             isInitialized = true;
         }
     }
+
+    public void ResetCam()
+    {
+        isInitialized = false;
+    }
+
     private void LateUpdate()
     {
         if (isInitialized)

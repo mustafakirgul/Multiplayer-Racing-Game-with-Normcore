@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Normal.Realtime;
 
 public class NewCarController : MonoBehaviour
 {
@@ -31,10 +32,58 @@ public class NewCarController : MonoBehaviour
     float currentZ, currentX;
     float XTimer, ZTimer, XFactor, ZFactor;
 
+    //Neworking Related Functionalities
+    private RealtimeView _realtimeView;
+    private RealtimeTransform _realtimeTransform;
+    public Realtime _realtime;
+    public float ownerID;
+    private ChaseCam followCamera;
+    [SerializeField]
+    private Transform CameraContainer;
+
+    //Weapon Controls
+    [SerializeField]
+    private GameObject WeaponProjectile;
+    private GameObject _bulletBuffer;
+    public Transform _barrelTip;
+    public float fireRate;//number of bullets fired per second //Weapon Change should affect this variable
+    public bool readyToFire = false;
+    public GameObject muzzleFlash;
+    float fireTimer;
+    public int ProjectileOwnerID;
+
+    private WaitForSeconds wait, muzzleWait;
+
+    //QA
+    [HideInInspector]
+    public int _bombs;
+    public bool offlineTest;
+
+    private void Awake()
+    {
+        if (!offlineTest)
+        {
+            _realtime = FindObjectOfType<Realtime>();
+            _realtimeView = GetComponent<RealtimeView>();
+            _realtimeTransform = GetComponent<RealtimeTransform>();
+            ownerID = _realtime.room.clientID;
+            fireTimer = 1f / fireRate;
+        }
+        wait = new WaitForSeconds(fireTimer);
+        muzzleWait = new WaitForSeconds(.2f);
+        InitCamera();
+    }
+
+    void InitCamera()
+    {
+        followCamera = GameObject.FindObjectOfType<ChaseCam>();
+        followCamera.InitCamera(CameraContainer);
+    }
     // Start is called before the first frame update
     void Start()
     {
         CarRB.transform.parent = null;
+        StartCoroutine(FireCR());
         wheelCount = wheels.Length;
         for (int i = 0; i < wheels.Length; i++)
         {
@@ -53,6 +102,13 @@ public class NewCarController : MonoBehaviour
         RotationCheck();
         TurnTheWheels();
         transform.position = CarRB.transform.position;
+    }
+
+    private float ProjectileVelocity(Vector3 velocity)
+    {
+        float trueVelocity = transform.InverseTransformVector(velocity).z;
+        float projectileVelocity = Mathf.Abs(trueVelocity);
+        return projectileVelocity;
     }
 
     private void TurnTheWheels()
@@ -91,6 +147,18 @@ public class NewCarController : MonoBehaviour
             }
         }
 
+        //Networking for wheels
+        if (!offlineTest)
+        {
+            _realtimeView.RequestOwnership();
+            _realtimeTransform.RequestOwnership();
+            for (int i = 0; i < wheelCount; i++)
+            {
+                wheels[i].wheelRTV.RequestOwnership();
+                wheels[i].wheelRT.RequestOwnership();
+            }
+        }
+
     }
     void DetectInput()
     {
@@ -112,7 +180,7 @@ public class NewCarController : MonoBehaviour
         if (XTimer > 0f)
         {
             XTimer -= Time.deltaTime;
-            XFactor = (XTimer / rotationCooldownTime)*maxXRotation;
+            XFactor = (XTimer / rotationCooldownTime) * maxXRotation;
             currentX = Mathf.Clamp(Mathf.LerpAngle(currentX, -moveInput * maxXRotation, xRotationLERPSpeed * Time.deltaTime), -XFactor, XFactor);
 
         }
@@ -136,7 +204,33 @@ public class NewCarController : MonoBehaviour
         {
             moveInput *= reverseSpd;
         }
+
+        //Weapon Controls
+        if (Input.GetKey(KeyCode.LeftControl) || Input.GetButton("Fire"))
+        {
+            if (readyToFire)
+            {
+                readyToFire = false;
+                _bulletBuffer = Realtime.Instantiate(WeaponProjectile.name,
+                position: _barrelTip.position,
+                rotation: _barrelTip.rotation,
+                ownedByClient: true,
+                useInstance: _realtime);
+
+                //Old code
+                //_bulletBuffer.GetComponent<Bullet>().isNetworkInstance = false;
+                //_bulletBuffer.GetComponent<Bullet>().Fire(_barrelTip, velocity);
+
+                _bulletBuffer.GetComponent<WeaponProjectileBase>().isNetworkInstance = false;
+                _bulletBuffer.GetComponent<WeaponProjectileBase>().Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
+                _bulletBuffer.GetComponent<WeaponProjectileBase>().ownerID = ProjectileOwnerID;
+
+                StartCoroutine(FireCR());
+            }
+        }
     }
+
+
 
     void GroundCheck()
     {
@@ -219,12 +313,29 @@ public class NewCarController : MonoBehaviour
         }
         return carAngle;
     }
+
+    //Weapon Firing Codes
+    private IEnumerator FireCR()
+    {
+        _bombs++;
+        muzzleFlash.SetActive(true);
+        StartCoroutine(MuzzleToggle());
+        yield return wait;
+        readyToFire = true;
+    }
+    IEnumerator MuzzleToggle()
+    {
+        yield return muzzleWait;
+        muzzleFlash.SetActive(false);
+    }
 }
 [Serializable]
 public struct ArcadeWheel
 {
     public Transform t;//connection point to the car
     public Transform wheelT;//transform of actual wheel
+    public RealtimeView wheelRTV;
+    public RealtimeTransform wheelRT;
     public GameObject trail;
     public bool isPowered;
     public bool isSteeringWheel;

@@ -54,14 +54,14 @@ public class NetworkManager : MonoBehaviour
         switch (_selection)
         {
             case 1:
-                preferredCar = "Car1";
+                preferredCar = "NewCar1";
                 break;
             case 2:
                 preferredCar = "Car2";
                 break;
             case 3:
                 preferredCar = "Car3";
-                break; 
+                break;
             default:
                 break;
         }
@@ -81,7 +81,14 @@ public class NetworkManager : MonoBehaviour
             preventOwnershipTakeover: true,
                          useInstance: _realtime);
 
-        _temp.GetComponent<WC_Car_Controller>()._realtime = _realtime;
+        if (_temp.GetComponent<NewCarController>()._realtime)
+        {
+            _temp.GetComponent<NewCarController>()._realtime = _realtime;
+        }
+        else
+        {
+            _temp.GetComponent<NewCarController>()._realtime = _realtime;
+        }
         _temp.GetComponent<Player>().SetPlayerName(playerNameInputField.text);
         FindObjectOfType<MiniMapCamera>()._master = _temp.transform;
         _enterNameCanvas.gameObject.SetActive(false);
