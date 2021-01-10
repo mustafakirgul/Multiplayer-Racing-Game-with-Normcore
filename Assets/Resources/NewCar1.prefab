@@ -899,17 +899,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CarRB: {fileID: 1132834545854288050}
-  fwdSpeed: 100
-  reverseSpd: 50
+  fwdSpeed: 150
+  reverseSpd: 75
   turnSpd: 75
   turningFwdSpeed: 35
-  airDrag: 1
+  airDrag: 0
   groundDrag: 4
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
   lerpRotationSpeed: 6
   isGrounded: 0
+  extraGravity: 20
   wheels:
   - t: {fileID: 1132834545855456275}
     wheelT: {fileID: 1132834544749781854}

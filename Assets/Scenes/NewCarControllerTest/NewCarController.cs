@@ -18,6 +18,7 @@ public class NewCarController : MonoBehaviour
 
     [SerializeField]
     private bool isGrounded;
+    public float extraGravity;
     [SerializeField]
     public ArcadeWheel[] wheels;
     int wheelCount;
@@ -234,7 +235,7 @@ public class NewCarController : MonoBehaviour
 
     void GroundCheck()
     {
-        isGrounded = Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, 1f, groundLayer);
+        isGrounded = Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, 2f, groundLayer);
         transform.rotation = Quaternion.Slerp(transform.rotation, (Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation), Time.deltaTime * lerpRotationSpeed);
     }
 
@@ -259,7 +260,8 @@ public class NewCarController : MonoBehaviour
         else
         {
             //Increase artifical gravity when in freefall
-            CarRB.AddForce(transform.up * -30f);
+            //CarRB.AddForce(transform.forward * 5f, ForceMode.Force);
+            CarRB.AddForce(-Vector3.up * extraGravity * 100f);
         }
     }
 
@@ -271,17 +273,21 @@ public class NewCarController : MonoBehaviour
 
         //Debug.Log(" Vertical input is: " + moveInput);
         //if only pressing turning there should be a small amount of acceleration/speed so car is not turning on its own without momentum
-        if (turnInput != 0 && moveInput == 0)
+        if (isGrounded)
         {
-            //Debug.Log("Stationary Turning");
-            float StationaryRotation = turnInput * turnSpd * Time.deltaTime;
-            CarRB.AddForce(transform.forward * turningFwdSpeed, ForceMode.Acceleration);
-            transform.Rotate(0, StationaryRotation, 0, Space.World);
-        }
-        else
-        {
-            float motionRotation = turnInput * turnSpd * Time.deltaTime * Input.GetAxisRaw("Vertical");
-            transform.Rotate(0, motionRotation, 0, Space.World);
+
+            if (turnInput != 0 && moveInput == 0)
+            {
+                //Debug.Log("Stationary Turning");
+                float StationaryRotation = turnInput * turnSpd * Time.deltaTime;
+                CarRB.AddForce(transform.forward * turningFwdSpeed, ForceMode.Acceleration);
+                transform.Rotate(0, StationaryRotation, 0, Space.World);
+            }
+            else
+            {
+                float motionRotation = turnInput * turnSpd * Time.deltaTime * Input.GetAxisRaw("Vertical");
+                transform.Rotate(0, motionRotation, 0, Space.World);
+            }
         }
     }
 
