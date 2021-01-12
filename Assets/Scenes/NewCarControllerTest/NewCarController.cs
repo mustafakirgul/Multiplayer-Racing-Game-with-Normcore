@@ -72,7 +72,8 @@ public class NewCarController : MonoBehaviour
         }
         wait = new WaitForSeconds(fireTimer);
         muzzleWait = new WaitForSeconds(.2f);
-        InitCamera();
+        if (_realtimeView.isOwnedLocallySelf)
+            InitCamera();
     }
 
     void InitCamera()
