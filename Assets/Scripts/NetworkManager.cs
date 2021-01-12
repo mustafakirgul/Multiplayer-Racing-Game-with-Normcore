@@ -12,13 +12,13 @@ public class NetworkManager : MonoBehaviour
     public Camera _miniMapCamera;
     public string preferredCar;
     string _tempName;
-    Camera_Controller chaseCam;
+    ChaseCam chaseCam;
 
     //bool isConnected;
 
     private void Awake()
     {
-        chaseCam = GameObject.FindObjectOfType<Camera_Controller>();
+        chaseCam = GameObject.FindObjectOfType<ChaseCam>();
         _enterNameCanvas.gameObject.SetActive(true);
         // Get the Realtime component on this game object
         _realtime = GetComponent<Realtime>();

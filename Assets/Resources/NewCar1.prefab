@@ -905,6 +905,7 @@ MonoBehaviour:
   turningFwdSpeed: 35
   airDrag: 0
   groundDrag: 4
+  GroundCheckRayLength: 0.65
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -977,6 +978,7 @@ MonoBehaviour:
   ProjectileOwnerID: 1
   _bombs: 0
   offlineTest: 0
+  isNetworkInstance: 1
 --- !u!114 &626174094056757393
 MonoBehaviour:
   m_ObjectHideFlags: 0

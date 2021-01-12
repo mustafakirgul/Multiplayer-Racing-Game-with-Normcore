@@ -12,6 +12,7 @@ public class NewCarController : MonoBehaviour
     private float moveInput, turnInput;
     public float fwdSpeed, reverseSpd, turnSpd, turningFwdSpeed;
     public float airDrag, groundDrag;
+    public float GroundCheckRayLength;
 
     public LayerMask groundLayer;
     public float lerpRotationSpeed;
@@ -301,8 +302,12 @@ public class NewCarController : MonoBehaviour
     }
     void GroundCheck()
     {
-        isGrounded = Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, 2f, groundLayer);
-        transform.rotation = Quaternion.Slerp(transform.rotation, (Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation), Time.deltaTime * lerpRotationSpeed);
+        isGrounded = Physics.Raycast(transform.position, -transform.up, out RaycastHit ground, GroundCheckRayLength, groundLayer);
+        Debug.DrawLine(transform.position, ground.point, Color.cyan);
+
+        Physics.Raycast(transform.position, -transform.up, out RaycastHit rotationAlignment, (GroundCheckRayLength + 2f), groundLayer);
+        transform.rotation = Quaternion.Slerp(transform.rotation, (Quaternion.FromToRotation(transform.up, rotationAlignment.normal) 
+            * transform.rotation), Time.deltaTime * lerpRotationSpeed);
     }
     void DragCheck()
     {
