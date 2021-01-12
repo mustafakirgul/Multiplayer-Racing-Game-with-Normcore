@@ -1023,7 +1023,7 @@ MonoBehaviour:
   m_Script: {fileID: -1029778088, guid: 30f4fd177e1fad742be136a8237ab587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interpolate: 0
+  _interpolate: 1
   _syncPosition: 1
   _syncRotation: 1
   _syncScale: 0

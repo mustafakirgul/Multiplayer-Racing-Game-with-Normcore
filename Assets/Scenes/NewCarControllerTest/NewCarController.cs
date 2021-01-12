@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Normal.Realtime;
+using TMPro;
+using UnityEngine.UI;
 
 public class NewCarController : MonoBehaviour
 {
@@ -38,7 +40,7 @@ public class NewCarController : MonoBehaviour
     public float rotationCooldownTime;
     float currentZ, currentX;
     float XTimer, ZTimer, XFactor, ZFactor;
-
+    [Space]
     //Neworking Related Functionalities
     private RealtimeView _realtimeView;
     private RealtimeTransform _realtimeTransform;
@@ -47,7 +49,7 @@ public class NewCarController : MonoBehaviour
     private ChaseCam followCamera;
     [SerializeField]
     private Transform CameraContainer;
-
+    [Space]
     //Weapon Controls
     [SerializeField]
     private GameObject WeaponProjectile;
@@ -59,15 +61,49 @@ public class NewCarController : MonoBehaviour
     float fireTimer;
     public int ProjectileOwnerID;
 
-    private WaitForSeconds wait, muzzleWait;
+    [Space]
+    //UI Controls
+    public Player _player;
+    public string _currentName;
 
+    public TextMeshProUGUI speedDisplay, IDDisplay;
+    private UIManager uIManager;
+    [Space]
+    //Health Controls
+    public Image healthRadialLoader;
+    public float m_fplayerLastHealth;
+    public GameObject DeathExplosion;
+    bool isPlayerAlive;
+    public float explosionForce = 2000000f;
+    [Space]
+    //Boost Controls
+    public Image boostRadialLoader;
+    public bool enableBoost = true;
+    public float boostCooldownTime = 5f;
+    [Space]
+    //Light Controls
+    public Light RHL, LHL;
+    private bool lights;
+
+    [Space]
+    //Reset Controls
+    public float resetHeight;
+
+    public bool boosterReady;
+    private float boosterCounter;
+    [Space]
     //QA
     [HideInInspector]
     public int _bombs;
     public bool offlineTest;
 
-    [SerializeField]
-    private bool isNetworkInstance = true;
+    public bool isNetworkInstance = true;
+
+    private WaitForEndOfFrame waitFrame, waitFrame2;
+    private WaitForSeconds wait, muzzleWait;
+
+    [HideInInspector]
+    public int _resets;
 
     private void Awake()
     {
@@ -78,9 +114,8 @@ public class NewCarController : MonoBehaviour
             _realtimeTransform = GetComponent<RealtimeTransform>();
             ownerID = _realtime.room.clientID;
             fireTimer = 1f / fireRate;
+            _player = GetComponent<Player>();
         }
-        wait = new WaitForSeconds(fireTimer);
-        muzzleWait = new WaitForSeconds(.2f);
     }
 
     void InitCamera()
@@ -91,35 +126,137 @@ public class NewCarController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Decouple Sphere Physics from car model
-        CarRB.transform.parent = null;
-        wheelCount = wheels.Length;
-        for (int i = 0; i < wheels.Length; i++)
-        {
-            wheels[i].originY = wheels[i].wheelT.localPosition.y;
-        }
-
-        currentX = carBody.localEulerAngles.x;
-        currentZ = carBody.localEulerAngles.z;
-
         if (_realtimeView.isOwnedLocallySelf)
         {
+            //Decouple Sphere Physics from car model
+            CarRB.transform.parent = null;
+            wheelCount = wheels.Length;
+            for (int i = 0; i < wheels.Length; i++)
+            {
+                wheels[i].originY = wheels[i].wheelT.localPosition.y;
+            }
+
+            currentX = carBody.localEulerAngles.x;
+            currentZ = carBody.localEulerAngles.z;
             isNetworkInstance = false;
-            //uIManager = FindObjectOfType<UIManager>();
-            //uIManager.EnableUI();
-            //speedDisplay = uIManager.speedometer;
-            //healthRadialLoader = uIManager.playerHealthRadialLoader;
-            //IDDisplay.gameObject.SetActive(false);
-            //IDDisplay = uIManager.playerName;
-            //boostRadialLoader = uIManager.boostRadialLoader;
-            //StartCoroutine(BoostCounter());
-            //StartCoroutine(FireCR());
+            uIManager = FindObjectOfType<UIManager>();
+            uIManager.EnableUI();
+            speedDisplay = uIManager.speedometer;
+            healthRadialLoader = uIManager.playerHealthRadialLoader;
+            IDDisplay.gameObject.SetActive(false);
+            IDDisplay = uIManager.playerName;
+            boostRadialLoader = uIManager.boostRadialLoader;
+            StartCoroutine(BoostCounter());
+
             InitCamera();
 
             PlayerManager.instance.AddLocalPlayer(transform);
+
+            waitFrame = new WaitForEndOfFrame();
+            waitFrame2 = new WaitForEndOfFrame();
+            wait = new WaitForSeconds(fireTimer);
+            muzzleWait = new WaitForSeconds(.2f);
+        }
+        else
+        {
+            m_fplayerLastHealth = 0f;
+            IDDisplay.gameObject.SetActive(true);
+            CarRB.gameObject.SetActive(false);
+            IDDisplay.SetText(_currentName);
+        }
+        _currentName = _player.playerName;
+        ResetPlayerHealth();
+    }
+    public IEnumerator UpdateHealthValue()
+    {
+        bool _up = true;
+        bool _start = true;
+        while (m_fplayerLastHealth != _player.playerHealth)
+        {
+            if (_start)
+            {
+                _start = false;
+                if (m_fplayerLastHealth > _player.playerHealth)
+                {
+                    _up = false;
+                }
+            }
+            if (_up) m_fplayerLastHealth += Time.deltaTime;
+            else m_fplayerLastHealth -= Time.deltaTime;
+
+            if ((_up && m_fplayerLastHealth > _player.playerHealth) || (!_up && m_fplayerLastHealth < _player.playerHealth))
+            {
+                m_fplayerLastHealth = _player.playerHealth;
+            }
+            if (healthRadialLoader != null)
+            {
+                healthRadialLoader.fillAmount = (m_fplayerLastHealth / _player.maxPlayerHealth);
+            }
+            yield return waitFrame2;
         }
     }
+    IEnumerator UpdateHealth()
+    {
+        float duration = 0.25f;
 
+        float normalizedTime = 0;
+
+        while (normalizedTime <= 1f)
+        {
+            normalizedTime += (Time.deltaTime / duration);
+
+            if (healthRadialLoader != null)
+            {
+                healthRadialLoader.fillAmount = (Mathf.Lerp(m_fplayerLastHealth, _player.playerHealth, normalizedTime)) / _player.maxPlayerHealth;
+            }
+            yield return null;
+        }
+        m_fplayerLastHealth = _player.playerHealth;
+    }
+    IEnumerator BoostCounter()
+    {
+        while (enableBoost)
+        {
+            if (!boosterReady)
+            {
+                if (boosterCounter < boostCooldownTime)
+                {
+                    boostRadialLoader.enabled = true;
+                    boosterCounter += Time.deltaTime;
+                    boostRadialLoader.fillAmount = boosterCounter / boostCooldownTime;
+                }
+                else
+                {
+                    boostRadialLoader.fillAmount = 1f;
+                    boosterReady = true;
+                    boosterCounter = 0f;
+                }
+            }
+            else
+            {
+                Color _temp = boostRadialLoader.color;
+                _temp.a = Mathf.Abs(Mathf.Cos(Time.realtimeSinceStartup));
+                boostRadialLoader.color = _temp;
+                //boostRadialLoader.enabled = Time.realtimeSinceStartup % 1f > .05f;
+            }
+            yield return waitFrame;
+        }
+    }
+    public void ExplosionForce(Vector3 _origin)
+    {
+        if (!isNetworkInstance)
+        {
+            CarRB.AddExplosionForce(explosionForce, transform.position - _origin, 20f, 1000f);
+        }
+        else
+        {
+            if (_player.explosionForce != _origin)
+            {
+                _player.ChangeExplosionForce(_origin);
+            }
+        }
+        _player.explosionForce = Vector3.zero;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -133,12 +270,17 @@ public class NewCarController : MonoBehaviour
         {
             _realtimeView.RequestOwnership();
             _realtimeTransform.RequestOwnership();
+            if (IDDisplay.text != _currentName)
+                IDDisplay.SetText(_currentName);
             for (int i = 0; i < wheelCount; i++)
             {
                 wheels[i].wheelRTV.RequestOwnership();
                 wheels[i].wheelRT.RequestOwnership();
             }
-
+            if (_player.explosionForce != Vector3.zero)
+            {
+                ExplosionForce(_player.explosionForce);
+            }
             DetectInput();
             DragCheck();
             GroundCheck();
@@ -146,11 +288,57 @@ public class NewCarController : MonoBehaviour
             TurnTheWheels();
             transform.position = CarRB.transform.position;
         }
+
+        if (_player != null)
+        {
+            CheckHealth();
+        }
+    }
+    private void CheckHealth()
+    {
+        if (m_fplayerLastHealth != _player.playerHealth)
+        {
+            StartCoroutine(UpdateHealthValue());
+
+            if (_player.playerHealth <= 0)
+            {
+                PlayerDeath();
+            }
+        }
+    }
+    private void PlayerDeath()
+    {
+        isPlayerAlive = false;
+        DeathExplosion.SetActive(true);
+        CarRB.AddExplosionForce(200000f, this.transform.position, 20f, 1000f, ForceMode.Impulse);
+        StartCoroutine(RespawnCountDown(5f));
+    }
+    private IEnumerator RespawnCountDown(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        DeathExplosion.SetActive(false);
+        m_fplayerLastHealth = 0f;
+        ResetPlayerHealth();
+    }
+    private void ResetPlayerHealth()
+    {
+        isPlayerAlive = true;
+        _player.playerHealth = _player.maxPlayerHealth;
+        StartCoroutine(UpdateHealthValue());
+    }
+    private void OnDestroy()
+    {
+        if (isNetworkInstance)
+            PlayerManager.instance.RemoveNetworkPlayer(transform);
     }
     private void FixedUpdate()
     {
         if (!isNetworkInstance)
         {
+            if (speedDisplay != null)
+            {
+                speedDisplay.text = Mathf.RoundToInt(LocalVelocity()).ToString();
+            }
             CancelResidualVelocity();
             MaxSpeedCheck();
             if (isGrounded)
@@ -165,7 +353,6 @@ public class NewCarController : MonoBehaviour
             }
         }
     }
-
     private void CancelResidualVelocity()
     {
         if (moveInput == 0 && turnInput == 0 & CarRB.velocity.magnitude < MinVelocityThreshold)
@@ -182,8 +369,7 @@ public class NewCarController : MonoBehaviour
             }
         }
     }
-
-    private void MaxSpeedCheck()
+        private void MaxSpeedCheck()
     {
         if (CarRB.velocity.magnitude > (MaxSpeed * (1 + MaxSpeedModifier)))
         {
@@ -196,7 +382,6 @@ public class NewCarController : MonoBehaviour
         float projectileVelocity = Mathf.Abs(trueVelocity);
         return projectileVelocity;
     }
-
     private void TurnTheWheels()
     {
         for (int i = 0; i < wheelCount; i++)
@@ -299,6 +484,25 @@ public class NewCarController : MonoBehaviour
                 StartCoroutine(FireCR());
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.R) || Input.GetButton("Reset"))//reset
+        {
+            if (Quaternion.Angle(Quaternion.identity, transform.rotation) > 45f)
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y + resetHeight, transform.position.z);
+                Vector3 _rotation = transform.rotation.eulerAngles;
+                transform.rotation = Quaternion.Euler(_rotation.x, _rotation.y, 0);
+                CarRB.velocity = Vector3.zero;
+                _resets++;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("Lights"))//lights
+        {
+            lights = !lights;
+            RHL.enabled = lights;
+            LHL.enabled = lights;
+        }
     }
     void GroundCheck()
     {
@@ -306,7 +510,7 @@ public class NewCarController : MonoBehaviour
         Debug.DrawLine(transform.position, ground.point, Color.cyan);
 
         Physics.Raycast(transform.position, -transform.up, out RaycastHit rotationAlignment, (GroundCheckRayLength + 2f), groundLayer);
-        transform.rotation = Quaternion.Slerp(transform.rotation, (Quaternion.FromToRotation(transform.up, rotationAlignment.normal) 
+        transform.rotation = Quaternion.Slerp(transform.rotation, (Quaternion.FromToRotation(transform.up, rotationAlignment.normal)
             * transform.rotation), Time.deltaTime * lerpRotationSpeed);
     }
     void DragCheck()

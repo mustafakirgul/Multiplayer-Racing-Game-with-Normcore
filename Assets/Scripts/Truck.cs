@@ -198,14 +198,14 @@ public class Truck : RealtimeComponent<TruckModel>
         {
             currentWPindex = wayPointIndex % m_wayPoints.Count;
             currentWP = m_wayPoints[currentWPindex];
-            Debug.Log("spill over going to" + currentWPindex);
+            //Debug.Log("spill over going to" + currentWPindex);
 
         }
         else
         {
             currentWP = m_wayPoints[wayPointIndex];
 
-            Debug.Log("Going to" + wayPointIndex);
+            //Debug.Log("Going to" + wayPointIndex);
         }
     }
 
@@ -215,7 +215,7 @@ public class Truck : RealtimeComponent<TruckModel>
 
         _steeringAngle = Mathf.Clamp((Math.Sign(CrossProductConstant) * 10f), -maxSteeringAngle, maxSteeringAngle); ;
 
-        Debug.Log("Current Steering Angle is" + _steeringAngle);
+        //Debug.Log("Current Steering Angle is" + _steeringAngle);
     }
 
     void SetOwner(int _id)
