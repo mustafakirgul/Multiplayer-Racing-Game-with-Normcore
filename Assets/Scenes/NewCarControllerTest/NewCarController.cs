@@ -72,8 +72,6 @@ public class NewCarController : MonoBehaviour
         }
         wait = new WaitForSeconds(fireTimer);
         muzzleWait = new WaitForSeconds(.2f);
-        if (_realtimeView.isOwnedLocallySelf)
-            InitCamera();
     }
 
     void InitCamera()
@@ -93,6 +91,8 @@ public class NewCarController : MonoBehaviour
         }
         currentX = carBody.localEulerAngles.x;
         currentZ = carBody.localEulerAngles.z;
+        if (_realtimeView.isOwnedLocallySelf)
+            InitCamera();
     }
 
     // Update is called once per frame
