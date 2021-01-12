@@ -112,14 +112,30 @@ public class NewCarController : MonoBehaviour
             //StartCoroutine(BoostCounter());
             //StartCoroutine(FireCR());
             InitCamera();
+
+            PlayerManager.instance.AddLocalPlayer(transform);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        //if (!offlineTest)
+        //{
+        //    _realtimeView.RequestOwnership();
+        //    _realtimeTransform.RequestOwnership();
+        //}
+
         if (!isNetworkInstance)
         {
+            _realtimeView.RequestOwnership();
+            _realtimeTransform.RequestOwnership();
+            for (int i = 0; i < wheelCount; i++)
+            {
+                wheels[i].wheelRTV.RequestOwnership();
+                wheels[i].wheelRT.RequestOwnership();
+            }
+
             DetectInput();
             DragCheck();
             GroundCheck();
@@ -215,16 +231,7 @@ public class NewCarController : MonoBehaviour
         }
 
         //Networking for wheels
-        if (!offlineTest)
-        {
-            _realtimeView.RequestOwnership();
-            _realtimeTransform.RequestOwnership();
-            for (int i = 0; i < wheelCount; i++)
-            {
-                wheels[i].wheelRTV.RequestOwnership();
-                wheels[i].wheelRT.RequestOwnership();
-            }
-        }
+
 
     }
     void DetectInput()
