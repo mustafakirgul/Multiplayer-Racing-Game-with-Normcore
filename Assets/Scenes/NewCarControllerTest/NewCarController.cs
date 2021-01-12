@@ -16,6 +16,11 @@ public class NewCarController : MonoBehaviour
     public LayerMask groundLayer;
     public float lerpRotationSpeed;
 
+    public float MinVelocityThreshold;
+    public float BrakeForce;
+    public float MaxSpeed;
+    public float MaxSpeedModifier;
+
     [SerializeField]
     private bool isGrounded;
     public float extraGravity;
@@ -82,8 +87,10 @@ public class NewCarController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Decouple Sphere Physics from car model
         CarRB.transform.parent = null;
         StartCoroutine(FireCR());
+
         wheelCount = wheels.Length;
         for (int i = 0; i < wheels.Length; i++)
         {
@@ -91,6 +98,7 @@ public class NewCarController : MonoBehaviour
         }
         currentX = carBody.localEulerAngles.x;
         currentZ = carBody.localEulerAngles.z;
+
         if (_realtimeView.isOwnedLocallySelf)
             InitCamera();
     }
@@ -105,7 +113,47 @@ public class NewCarController : MonoBehaviour
         TurnTheWheels();
         transform.position = CarRB.transform.position;
     }
+    private void FixedUpdate()
+    {
+        CancelResidualVelocity();
+        MaxSpeedCheck();
 
+        if (isGrounded)
+        {
+            CarRB.AddForce(transform.forward * moveInput, ForceMode.Acceleration);
+        }
+        else
+        {
+            //Increase artifical gravity when in freefall
+            //CarRB.AddForce(transform.forward * 5f, ForceMode.Force);
+            CarRB.AddForce(-Vector3.up * extraGravity * 100f);
+        }
+    }
+
+    private void CancelResidualVelocity()
+    {
+        if (moveInput == 0 && turnInput == 0 & CarRB.velocity.magnitude < MinVelocityThreshold)
+        {
+            Vector3 oppositeForce = CarRB.transform.InverseTransformDirection(-CarRB.velocity);
+
+            if (CarRB.velocity.magnitude > MinVelocityThreshold)
+            {
+                CarRB.AddRelativeForce(oppositeForce * BrakeForce, ForceMode.Force);
+            }
+            else
+            {
+                CarRB.velocity = Vector3.zero;
+            }
+        }
+    }
+
+    private void MaxSpeedCheck()
+    {
+        if (CarRB.velocity.magnitude > (MaxSpeed * (1 + MaxSpeedModifier)))
+        {
+            CarRB.velocity = CarRB.velocity.normalized * (MaxSpeed * (1 + MaxSpeedModifier));
+        }
+    }
     private float ProjectileVelocity(Vector3 velocity)
     {
         float trueVelocity = transform.InverseTransformVector(velocity).z;
@@ -177,8 +225,6 @@ public class NewCarController : MonoBehaviour
         moveInput = Input.GetAxis("Vertical");
         turnInput = Input.GetAxis("Horizontal");
 
-
-
         if (XTimer > 0f)
         {
             XTimer -= Time.deltaTime;
@@ -219,10 +265,6 @@ public class NewCarController : MonoBehaviour
                 ownedByClient: true,
                 useInstance: _realtime);
 
-                //Old code
-                //_bulletBuffer.GetComponent<Bullet>().isNetworkInstance = false;
-                //_bulletBuffer.GetComponent<Bullet>().Fire(_barrelTip, velocity);
-
                 _bulletBuffer.GetComponent<WeaponProjectileBase>().isNetworkInstance = false;
                 _bulletBuffer.GetComponent<WeaponProjectileBase>().Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                 _bulletBuffer.GetComponent<WeaponProjectileBase>().ownerID = ProjectileOwnerID;
@@ -231,16 +273,11 @@ public class NewCarController : MonoBehaviour
             }
         }
     }
-
-
-
     void GroundCheck()
     {
         isGrounded = Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, 2f, groundLayer);
         transform.rotation = Quaternion.Slerp(transform.rotation, (Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation), Time.deltaTime * lerpRotationSpeed);
     }
-
-
     void DragCheck()
     {
         if (isGrounded)
@@ -252,20 +289,6 @@ public class NewCarController : MonoBehaviour
             CarRB.drag = airDrag;
         }
     }
-    private void FixedUpdate()
-    {
-        if (isGrounded)
-        {
-            CarRB.AddForce(transform.forward * moveInput, ForceMode.Acceleration);
-        }
-        else
-        {
-            //Increase artifical gravity when in freefall
-            //CarRB.AddForce(transform.forward * 5f, ForceMode.Force);
-            CarRB.AddForce(-Vector3.up * extraGravity * 100f);
-        }
-    }
-
     private void RotationCheck()
     {
         //transform.rotation = Quaternion.Euler(transform.rotation.x, newRotation, transform.rotation.z);
