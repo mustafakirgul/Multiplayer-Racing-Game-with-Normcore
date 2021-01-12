@@ -6,7 +6,7 @@ public class ChaseCam : MonoBehaviour
 {
     // The target we are following
     public Transform target;
-    private bool isInitialized;
+    private bool isInitialized = false;
 
     // The distance in the x-z plane to the target
     public float distance = 10.0f;

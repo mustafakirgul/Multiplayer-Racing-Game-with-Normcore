@@ -64,6 +64,7 @@ public class NewCarController : MonoBehaviour
     [HideInInspector]
     public int _bombs;
     public bool offlineTest;
+    private bool isNetworkInstance;
 
     private void Awake()
     {
@@ -89,44 +90,60 @@ public class NewCarController : MonoBehaviour
     {
         //Decouple Sphere Physics from car model
         CarRB.transform.parent = null;
-        StartCoroutine(FireCR());
-
         wheelCount = wheels.Length;
         for (int i = 0; i < wheels.Length; i++)
         {
             wheels[i].originY = wheels[i].wheelT.localPosition.y;
         }
+
         currentX = carBody.localEulerAngles.x;
         currentZ = carBody.localEulerAngles.z;
 
         if (_realtimeView.isOwnedLocallySelf)
+        {
+            isNetworkInstance = false;
+            //uIManager = FindObjectOfType<UIManager>();
+            //uIManager.EnableUI();
+            //speedDisplay = uIManager.speedometer;
+            //healthRadialLoader = uIManager.playerHealthRadialLoader;
+            //IDDisplay.gameObject.SetActive(false);
+            //IDDisplay = uIManager.playerName;
+            //boostRadialLoader = uIManager.boostRadialLoader;
+            //StartCoroutine(BoostCounter());
+            //StartCoroutine(FireCR());
             InitCamera();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        DetectInput();
-        DragCheck();
-        GroundCheck();
-        RotationCheck();
-        TurnTheWheels();
-        transform.position = CarRB.transform.position;
+        if (!isNetworkInstance)
+        {
+            DetectInput();
+            DragCheck();
+            GroundCheck();
+            RotationCheck();
+            TurnTheWheels();
+            transform.position = CarRB.transform.position;
+        }
     }
     private void FixedUpdate()
     {
-        CancelResidualVelocity();
-        MaxSpeedCheck();
-
-        if (isGrounded)
+        if (!isNetworkInstance)
         {
-            CarRB.AddForce(transform.forward * moveInput, ForceMode.Acceleration);
-        }
-        else
-        {
-            //Increase artifical gravity when in freefall
-            //CarRB.AddForce(transform.forward * 5f, ForceMode.Force);
-            CarRB.AddForce(-Vector3.up * extraGravity * 100f);
+            CancelResidualVelocity();
+            MaxSpeedCheck();
+            if (isGrounded)
+            {
+                CarRB.AddForce(transform.forward * moveInput, ForceMode.Acceleration);
+            }
+            else
+            {
+                //Increase artifical gravity when in freefall
+                //CarRB.AddForce(transform.forward * 5f, ForceMode.Force);
+                CarRB.AddForce(-Vector3.up * extraGravity * 100f);
+            }
         }
     }
 
