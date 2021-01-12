@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class NewCarController : MonoBehaviour
 {
+    [Space]
+    [Space]
+    [Header("Car Controller Main Settings")]
     [SerializeField]
     Rigidbody CarRB;
 
@@ -40,16 +43,24 @@ public class NewCarController : MonoBehaviour
     public float rotationCooldownTime;
     float currentZ, currentX;
     float XTimer, ZTimer, XFactor, ZFactor;
+
     [Space]
+    [Space]
+    [Header("Camera and Networking")]
     //Neworking Related Functionalities
+    public Realtime _realtime;
     private RealtimeView _realtimeView;
     private RealtimeTransform _realtimeTransform;
-    public Realtime _realtime;
     public float ownerID;
     private ChaseCam followCamera;
     [SerializeField]
     private Transform CameraContainer;
+    public bool isNetworkInstance = true;
+    public bool offlineTest;
+
     [Space]
+    [Space]
+    [Header("Weapon Controls")]
     //Weapon Controls
     [SerializeField]
     private GameObject WeaponProjectile;
@@ -61,13 +72,19 @@ public class NewCarController : MonoBehaviour
     float fireTimer;
     public int ProjectileOwnerID;
 
+    [Header("UI")]
+    [Space]
     [Space]
     //UI Controls
+    [SerializeField]
+    private UIManager uIManager;
     public Player _player;
     public string _currentName;
 
     public TextMeshProUGUI speedDisplay, IDDisplay;
-    private UIManager uIManager;
+
+    [Header("Health Params")]
+    [Space]
     [Space]
     //Health Controls
     public Image healthRadialLoader;
@@ -75,29 +92,31 @@ public class NewCarController : MonoBehaviour
     public GameObject DeathExplosion;
     bool isPlayerAlive;
     public float explosionForce = 2000000f;
+
+    [Header("Boost Params")]
+    [Space]
     [Space]
     //Boost Controls
     public Image boostRadialLoader;
     public bool enableBoost = true;
     public float boostCooldownTime = 5f;
-    [Space]
-    //Light Controls
-    public Light RHL, LHL;
-    private bool lights;
-
-    [Space]
-    //Reset Controls
-    public float resetHeight;
-
+    public float dashForce;
     public bool boosterReady;
     private float boosterCounter;
+
+    [Header("Light Controls")]
+    [Space]
+    [Space]
+    //Light Controls
+    public Light RHL;
+    public Light LHL;
+    private bool lights;
+    //Reset Controls
+    public float resetHeight;
     [Space]
     //QA
     [HideInInspector]
     public int _bombs;
-    public bool offlineTest;
-
-    public bool isNetworkInstance = true;
 
     private WaitForEndOfFrame waitFrame, waitFrame2;
     private WaitForSeconds wait, muzzleWait;
@@ -131,6 +150,7 @@ public class NewCarController : MonoBehaviour
             //Decouple Sphere Physics from car model
             CarRB.transform.parent = null;
             wheelCount = wheels.Length;
+
             for (int i = 0; i < wheels.Length; i++)
             {
                 wheels[i].originY = wheels[i].wheelT.localPosition.y;
@@ -143,10 +163,11 @@ public class NewCarController : MonoBehaviour
             uIManager.EnableUI();
             speedDisplay = uIManager.speedometer;
             healthRadialLoader = uIManager.playerHealthRadialLoader;
-            IDDisplay.gameObject.SetActive(false);
             IDDisplay = uIManager.playerName;
+            IDDisplay.gameObject.SetActive(false);
             boostRadialLoader = uIManager.boostRadialLoader;
             StartCoroutine(BoostCounter());
+            StartCoroutine(FireCR());
 
             InitCamera();
 
@@ -270,8 +291,13 @@ public class NewCarController : MonoBehaviour
         {
             _realtimeView.RequestOwnership();
             _realtimeTransform.RequestOwnership();
+
+            if (_currentName != _player.playerName)
+                _currentName = _player.playerName;
+
             if (IDDisplay.text != _currentName)
                 IDDisplay.SetText(_currentName);
+
             for (int i = 0; i < wheelCount; i++)
             {
                 wheels[i].wheelRTV.RequestOwnership();
@@ -497,6 +523,15 @@ public class NewCarController : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetButtonDown("Boost"))//boost/dash
+        {
+            if (boosterReady && isGrounded)
+            {
+                boosterReady = false;
+                CarRB.AddForce(transform.forward * dashForce, ForceMode.VelocityChange);
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("Lights"))//lights
         {
             lights = !lights;
@@ -552,8 +587,8 @@ public class NewCarController : MonoBehaviour
 
     public float LocalVelocity()
     {
-        Vector3 localVelocity = CarRB.transform.InverseTransformDirection(CarRB.velocity);
-        return localVelocity.z;
+        Vector3 localVelocity = CarRB.velocity;
+        return Mathf.Abs(localVelocity.z);
     }
 
     //Framerate aware damping
