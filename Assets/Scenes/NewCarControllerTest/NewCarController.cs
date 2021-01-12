@@ -64,7 +64,9 @@ public class NewCarController : MonoBehaviour
     [HideInInspector]
     public int _bombs;
     public bool offlineTest;
-    private bool isNetworkInstance;
+
+    [SerializeField]
+    private bool isNetworkInstance = true;
 
     private void Awake()
     {
