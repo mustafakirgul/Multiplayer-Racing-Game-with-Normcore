@@ -175,14 +175,10 @@ public class NewCarController : MonoBehaviour
             StartCoroutine(BoostCounter());
             StartCoroutine(FireCR());
             InitCamera();
-
             PlayerManager.instance.AddLocalPlayer(transform);
-            ownerID = _realtime.room.clientID;
-
         }
         else
         {
-            ownerID = _realtimeTransform.ownerIDInHierarchy;
             _miniMapRenderer.color = Color.red;
             m_fplayerLastHealth = 0f;
             isNetworkInstance = true;
@@ -196,6 +192,7 @@ public class NewCarController : MonoBehaviour
         }
         _currentName = _player.playerName;
         IDDisplay.SetText(_currentName);
+        ownerID = _realtimeTransform.ownerIDInHierarchy;
         ResetPlayerHealth();
     }
     public IEnumerator UpdateHealthValue()
