@@ -1,8 +1,10 @@
 ﻿using Normal.Realtime;
+using Normal.Realtime.Serialization;
 using UnityEngine;
 
 public class Player : RealtimeComponent<PlayerModel>
 {
+    public int _id;
     public string playerName;
     public float playerHealth;
     public float maxPlayerHealth;

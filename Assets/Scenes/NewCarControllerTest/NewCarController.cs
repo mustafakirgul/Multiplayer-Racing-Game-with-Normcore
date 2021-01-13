@@ -130,7 +130,6 @@ public class NewCarController : MonoBehaviour
         _realtime = FindObjectOfType<Realtime>();
         _realtimeView = GetComponent<RealtimeView>();
         _realtimeTransform = GetComponent<RealtimeTransform>();
-        ownerID = _realtime.room.clientID;
         if (!offlineTest)
         {
             _realtimeView.enabled = true;
@@ -178,11 +177,12 @@ public class NewCarController : MonoBehaviour
             InitCamera();
 
             PlayerManager.instance.AddLocalPlayer(transform);
+            ownerID = _realtime.room.clientID;
 
-  
         }
         else
         {
+            ownerID = _realtimeTransform.ownerIDInHierarchy;
             _miniMapRenderer.color = Color.red;
             m_fplayerLastHealth = 0f;
             isNetworkInstance = true;
@@ -509,7 +509,7 @@ public class NewCarController : MonoBehaviour
 
                 _bulletBuffer.GetComponent<WeaponProjectileBase>().isNetworkInstance = false;
                 _bulletBuffer.GetComponent<WeaponProjectileBase>().Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
-                _bulletBuffer.GetComponent<WeaponProjectileBase>().ownerID = ownerID;
+                _bulletBuffer.GetComponent<WeaponProjectileBase>().localOwnerID = ownerID;
 
                 StartCoroutine(FireCR());
             }

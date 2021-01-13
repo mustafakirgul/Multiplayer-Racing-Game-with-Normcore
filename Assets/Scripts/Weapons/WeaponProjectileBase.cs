@@ -22,7 +22,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     Collider[] colliders;
     private ProjectileModel _model;
     public bool isNetworkInstance = true;
-    public int ownerID = -1;
+    public int localOwnerID = -1;
     RealtimeView _realtimeView;
     RealtimeTransform _realtimeTransform;
 
@@ -225,7 +225,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     private void OnTriggerEnter(Collider other)
     {
         //TODO Logic for target type detection
-        if (isNetworkInstance || ownerID < 0)
+        if (isNetworkInstance || localOwnerID < 0)
         {
             Debug.Log("Owner Id < 0");
             return;
@@ -233,16 +233,16 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
         if (other.GetComponent<NewCarController>() != null)
         {
-            if (other.GetComponent<NewCarController>().ownerID == ownerID)
+            if (other.GetComponent<NewCarController>().ownerID == localOwnerID)
             {
-                Debug.Log("Did not Hit Target!" + "projectile ID is" + ownerID + " target ID is " +
+                Debug.Log("Did not Hit Target!" + "projectile ID is" + localOwnerID + " target ID is " +
                     other.GetComponent<NewCarController>().ownerID);
                 return;
             }
             else
             {
                 Debug.Log("Did hit Target!");
-                Debug.Log("projectile ID is " + ownerID + " target ID is " +
+                Debug.Log("projectile ID is " + localOwnerID + " target ID is " +
                     other.GetComponent<NewCarController>().ownerID);
                 Hit();
             }

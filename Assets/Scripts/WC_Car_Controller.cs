@@ -617,7 +617,7 @@ public class WC_Car_Controller : MonoBehaviour
 
                     _bulletBuffer.GetComponent<WeaponProjectileBase>().isNetworkInstance = false;
                     _bulletBuffer.GetComponent<WeaponProjectileBase>().Fire(_barrelTip, velocity);
-                    _bulletBuffer.GetComponent<WeaponProjectileBase>().ownerID = ownerID;
+                    _bulletBuffer.GetComponent<WeaponProjectileBase>().localOwnerID = ownerID;
 
                     StartCoroutine(FireCR());
                 }
