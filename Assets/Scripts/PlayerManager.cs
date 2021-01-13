@@ -47,19 +47,19 @@ public class PlayerManager : MonoBehaviour
         if (FindObjectOfType<Truck>() == null)
         {
             Realtime.Instantiate("WeirdTruck",
-                    position: localPlayer.position - Vector3.right * 30f,
+                    position: localPlayer.position - (Vector3.right * 30f) + (Vector3.up * 5f),
                     rotation: Quaternion.identity,
                ownedByClient: true,
     preventOwnershipTakeover: false,
     destroyWhenOwnerOrLastClientLeaves: false,
                  useInstance: _realtime);
         }
-        else if(FindObjectOfType<Truck>().GetComponent<RealtimeTransform>().isUnownedSelf)
+        else if (FindObjectOfType<Truck>().GetComponent<RealtimeTransform>().isUnownedSelf)
         {
             _temp = FindObjectOfType<Truck>().gameObject;
             _temp.GetComponent<RealtimeView>().RequestOwnership();
             _temp.GetComponent<RealtimeTransform>().RequestOwnership();
-            _temp.transform.position = localPlayer.position - Vector3.right * 30f;
+            _temp.transform.position = localPlayer.position - (Vector3.right * 30f) + (Vector3.up * 5f);
             _temp.transform.rotation = Quaternion.identity;
         }
         for (int i = 0; i < networkPlayers.Count; i++)

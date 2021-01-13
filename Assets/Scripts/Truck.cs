@@ -38,8 +38,7 @@ public class Truck : RealtimeComponent<TruckModel>
     private int currentWPindex = 0;
     public float waypointSwitchThreshold;
 
-    WaitForSeconds waitASecond => new WaitForSeconds(1f);
-    Vector3 currentDirection; //normalized
+    WaitForSeconds waitASecond;
 
     private void Awake()
     {
@@ -55,6 +54,7 @@ public class Truck : RealtimeComponent<TruckModel>
     private void Start()
     {
         InitializWaypointAI();
+        waitASecond = new WaitForSeconds(steerRefreshTimer);
     }
 
     public void InitializWaypointAI()
@@ -71,6 +71,9 @@ public class Truck : RealtimeComponent<TruckModel>
         {
             while (currentWPT != null && !isNetworkInstance)
             {
+#if UNITY_EDITOR
+                waitASecond = new WaitForSeconds(steerRefreshTimer);
+#endif
                 float _distanceToTarget = Vector3.Distance(transform.position, currentWPT.position);
                 //Debug.Log("MGNTD: " + _distanceToTarget);
                 if (_distanceToTarget < waypointSwitchThreshold)
@@ -95,9 +98,15 @@ public class Truck : RealtimeComponent<TruckModel>
         for (int i = 0; i < _length; i++)
         {
             _steeringAngle = maxSteeringAngle * Vector3.Dot(Vector3.Cross(transform.forward, (currentWPT.position - transform.position).normalized), Vector3.up);
+
             if (_wheels[i].isSteeringWheel)
             {
-                _wheels[i].collider.steerAngle = Mathf.Lerp(_wheels[i].collider.steerAngle, _steeringAngle, Time.deltaTime);
+                _wheels[i].collider.steerAngle = Mathf.Lerp(_wheels[i].collider.steerAngle, _steeringAngle, Time.deltaTime * 20f);
+            }
+
+            if (_wheels[i].isReverseSteeringWheel)
+            {
+                _wheels[i].collider.steerAngle = Mathf.Lerp(_wheels[i].collider.steerAngle, -_steeringAngle, Time.deltaTime * 20f);
             }
         }
     }
@@ -241,4 +250,5 @@ public class TruckWheel
     public Transform model;
     public bool isPowered;
     public bool isSteeringWheel;
+    public bool isReverseSteeringWheel;
 }

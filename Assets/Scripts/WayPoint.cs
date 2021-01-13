@@ -4,11 +4,11 @@ using UnityEngine;
 public class WayPoint : MonoBehaviour
 {
     public int index = -1;
-
-    private void Awake()
+    public bool startState = true;
+    private void OnValidate()
     {
         if (index < 0)
             index = Convert.ToInt32(transform.name.Split(" "[0])[1]);
-        GetComponent<MeshRenderer>().enabled = false;
+        GetComponent<MeshRenderer>().enabled = startState;
     }
 }
