@@ -501,12 +501,10 @@ public class NewCarController : MonoBehaviour
                 _bulletBuffer = Realtime.Instantiate(WeaponProjectile.name,
                 position: _barrelTip.position,
                 rotation: _barrelTip.rotation,
-                ownedByClient: true,
+                ownedByClient: false,
                 useInstance: _realtime);
-
-                _bulletBuffer.GetComponent<WeaponProjectileBase>().isNetworkInstance = false;
                 _bulletBuffer.GetComponent<WeaponProjectileBase>().Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
-                _bulletBuffer.GetComponent<WeaponProjectileBase>().localOwnerID = ownerID;
+                _bulletBuffer.GetComponent<WeaponProjectileBase>().originOwnerID = ownerID;
 
                 StartCoroutine(FireCR());
             }

@@ -22,7 +22,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     Collider[] colliders;
     private ProjectileModel _model;
     public bool isNetworkInstance = true;
-    public int localOwnerID = -1;
+    public int originOwnerID = -1;
     RealtimeView _realtimeView;
     RealtimeTransform _realtimeTransform;
 
@@ -67,7 +67,9 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             Invoke(nameof(KillTimer), weaponLifeTime);              
         }
         _model.exploded = false;
-        localOwnerID = _realtimeTransform.ownerIDInHierarchy;
+        originOwnerID = _realtimeTransform.ownerIDSelf;
+        _realtimeView.SetOwnership(originOwnerID);
+        _realtimeTransform.SetOwnership(originOwnerID);
     }
 
     protected virtual void Update()
@@ -226,7 +228,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     private void OnTriggerEnter(Collider other)
     {
         //TODO Logic for target type detection
-        if (isNetworkInstance || localOwnerID < 0)
+        if (isNetworkInstance || originOwnerID < 0)
         {
             Debug.Log("Owner Id < 0");
             return;
@@ -234,16 +236,16 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
         if (other.GetComponent<NewCarController>() != null)
         {
-            if (other.GetComponent<NewCarController>().ownerID == localOwnerID)
+            if (other.GetComponent<NewCarController>().ownerID == originOwnerID)
             {
-                Debug.Log("Did not Hit Target!" + "projectile ID is" + localOwnerID + " target ID is " +
+                Debug.Log("Did not Hit Target!" + "projectile ID is" + originOwnerID + " target ID is " +
                     other.GetComponent<NewCarController>().ownerID);
                 return;
             }
             else
             {
                 Debug.Log("Did hit Target!");
-                Debug.Log("projectile ID is " + localOwnerID + " target ID is " +
+                Debug.Log("projectile ID is " + originOwnerID + " target ID is " +
                     other.GetComponent<NewCarController>().ownerID);
                 Hit();
             }
