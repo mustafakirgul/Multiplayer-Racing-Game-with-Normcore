@@ -52,6 +52,7 @@ public class NewCarController : MonoBehaviour
     private RealtimeView _realtimeView;
     private RealtimeTransform _realtimeTransform;
     public int this_ownerID = -1;
+    private int ownerIDToAssign;
     private ChaseCam followCamera;
     [SerializeField]
     private Transform CameraContainer;
@@ -130,8 +131,7 @@ public class NewCarController : MonoBehaviour
         _realtime = FindObjectOfType<Realtime>();
         _realtimeView = GetComponent<RealtimeView>();
         _realtimeTransform = GetComponent<RealtimeTransform>();
-        this_ownerID = _realtime.room.clientID;
-        Debug.Log("Connection ID is" + _realtime.room.clientID + " " + this_ownerID);
+
         if (!offlineTest)
         {
             _realtimeView.enabled = true;
@@ -155,6 +155,8 @@ public class NewCarController : MonoBehaviour
     {
         if (_realtimeView.isOwnedLocallySelf)
         {
+            //this_ownerID = _realtime.room.clientID;
+            Debug.Log("Connection ID is " + _realtime.room.clientID + " current owner ID is " + this_ownerID);
             isNetworkInstance = false;
             uIManager = FindObjectOfType<UIManager>();
             uIManager.EnableUI();
@@ -184,6 +186,7 @@ public class NewCarController : MonoBehaviour
         }
         else
         {
+            Debug.Log("Connection ID is " + _realtime.room.clientID + " current owner ID is " + this_ownerID);
             _miniMapRenderer.color = Color.red;
             m_fplayerLastHealth = 0f;
             isNetworkInstance = true;
@@ -193,6 +196,7 @@ public class NewCarController : MonoBehaviour
             if (!PlayerManager.instance.networkPlayers.Contains(transform))
             {
                 PlayerManager.instance.networkPlayers.Add(transform);
+                PlayerManager.instance.AssignPlayerID(transform);
             }
         }
         _currentName = _player.playerName;

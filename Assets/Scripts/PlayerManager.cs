@@ -19,8 +19,13 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
     public List<Transform> networkPlayers;
+
+    public List<Transform> totalPlayers;
+
     public Transform localPlayer;
     public GameObject pointer;
+
+    public int ownerIDToAssign = -1;
 
     GameObject _temp;
     List<Transform> _pointers;
@@ -44,6 +49,8 @@ public class PlayerManager : MonoBehaviour
     public void AddLocalPlayer(Transform _player)
     {
         localPlayer = _player;
+        _player.GetComponent<NewCarController>().this_ownerID = ownerIDToAssign++;
+
         if (FindObjectOfType<Truck>() == null)
         {
             Realtime.Instantiate("WeirdTruck",
@@ -54,7 +61,7 @@ public class PlayerManager : MonoBehaviour
     destroyWhenOwnerOrLastClientLeaves: false,
                  useInstance: _realtime);
         }
-        else if(FindObjectOfType<Truck>().GetComponent<RealtimeTransform>().isUnownedSelf)
+        else if (FindObjectOfType<Truck>().GetComponent<RealtimeTransform>().isUnownedSelf)
         {
             _temp = FindObjectOfType<Truck>().gameObject;
             _temp.GetComponent<RealtimeView>().RequestOwnership();
@@ -83,6 +90,7 @@ public class PlayerManager : MonoBehaviour
         if (!networkPlayers.Contains(_player))
         {
             networkPlayers.Add(_player);
+            AssignPlayerID(_player);
 
             if (localPlayer != null)
             {
@@ -96,6 +104,15 @@ public class PlayerManager : MonoBehaviour
                 _temp.transform.parent = localPlayer;
                 _pointers.Add(_temp.transform);
             }
+        }
+    }
+
+    public void AssignPlayerID(Transform _player)
+    {
+        if (_player.GetComponent<NewCarController>() != null)
+        {
+            ownerIDToAssign++;
+            _player.GetComponent<NewCarController>().this_ownerID = ownerIDToAssign;
         }
     }
 
