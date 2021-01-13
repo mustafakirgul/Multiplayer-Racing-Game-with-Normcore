@@ -46,9 +46,9 @@ public class MissileProjectile : WeaponProjectileBase
             {
                 //Determine possibly random target or target that is directly in front of the current car
                 //Don't do this, just get the target in front
-                var targetRotation = Quaternion.LookRotation(LockedTarget.position - transform.position);
+                var targetRotation = Quaternion.LookRotation(LockedTarget.position - transform.localPosition);
 
-                rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, targetRotation, missileRotationSpeed * Time.deltaTime));
+                rb.MoveRotation(Quaternion.RotateTowards(transform.localRotation, targetRotation, missileRotationSpeed * Time.deltaTime));
             }
         }
     }
@@ -60,6 +60,12 @@ public class MissileProjectile : WeaponProjectileBase
             MissileDectection();
             yield return new WaitForSeconds(missileRadarRefresh);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawSphere(transform.position, missileDectectionRange);
     }
 
     private void MissileDectection()
@@ -75,9 +81,23 @@ public class MissileProjectile : WeaponProjectileBase
             //Detection logic for homing missile
             for (int i = 0; i < MissileTargets.Length; i++)
             {
+                if (MissileTargets[i].transform.root.GetComponent<NewCarController>())
+                {
+                    if (MissileTargets[i].transform.root.GetComponent<NewCarController>().ownerID
+                        != originOwnerID)
+                    {
+                        LockedTarget = MissileTargets[i].transform;
+                        return;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                //Logic to prioritize targets
                 if (MissileTargets[i].transform.root.tag == "target")
                 {
-                    LockedTarget = MissileTargets[i].transform.root;
+                    LockedTarget = MissileTargets[i].transform;
                     return;
                 }
             }

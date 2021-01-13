@@ -234,9 +234,10 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             return;
         }
 
-        if (other.transform.GetComponent<NewCarController>() != null)
+        //Only look at the root of the transform object
+        if (other.transform.root.GetComponent<NewCarController>() != null)
         {
-            if (other.GetComponent<NewCarController>().ownerID == originOwnerID)
+            if (other.transform.root.GetComponent<NewCarController>().ownerID == originOwnerID)
             {
                 Debug.Log("Self hit");
                 return;
