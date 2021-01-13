@@ -1013,13 +1013,13 @@ MonoBehaviour:
   _handBrake: 0
   explosionPoint: {x: 0, y: 0, z: 0}
   m_wayPoints: []
-  currentWP: {fileID: 0}
+  currentWPT: {fileID: 0}
   steerRefreshTimer: 1
   currentWPindex: 0
   waypointSwitchThreshold: 30
   _owner: 0
   _health: 0
-  _maxHealth: 0
+  _maxHealth: 10000
   _explosionForce: {x: 0, y: 0, z: 0}
 --- !u!114 &7175390289188852947
 MonoBehaviour:

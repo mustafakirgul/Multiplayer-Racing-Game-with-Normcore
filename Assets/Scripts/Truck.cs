@@ -29,59 +29,87 @@ public class Truck : RealtimeComponent<TruckModel>
 
     //Truck Way Points System
     [SerializeField]
-    private List<Transform> m_wayPoints;
+    private List<WayPoint> m_wayPoints;
     [SerializeField]
-    private Transform currentWP;
+    private Transform currentWPT;
     [SerializeField]
     private float steerRefreshTimer;
     [SerializeField]
     private int currentWPindex = 0;
-
     public float waypointSwitchThreshold;
+
+    WaitForSeconds waitASecond => new WaitForSeconds(1f);
+    Vector3 currentDirection; //normalized
 
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
         truckBody = GetComponent<Rigidbody>();
-        truckBody.centerOfMass = new Vector3(truckBody.centerOfMass.x, -5, truckBody.centerOfMass.z);
-    }
-    private void Start()
-    {
         _rTTransform = GetComponent<RealtimeTransform>();
         _rTTransforms = new List<RealtimeTransform>();
         _rTTransforms.AddRange(GetComponentsInChildren<RealtimeTransform>());
         _rTTransforms.Add(GetComponent<RealtimeTransform>());
         _length = _wheels.Length;
-
-        ResetWayPoints();
+        truckBody.centerOfMass = new Vector3(truckBody.centerOfMass.x, -5, truckBody.centerOfMass.z);
     }
-
-    public void ResetWayPoints()
+    private void Start()
     {
-        //Find all waypoints with the waypoints tag
-        for (int i = (FindObjectsOfType<WayPoint>().Length - 1); i > -1; i--)
-        {
-            m_wayPoints.Add(FindObjectsOfType<WayPoint>()[i].transform);
-        }
-
-        m_wayPoints = m_wayPoints.OrderBy(waypoint => waypoint.transform.name).ToList();
-
-        currentWP = m_wayPoints[0];
-        SetWayPointDirection(currentWP);
-        StartCoroutine(CheckSteering());
+        InitializWaypointAI();
     }
+
+    public void InitializWaypointAI()
+    {
+        m_wayPoints = new List<WayPoint>();
+        m_wayPoints.AddRange(FindObjectsOfType<WayPoint>());
+        m_wayPoints = m_wayPoints.OrderBy(waypoint => waypoint.index).ToList();
+        SetWayPoint(0);  // start moving towards first waypoint
+        StartCoroutine(WaypointAI()); // start 
+    }
+    private IEnumerator WaypointAI()
+    {
+        while (true)
+        {
+            while (currentWPT != null && !isNetworkInstance)
+            {
+                float _distanceToTarget = Vector3.Distance(transform.position, currentWPT.position);
+                Debug.Log("MGNTD: " + _distanceToTarget);
+                if (_distanceToTarget < waypointSwitchThreshold)
+                {
+                    currentWPindex++;
+                    SetWayPoint(currentWPindex);
+                }
+                CalculateRoute();
+                yield return waitASecond;
+            }
+            yield return waitASecond;
+        }
+    }
+
+    void SetWayPoint(int wayPointIndex)
+    {
+        currentWPT = m_wayPoints[wayPointIndex % m_wayPoints.Count].transform;
+    }
+
+    void CalculateRoute()
+    {
+        for (int i = 0; i < _length; i++)
+        {
+            _steeringAngle = maxSteeringAngle * Vector3.Dot(Vector3.Cross(transform.forward, (currentWPT.position - transform.position).normalized), Vector3.up);
+            if (_wheels[i].isSteeringWheel)
+            {
+                _wheels[i].collider.steerAngle = Mathf.Lerp(_wheels[i].collider.steerAngle, _steeringAngle, Time.deltaTime);
+            }
+        }
+    }
+
     void ResetTransform()
     {
         transform.position = _startPosition;
         transform.rotation = Quaternion.identity;
     }
+
     private void Update()
     {
-        if (_ownerTransform == null)
-        {
-            _ownerTransform = PlayerManager.instance.RequestOwner(_rTTransforms);
-        }
-
         isNetworkInstance = !_rTTransform.isOwnedLocallySelf;
 
 #if (UNITY_EDITOR)
@@ -98,6 +126,7 @@ public class Truck : RealtimeComponent<TruckModel>
         {
             for (int i = 0; i < _length; i++)
             {
+
                 if (_handBrake)
                 {
                     _wheels[i].collider.motorTorque = 0f;
@@ -112,10 +141,7 @@ public class Truck : RealtimeComponent<TruckModel>
                 if (_wheels[i].model.GetComponent<RealtimeTransform>().ownerIDSelf != GetComponent<RealtimeTransform>().ownerIDSelf)
                     _wheels[i].model.GetComponent<RealtimeTransform>().SetOwnership(GetComponent<RealtimeTransform>().ownerIDSelf);
 
-                if (_wheels[i].isSteeringWheel)
-                {
-                    _wheels[i].collider.steerAngle = Mathf.Lerp(_wheels[i].collider.steerAngle,_steeringAngle, Time.deltaTime);
-                }
+
 
                 _wheels[i].collider.GetWorldPose(out _position, out _rotation);
 
@@ -168,56 +194,6 @@ public class Truck : RealtimeComponent<TruckModel>
             _truck = currentModel;
         }
     }
-
-    private IEnumerator CheckSteering()
-    {
-        while (true)
-        {
-            CheckWayPointTarget(currentWP);
-            SetWayPointDirection(currentWP);
-            yield return new WaitForSeconds(steerRefreshTimer);
-        }
-    }
-
-    void CheckWayPointTarget(Transform currentWaypoint)
-    {
-        if (Vector3.Distance(this.transform.position, currentWaypoint.position) < waypointSwitchThreshold)
-        {
-            currentWPindex++;
-            SetWayPoint(currentWPindex);
-        }
-        else
-        {
-            return;
-        }
-    }
-
-    void SetWayPoint(int wayPointIndex)
-    {
-        if (wayPointIndex >= m_wayPoints.Count)
-        {
-            currentWPindex = wayPointIndex % m_wayPoints.Count;
-            currentWP = m_wayPoints[currentWPindex];
-            //Debug.Log("spill over going to" + currentWPindex);
-
-        }
-        else
-        {
-            currentWP = m_wayPoints[wayPointIndex];
-
-            //Debug.Log("Going to" + wayPointIndex);
-        }
-    }
-
-    void SetWayPointDirection(Transform WP)
-    {
-        float CrossProductConstant = Vector3.Cross(this.transform.forward, WP.transform.position - this.transform.position).y;
-
-        _steeringAngle = Mathf.Clamp((Math.Sign(CrossProductConstant) * 10f), -maxSteeringAngle, maxSteeringAngle); ;
-
-        //Debug.Log("Current Steering Angle is" + _steeringAngle);
-    }
-
     void SetOwner(int _id)
     {
         if (_id >= 0)
