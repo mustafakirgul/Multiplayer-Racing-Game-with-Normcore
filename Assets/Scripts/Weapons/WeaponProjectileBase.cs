@@ -57,14 +57,14 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         colliders = new Collider[0];
         _realtimeView = GetComponent<RealtimeView>();
         _realtimeTransform = GetComponent<RealtimeTransform>();
-            }
+    }
 
     protected virtual void Start()
     {
         if (_realtimeView.isOwnedLocallySelf)
         {
             isNetworkInstance = false;
-            Invoke(nameof(KillTimer), weaponLifeTime);              
+            Invoke(nameof(KillTimer), weaponLifeTime);
         }
         _model.exploded = false;
         originOwnerID = _realtimeTransform.ownerIDSelf;
