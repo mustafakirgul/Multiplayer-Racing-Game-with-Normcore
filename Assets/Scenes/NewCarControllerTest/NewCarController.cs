@@ -503,6 +503,7 @@ public class NewCarController : MonoBehaviour
                 rotation: _barrelTip.rotation,
                 ownedByClient: true,
                 useInstance: _realtime);
+                _bulletBuffer.GetComponent<WeaponProjectileBase>().isNetworkInstance = false;
                 _bulletBuffer.GetComponent<WeaponProjectileBase>().Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                 _bulletBuffer.GetComponent<WeaponProjectileBase>().originOwnerID = ownerID;
 

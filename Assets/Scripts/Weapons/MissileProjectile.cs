@@ -83,4 +83,9 @@ public class MissileProjectile : WeaponProjectileBase
             }
         }
     }
+
+    protected override void OnTriggerEnter(Collider other)
+    {
+        base.OnTriggerEnter(other);
+    }
 }
