@@ -123,16 +123,24 @@ public class NewCarController : MonoBehaviour
     [HideInInspector]
     public int _resets;
 
+    public SpriteRenderer _miniMapRenderer;
+
     private void Awake()
     {
+        _realtime = FindObjectOfType<Realtime>();
+        _realtimeView = GetComponent<RealtimeView>();
+        _realtimeTransform = GetComponent<RealtimeTransform>();
+        ownerID = _realtime.room.clientID;
         if (!offlineTest)
         {
-            _realtime = FindObjectOfType<Realtime>();
-            _realtimeView = GetComponent<RealtimeView>();
-            _realtimeTransform = GetComponent<RealtimeTransform>();
-            ownerID = _realtime.room.clientID;
+            _realtimeView.enabled = true;
+            _realtimeTransform.enabled = true;
             fireTimer = 1f / fireRate;
             _player = GetComponent<Player>();
+            waitFrame = new WaitForEndOfFrame();
+            waitFrame2 = new WaitForEndOfFrame();
+            wait = new WaitForSeconds(fireTimer);
+            muzzleWait = new WaitForSeconds(.2f);
         }
     }
 
@@ -146,6 +154,9 @@ public class NewCarController : MonoBehaviour
     {
         if (_realtimeView.isOwnedLocallySelf)
         {
+            isNetworkInstance = false;
+            uIManager = FindObjectOfType<UIManager>();
+            uIManager.EnableUI();
             //Decouple Sphere Physics from car model
             CarRB.transform.parent = null;
             wheelCount = wheels.Length;
@@ -157,9 +168,6 @@ public class NewCarController : MonoBehaviour
 
             currentX = carBody.localEulerAngles.x;
             currentZ = carBody.localEulerAngles.z;
-            isNetworkInstance = false;
-            uIManager = FindObjectOfType<UIManager>();
-            uIManager.EnableUI();
             speedDisplay = uIManager.speedometer;
             healthRadialLoader = uIManager.playerHealthRadialLoader;
             IDDisplay = uIManager.playerName;
@@ -167,24 +175,27 @@ public class NewCarController : MonoBehaviour
             boostRadialLoader = uIManager.boostRadialLoader;
             StartCoroutine(BoostCounter());
             StartCoroutine(FireCR());
-
             InitCamera();
 
             PlayerManager.instance.AddLocalPlayer(transform);
 
-            waitFrame = new WaitForEndOfFrame();
-            waitFrame2 = new WaitForEndOfFrame();
-            wait = new WaitForSeconds(fireTimer);
-            muzzleWait = new WaitForSeconds(.2f);
+  
         }
         else
         {
+            _miniMapRenderer.color = Color.red;
             m_fplayerLastHealth = 0f;
+            isNetworkInstance = true;
             IDDisplay.gameObject.SetActive(true);
             CarRB.gameObject.SetActive(false);
             IDDisplay.SetText(_currentName);
+            if (!PlayerManager.instance.networkPlayers.Contains(transform))
+            {
+                PlayerManager.instance.networkPlayers.Add(transform);
+            }
         }
         _currentName = _player.playerName;
+        IDDisplay.SetText(_currentName);
         ResetPlayerHealth();
     }
     public IEnumerator UpdateHealthValue()

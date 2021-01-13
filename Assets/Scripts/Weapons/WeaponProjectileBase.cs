@@ -111,6 +111,15 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             StartCoroutine(HitCR());
         }
     }
+
+    void HitBlank()
+    {
+        if (!isNetworkInstance)
+        {
+            _model.exploded = true;
+            StartCoroutine(HitNoDmg());
+        }
+    }
     IEnumerator HitCR()
     {
         if (!isNetworkInstance)
@@ -132,6 +141,57 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                     {
                         colliders[i].gameObject.GetComponent<Player>().ChangeExplosionForce(_origin);
                         colliders[i].gameObject.GetComponent<Player>().DamagePlayer(damage);
+                    }
+                    else if (colliders[i].gameObject.GetComponent<Truck>() != null)
+                    {
+                        colliders[i].gameObject.GetComponent<Truck>().AddExplosionForce(_origin);
+                    }
+
+                    else if (colliders[i].gameObject.GetComponent<Rigidbody>() != null)
+                    {
+                        colliders[i].gameObject.GetComponent<Rigidbody>().AddExplosionForce(20000f, transform.position - _origin, 20f, 1000f);
+                    }
+                }
+            }
+        }
+        if (explosion == null)
+        {
+            explosion = transform.GetChild(0).gameObject;
+        }
+        explosion.SetActive(true);
+        if (wait1Sec == null)
+        {
+            wait1Sec = new WaitForSeconds(1f);
+        }
+        GetComponent<MeshRenderer>().enabled = false;
+        yield return wait1Sec;
+        yield return wait1Sec;
+        explosion.SetActive(false);
+        yield return wait1Sec;
+        Realtime.Destroy(gameObject);
+    }
+
+    IEnumerator HitNoDmg()
+    {
+        if (!isNetworkInstance)
+        {
+            rb.isKinematic = true;
+        }
+        GetComponent<TrailRenderer>().emitting = false;
+        colliders = Physics.OverlapSphere(transform.position, explosiveRange);
+
+        if (colliders != null)
+        {
+            if (colliders.Length > 0)
+            {
+                for (int i = 0; i < colliders.Length; i++)
+                {
+                    Vector3 _origin = colliders[i].transform.position - transform.position;
+                    //Debug.Log("In Explosion Range:" + colliders[i]);
+                    if (colliders[i].gameObject.GetComponent<Player>() != null)
+                    {
+                        colliders[i].gameObject.GetComponent<Player>().ChangeExplosionForce(_origin);
+                        colliders[i].gameObject.GetComponent<Player>().DamagePlayer(0);
                     }
                     else if (colliders[i].gameObject.GetComponent<Truck>() != null)
                     {
@@ -189,7 +249,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         }
         else
         {
-            Hit();
+            HitBlank();
         }
     }
 }
