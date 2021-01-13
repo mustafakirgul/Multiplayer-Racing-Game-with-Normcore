@@ -59,7 +59,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         _realtimeTransform = GetComponent<RealtimeTransform>();
             }
 
-    private void Start()
+    protected virtual void Start()
     {
         if (_realtimeView.isOwnedLocallySelf)
         {

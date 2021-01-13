@@ -15,8 +15,9 @@ public class MissileProjectile : WeaponProjectileBase
     private Transform LockedTarget;
     // Start is called before the first frame update
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         MissileTargets = new Collider[0];
         StartCoroutine(DetectTarget());
     }
