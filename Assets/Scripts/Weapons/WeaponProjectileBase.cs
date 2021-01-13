@@ -66,6 +66,11 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             isNetworkInstance = false;
             Invoke(nameof(KillTimer), weaponLifeTime);
         }
+        else
+        {
+            localOwnerID = _realtimeTransform.ownerIDInHierarchy;
+        }
+
         _model.exploded = false;
     }
 

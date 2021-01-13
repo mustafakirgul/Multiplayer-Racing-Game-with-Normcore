@@ -72,7 +72,7 @@ public class Truck : RealtimeComponent<TruckModel>
             while (currentWPT != null && !isNetworkInstance)
             {
                 float _distanceToTarget = Vector3.Distance(transform.position, currentWPT.position);
-                Debug.Log("MGNTD: " + _distanceToTarget);
+                //Debug.Log("MGNTD: " + _distanceToTarget);
                 if (_distanceToTarget < waypointSwitchThreshold)
                 {
                     currentWPindex++;
