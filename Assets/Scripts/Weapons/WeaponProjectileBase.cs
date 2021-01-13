@@ -119,6 +119,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         }
         GetComponent<TrailRenderer>().emitting = false;
         colliders = Physics.OverlapSphere(transform.position, explosiveRange);
+
         if (colliders != null)
         {
             if (colliders.Length > 0)
@@ -139,7 +140,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
                     else if (colliders[i].gameObject.GetComponent<Rigidbody>() != null)
                     {
-                        colliders[i].gameObject.GetComponent<Rigidbody>().AddExplosionForce(200000f, transform.position - _origin, 20f, 1000f);
+                        colliders[i].gameObject.GetComponent<Rigidbody>().AddExplosionForce(20000f, transform.position - _origin, 20f, 1000f);
                     }
                 }
             }
@@ -170,16 +171,19 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             return;
         }
 
-        if (other.GetComponent<WC_Car_Controller>() != null)
+        if (other.GetComponent<NewCarController>() != null)
         {
-            if (other.GetComponent<WC_Car_Controller>().ownerID == ownerID)
+            if (other.GetComponent<NewCarController>().ownerID == ownerID)
             {
-                Debug.Log("Did not Hit Target!");
+                Debug.Log("Did not Hit Target!" + "projectile ID is" + ownerID + " target ID is " +
+                    other.GetComponent<NewCarController>().ownerID);
                 return;
             }
             else
             {
                 Debug.Log("Did hit Target!");
+                Debug.Log("projectile ID is " + ownerID + " target ID is " +
+                    other.GetComponent<NewCarController>().ownerID);
                 Hit();
             }
         }

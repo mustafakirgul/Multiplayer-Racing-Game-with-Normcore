@@ -51,7 +51,7 @@ public class NewCarController : MonoBehaviour
     public Realtime _realtime;
     private RealtimeView _realtimeView;
     private RealtimeTransform _realtimeTransform;
-    public float ownerID;
+    public int ownerID;
     private ChaseCam followCamera;
     [SerializeField]
     private Transform CameraContainer;
@@ -70,32 +70,31 @@ public class NewCarController : MonoBehaviour
     public bool readyToFire = false;
     public GameObject muzzleFlash;
     float fireTimer;
-    public int ProjectileOwnerID;
 
+    [Space]
+    [Space]
     [Header("UI")]
-    [Space]
-    [Space]
     //UI Controls
     [SerializeField]
     private UIManager uIManager;
-    public Player _player;
     public string _currentName;
 
     public TextMeshProUGUI speedDisplay, IDDisplay;
 
+    [Space]
+    [Space]
     [Header("Health Params")]
-    [Space]
-    [Space]
     //Health Controls
+    public Player _player;
     public Image healthRadialLoader;
     public float m_fplayerLastHealth;
     public GameObject DeathExplosion;
     bool isPlayerAlive;
     public float explosionForce = 2000000f;
 
+    [Space]
+    [Space]
     [Header("Boost Params")]
-    [Space]
-    [Space]
     //Boost Controls
     public Image boostRadialLoader;
     public bool enableBoost = true;
@@ -104,16 +103,16 @@ public class NewCarController : MonoBehaviour
     public bool boosterReady;
     private float boosterCounter;
 
+    [Space]
+    [Space]
     [Header("Light Controls")]
-    [Space]
-    [Space]
     //Light Controls
     public Light RHL;
     public Light LHL;
     private bool lights;
     //Reset Controls
-    public float resetHeight;
     [Space]
+    public float resetHeight;
     //QA
     [HideInInspector]
     public int _bombs;
@@ -216,24 +215,7 @@ public class NewCarController : MonoBehaviour
             yield return waitFrame2;
         }
     }
-    IEnumerator UpdateHealth()
-    {
-        float duration = 0.25f;
 
-        float normalizedTime = 0;
-
-        while (normalizedTime <= 1f)
-        {
-            normalizedTime += (Time.deltaTime / duration);
-
-            if (healthRadialLoader != null)
-            {
-                healthRadialLoader.fillAmount = (Mathf.Lerp(m_fplayerLastHealth, _player.playerHealth, normalizedTime)) / _player.maxPlayerHealth;
-            }
-            yield return null;
-        }
-        m_fplayerLastHealth = _player.playerHealth;
-    }
     IEnumerator BoostCounter()
     {
         while (enableBoost)
@@ -303,15 +285,21 @@ public class NewCarController : MonoBehaviour
                 wheels[i].wheelRTV.RequestOwnership();
                 wheels[i].wheelRT.RequestOwnership();
             }
+
             if (_player.explosionForce != Vector3.zero)
             {
                 ExplosionForce(_player.explosionForce);
             }
-            DetectInput();
+
+            //disable controls when player is dead
+            if (isPlayerAlive)
+            {
+                DetectInput();
+                RotationCheck();
+                TurnTheWheels();
+            }
             DragCheck();
             GroundCheck();
-            RotationCheck();
-            TurnTheWheels();
             transform.position = CarRB.transform.position;
         }
 
@@ -335,8 +323,10 @@ public class NewCarController : MonoBehaviour
     private void PlayerDeath()
     {
         isPlayerAlive = false;
+        moveInput = 0;
+        turnInput = 0;
         DeathExplosion.SetActive(true);
-        CarRB.AddExplosionForce(200000f, this.transform.position, 20f, 1000f, ForceMode.Impulse);
+        CarRB.AddExplosionForce(150f, this.CarRB.transform.position, 20f, 500f, ForceMode.Impulse);
         StartCoroutine(RespawnCountDown(5f));
     }
     private IEnumerator RespawnCountDown(float duration)
@@ -350,6 +340,13 @@ public class NewCarController : MonoBehaviour
     {
         isPlayerAlive = true;
         _player.playerHealth = _player.maxPlayerHealth;
+
+        //Spawn in player animation
+        CarRB.position = new Vector3(transform.position.x, transform.position.y + resetHeight, transform.position.z);
+        Vector3 _rotation = CarRB.rotation.eulerAngles;
+        CarRB.transform.rotation = Quaternion.Euler(_rotation.x, _rotation.y, 0);
+        CarRB.velocity = Vector3.zero;
+
         StartCoroutine(UpdateHealthValue());
     }
     private void OnDestroy()
@@ -395,7 +392,7 @@ public class NewCarController : MonoBehaviour
             }
         }
     }
-        private void MaxSpeedCheck()
+    private void MaxSpeedCheck()
     {
         if (CarRB.velocity.magnitude > (MaxSpeed * (1 + MaxSpeedModifier)))
         {
@@ -443,10 +440,6 @@ public class NewCarController : MonoBehaviour
                 wheels[i].wheelT.Rotate(Vector3.right * Time.deltaTime * LocalVelocity() * wheelTurnFactor);
             }
         }
-
-        //Networking for wheels
-
-
     }
     void DetectInput()
     {
@@ -505,19 +498,20 @@ public class NewCarController : MonoBehaviour
 
                 _bulletBuffer.GetComponent<WeaponProjectileBase>().isNetworkInstance = false;
                 _bulletBuffer.GetComponent<WeaponProjectileBase>().Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
-                _bulletBuffer.GetComponent<WeaponProjectileBase>().ownerID = ProjectileOwnerID;
+                _bulletBuffer.GetComponent<WeaponProjectileBase>().ownerID = ownerID;
 
                 StartCoroutine(FireCR());
             }
         }
 
+        //Need to add reset timer to avoid spamming
         if (Input.GetKeyDown(KeyCode.R) || Input.GetButton("Reset"))//reset
         {
             if (Quaternion.Angle(Quaternion.identity, transform.rotation) > 45f)
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y + resetHeight, transform.position.z);
-                Vector3 _rotation = transform.rotation.eulerAngles;
-                transform.rotation = Quaternion.Euler(_rotation.x, _rotation.y, 0);
+                CarRB.position = new Vector3(transform.position.x, transform.position.y + resetHeight, transform.position.z);
+                Vector3 _rotation = CarRB.rotation.eulerAngles;
+                CarRB.transform.rotation = Quaternion.Euler(_rotation.x, _rotation.y, 0);
                 CarRB.velocity = Vector3.zero;
                 _resets++;
             }
@@ -537,6 +531,17 @@ public class NewCarController : MonoBehaviour
             lights = !lights;
             RHL.enabled = lights;
             LHL.enabled = lights;
+        }
+
+        //AutoDamage Debug
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            _player.DamagePlayer(5f);
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            _player.HealPlayer(5f);
         }
     }
     void GroundCheck()
@@ -569,7 +574,6 @@ public class NewCarController : MonoBehaviour
         //if only pressing turning there should be a small amount of acceleration/speed so car is not turning on its own without momentum
         if (isGrounded)
         {
-
             if (turnInput != 0 && moveInput == 0)
             {
                 //Debug.Log("Stationary Turning");
