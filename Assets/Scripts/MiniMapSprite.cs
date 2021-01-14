@@ -4,7 +4,7 @@ public class MiniMapSprite : MonoBehaviour
 {
     Transform _parent;
     Vector3 _origin;
-    void Start()
+    void Awake()
     {
         _parent = transform.parent;
         _origin = transform.rotation.eulerAngles;
