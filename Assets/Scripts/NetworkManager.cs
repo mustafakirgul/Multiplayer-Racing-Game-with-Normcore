@@ -28,6 +28,7 @@ public class NetworkManager : RealtimeComponent<GameManagerModel>
     public float m_fGameDuration;
     private PlayerManager playerManager;
     private UIManager uIManager;
+    bool readyToStart;
 
     private GameSceneManager gameSceneManager;
 
@@ -64,10 +65,7 @@ public class NetworkManager : RealtimeComponent<GameManagerModel>
         //Only start this coroutine if there are 
         if (playerManager && playerManager.connectedPlayers.Count >= m_iNumOfPlayersForGameStart)
         {
-            if (m_fGameStartTime == 0)
-            {
-                m_fGameStartTime = _realtime.room.time;
-            }
+            readyToStart = true;
             StartCoroutine(CountDownTimeContinously());
         }
     }
@@ -102,11 +100,16 @@ public class NetworkManager : RealtimeComponent<GameManagerModel>
 
     private void Update()
     {
-        if (_model != null)
+        if (_model != null && readyToStart)
         {
-            if (_model.currentGameTimer == 0 && _model.currentGameTimer != m_fGameStartTime)
+            if (_model.currentGameTimer == 0)
             {
+                m_fGameStartTime = _realtime.room.time;
                 _model.currentGameTimer = m_fGameStartTime;
+            }
+            else
+            {
+                m_fGameStartTime = _model.currentGameTimer;
             }
         }
     }
