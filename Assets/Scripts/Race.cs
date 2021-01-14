@@ -19,15 +19,19 @@ public class Race : RealtimeComponent<RaceModel>
 
         if (currentModel != null)
         {
-            if (currentModel.isFreshModel)
-            {
-                m_fGameStartTime = currentModel.gameStartTime;
-            }
             currentModel.gameStartTimeDidChange += GameTimeChanged;
-
-            //Update current model of player when applicable
             Debug.LogWarning("Model updated");
+
             _model = currentModel;
+            m_fGameStartTime = _model.gameStartTime;
+        }
+    }
+
+    private void Update()
+    {
+        if (_model!=null)
+        {
+            Debug.Log("GameStartTime: " + _model.gameStartTime);
         }
     }
 
