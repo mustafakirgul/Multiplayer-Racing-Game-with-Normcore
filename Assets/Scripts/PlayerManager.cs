@@ -44,6 +44,12 @@ public class PlayerManager : MonoBehaviour
                 connectedPlayers.Add(networkPlayers[i]);
             }
         }
+
+        //Check to add yourself as well to the mix
+        if (localPlayer != null && !connectedPlayers.Contains(localPlayer))
+        {
+            connectedPlayers.Add(localPlayer);
+        }
     }
 
     internal Transform RequestOwner(List<RealtimeTransform> _transforms)

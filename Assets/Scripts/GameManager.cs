@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     private UIManager uIManager;
 
     private GameSceneManager gameSceneManager;
+    [SerializeField]
     private bool readyToStart;
 
     //bool isConnected;
@@ -73,11 +74,11 @@ public class GameManager : MonoBehaviour
         if (readyToStart && _race._model != null)
         {
             readyToStart = false;
-            if (_race._model.gameStartTime.Equals(0))
+            if (_race._model.gameStartTime != 0)
             {
                 _race.ChangeGameTime(_realtime.room.time);
+                StartCoroutine(CountDownTimeContinously());
             }
-            StartCoroutine(CountDownTimeContinously());
         }
     }
     private void DidDisconnectFromRoom(Realtime realtime)
@@ -129,13 +130,13 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<MiniMapCamera>()._master = _temp.transform;
         _enterNameCanvas.gameObject.SetActive(false);
         _miniMapCamera.enabled = true;
-        playerManager.AddExistingPlayers();
         StartCoroutine(DelayPlayerCountCheck(2));
     }
 
     private IEnumerator DelayPlayerCountCheck(int DelayTime)
     {
         yield return new WaitForSeconds(DelayTime);
+        playerManager.AddExistingPlayers();
         PlayerCountDownCheck();
     }
     private IEnumerator CountDownTimeContinously()

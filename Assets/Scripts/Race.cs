@@ -31,6 +31,11 @@ public class Race : RealtimeComponent<RaceModel>
         }
     }
 
+    private void Update()
+    {
+        Debug.Log("Model is " + _model);
+    }
+
     public void ChangeGameTime(double Time)
     {
         _model.gameStartTime = Time;
