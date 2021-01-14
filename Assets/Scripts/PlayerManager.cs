@@ -19,6 +19,9 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
     public List<Transform> networkPlayers;
+
+    public List<Transform> connectedPlayers;
+
     public Transform localPlayer;
     public GameObject pointer;
 
@@ -30,6 +33,17 @@ public class PlayerManager : MonoBehaviour
         SingletonCheck();
         _realtime = FindObjectOfType<Realtime>();
         _pointers = new List<Transform>();
+    }
+
+    public void AddExistingPlayers()
+    {
+        if(networkPlayers.Count != 0)
+        {
+            for (int i = 0; i < networkPlayers.Count; i++)
+            {
+                connectedPlayers.Add(networkPlayers[i]);
+            }
+        }
     }
 
     internal Transform RequestOwner(List<RealtimeTransform> _transforms)
@@ -44,6 +58,7 @@ public class PlayerManager : MonoBehaviour
     public void AddLocalPlayer(Transform _player)
     {
         localPlayer = _player;
+        connectedPlayers.Add(_player);
         if (FindObjectOfType<Truck>() == null)
         {
             Realtime.Instantiate("WeirdTruck",
@@ -83,6 +98,7 @@ public class PlayerManager : MonoBehaviour
         if (!networkPlayers.Contains(_player))
         {
             networkPlayers.Add(_player);
+            connectedPlayers.Add(_player);
 
             if (localPlayer != null)
             {
@@ -112,6 +128,11 @@ public class PlayerManager : MonoBehaviour
         if (networkPlayers.Contains(_player))
         {
             networkPlayers.Remove(_player);
+        }
+
+        if(connectedPlayers.Contains(_player))
+        {
+            connectedPlayers.Remove(_player);
         }
     }
 }
