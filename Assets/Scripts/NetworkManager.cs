@@ -22,11 +22,15 @@ public class NetworkManager : RealtimeComponent<GameManagerModel>
     public float m_fMaxTimer;
     public float m_localTimer;
     public int m_iNumOfPlayersForGameStart;
-    private GameManagerModel gameManagerModel;
+    [SerializeField]
+    public GameManagerModel _model;
+    public double m_fGameStartTime;
+    public float m_fGameDuration;
     private PlayerManager playerManager;
     private UIManager uIManager;
 
     private GameSceneManager gameSceneManager;
+
     //bool isConnected;
 
     private void Awake()
@@ -60,6 +64,10 @@ public class NetworkManager : RealtimeComponent<GameManagerModel>
         //Only start this coroutine if there are 
         if (playerManager && playerManager.connectedPlayers.Count >= m_iNumOfPlayersForGameStart)
         {
+            if (m_fGameStartTime == 0)
+            {
+                m_fGameStartTime = _realtime.room.time;
+            }
             StartCoroutine(CountDownTimeContinously());
         }
     }
@@ -82,20 +90,29 @@ public class NetworkManager : RealtimeComponent<GameManagerModel>
             //First time a model runs set timer to max
             if (currentModel.isFreshModel)
             {
-                m_fMaxTimer = currentModel.currentGameTimer;
+                m_fGameStartTime = currentModel.currentGameTimer;
             }
-            m_fMaxTimer = currentModel.currentGameTimer;
             currentModel.currentGameTimerDidChange += GameTimerChange;
             currentModel.currentSceneNumberDidChange += SceneNumberChange;
 
             //Update current model of player when applicable
-            gameManagerModel = currentModel;
+            _model = currentModel;
         }
     }
 
-    private void GameTimerChange(GameManagerModel model, float Time)
+    private void Update()
     {
-        m_fMaxTimer = Time;
+        if (_model != null)
+        {
+            if (_model.currentGameTimer == 0 && _model.currentGameTimer != m_fGameStartTime)
+            {
+                _model.currentGameTimer = m_fGameStartTime;
+            }
+        }
+    }
+    private void GameTimerChange(GameManagerModel model, double Time)
+    {
+        m_fGameStartTime = Time;
     }
 
     private void SceneNumberChange(GameManagerModel model, int SceneNumber)
@@ -118,7 +135,7 @@ public class NetworkManager : RealtimeComponent<GameManagerModel>
         switch (_selection)
         {
             case 1:
-                preferredCar = "NewCar1";
+                preferredCar = "Car1";
                 break;
             case 2:
                 preferredCar = "Car2";
@@ -138,7 +155,7 @@ public class NetworkManager : RealtimeComponent<GameManagerModel>
     private void DidConnectToRoom(Realtime realtime)
     {
         //isConnected = true;
-        _tempName = preferredCar != "" ? preferredCar : "Car";
+        _tempName = preferredCar != "" ? preferredCar : "Car1";
         GameObject _temp = Realtime.Instantiate(_tempName,
                             position: spawnPoint,
                             rotation: Quaternion.identity,
@@ -177,12 +194,10 @@ public class NetworkManager : RealtimeComponent<GameManagerModel>
     }
     private void TimerCountDown()
     {
-        m_fMaxTimer -= Time.deltaTime;
-        m_fMaxTimer = Mathf.Clamp(m_fMaxTimer, 0, 9999f);
-        uIManager.remainingTime = m_fMaxTimer;
+        double _temp = m_fGameDuration - (_realtime.room.time - m_fGameStartTime);
+        Debug.Log("Remaining Time: " + _temp);
+        uIManager.remainingTime = _temp;
         //Update the timer for all managers instances
-        GameTimerChange(gameManagerModel, (m_fMaxTimer));
-
         if (m_fMaxTimer <= 0)
         {
             //SceneTransition Commence Logic should be here

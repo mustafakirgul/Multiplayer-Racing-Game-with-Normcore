@@ -30,8 +30,6 @@ public class NewCarController : MonoBehaviour
     [SerializeField]
     private bool isGrounded;
     public float extraGravity;
-    [SerializeField]
-    public ArcadeWheel[] wheels;
     int wheelCount;
     Quaternion _tempQ;
     float _tempSuspensionDistance;
@@ -124,7 +122,13 @@ public class NewCarController : MonoBehaviour
     public int _resets;
 
     public SpriteRenderer _miniMapRenderer;
-
+    [Space]
+    [Header("Suspension and Wheel Settings")]
+    public bool identicalSuspension4AW;
+    public float suspensionHeight; // these 2 only work if identical suspension for all wheels is true
+    public float wheelSize;
+    [SerializeField]
+    public ArcadeWheel[] wheels;
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
@@ -194,6 +198,43 @@ public class NewCarController : MonoBehaviour
         IDDisplay.SetText(_currentName);
         ownerID = _realtimeTransform.ownerIDInHierarchy;
         ResetPlayerHealth();
+    }
+    void OnValidate()
+    {
+        if (wheels != null)
+        {
+            for (int i = 0; i < wheels.Length; i++)
+            {
+                if (wheels[i].t != null)
+                {
+                    if (wheels[i].wheelT == null)
+                    {
+                        wheels[i].wheelT = wheels[i].t.GetChild(0);
+                    }
+
+                    if (wheels[i].wheelRT == null)
+                    {
+                        wheels[i].wheelRT = wheels[i].t.GetComponent<RealtimeTransform>();
+                    }
+
+                    if (wheels[i].wheelRTV == null)
+                    {
+                        wheels[i].wheelRTV = wheels[i].t.GetComponent<RealtimeView>();
+                    }
+
+                    if (wheels[i].trail == null)
+                    {
+                        wheels[i].trail = wheels[i].t.GetChild(1).gameObject;
+                    }
+
+                    if (identicalSuspension4AW)
+                    {
+                        wheels[i].suspensionHeight = suspensionHeight;
+                        wheels[i].wheelSize = wheelSize;
+                    }
+                }
+            }
+        }
     }
     public IEnumerator UpdateHealthValue()
     {
@@ -598,7 +639,7 @@ public class NewCarController : MonoBehaviour
 
     public float LocalVelocity()
     {
-        Vector3 localVelocity = CarRB.velocity;
+        Vector3 localVelocity = transform.InverseTransformDirection(CarRB.velocity);
         return Mathf.Abs(localVelocity.z);
     }
 
@@ -606,23 +647,6 @@ public class NewCarController : MonoBehaviour
     public static float Damp(float source, float target, float smoothing, float dt)
     {
         return Mathf.Lerp(source, target, 1 - Mathf.Pow(smoothing, dt));
-    }
-
-    float CarAngle()
-    {
-        float carAngle = 0;
-        Vector3 tangente = new Vector3();
-        RaycastHit hit2;
-        if (Physics.Raycast(CarRB.transform.position, -CarRB.transform.up, out hit2, 10, groundLayer))
-        {
-            hit2.normal.Normalize();
-            var distance = -Vector3.Dot(hit2.normal, Vector3.up);
-            //Debug.DrawRay(hit2.point, (Vector3.up + hit2.normal * distance).normalized , Color.white);
-            tangente = (Vector3.up + hit2.normal * distance).normalized;
-            carAngle = Vector3.Angle(tangente, -Vector3.up);                                                        // the current car angle
-                                                                                                                    //Debug.DrawRay(hit2.point,  -Vector3.up, Color.cyan);
-        }
-        return carAngle;
     }
 
     //Weapon Firing Codes
@@ -652,5 +676,6 @@ public struct ArcadeWheel
     public bool isSteeringWheel;
     public float suspensionHeight;
     public float wheelSize;//radius of the wheel (r)
+    [HideInInspector]
     public float originY;
 }

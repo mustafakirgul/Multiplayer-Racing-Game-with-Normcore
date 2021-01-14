@@ -10,7 +10,7 @@ public partial class GameManagerModel
     private int _currentSceneNumber;
 
     [RealtimeProperty(2, true, true)]
-    private float _currentGameTimer;
+    private double _currentGameTimer;
 
     //[RealtimeProperty(3, true, true)]
     //private List<GameWinConditions> _winCons = new List<GameWinConditions>();
@@ -32,7 +32,7 @@ public partial class GameManagerModel : RealtimeModel {
         }
     }
     
-    public float currentGameTimer {
+    public double currentGameTimer {
         get {
             return _cache.LookForValueInCache(_currentGameTimer, entry => entry.currentGameTimerSet, entry => entry.currentGameTimer);
         }
@@ -46,13 +46,13 @@ public partial class GameManagerModel : RealtimeModel {
     
     public delegate void PropertyChangedHandler<in T>(GameManagerModel model, T value);
     public event PropertyChangedHandler<int> currentSceneNumberDidChange;
-    public event PropertyChangedHandler<float> currentGameTimerDidChange;
+    public event PropertyChangedHandler<double> currentGameTimerDidChange;
     
     private struct LocalCacheEntry {
         public bool currentSceneNumberSet;
         public int currentSceneNumber;
         public bool currentGameTimerSet;
-        public float currentGameTimer;
+        public double currentGameTimer;
     }
     
     private LocalChangeCache<LocalCacheEntry> _cache = new LocalChangeCache<LocalCacheEntry>();
@@ -80,7 +80,7 @@ public partial class GameManagerModel : RealtimeModel {
         }
     }
     
-    private void FireCurrentGameTimerDidChange(float value) {
+    private void FireCurrentGameTimerDidChange(double value) {
         try {
             currentGameTimerDidChange?.Invoke(this, value);
         } catch (System.Exception exception) {
@@ -111,7 +111,7 @@ public partial class GameManagerModel : RealtimeModel {
         
         if (context.fullModel) {
             stream.WriteVarint32((uint)PropertyID.CurrentSceneNumber, (uint)_currentSceneNumber);
-            stream.WriteFloat((uint)PropertyID.CurrentGameTimer, _currentGameTimer);
+            stream.WriteDouble((uint)PropertyID.CurrentGameTimer, _currentGameTimer);
         } else if (context.reliableChannel) {
             LocalCacheEntry entry = _cache.localCache;
             if (entry.currentSceneNumberSet || entry.currentGameTimerSet) {
@@ -123,7 +123,7 @@ public partial class GameManagerModel : RealtimeModel {
                 didWriteProperties = true;
             }
             if (entry.currentGameTimerSet) {
-                stream.WriteFloat((uint)PropertyID.CurrentGameTimer, entry.currentGameTimer);
+                stream.WriteDouble((uint)PropertyID.CurrentGameTimer, entry.currentGameTimer);
                 didWriteProperties = true;
             }
             
@@ -144,7 +144,7 @@ public partial class GameManagerModel : RealtimeModel {
                     break;
                 }
                 case (uint)PropertyID.CurrentGameTimer: {
-                    float previousValue = _currentGameTimer;
+                    double previousValue = _currentGameTimer;
                     _currentGameTimer = stream.ReadFloat();
                     bool currentGameTimerExistsInChangeCache = _cache.ValueExistsInCache(entry => entry.currentGameTimerSet);
                     if (!currentGameTimerExistsInChangeCache && _currentGameTimer != previousValue) {

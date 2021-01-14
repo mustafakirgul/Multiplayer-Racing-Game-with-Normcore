@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
     public Image playerHealthRadialLoader;
     public TextMeshProUGUI speedometer, playerName, timer, timeRemaining;
 
-    public float remainingTime;
+    public double remainingTime;
     private GameObject uIPanel;
     public GameObject enterNamePanel;
     Realtime _realtime;

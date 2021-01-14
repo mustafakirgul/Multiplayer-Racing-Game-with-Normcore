@@ -73,6 +73,7 @@ public class Truck : RealtimeComponent<TruckModel>
             {
 #if UNITY_EDITOR
                 waitASecond = new WaitForSeconds(steerRefreshTimer);
+                //Debug.LogWarning("Server time: " + _realtime.room.time);
 #endif
                 float _distanceToTarget = Vector3.Distance(transform.position, currentWPT.position);
                 //Debug.Log("MGNTD: " + _distanceToTarget);
