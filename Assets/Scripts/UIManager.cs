@@ -9,7 +9,9 @@ public class UIManager : MonoBehaviour
 {
     public Image boostRadialLoader;
     public Image playerHealthRadialLoader;
-    public TextMeshProUGUI speedometer, playerName, timer;
+    public TextMeshProUGUI speedometer, playerName, timer, timeRemaining;
+
+    public float remainingTime;
     private GameObject uIPanel;
     public GameObject enterNamePanel;
     Realtime _realtime;
@@ -51,6 +53,8 @@ public class UIManager : MonoBehaviour
                 _sS = _s.ToString();
 
             timer.SetText(_mS + ":" + _sS);
+
+            timeRemaining.SetText(remainingTime.ToString("F2"));
         }
     }
 
