@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class NetworkManager : RealtimeComponent<GameManagerModel>
+public class GameManager : MonoBehaviour
 {
     private Realtime _realtime;
     public Vector3 minimum, maximum;
@@ -23,14 +23,12 @@ public class NetworkManager : RealtimeComponent<GameManagerModel>
     public float m_localTimer;
     public int m_iNumOfPlayersForGameStart;
     [SerializeField]
-    public GameManagerModel _model;
-    public double m_fGameStartTime;
-    public float m_fGameDuration;
+    public Race _race;
     private PlayerManager playerManager;
     private UIManager uIManager;
-    bool readyToStart;
 
     private GameSceneManager gameSceneManager;
+    private bool readyToStart;
 
     //bool isConnected;
 
@@ -57,6 +55,7 @@ public class NetworkManager : RealtimeComponent<GameManagerModel>
 
     private void Start()
     {
+        _race = GetComponent<Race>();
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 2));
     }
 
@@ -69,70 +68,22 @@ public class NetworkManager : RealtimeComponent<GameManagerModel>
             StartCoroutine(CountDownTimeContinously());
         }
     }
+
+    private void Update()
+    {
+        if (readyToStart&&_race._model!=null)
+        {
+            readyToStart = false;
+            if (_race._model.gameStartTime.Equals(0))
+            {
+                _race.ChangeGameTime(_realtime.room.time);
+            }
+        }
+    }
     private void DidDisconnectFromRoom(Realtime realtime)
     {
         chaseCam.ResetCam();
     }
-
-    protected override void OnRealtimeModelReplaced(GameManagerModel previousModel, GameManagerModel currentModel)
-    {
-        if (previousModel != null)
-        {
-            // Unregister from events
-            previousModel.currentGameTimerDidChange -= GameTimerChange;
-            previousModel.currentSceneNumberDidChange -= SceneNumberChange;
-        }
-
-        if (currentModel != null)
-        {
-            //First time a model runs set timer to max
-            if (currentModel.isFreshModel)
-            {
-                m_fGameStartTime = currentModel.currentGameTimer;
-            }
-            currentModel.currentGameTimerDidChange += GameTimerChange;
-            currentModel.currentSceneNumberDidChange += SceneNumberChange;
-
-            //Update current model of player when applicable
-            _model = currentModel;
-        }
-    }
-
-    private void Update()
-    {
-        if (_model != null && readyToStart)
-        {
-            if (_model.currentGameTimer == 0)
-            {
-                m_fGameStartTime = _realtime.room.time;
-                _model.currentGameTimer = m_fGameStartTime;
-            }
-            else
-            {
-                m_fGameStartTime = _model.currentGameTimer;
-            }
-        }
-    }
-    private void GameTimerChange(GameManagerModel model, double Time)
-    {
-        m_fGameStartTime = Time;
-    }
-
-    private void SceneNumberChange(GameManagerModel model, int SceneNumber)
-    {
-        //Not used
-    }
-    //private void Update()
-    //{
-    //    if (isConnected)
-    //    {
-    //        NetworkInfo _networkInfo = _realtime.room.GetNetworkStatistics();
-    //        Debug.Log("Roundtrip Time: " + _networkInfo.roundTripTime + " | SBw: " + _networkInfo.sentBandwidth + " | RBw: " + _networkInfo.receivedBandwidth + " | LostPac%: " + _networkInfo.percentOfPacketsLost);
-    //        Debug.Log("_______________________");
-    //        Debug.Log(_networkInfo.ToString());
-    //        Debug.Log("_______________________");
-    //    }
-    //}
     public void ConnectToRoom(int _selection)
     {
         switch (_selection)
@@ -197,8 +148,8 @@ public class NetworkManager : RealtimeComponent<GameManagerModel>
     }
     private void TimerCountDown()
     {
-        double _temp = m_fGameDuration - (_realtime.room.time - m_fGameStartTime);
-        Debug.Log("Remaining Time: " + _temp);
+        double _temp = _race.m_fRaceDuration - (_realtime.room.time - _race.m_fGameStartTime);
+        //Debug.Log("Remaining Time: " + _temp);
         uIManager.remainingTime = _temp;
         //Update the timer for all managers instances
         if (m_fMaxTimer <= 0)

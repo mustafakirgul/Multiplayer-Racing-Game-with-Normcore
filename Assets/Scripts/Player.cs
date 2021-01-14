@@ -36,7 +36,6 @@ public class Player : RealtimeComponent<PlayerModel>
         if (_name.Length > 0)
         {
             _model.playerName = _name;
-            //Debug.LogWarning("Local name set: " + _name);
         }
     }
 
