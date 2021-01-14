@@ -19,8 +19,6 @@ public class GameManager : MonoBehaviour
     ChaseCam chaseCam;
 
     //Game Manager Params
-    public float m_fMaxTimer;
-    public float m_localTimer;
     public int m_iNumOfPlayersForGameStart;
     [SerializeField]
     public Race _race;
@@ -64,20 +62,21 @@ public class GameManager : MonoBehaviour
         if (playerManager && playerManager.connectedPlayers.Count >= m_iNumOfPlayersForGameStart)
         {
             readyToStart = true;
+            Debug.Log("Line 65");
+            StartCoroutine(CountDownTimeContinously());
         }
     }
 
     private void Update()
     {
-        Debug.Log("Room Game Start Time:" + _race._model.gameStartTime);
+        //Debug.Log("Room Game Start Time:" + _race._model.gameStartTime);
         if (readyToStart && _race._model != null)
         {
             readyToStart = false;
-            if (_race._model.gameStartTime.Equals(0))
+            if (_race._model.gameStartTime<1000)
             {
                 _race.ChangeGameTime(_realtime.room.time);
-            }
-            StartCoroutine(CountDownTimeContinously());
+            }            
         }
     }
     private void DidDisconnectFromRoom(Realtime realtime)
@@ -148,11 +147,20 @@ public class GameManager : MonoBehaviour
     }
     private void TimerCountDown()
     {
+        Debug.Log("Timer Countdown");
+        if (readyToStart && _race._model != null)
+        {
+            readyToStart = false;
+            if (_race._model.gameStartTime==0)
+            {
+                _race.ChangeGameTime(_realtime.room.time);
+            }
+        }
         double _temp = _race.m_fRaceDuration - (_realtime.room.time - _race.m_fGameStartTime);
         //Debug.Log("Remaining Time: " + _temp);
         uIManager.remainingTime = _temp;
         //Update the timer for all managers instances
-        if (m_fMaxTimer <= 0)
+        if (_temp <= 0)
         {
             //SceneTransition Commence Logic should be here
             //Fade out of scene first
