@@ -8,6 +8,9 @@ public class AutoSceneTransitonTag : MonoBehaviour
 
     [SerializeField]
     GameSceneManager gameSceneManager;
+
+    [SerializeField]
+    PlayerManager playerManager;
     private void Awake()
     {
         gameSceneManager = FindObjectOfType<GameSceneManager>();
@@ -15,6 +18,13 @@ public class AutoSceneTransitonTag : MonoBehaviour
         if (gameSceneManager)
         {
             gameSceneManager.CheckForAutoSceneTransition();
+        }
+
+        playerManager = FindObjectOfType<PlayerManager>();
+
+        if (playerManager)
+        {
+            playerManager.CleanEmptiesInLists();
         }
     }
 }

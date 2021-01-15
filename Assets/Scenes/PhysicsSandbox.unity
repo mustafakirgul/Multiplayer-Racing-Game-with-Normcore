@@ -71192,7 +71192,7 @@ MonoBehaviour:
   preferredCar: 
   m_fMaxTimer: 0
   m_localTimer: 0
-  m_iNumOfPlayersForGameStart: 2
+  m_iNumOfPlayersForGameStart: 1
   _race: {fileID: 0}
   readyToStart: 0
 --- !u!114 &2097422277
@@ -71208,7 +71208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_fGameStartTime: 0
-  m_fRaceDuration: 30
+  m_fRaceDuration: 10
 --- !u!114 &2097422278
 MonoBehaviour:
   m_ObjectHideFlags: 0

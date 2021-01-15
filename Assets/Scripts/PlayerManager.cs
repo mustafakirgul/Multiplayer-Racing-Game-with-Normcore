@@ -147,4 +147,28 @@ public class PlayerManager : MonoBehaviour
             connectedPlayers.Remove(_player);
         }
     }
+
+    public void CleanEmptiesInLists()
+    {
+        networkPlayers.Clear();
+        connectedPlayers.Clear();
+
+        //for (int i = networkPlayers.Count - 1; i > 0; i--)
+        //{
+        //    if(networkPlayers[i] == null)
+        //    {
+        //        networkPlayers.RemoveAt(i);
+        //    }
+        //}
+
+        //for (int i = connectedPlayers.Count - 1; i > 0; i--)
+        //{
+        //    if (networkPlayers[i] == null)
+        //    {
+        //        connectedPlayers.RemoveAt(i);
+        //    }
+        //}
+
+        localPlayer = null;
+    }
 }
