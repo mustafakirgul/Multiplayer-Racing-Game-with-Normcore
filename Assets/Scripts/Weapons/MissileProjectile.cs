@@ -9,6 +9,8 @@ public class MissileProjectile : WeaponProjectileBase
     public float missileDectectionRange;
     public float missileRadarRefresh;
 
+    public LayerMask MissileDetectionLayer;
+
     public Collider[] MissileTargets;
 
     [SerializeField]
@@ -27,30 +29,21 @@ public class MissileProjectile : WeaponProjectileBase
     {
         base.Update();
 
-        MissileBrain();
+        if (rb != null)
+        {
+            MissileBrain();
+            AdjustMissileCourse();
+        }
+        else
+        {
+            return;
+        }
     }
 
     private void MissileBrain()
     {
-
-        if (rb == null)
-        {
-            return;
-        }
-        else
-        {
-            //Missile keeps going forward unless it finds a target
-            rb.velocity = this.transform.forward * (missileSpeed + mf_carVelocity);
-
-            if (LockedTarget != null)
-            {
-                //Determine possibly random target or target that is directly in front of the current car
-                //Don't do this, just get the target in front
-                var targetRotation = Quaternion.LookRotation(LockedTarget.position - transform.localPosition);
-
-                rb.MoveRotation(Quaternion.RotateTowards(transform.localRotation, targetRotation, missileRotationSpeed * Time.deltaTime));
-            }
-        }
+        //Missile keeps going forward unless it finds a target
+        rb.velocity = this.transform.forward * (missileSpeed + mf_carVelocity);
     }
 
     private IEnumerator DetectTarget()
@@ -62,6 +55,18 @@ public class MissileProjectile : WeaponProjectileBase
         }
     }
 
+    private void AdjustMissileCourse()
+    {
+        if (LockedTarget != null)
+        {
+            //Determine possibly random target or target that is directly in front of the current car
+            //Don't do this, just get the target in front
+            var targetRotation = Quaternion.LookRotation(LockedTarget.position - transform.localPosition);
+
+            rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, targetRotation, missileRotationSpeed * Time.deltaTime));
+        }
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.cyan;
@@ -70,7 +75,7 @@ public class MissileProjectile : WeaponProjectileBase
 
     private void MissileDectection()
     {
-        MissileTargets = Physics.OverlapSphere(transform.position, missileDectectionRange);
+        MissileTargets = Physics.OverlapSphere(transform.position, missileDectectionRange, MissileDetectionLayer);
 
         if (MissileTargets.Length == 0)
         {

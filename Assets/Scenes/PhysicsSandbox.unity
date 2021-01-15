@@ -71192,7 +71192,7 @@ MonoBehaviour:
   preferredCar: 
   m_fMaxTimer: 0
   m_localTimer: 0
-  m_iNumOfPlayersForGameStart: 1
+  m_iNumOfPlayersForGameStart: 2
   _race: {fileID: 0}
   readyToStart: 0
 --- !u!114 &2097422277
@@ -71208,7 +71208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_fGameStartTime: 0
-  m_fRaceDuration: 10
+  m_fRaceDuration: 180
 --- !u!114 &2097422278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77808,7 +77808,7 @@ PrefabInstance:
     - target: {fileID: 9072222076205165747, guid: 06d857ea5c9455b4cb76e053f46a3212,
         type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 1847
+      value: 5943
       objectReference: {fileID: 0}
     - target: {fileID: 9072222076205165773, guid: 06d857ea5c9455b4cb76e053f46a3212,
         type: 3}

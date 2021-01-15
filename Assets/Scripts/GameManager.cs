@@ -57,7 +57,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _race = GetComponent<Race>();
-        //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 2));
     }
 
     public void PlayerCountDownCheck()
