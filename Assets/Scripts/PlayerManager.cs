@@ -37,18 +37,21 @@ public class PlayerManager : MonoBehaviour
 
     public void AddExistingPlayers()
     {
-        if(networkPlayers.Count != 0)
+        if (networkPlayers.Count != 0)
         {
             for (int i = 0; i < networkPlayers.Count; i++)
             {
-                connectedPlayers.Add(networkPlayers[i]);
+                if (!connectedPlayers.Contains(networkPlayers[i]))
+                {
+                    connectedPlayers.Add(networkPlayers[i]);
+                }
             }
         }
 
-        //Check to add yourself as well to the mix
-        if (localPlayer != null && !connectedPlayers.Contains(localPlayer))
+        if (localPlayer != null && !connectedPlayers.Contains(localPlayer.transform))
         {
             connectedPlayers.Add(localPlayer);
+            FindObjectOfType<GameManager>().PlayerCountDownCheck();
         }
     }
 
@@ -64,7 +67,7 @@ public class PlayerManager : MonoBehaviour
     public void AddLocalPlayer(Transform _player)
     {
         localPlayer = _player;
-        connectedPlayers.Add(_player);
+        AddExistingPlayers();
         if (FindObjectOfType<Truck>() == null)
         {
             Realtime.Instantiate("WeirdTruck",
@@ -104,7 +107,7 @@ public class PlayerManager : MonoBehaviour
         if (!networkPlayers.Contains(_player))
         {
             networkPlayers.Add(_player);
-            connectedPlayers.Add(_player);
+            AddExistingPlayers();
 
             if (localPlayer != null)
             {
@@ -136,7 +139,7 @@ public class PlayerManager : MonoBehaviour
             networkPlayers.Remove(_player);
         }
 
-        if(connectedPlayers.Contains(_player))
+        if (connectedPlayers.Contains(_player))
         {
             connectedPlayers.Remove(_player);
         }

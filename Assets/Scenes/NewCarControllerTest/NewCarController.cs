@@ -180,6 +180,7 @@ public class NewCarController : MonoBehaviour
             StartCoroutine(FireCR());
             InitCamera();
             PlayerManager.instance.AddLocalPlayer(transform);
+            PlayerManager.instance.AddExistingPlayers();
         }
         else
         {
@@ -192,6 +193,7 @@ public class NewCarController : MonoBehaviour
             if (!PlayerManager.instance.networkPlayers.Contains(transform))
             {
                 PlayerManager.instance.networkPlayers.Add(transform);
+                PlayerManager.instance.AddExistingPlayers();
             }
         }
         _currentName = _player.playerName;

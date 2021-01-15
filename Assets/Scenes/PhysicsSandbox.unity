@@ -71190,8 +71190,11 @@ MonoBehaviour:
   _enterNameCanvas: {fileID: 2144996360}
   _miniMapCamera: {fileID: 898381102}
   preferredCar: 
-  m_iNumOfPlayersForGameStart: 1
+  m_fMaxTimer: 0
+  m_localTimer: 0
+  m_iNumOfPlayersForGameStart: 2
   _race: {fileID: 0}
+  readyToStart: 0
 --- !u!114 &2097422277
 MonoBehaviour:
   m_ObjectHideFlags: 0
