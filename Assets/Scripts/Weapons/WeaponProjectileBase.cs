@@ -54,7 +54,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     }
     private void Awake()
     {
-        isNetworkInstance = true;
         colliders = new Collider[0];
         _realtimeView = GetComponent<RealtimeView>();
         _realtimeTransform = GetComponent<RealtimeTransform>();
@@ -74,6 +73,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     protected virtual void Update()
     {
+        isNetworkInstance = !_realtimeView.isOwnedLocallySelf;
         if (!isNetworkInstance)
         {
             _realtimeView.RequestOwnership();
