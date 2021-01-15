@@ -48,9 +48,12 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
-        if (localPlayer != null && !connectedPlayers.Contains(localPlayer.transform))
+        if (localPlayer != null)
         {
-            connectedPlayers.Add(localPlayer);
+            if (!connectedPlayers.Contains(localPlayer))
+            {
+                connectedPlayers.Add(localPlayer);
+            }
             FindObjectOfType<GameManager>().PlayerCountDownCheck();
         }
     }
