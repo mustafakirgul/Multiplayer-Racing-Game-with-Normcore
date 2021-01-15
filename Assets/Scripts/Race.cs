@@ -20,7 +20,7 @@ public class Race : RealtimeComponent<RaceModel>
         if (currentModel != null)
         {
             currentModel.gameStartTimeDidChange += GameTimeChanged;
-            Debug.LogWarning("Model updated");
+            //Debug.LogWarning("Model updated");
 
             _model = currentModel;
             m_fGameStartTime = _model.gameStartTime;
@@ -29,11 +29,11 @@ public class Race : RealtimeComponent<RaceModel>
 
     private void Update()
     {
-        if (_model!=null)
-        {
-            Debug.Log("GameStartTime: " + _model.gameStartTime);
-            Debug.Log("Model is " + _model);
-        }
+        //if (_model!=null)
+        //{
+        //    Debug.Log("GameStartTime: " + _model.gameStartTime);
+        //    Debug.Log("Model is " + _model);
+        //}
     }
 
     public void ChangeGameTime(double Time)

@@ -60,9 +60,8 @@ public class GameManager : MonoBehaviour
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 2));
     }
 
-    private void PlayerCountDownCheck()
+    public void PlayerCountDownCheck()
     {
-        Debug.LogWarning("Player Countdown Check:" + playerManager.connectedPlayers.Count);
         if (playerManager.connectedPlayers.Count >= m_iNumOfPlayersForGameStart)
         {
             readyToStart = true;
@@ -71,11 +70,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("Room Game Start Time:" + _race._model.gameStartTime);
+        Debug.LogWarning("Room Game Start Time:" + _race._model.gameStartTime);
+        Debug.LogWarning("connected players:" + playerManager.connectedPlayers.Count);
         if (readyToStart && _race._model != null)
         {
             readyToStart = false;
-            if (_race._model.gameStartTime != 0)
+            if (_race._model.gameStartTime == 0)
             {
                 _race.ChangeGameTime(_realtime.room.time);
             }
@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour
         //Debug.Log("Remaining Time: " + _temp);
         uIManager.remainingTime = _temp;
         //Update the timer for all managers instances
-        if (m_fMaxTimer <= 0)
+        if (_temp <= 0)
         {
             //SceneTransition Commence Logic should be here
             //Fade out of scene first
