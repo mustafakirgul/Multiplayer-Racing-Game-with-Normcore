@@ -30,8 +30,6 @@ public class GameManager : MonoBehaviour
     private GameSceneManager gameSceneManager;
     [SerializeField]
     private bool readyToStart;
-    [SerializeField]
-    private bool readyToUpdate;
 
     //bool isConnected;
 
@@ -62,12 +60,12 @@ public class GameManager : MonoBehaviour
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 2));
     }
 
-    public void PlayerCountDownCheck()
+    private void PlayerCountDownCheck()
     {
-        if (playerManager && playerManager.connectedPlayers.Count >= m_iNumOfPlayersForGameStart)
+        Debug.LogWarning("Player Countdown Check:" + playerManager.connectedPlayers.Count);
+        if (playerManager.connectedPlayers.Count >= m_iNumOfPlayersForGameStart)
         {
             readyToStart = true;
-            readyToUpdate = true;
         }
     }
 
@@ -77,19 +75,11 @@ public class GameManager : MonoBehaviour
         if (readyToStart && _race._model != null)
         {
             readyToStart = false;
-            if (_race._model.gameStartTime == 0)
+            if (_race._model.gameStartTime != 0)
             {
                 _race.ChangeGameTime(_realtime.room.time);
             }
             StartCoroutine(CountDownTimeContinously());
-        }
-
-        //Needs an additional non-zero check for _realtime.room.time to initiate the countdown
-        //after for additional players to join
-        if (_race._model.gameStartTime != 0 && readyToUpdate)
-        {
-            readyToUpdate = false;
-            _race.ChangeGameTime(_realtime.room.time);
         }
     }
     private void DidDisconnectFromRoom(Realtime realtime)
@@ -148,7 +138,6 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(DelayTime);
         playerManager.AddExistingPlayers();
-        yield return new WaitForSeconds(DelayTime);
         PlayerCountDownCheck();
     }
     private IEnumerator CountDownTimeContinously()
@@ -161,20 +150,18 @@ public class GameManager : MonoBehaviour
     }
     private void TimerCountDown()
     {
-        double _temp =
-        ((_race.m_fGameStartTime + _race.m_fRaceDuration) - _realtime.room.time);
-        //(_race.m_fRaceDuration - (_realtime.room.time - _race.m_fGameStartTime);
+        double _temp = _race.m_fRaceDuration - (_realtime.room.time - _race.m_fGameStartTime);
         //Debug.Log("Remaining Time: " + _temp);
         uIManager.remainingTime = _temp;
         //Update the timer for all managers instances
-        //if (_temp <= 0)
-        //{
-        //    //SceneTransition Commence Logic should be here
-        //    //Fade out of scene first
-        //    StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 1));
-        //    StartCoroutine(gameSceneManager.DelaySceneTransiton(4f,
-        //        SceneManager.GetActiveScene().buildIndex + 1));
-        //}
+        if (m_fMaxTimer <= 0)
+        {
+            //SceneTransition Commence Logic should be here
+            //Fade out of scene first
+            StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 1));
+            StartCoroutine(gameSceneManager.DelaySceneTransiton(4f,
+                SceneManager.GetActiveScene().buildIndex + 1));
+        }
     }
 }
 public struct GameWinConditions
