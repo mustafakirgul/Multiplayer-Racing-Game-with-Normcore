@@ -62,7 +62,8 @@ public class GameManager : MonoBehaviour
 
     private void PlayerCountDownCheck()
     {
-        if (playerManager && playerManager.connectedPlayers.Count >= m_iNumOfPlayersForGameStart)
+        Debug.LogWarning("Player Countdown Check:" + playerManager.connectedPlayers.Count);
+        if (playerManager.connectedPlayers.Count >= m_iNumOfPlayersForGameStart)
         {
             readyToStart = true;
         }
@@ -77,8 +78,8 @@ public class GameManager : MonoBehaviour
             if (_race._model.gameStartTime != 0)
             {
                 _race.ChangeGameTime(_realtime.room.time);
-                StartCoroutine(CountDownTimeContinously());
             }
+            StartCoroutine(CountDownTimeContinously());
         }
     }
     private void DidDisconnectFromRoom(Realtime realtime)
