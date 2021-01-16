@@ -54,10 +54,11 @@ MonoBehaviour:
   damage: 5
   explosiveRange: 5
   weaponLifeTime: 5
+  truckDamageFactor: 1
   projectile_Mesh: {fileID: 9067687940032826172}
   isNetworkInstance: 0
   originOwnerID: -1
-  missileSpeed: 50
+  missileSpeed: 75
   missileRotationSpeed: 150
   missileDectectionRange: 100
   missileRadarRefresh: 0.15
