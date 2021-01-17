@@ -366,38 +366,57 @@ MonoBehaviour:
     model: {fileID: 923891785070334683}
     isPowered: 1
     isSteeringWheel: 1
+    isReverseSteeringWheel: 0
   - collider: {fileID: 1594467723327804645}
     model: {fileID: 2853746404490818096}
     isPowered: 1
     isSteeringWheel: 0
+    isReverseSteeringWheel: 0
   - collider: {fileID: 8378065325390617876}
     model: {fileID: 3136584542603298966}
     isPowered: 1
     isSteeringWheel: 0
+    isReverseSteeringWheel: 0
   - collider: {fileID: 3666352297812013500}
     model: {fileID: 6249107446023481460}
     isPowered: 1
     isSteeringWheel: 0
+    isReverseSteeringWheel: 0
   - collider: {fileID: 4333691825957492596}
     model: {fileID: 2563968792320880220}
     isPowered: 1
     isSteeringWheel: 1
+    isReverseSteeringWheel: 0
   - collider: {fileID: 7288495552291223708}
     model: {fileID: 2364928757605580326}
     isPowered: 1
     isSteeringWheel: 0
+    isReverseSteeringWheel: 0
   - collider: {fileID: 4900425395211686339}
     model: {fileID: 1463023095167775646}
     isPowered: 1
     isSteeringWheel: 0
+    isReverseSteeringWheel: 0
   - collider: {fileID: 4607614640160673303}
     model: {fileID: 3467400834988179991}
     isPowered: 1
     isSteeringWheel: 0
+    isReverseSteeringWheel: 0
   _torque: 0
   _torqueFactor: 0
   _steeringAngle: 0
+  maxSteeringAngle: 0
   _handBrake: 0
+  explosionPoint: {x: 0, y: 0, z: 0}
+  m_wayPoints: []
+  currentWPT: {fileID: 0}
+  steerRefreshTimer: 0
+  currentWPindex: 0
+  waypointSwitchThreshold: 0
+  _owner: 0
+  _health: 0
+  _maxHealth: 15
+  _explosionForce: {x: 0, y: 0, z: 0}
 --- !u!114 &8311060182861833592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,6 +438,8 @@ MonoBehaviour:
   _components:
   - componentID: 1
     component: {fileID: 381938188479603555}
+  - componentID: 2
+    component: {fileID: 916038708351176854}
   _childViews: []
 --- !u!114 &381938188479603555
 MonoBehaviour:

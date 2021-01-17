@@ -53,6 +53,7 @@ public class Truck : RealtimeComponent<TruckModel>
     }
     private void Start()
     {
+        StartHealth();
         InitializWaypointAI();
         waitASecond = new WaitForSeconds(steerRefreshTimer);
     }
@@ -120,6 +121,8 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void Update()
     {
+        //Debug.Log("truck health is: " + _health);
+
         isNetworkInstance = !_rTTransform.isOwnedLocallySelf;
 
 #if (UNITY_EDITOR)
@@ -160,6 +163,11 @@ public class Truck : RealtimeComponent<TruckModel>
                 _wheels[i].model.rotation = _rotation;
             }
         }
+
+        if(_health != _truck.health)
+        {
+            _health = _truck.health;
+        }
     }
     public void AddExplosionForce(Vector3 _origin)
     {
@@ -181,7 +189,7 @@ public class Truck : RealtimeComponent<TruckModel>
     public float _health;
     public float _maxHealth;
     public Vector3 _explosionForce;
-    private TruckModel _truck;
+    public TruckModel _truck;
     protected override void OnRealtimeModelReplaced(TruckModel previousModel, TruckModel currentModel)
     {
         if (previousModel != null)
@@ -194,7 +202,7 @@ public class Truck : RealtimeComponent<TruckModel>
         if (currentModel != null)
         {
             if (currentModel.isFreshModel)
-                _maxHealth = currentModel.health;
+                currentModel.health = _maxHealth;
             _health = currentModel.health;
             _owner = currentModel.owner;
             _explosionForce = currentModel.explosionPoint;
@@ -220,9 +228,14 @@ public class Truck : RealtimeComponent<TruckModel>
         _truck.explosionPoint += _origin;
     }
 
-    void DamagePlayer(float damage)
+    void StartHealth()
     {
-        HealthChanged(_truck, (_health - damage));
+        _truck.health = _maxHealth;
+    }
+
+    public void DamagePlayer(float damage)
+    {
+        _truck.health -= damage;
     }
 
     void HealthChanged(TruckModel model, float value)

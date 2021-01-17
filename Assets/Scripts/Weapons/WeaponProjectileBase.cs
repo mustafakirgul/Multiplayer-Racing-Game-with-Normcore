@@ -8,10 +8,13 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     public float startSpeed;
     public float damage;
     public float explosiveRange;
-
     public float weaponLifeTime;
+    public float truckDamageFactor;
 
     protected float mf_carVelocity;
+
+    [SerializeField]
+    private GameObject projectile_Mesh;
 
     //TODO: damage types?
     //TODO: weapon upgrades?
@@ -37,19 +40,25 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         {
             // If this is a model that has no data set on it, populate it with the current mesh renderer color.
             // use [ if (currentModel.isFreshModel)] to initialize player prefab
-            _model = currentModel;
             currentModel.explodedDidChange += UpdateExplosionState;
+            _model = currentModel;
         }
     }
-    void KillTimer()
+    void UpdateExplosionState(ProjectileModel model, bool _ifExploded)
     {
-        Hit();
-    }
-    void UpdateExplosionState(ProjectileModel model, bool _state)
-    {
-        if (_state && isNetworkInstance)
+        //Checks for explosion of networked projectiles
+        //Once state changes sync with server to make projectile explodes
+        if (_ifExploded && isNetworkInstance)
         {
             StartCoroutine(HitCR());
+        }
+
+        //No matter if local or server instance, when the projectile explosion state
+        //is updated and if there is an explosion animation, activate it
+
+        if (explosion != null)
+        {
+            explosion.SetActive(true);
         }
     }
     private void Awake()
@@ -58,6 +67,10 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         _realtimeView = GetComponent<RealtimeView>();
         _realtimeTransform = GetComponent<RealtimeTransform>();
     }
+    void KillTimer()
+    {
+        Hit();
+    }
 
     protected virtual void Start()
     {
@@ -65,29 +78,38 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         {
             Invoke(nameof(KillTimer), weaponLifeTime);
         }
+
+        //Set cosmetic explosion to false
+        explosion = transform.GetChild(0).gameObject;
+        explosion.SetActive(false);
         _model.exploded = false;
+
+        //Check to owner of the projectile
+        //Obtain reference to scripts
         originOwnerID = _realtimeTransform.ownerIDSelf;
         _realtimeView.SetOwnership(originOwnerID);
         _realtimeTransform.SetOwnership(originOwnerID);
+        isNetworkInstance = !_realtimeView.isOwnedLocallySelf;
     }
 
     protected virtual void Update()
     {
-        isNetworkInstance = !_realtimeView.isOwnedLocallySelf;
         if (!isNetworkInstance)
         {
             _realtimeView.RequestOwnership();
             _realtimeTransform.RequestOwnership();
         }
+        else
+        {
+            return;
+        }
     }
     private void LateUpdate()
     {
-        if (isNetworkInstance)
-            return;
-        if (transform.position.y < -300)
-        {
-            Realtime.Destroy(gameObject);
-        }
+        //if (transform.position.y < -300)
+        //{
+        //    Realtime.Destroy(gameObject);
+        //}
     }
     public virtual void Fire(Transform _barrelTip, float _tipVelocity)
     {
@@ -95,15 +117,18 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         mf_carVelocity = _tipVelocity;
 
         rb = GetComponent<Rigidbody>();
-        explosion = transform.GetChild(0).gameObject;
-        explosion.SetActive(false);
         wait1Sec = new WaitForSeconds(1f);
+
+        //Only apply kinematics after missile explosion occurs
+        //Let local physics be done on local machine
         if (isNetworkInstance)
         {
             rb.isKinematic = true;
             return;
         }
-        GetComponent<MeshRenderer>().enabled = true;
+
+        //GetComponent<MeshRenderer>().enabled = true;
+        projectile_Mesh.SetActive(true);
         transform.position = _barrelTip.position;
         transform.rotation = _barrelTip.rotation;
     }
@@ -111,8 +136,11 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     {
         if (!isNetworkInstance)
         {
-            _model.exploded = true;
             StartCoroutine(HitCR());
+        }
+        else
+        {
+            _model.exploded = true;
         }
     }
 
@@ -120,16 +148,22 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     {
         if (!isNetworkInstance)
         {
-            _model.exploded = true;
             StartCoroutine(HitNoDmg());
+        }
+        else
+        {
+            _model.exploded = true;
         }
     }
     IEnumerator HitCR()
     {
+        //If this is a server instanced projectile set kinematics to true
+        //This will prevent further physics caculations done locally
         if (!isNetworkInstance)
         {
             rb.isKinematic = true;
         }
+
         GetComponent<TrailRenderer>().emitting = false;
         colliders = Physics.OverlapSphere(transform.position, explosiveRange);
 
@@ -149,6 +183,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                     else if (colliders[i].gameObject.GetComponent<Truck>() != null)
                     {
                         colliders[i].gameObject.GetComponent<Truck>().AddExplosionForce(_origin);
+                        colliders[i].gameObject.GetComponent<Truck>().DamagePlayer(damage * truckDamageFactor);
                     }
 
                     else if (colliders[i].gameObject.GetComponent<Rigidbody>() != null)
@@ -158,16 +193,13 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                 }
             }
         }
-        if (explosion == null)
-        {
-            explosion = transform.GetChild(0).gameObject;
-        }
-        explosion.SetActive(true);
+
         if (wait1Sec == null)
         {
             wait1Sec = new WaitForSeconds(1f);
         }
-        GetComponent<MeshRenderer>().enabled = false;
+        //GetComponent<MeshRenderer>().enabled = false;
+        projectile_Mesh.SetActive(false);
         yield return wait1Sec;
         yield return wait1Sec;
         explosion.SetActive(false);
@@ -177,10 +209,15 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     IEnumerator HitNoDmg()
     {
+        //Once projectile hits, if this object isn't a networked spawned
+        //Which means that only if this is a local projectile owned by the player
+        //Make them stop moving and commence damage caculations
+        //Explosions and animations etc
         if (!isNetworkInstance)
         {
             rb.isKinematic = true;
         }
+
         GetComponent<TrailRenderer>().emitting = false;
         colliders = Physics.OverlapSphere(transform.position, explosiveRange);
 
@@ -209,16 +246,13 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                 }
             }
         }
-        if (explosion == null)
-        {
-            explosion = transform.GetChild(0).gameObject;
-        }
-        explosion.SetActive(true);
+
         if (wait1Sec == null)
         {
             wait1Sec = new WaitForSeconds(1f);
         }
-        GetComponent<MeshRenderer>().enabled = false;
+        //GetComponent<MeshRenderer>().enabled = false;
+        projectile_Mesh.SetActive(false);
         yield return wait1Sec;
         yield return wait1Sec;
         explosion.SetActive(false);
@@ -229,15 +263,22 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     protected virtual void OnTriggerEnter(Collider other)
     {
         //TODO Logic for target type detection
+        //If this is a networked projectile, let the local physic caculation
+        //take place and report on the explosion state of the collision
+        //Must immediately apply physics the moment projectile hits something
         if (isNetworkInstance)
         {
             return;
         }
+        else
+        {
+            rb.isKinematic = true;
+        }
 
         //Only look at the root of the transform object
-        if (other.transform.root.GetComponent<NewCarController>() != null)
+        if (other.gameObject.GetComponent<NewCarController>() != null)
         {
-            if (other.transform.root.GetComponent<NewCarController>().ownerID == originOwnerID)
+            if (other.gameObject.GetComponent<NewCarController>().ownerID == originOwnerID)
             {
                 Debug.Log("Self hit");
                 return;
@@ -245,12 +286,14 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             else
             {
                 Debug.Log("HIT: " + other.GetComponent<NewCarController>().ownerID);
+                _model.exploded = true;
                 Hit();
             }
         }
         else
         {
-            HitBlank();
+            _model.exploded = true;
+            Hit();
         }
     }
 }

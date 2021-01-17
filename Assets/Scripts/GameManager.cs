@@ -31,6 +31,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private bool readyToStart;
 
+    [SerializeField]
+    private Truck lootTruck;
+
     //bool isConnected;
 
     private void Awake()
@@ -54,12 +57,32 @@ public class GameManager : MonoBehaviour
         StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 2));
     }
 
+    private void TruckHealthCheck()
+    {
+        if (lootTruck._truck.health <= 0)
+        {
+            HardPushEndGame();
+        }
+    }
+
+    IEnumerator LootTruckHealthCheck()
+    {
+        while (true)
+        {
+            TruckHealthCheck();
+            yield return new WaitForSeconds(2f);
+        }
+    }
+
+    public void HardPushEndGame()
+    {
+        readyToStart = true;
+    }
+
     private void Start()
     {
         _race = GetComponent<Race>();
-        //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 2));
     }
-
     public void PlayerCountDownCheck()
     {
         if (playerManager.connectedPlayers.Count >= m_iNumOfPlayersForGameStart)
@@ -67,11 +90,10 @@ public class GameManager : MonoBehaviour
             readyToStart = true;
         }
     }
-
     private void Update()
     {
-        Debug.LogWarning("Room Game Start Time:" + _race._model.gameStartTime);
-        Debug.LogWarning("connected players:" + playerManager.connectedPlayers.Count);
+        //Debug.LogWarning("Room Game Start Time:" + _race._model.gameStartTime);
+        //Debug.LogWarning("connected players:" + playerManager.connectedPlayers.Count);
         if (readyToStart && _race._model != null)
         {
             readyToStart = false;
@@ -131,14 +153,17 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<MiniMapCamera>()._master = _temp.transform;
         _enterNameCanvas.gameObject.SetActive(false);
         _miniMapCamera.enabled = true;
-        StartCoroutine(DelayPlayerCountCheck(2));
+        StartCoroutine(DelayPlayerCountCheck(5));
     }
 
     private IEnumerator DelayPlayerCountCheck(int DelayTime)
     {
         yield return new WaitForSeconds(DelayTime);
+        //After delay time this is when the game has started
+        lootTruck = FindObjectOfType<Truck>();
         playerManager.AddExistingPlayers();
-        PlayerCountDownCheck();
+        StartCoroutine(LootTruckHealthCheck());
+        //PlayerCountDownCheck();
     }
     private IEnumerator CountDownTimeContinously()
     {
