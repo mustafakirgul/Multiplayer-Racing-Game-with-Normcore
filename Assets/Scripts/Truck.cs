@@ -61,8 +61,14 @@ public class Truck : RealtimeComponent<TruckModel>
     public void InitializWaypointAI()
     {
         m_wayPoints = new List<WayPoint>();
-        m_wayPoints.AddRange(FindObjectsOfType<WayPoint>());
-        m_wayPoints = m_wayPoints.OrderBy(waypoint => waypoint.index).ToList();
+        foreach (WayPoint waypoint in FindObjectsOfType<WayPoint>())
+        {
+            if (waypoint.gameObject.activeInHierarchy&&!m_wayPoints.Contains(waypoint))
+            {
+                m_wayPoints.Add(waypoint);
+            }
+        }
+                m_wayPoints = m_wayPoints.OrderBy(waypoint => waypoint.index).ToList();
         SetWayPoint(0);  // start moving towards first waypoint
         StartCoroutine(WaypointAI()); // start 
     }
