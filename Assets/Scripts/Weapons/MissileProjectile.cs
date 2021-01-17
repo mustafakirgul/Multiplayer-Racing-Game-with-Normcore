@@ -20,8 +20,11 @@ public class MissileProjectile : WeaponProjectileBase
     protected override void Start()
     {
         base.Start();
-        MissileTargets = new Collider[0];
-        StartCoroutine(DetectTarget());
+        if (!isNetworkInstance)
+        {
+            MissileTargets = new Collider[0];
+            StartCoroutine(DetectTarget());
+        }
     }
 
     // Update is called once per frame
@@ -29,14 +32,10 @@ public class MissileProjectile : WeaponProjectileBase
     {
         base.Update();
 
-        if (rb != null)
+        if (rb != null && !isNetworkInstance)
         {
             MissileBrain();
             AdjustMissileCourse();
-        }
-        else
-        {
-            return;
         }
     }
 
@@ -50,7 +49,7 @@ public class MissileProjectile : WeaponProjectileBase
     {
         while (true)
         {
-            MissileDectection();
+            MissileDetection();
             yield return new WaitForSeconds(missileRadarRefresh);
         }
     }
@@ -73,7 +72,7 @@ public class MissileProjectile : WeaponProjectileBase
         Gizmos.DrawSphere(transform.position, missileDectectionRange);
     }
 
-    private void MissileDectection()
+    private void MissileDetection()
     {
         MissileTargets = Physics.OverlapSphere(transform.position, missileDectectionRange, MissileDetectionLayer);
 
@@ -111,6 +110,9 @@ public class MissileProjectile : WeaponProjectileBase
 
     protected override void OnTriggerEnter(Collider other)
     {
-        base.OnTriggerEnter(other);
+        if (!isNetworkInstance)
+        {
+            base.OnTriggerEnter(other);
+        }        
     }
 }

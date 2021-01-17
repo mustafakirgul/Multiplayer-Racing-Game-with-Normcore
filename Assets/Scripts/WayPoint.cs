@@ -1,14 +1,13 @@
 ﻿using System;
 using UnityEngine;
-
 public class WayPoint : MonoBehaviour
 {
     public int index = -1;
-    public bool startState = true;
+    public bool defaultState;
+
     private void OnValidate()
     {
-        if (index < 0)
-            index = Convert.ToInt32(transform.name.Split(" "[0])[1]);
-        GetComponent<MeshRenderer>().enabled = startState;
+        //index = Convert.ToInt32(transform.name.Split("("[0])[1].Split(")"[0])[0]);
+        GetComponent<MeshRenderer>().enabled = defaultState;
     }
 }

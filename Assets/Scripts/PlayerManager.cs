@@ -74,7 +74,7 @@ public class PlayerManager : MonoBehaviour
         if (FindObjectOfType<Truck>() == null)
         {
             Realtime.Instantiate("WeirdTruck",
-                    position: localPlayer.position - (Vector3.right * 30f) + (Vector3.up * 5f),
+                    position: localPlayer.position + (Vector3.forward * 100f) + (Vector3.up * 5f),
                     rotation: Quaternion.identity,
                ownedByClient: true,
     preventOwnershipTakeover: false,
@@ -86,7 +86,7 @@ public class PlayerManager : MonoBehaviour
             _temp = FindObjectOfType<Truck>().gameObject;
             _temp.GetComponent<RealtimeView>().RequestOwnership();
             _temp.GetComponent<RealtimeTransform>().RequestOwnership();
-            _temp.transform.position = localPlayer.position - (Vector3.right * 30f) + (Vector3.up * 5f);
+            _temp.transform.position = localPlayer.position + (Vector3.forward * 100f) + (Vector3.up * 5f);
             _temp.transform.rotation = Quaternion.identity;
         }
         for (int i = 0; i < networkPlayers.Count; i++)

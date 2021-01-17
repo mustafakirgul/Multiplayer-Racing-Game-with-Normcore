@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     private Realtime _realtime;
-    public Vector3 minimum, maximum;
+    public Vector3 center, size;
     Vector3 spawnPoint;
     public TextMeshProUGUI playerNameInputField;
     public Canvas _enterNameCanvas;
@@ -36,6 +36,11 @@ public class GameManager : MonoBehaviour
 
     //bool isConnected;
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(center, size);
+    }
+
     private void Awake()
     {
         gameSceneManager = FindObjectOfType<GameSceneManager>();
@@ -50,9 +55,9 @@ public class GameManager : MonoBehaviour
         _realtime.didConnectToRoom += DidConnectToRoom;
         _realtime.didDisconnectFromRoom += DidDisconnectFromRoom;
         spawnPoint = new Vector3(
-            UnityEngine.Random.Range(minimum.x, maximum.x),
-            UnityEngine.Random.Range(minimum.y, maximum.y),
-            UnityEngine.Random.Range(minimum.z, maximum.z)
+            UnityEngine.Random.Range(center.x - (size.x * .5f), center.x + (size.x * .5f)),
+            UnityEngine.Random.Range(center.y - (size.y * .5f), center.y + (size.y * .5f)),
+            UnityEngine.Random.Range(center.z - (size.z * .5f), center.z + (size.z * .5f))
         );
         StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 2));
     }
@@ -177,7 +182,10 @@ public class GameManager : MonoBehaviour
     {
         double _temp = _race.m_fRaceDuration - (_realtime.room.time - _race.m_fGameStartTime);
         //Debug.Log("Remaining Time: " + _temp);
-        uIManager.remainingTime = _temp;
+        if (_temp > 0f)
+        {
+            uIManager.timeRemaining.SetText(_temp.ToString("F2"));
+        }
         //Update the timer for all managers instances
         if (_temp <= 0)
         {

@@ -28,6 +28,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     public int originOwnerID = -1;
     RealtimeView _realtimeView;
     RealtimeTransform _realtimeTransform;
+    bool isExploded = false;
 
     protected override void OnRealtimeModelReplaced(ProjectileModel previousModel, ProjectileModel currentModel)
     {
@@ -41,6 +42,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             // If this is a model that has no data set on it, populate it with the current mesh renderer color.
             // use [ if (currentModel.isFreshModel)] to initialize player prefab
             currentModel.explodedDidChange += UpdateExplosionState;
+            isExploded = currentModel.exploded;
             _model = currentModel;
         }
     }
@@ -74,11 +76,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     protected virtual void Start()
     {
-        if (_realtimeView.isOwnedLocallySelf)
-        {
-            Invoke(nameof(KillTimer), weaponLifeTime);
-        }
-
         //Set cosmetic explosion to false
         explosion = transform.GetChild(0).gameObject;
         explosion.SetActive(false);
@@ -89,7 +86,11 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         originOwnerID = _realtimeTransform.ownerIDSelf;
         _realtimeView.SetOwnership(originOwnerID);
         _realtimeTransform.SetOwnership(originOwnerID);
-        isNetworkInstance = !_realtimeView.isOwnedLocallySelf;
+        if (_realtimeView.isOwnedLocallySelf)
+        {
+            Invoke(nameof(KillTimer), weaponLifeTime);
+            isNetworkInstance = false;
+        }
     }
 
     protected virtual void Update()
@@ -99,17 +100,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             _realtimeView.RequestOwnership();
             _realtimeTransform.RequestOwnership();
         }
-        else
-        {
-            return;
-        }
-    }
-    private void LateUpdate()
-    {
-        //if (transform.position.y < -300)
-        //{
-        //    Realtime.Destroy(gameObject);
-        //}
     }
     public virtual void Fire(Transform _barrelTip, float _tipVelocity)
     {
@@ -134,13 +124,10 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     }
     void Hit()
     {
-        if (!isNetworkInstance)
+        if (!isNetworkInstance && !isExploded)
         {
             StartCoroutine(HitCR());
-        }
-        else
-        {
-            _model.exploded = true;
+            isExploded = true;
         }
     }
 
@@ -183,7 +170,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                     else if (colliders[i].gameObject.GetComponent<Truck>() != null)
                     {
                         colliders[i].gameObject.GetComponent<Truck>().AddExplosionForce(_origin);
-                        colliders[i].gameObject.GetComponent<Truck>().DamagePlayer(damage * truckDamageFactor);
+                        colliders[i].gameObject.GetComponent<Truck>().DamagePlayer(damage * truckDamageFactor * (isNetworkInstance ? 0 : 1));
                     }
 
                     else if (colliders[i].gameObject.GetComponent<Rigidbody>() != null)

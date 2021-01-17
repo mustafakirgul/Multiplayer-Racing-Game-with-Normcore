@@ -169,11 +169,6 @@ public class Truck : RealtimeComponent<TruckModel>
                 _wheels[i].model.rotation = _rotation;
             }
         }
-
-        if(_health != _truck.health)
-        {
-            _health = _truck.health;
-        }
     }
     public void AddExplosionForce(Vector3 _origin)
     {
@@ -208,7 +203,7 @@ public class Truck : RealtimeComponent<TruckModel>
         if (currentModel != null)
         {
             if (currentModel.isFreshModel)
-                currentModel.health = _maxHealth;
+                StartHealth();
             _health = currentModel.health;
             _owner = currentModel.owner;
             _explosionForce = currentModel.explosionPoint;
