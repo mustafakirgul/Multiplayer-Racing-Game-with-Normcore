@@ -17,12 +17,9 @@ public class GameSceneManager : MonoBehaviour
     [SerializeField]
     private int m_iSplashIndex = 0;
 
-    [SerializeField]
-    private List<GameObject> m_SplashScreensList = new List<GameObject>();
-
     public Splash[] splashes;
 
-
+    bool transitionStarted;
     #region Singleton Logic
     public static GameSceneManager instance = null;
     private void SingletonCheck()
@@ -41,7 +38,7 @@ public class GameSceneManager : MonoBehaviour
     {
         //Check if this is the only instance of a singleton
         SingletonCheck();
-
+        transitionStarted = false;
         //Obtain reference to fade box
         blackSquareBox = transform.GetChild(0).gameObject;
 
@@ -80,10 +77,10 @@ public class GameSceneManager : MonoBehaviour
     }
     public IEnumerator FadeToBlackOutSquare(bool fadeToBlack, int fadeSpeedTime)
     {
-        if (blackSquareBox == null)
-        {
-            blackSquareBox = transform.GetChild(0).gameObject;
-        }
+        //if (blackSquareBox == null)
+        //{
+        //    blackSquareBox = transform.GetChild(0).gameObject;
+        //}
 
         Color fadeColor = blackSquareBox.GetComponent<Image>().color;
         float fadeAmt;
@@ -93,6 +90,7 @@ public class GameSceneManager : MonoBehaviour
             //Fade Out (Screen turns black)
             while (blackSquareBox.GetComponent<Image>().color.a < 1)
             {
+
                 fadeAmt = fadeColor.a + (Time.deltaTime / fadeSpeedTime);
 
                 fadeColor = new Color(fadeColor.r, fadeColor.g, fadeColor.b, fadeAmt);
@@ -118,7 +116,7 @@ public class GameSceneManager : MonoBehaviour
     {
         yield return StartCoroutine(FadeToBlackOutSquare(false, fadeIntime));
         yield return new WaitForSeconds(duration);
-        StartCoroutine(FadeToBlackOutSquare(true, fadeOutTime));
+        yield return StartCoroutine(FadeToBlackOutSquare(true, fadeOutTime));
     }
 
     public IEnumerator FadeInAndOutSplash(int fadeIntime, int fadeOutTime, int duration, int Index)
@@ -127,30 +125,44 @@ public class GameSceneManager : MonoBehaviour
         yield return StartCoroutine(FadeToBlackOutSquare(false, fadeIntime));
         yield return new WaitForSeconds(duration);
         yield return StartCoroutine(FadeToBlackOutSquare(true, fadeOutTime));
-        m_iSplashIndex++;
-        ShowSplash(m_iSplashIndex);
+        if (m_iSplashIndex + 1 < splashes.Length)
+        {
+            m_iSplashIndex++;
+            ShowSplash(m_iSplashIndex);
+        }
+        else
+        {
+            //load next scene
+            StartCoroutine(FadeToBlackOutSquare(true, fadeOutTime));
+            StartCoroutine(DelaySceneTransiton(fadeOutTime, 1));
+        }
     }
 
     public void CheckForEndSequenceTransition()
     {
-        if (FindObjectOfType<AutoSceneTransitonTag>())
+        if (!transitionStarted)
         {
-            StartCoroutine(DelaySceneTransiton(m_fAutoTransitionDelay,
-                (SceneManager.GetActiveScene().buildIndex - 1)));
-            Debug.Log("Auto Scene Transition Tag Found, Changing Scenes in " +
-                m_fAutoTransitionDelay);
-        }
-        else
-        {
-            Debug.Log("No auto Scene Transition Tag Found");
-            //Do nothing, no auto transition
-            //Wait for manual transition
-            //Manual Scene Transition Code here
-        }
+            transitionStarted = true;
+            if (FindObjectOfType<AutoSceneTransitonTag>())
+            {
+                StartCoroutine(DelaySceneTransiton(m_fAutoTransitionDelay,
+                    (SceneManager.GetActiveScene().buildIndex - 1)));
+                Debug.Log("Auto Scene Transition Tag Found, Changing Scenes in " +
+                    m_fAutoTransitionDelay);
+            }
+            else
+            {
+                Debug.Log("No auto Scene Transition Tag Found");
+                //Do nothing, no auto transition
+                //Wait for manual transition
+                //Manual Scene Transition Code here
+            }
+        }        
     }
     public IEnumerator DelaySceneTransiton(float waitTime, int sceneIndex)
     {
         yield return new WaitForSeconds(waitTime);
+        StartCoroutine(FadeToBlackOutSquare(false, 1));
         SceneManager.LoadScene(sceneIndex);
     }
 }

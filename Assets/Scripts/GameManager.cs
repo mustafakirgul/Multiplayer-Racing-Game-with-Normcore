@@ -40,9 +40,25 @@ public class GameManager : MonoBehaviour
     {
         Gizmos.DrawWireCube(center, size);
     }
+    #region Singleton Logic
+    public static GameManager instance = null;
+    public bool isConnected;
 
+    private void SingletonCheck()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+    #endregion
+    // Start is called before the first frame update
     private void Awake()
     {
+        SingletonCheck();
         gameSceneManager = FindObjectOfType<GameSceneManager>();
         chaseCam = GameObject.FindObjectOfType<ChaseCam>();
         playerManager = FindObjectOfType<PlayerManager>();
@@ -59,12 +75,12 @@ public class GameManager : MonoBehaviour
             UnityEngine.Random.Range(center.y - (size.y * .5f), center.y + (size.y * .5f)),
             UnityEngine.Random.Range(center.z - (size.z * .5f), center.z + (size.z * .5f))
         );
-        StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
+        //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
     }
 
     private void TruckHealthCheck()
     {
-        if (lootTruck._truck.health <= 0)
+        if (lootTruck != null && lootTruck._truck.health <= 0)
         {
             HardPushEndGame();
         }
@@ -132,12 +148,12 @@ public class GameManager : MonoBehaviour
         if (playerNameInputField.text.Length > 0)
         {
             _realtime.Connect("UGP_TEST");
-            //StartCoroutine(gameSceneManager.FadeInAndOut(3, 1, 1));
+            //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 1));
         }
     }
     private void DidConnectToRoom(Realtime realtime)
     {
-        //isConnected = true;
+        isConnected = true;
         _tempName = preferredCar != "" ? preferredCar : "Car1";
         GameObject _temp = Realtime.Instantiate(_tempName,
                             position: spawnPoint,
@@ -159,6 +175,7 @@ public class GameManager : MonoBehaviour
         _enterNameCanvas.gameObject.SetActive(false);
         _miniMapCamera.enabled = true;
         StartCoroutine(DelayPlayerCountCheck(5));
+        StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
     }
 
     private IEnumerator DelayPlayerCountCheck(int DelayTime)

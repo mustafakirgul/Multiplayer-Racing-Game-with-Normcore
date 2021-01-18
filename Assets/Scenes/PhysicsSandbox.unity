@@ -71472,6 +71472,7 @@ MonoBehaviour:
   _race: {fileID: 0}
   readyToStart: 0
   lootTruck: {fileID: 0}
+  isConnected: 0
 --- !u!114 &2097422277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71485,7 +71486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_fGameStartTime: 0
-  m_fRaceDuration: 30
+  m_fRaceDuration: 5
 --- !u!114 &2097422278
 MonoBehaviour:
   m_ObjectHideFlags: 0
