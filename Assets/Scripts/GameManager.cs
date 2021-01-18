@@ -207,7 +207,6 @@ public class GameManager : MonoBehaviour
         //Update the timer for all managers instances
         if (_temp <= 0)
         {
-            m_bhasCountDownBegun = true;
             //SceneTransition Commence Logic should be here
             //Fade out of scene first
             StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 2));
