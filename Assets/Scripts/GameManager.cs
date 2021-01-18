@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
             UnityEngine.Random.Range(center.y - (size.y * .5f), center.y + (size.y * .5f)),
             UnityEngine.Random.Range(center.z - (size.z * .5f), center.z + (size.z * .5f))
         );
-        StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 2));
+        StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
     }
 
     private void TruckHealthCheck()
@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
         if (playerNameInputField.text.Length > 0)
         {
             _realtime.Connect("UGP_TEST");
-            StartCoroutine(gameSceneManager.FadeInAndOut(3, 1));
+            //StartCoroutine(gameSceneManager.FadeInAndOut(3, 1, 1));
         }
     }
     private void DidConnectToRoom(Realtime realtime)

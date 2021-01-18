@@ -73,9 +73,9 @@ public class GameSceneManager : MonoBehaviour
         else
         {
             Debug.Log("Loading Next Scene");
-            StopAllCoroutines();
-            StartCoroutine(DelaySceneTransiton(1f, SceneManager.GetActiveScene().buildIndex + 1));
-            //Array.Clear(splashes, 0, splashes.Length);
+            StartCoroutine(DelaySceneTransiton(5f, SceneManager.GetActiveScene().buildIndex + 1));
+            Array.Clear(splashes, 0, splashes.Length);
+            splashes = new Splash[0];
         }
     }
     public IEnumerator FadeToBlackOutSquare(bool fadeToBlack, int fadeSpeedTime)
@@ -116,7 +116,7 @@ public class GameSceneManager : MonoBehaviour
 
     public IEnumerator FadeInAndOut(int fadeIntime, int fadeOutTime, int duration)
     {
-        StartCoroutine(FadeToBlackOutSquare(false, fadeIntime));
+        yield return StartCoroutine(FadeToBlackOutSquare(false, fadeIntime));
         yield return new WaitForSeconds(duration);
         StartCoroutine(FadeToBlackOutSquare(true, fadeOutTime));
     }
@@ -124,10 +124,9 @@ public class GameSceneManager : MonoBehaviour
     public IEnumerator FadeInAndOutSplash(int fadeIntime, int fadeOutTime, int duration, int Index)
     {
         splashes[Index].splashedGObj.SetActive(true);
-        StartCoroutine(FadeToBlackOutSquare(false, fadeIntime));
-        yield return new WaitForSeconds(fadeIntime + duration);
-        StartCoroutine(FadeToBlackOutSquare(true, fadeOutTime));
-        yield return new WaitForSeconds(fadeOutTime);
+        yield return StartCoroutine(FadeToBlackOutSquare(false, fadeIntime));
+        yield return new WaitForSeconds(duration);
+        yield return StartCoroutine(FadeToBlackOutSquare(true, fadeOutTime));
         m_iSplashIndex++;
         ShowSplash(m_iSplashIndex);
     }
