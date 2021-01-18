@@ -229,7 +229,7 @@ public class Truck : RealtimeComponent<TruckModel>
         _truck.explosionPoint += _origin;
     }
 
-    void StartHealth()
+    public void StartHealth()
     {
         _truck.health = _maxHealth;
     }

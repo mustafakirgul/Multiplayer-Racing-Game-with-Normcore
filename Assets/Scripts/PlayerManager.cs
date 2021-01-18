@@ -73,13 +73,14 @@ public class PlayerManager : MonoBehaviour
         AddExistingPlayers();
         if (FindObjectOfType<Truck>() == null)
         {
-            Realtime.Instantiate("WeirdTruck",
+            _temp = Realtime.Instantiate("WeirdTruck",
                     position: localPlayer.position + (Vector3.forward * 100f) + (Vector3.up * 5f),
                     rotation: Quaternion.identity,
                ownedByClient: true,
     preventOwnershipTakeover: false,
     destroyWhenOwnerOrLastClientLeaves: false,
                  useInstance: _realtime);
+            _temp.GetComponent<Truck>().StartHealth();
         }
         else if (FindObjectOfType<Truck>().GetComponent<RealtimeTransform>().isUnownedSelf)
         {
@@ -88,7 +89,9 @@ public class PlayerManager : MonoBehaviour
             _temp.GetComponent<RealtimeTransform>().RequestOwnership();
             _temp.transform.position = localPlayer.position + (Vector3.forward * 100f) + (Vector3.up * 5f);
             _temp.transform.rotation = Quaternion.identity;
+            _temp.GetComponent<Truck>().StartHealth();
         }
+
         for (int i = 0; i < networkPlayers.Count; i++)
         {
             _temp = Realtime.Instantiate("Pointer",

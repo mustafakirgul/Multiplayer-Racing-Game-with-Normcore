@@ -969,7 +969,7 @@ MonoBehaviour:
   CarRB: {fileID: 1132834545854288050}
   fwdSpeed: 300
   reverseSpd: 100
-  turnSpd: 165
+  turnSpd: 100
   turningFwdSpeed: 35
   airDrag: 0
   groundDrag: 4
