@@ -38,6 +38,10 @@ public class ChaseCam : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (target==null)
+        {
+            isInitialized = false;
+        }
         if (isInitialized)
         {
             float wantedRotationAngle = target.eulerAngles.y;

@@ -17,6 +17,15 @@ public class UIManager : MonoBehaviour
         uIPanel = transform.GetChild(0).gameObject;
         EnableUI();
     }
+    private void Start()
+    {
+        FindObjectOfType<GameManager>().FixAssociations();
+    }
+
+    public void ConnectToRoom(int _index)
+    {
+        GameManager.instance.ConnectToRoom(_index);
+    }
     private void Update()
     {
         if (Input.GetKeyUp(KeyCode.Escape))

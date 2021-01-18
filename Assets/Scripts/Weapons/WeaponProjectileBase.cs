@@ -68,6 +68,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         colliders = new Collider[0];
         _realtimeView = GetComponent<RealtimeView>();
         _realtimeTransform = GetComponent<RealtimeTransform>();
+        rb = GetComponent<Rigidbody>();
     }
     void KillTimer()
     {
@@ -257,7 +258,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         {
             return;
         }
-        else
+        else if (rb != null)
         {
             rb.isKinematic = true;
         }

@@ -41,25 +41,25 @@ public class GameManager : MonoBehaviour
         Gizmos.DrawWireCube(center, size);
     }
 
-    //#region Singleton Logic
-    //public static GameManager instance = null;
-    //public bool isConnected;
+    #region Singleton Logic
+    public static GameManager instance = null;
+    public bool isConnected;
+    private bool isCountingDown;
 
-    //private void SingletonCheck()
-    //{
-    //    if (instance != null && instance != this)
-    //    {
-    //        Destroy(gameObject);
-    //        return;
-    //    }
-    //    instance = this;
-    //    DontDestroyOnLoad(gameObject);
-    //}
-    //#endregion
-    // Start is called before the first frame update
+    private void SingletonCheck()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+    #endregion
     private void Awake()
     {
-        //SingletonCheck();
+        SingletonCheck();
         gameSceneManager = FindObjectOfType<GameSceneManager>();
         chaseCam = GameObject.FindObjectOfType<ChaseCam>();
         playerManager = FindObjectOfType<PlayerManager>();
@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour
             {
                 _race.ChangeGameTime(_realtime.room.time);
             }
+            isCountingDown = true;
             StartCoroutine(CountDownTimeContinously());
         }
     }
@@ -132,6 +133,10 @@ public class GameManager : MonoBehaviour
     }
     public void ConnectToRoom(int _selection)
     {
+        if (_realtime.connected)
+        {
+            _realtime.Disconnect();
+        }
         switch (_selection)
         {
             case 1:
@@ -148,10 +153,25 @@ public class GameManager : MonoBehaviour
         }
         if (playerNameInputField.text.Length > 0)
         {
+            
             _realtime.Connect("UGP_TEST");
+            
             //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 1));
         }
     }
+
+    public void FixAssociations()
+    {
+        lootTruck = FindObjectOfType<Truck>();
+        playerNameInputField = GameObject.FindGameObjectWithTag("enterNameField").GetComponent<TextMeshProUGUI>();
+        _enterNameCanvas = GameObject.FindGameObjectWithTag("enterNameCanvas").GetComponent<Canvas>();
+        _miniMapCamera = GameObject.FindGameObjectWithTag("miniMapCamera").GetComponent<Camera>();
+        gameSceneManager = FindObjectOfType<GameSceneManager>();
+        chaseCam = GameObject.FindObjectOfType<ChaseCam>();
+        playerManager = FindObjectOfType<PlayerManager>();
+        uIManager = FindObjectOfType<UIManager>();
+    }
+
     private void DidConnectToRoom(Realtime realtime)
     {
         //isConnected = true;
@@ -176,7 +196,7 @@ public class GameManager : MonoBehaviour
         _enterNameCanvas.gameObject.SetActive(false);
         _miniMapCamera.enabled = true;
         StartCoroutine(DelayPlayerCountCheck(5));
-        StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
+        //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
     }
 
     private IEnumerator DelayPlayerCountCheck(int DelayTime)
@@ -192,7 +212,11 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            TimerCountDown();
+            while (isCountingDown)
+            {
+                TimerCountDown();
+                yield return null;
+            }
             yield return null;
         }
     }
@@ -210,9 +234,42 @@ public class GameManager : MonoBehaviour
             //SceneTransition Commence Logic should be here
             //Fade out of scene first
             StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 2));
+            isCountingDown = false;
 
+            ThingsToDoBeforeGameEnd();
+
+
+            _realtime.room.Disconnect();
             StartCoroutine(gameSceneManager.DelaySceneTransiton(1f,
                 SceneManager.GetActiveScene().buildIndex + 1));
+        }
+    }
+
+    private void ThingsToDoBeforeGameEnd()
+    {
+        //gather race information and store it for evaluation later
+        //-----------------------------------------------------------
+
+
+        //destroy all players
+        //destroy truck
+        //unown all realtimeviews
+        //destroy anything that contains realtime components, using realtime.destroy
+
+        Realtime[] _rtViews = FindObjectsOfType<Realtime>();
+        RealtimeTransform[] _rtTransforms = FindObjectsOfType<RealtimeTransform>();
+
+        //foreach (RealtimeTransform rtt in _rtTransforms)
+        //{
+        //    rtt.room.Disconnect();
+        //}
+
+        foreach (Realtime rt in _rtViews)
+        {
+            if (!rt.transform.GetComponent<GameManager>())
+            {
+                Realtime.Destroy(rt);
+            }
         }
     }
 }

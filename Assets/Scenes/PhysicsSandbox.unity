@@ -13228,7 +13228,7 @@ GameObject:
   - component: {fileID: 707250627}
   m_Layer: 5
   m_Name: Stats
-  m_TagString: Untagged
+  m_TagString: UIManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16208,7 +16208,7 @@ GameObject:
   - component: {fileID: 898381099}
   m_Layer: 11
   m_Name: MiniMapCamera
-  m_TagString: Untagged
+  m_TagString: miniMapCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16307,12 +16307,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 898381098}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 600, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &919409289
 GameObject:
@@ -21918,7 +21918,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2097422276}
+      - m_Target: {fileID: 707250627}
         m_MethodName: ConnectToRoom
         m_Mode: 3
         m_Arguments:
@@ -27830,7 +27830,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2097422276}
+      - m_Target: {fileID: 707250627}
         m_MethodName: ConnectToRoom
         m_Mode: 3
         m_Arguments:
@@ -66474,7 +66474,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2097422276}
+      - m_Target: {fileID: 707250627}
         m_MethodName: ConnectToRoom
         m_Mode: 3
         m_Arguments:
@@ -68263,7 +68263,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1993620753}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 4.3325806, y: 23.949442, z: -162.64992}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -68273,7 +68273,7 @@ Transform:
   - {fileID: 1967568384}
   - {fileID: 1430110748}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1997864049
 GameObject:
@@ -70269,7 +70269,7 @@ GameObject:
   - component: {fileID: 2051660890}
   m_Layer: 5
   m_Name: Text
-  m_TagString: Untagged
+  m_TagString: enterNameField
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71468,10 +71468,11 @@ MonoBehaviour:
   preferredCar: 
   m_fMaxTimer: 0
   m_localTimer: 0
-  m_iNumOfPlayersForGameStart: 2
+  m_iNumOfPlayersForGameStart: 10
   _race: {fileID: 0}
   readyToStart: 0
   lootTruck: {fileID: 0}
+  isConnected: 0
 --- !u!114 &2097422277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71848,11 +71849,11 @@ GameObject:
   - component: {fileID: 2144996358}
   m_Layer: 5
   m_Name: EnterName
-  m_TagString: Untagged
+  m_TagString: enterNameCanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2144996358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73403,7 +73404,7 @@ Transform:
   - {fileID: 266138758}
   - {fileID: 876230179968471489}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &709814734276494876
 Transform:
@@ -78071,7 +78072,7 @@ PrefabInstance:
     - target: {fileID: 9072222076205165746, guid: 06d857ea5c9455b4cb76e053f46a3212,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9072222076205165746, guid: 06d857ea5c9455b4cb76e053f46a3212,
         type: 3}

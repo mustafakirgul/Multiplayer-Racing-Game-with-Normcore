@@ -151,7 +151,7 @@ public class GameSceneManager : MonoBehaviour
             if (FindObjectOfType<AutoSceneTransitonTag>())
             {
                 StartCoroutine(DelaySceneTransiton(m_fAutoTransitionDelay,
-                    (SceneManager.GetActiveScene().buildIndex - 1)));
+    (SceneManager.GetActiveScene().buildIndex - 1)));
                 Debug.Log("Auto Scene Transition Tag Found, Changing Scenes in " +
                     m_fAutoTransitionDelay);
             }
@@ -162,7 +162,7 @@ public class GameSceneManager : MonoBehaviour
                 //Wait for manual transition
                 //Manual Scene Transition Code here
             }
-        }        
+        }
     }
     public IEnumerator DelaySceneTransiton(float waitTime, int sceneIndex)
     {

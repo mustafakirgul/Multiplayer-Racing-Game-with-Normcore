@@ -10,6 +10,10 @@ TagManager:
   - LootTruck
   - TireParent
   - target
+  - enterNameField
+  - enterNameCanvas
+  - miniMapCamera
+  - UIManager
   layers:
   - Default
   - TransparentFX
