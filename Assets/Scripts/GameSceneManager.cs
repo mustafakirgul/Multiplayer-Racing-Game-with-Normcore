@@ -20,6 +20,8 @@ public class GameSceneManager : MonoBehaviour
     public Splash[] splashes;
 
     bool transitionStarted;
+
+
     #region Singleton Logic
     public static GameSceneManager instance = null;
     private void SingletonCheck()
@@ -40,12 +42,20 @@ public class GameSceneManager : MonoBehaviour
         SingletonCheck();
         transitionStarted = false;
         //Obtain reference to fade box
-        blackSquareBox = transform.GetChild(0).gameObject;
+        ObtainReferenceToBox();
 
         //Check if this scene is automatically loaded
         CheckForEndSequenceTransition();
 
         StartSplashSequence();
+    }
+
+    private void ObtainReferenceToBox()
+    {
+        if (blackSquareBox == null)
+        {
+            blackSquareBox = transform.GetChild(0).gameObject;
+        }
     }
 
     private void StartSplashSequence()
@@ -77,11 +87,6 @@ public class GameSceneManager : MonoBehaviour
     }
     public IEnumerator FadeToBlackOutSquare(bool fadeToBlack, int fadeSpeedTime)
     {
-        //if (blackSquareBox == null)
-        //{
-        //    blackSquareBox = transform.GetChild(0).gameObject;
-        //}
-
         Color fadeColor = blackSquareBox.GetComponent<Image>().color;
         float fadeAmt;
 
@@ -142,7 +147,7 @@ public class GameSceneManager : MonoBehaviour
     {
         if (!transitionStarted)
         {
-            transitionStarted = true;
+            //transitionStarted = true;
             if (FindObjectOfType<AutoSceneTransitonTag>())
             {
                 StartCoroutine(DelaySceneTransiton(m_fAutoTransitionDelay,
@@ -162,7 +167,7 @@ public class GameSceneManager : MonoBehaviour
     public IEnumerator DelaySceneTransiton(float waitTime, int sceneIndex)
     {
         yield return new WaitForSeconds(waitTime);
-        StartCoroutine(FadeToBlackOutSquare(false, 1));
+        StartCoroutine(FadeToBlackOutSquare(false, 2));
         SceneManager.LoadScene(sceneIndex);
     }
 }
