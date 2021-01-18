@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class AutoSceneTransitonTag : MonoBehaviour
 {
@@ -11,13 +13,13 @@ public class AutoSceneTransitonTag : MonoBehaviour
 
     [SerializeField]
     PlayerManager playerManager;
-    private void Awake()
+    private void Start()
     {
         gameSceneManager = FindObjectOfType<GameSceneManager>();
 
         if (gameSceneManager)
         {
-            gameSceneManager.CheckForAutoSceneTransition();
+            gameSceneManager.CheckForEndSequenceTransition();
         }
 
         playerManager = FindObjectOfType<PlayerManager>();
