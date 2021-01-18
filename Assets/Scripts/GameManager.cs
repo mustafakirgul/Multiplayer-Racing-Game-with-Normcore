@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour
         if (playerNameInputField.text.Length > 0)
         {
             _realtime.Connect("UGP_TEST");
-            //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 1));
+            StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 1));
         }
     }
     private void DidConnectToRoom(Realtime realtime)
