@@ -415,7 +415,7 @@ MonoBehaviour:
   waypointSwitchThreshold: 0
   _owner: 0
   _health: 0
-  _maxHealth: 100
+  _maxHealth: 300
   _explosionForce: {x: 0, y: 0, z: 0}
 --- !u!114 &8311060182861833592
 MonoBehaviour:
