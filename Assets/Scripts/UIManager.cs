@@ -35,6 +35,13 @@ public class UIManager : MonoBehaviour
             enterNamePanel.SetActive(true);
         }
     }
+
+    public void ReactivateLogin()
+    {
+        DisableUI();
+        enterNamePanel.SetActive(true);
+    }
+
     public void EnableUI()
     {
         uIPanel.SetActive(true);

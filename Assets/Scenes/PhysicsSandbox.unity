@@ -71879,6 +71879,7 @@ MonoBehaviour:
   m_localTimer: 0
   m_iNumOfPlayersForGameStart: 10
   _race: {fileID: 0}
+  uIManager: {fileID: 0}
   readyToStart: 0
   lootTruck: {fileID: 0}
   isConnected: 0
@@ -74293,9 +74294,9 @@ MonoBehaviour:
     duration: 2
   - splashedGObj: {fileID: 2072082877}
     duration: 2
-  EndGameSplashes:
+  GameEndSplashes:
   - splashedGObj: {fileID: 4345649890836148029}
-    duration: 3
+    duration: 0
 --- !u!223 &4176943516331438295
 Canvas:
   m_ObjectHideFlags: 0

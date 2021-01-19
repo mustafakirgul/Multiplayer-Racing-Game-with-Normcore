@@ -18,10 +18,9 @@ public class GameSceneManager : MonoBehaviour
     private int m_iSplashIndex = 0;
 
     public Splash[] GameStartSplashes;
-    public Splash[] EndGameSplashes;
+    public Splash[] GameEndSplashes;
 
     bool transitionStarted;
-
 
     #region Singleton Logic
     public static GameSceneManager instance = null;
@@ -46,7 +45,7 @@ public class GameSceneManager : MonoBehaviour
         //Obtain reference to fade box
         ObtainReferenceToBox();
         //Disable all End screen splashes
-        DisableSplashes(EndGameSplashes);
+        DisableSplashes(GameEndSplashes);
         EnableSplashes(GameStartSplashes);
         //Check if this scene is automatically loaded
         //CheckForEndSequenceTransition();
@@ -189,22 +188,17 @@ public class GameSceneManager : MonoBehaviour
             }
         }
     }
-    public IEnumerator DelaySceneTransiton(float waitTime, Splash[] splashToDisable)
+    public IEnumerator DelaySceneTransiton(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-
-        for (int i = 0; i < splashToDisable.Length; i++)
-        {
-            splashToDisable[i].splashedGObj.SetActive(false);
-        }
-
         //Instead this should change to the game end canvas or the new screen canvas
-        
-        //Don't load the scene instead just reconnect and restart the game
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         //When the new round loads no longer need intro splashes
-        DisableSplashes(GameStartSplashes);
+        DisableSplashes(GameEndSplashes);
+
+        //Don't load the scene instead just reconnect and restart the game
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameManager.instance.uIManager.ReactivateLogin();
     }
 }
 

@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     public Race _race;
     private PlayerManager playerManager;
-    private UIManager uIManager;
+    public UIManager uIManager;
 
     private GameSceneManager gameSceneManager;
     [SerializeField]
@@ -156,7 +156,7 @@ public class GameManager : MonoBehaviour
 
             _realtime.Connect("UGP_TEST");
 
-            StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 1));
+            //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 1));
         }
     }
 
@@ -192,21 +192,21 @@ public class GameManager : MonoBehaviour
             _temp.GetComponent<NewCarController>()._realtime = _realtime;
         }
         _temp.GetComponent<Player>().SetPlayerName(playerNameInputField.text);
+        
+        
         FindObjectOfType<MiniMapCamera>()._master = _temp.transform;
-        _enterNameCanvas.gameObject.SetActive(false);
         _miniMapCamera.enabled = true;
-        StartCoroutine(DelayPlayerCountCheck(5));
-        StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
+        _enterNameCanvas.gameObject.SetActive(false);
+        StartCoroutine(KeepTrackOfWinConditions(5));
+        //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
     }
 
-    private IEnumerator DelayPlayerCountCheck(int DelayTime)
+    private IEnumerator KeepTrackOfWinConditions(int DelayTime)
     {
         yield return new WaitForSeconds(DelayTime);
-        //After delay time this is when the game has started
         lootTruck = FindObjectOfType<Truck>();
         playerManager.AddExistingPlayers();
         StartCoroutine(LootTruckHealthCheck());
-        //PlayerCountDownCheck();
     }
     private IEnumerator CountDownTimeContinously()
     {
@@ -226,6 +226,7 @@ public class GameManager : MonoBehaviour
         //Debug.Log("Remaining Time: " + _temp);
         if (_temp > 0f)
         {
+            uIManager.timeRemaining.ClearMesh();
             uIManager.timeRemaining.SetText(_temp.ToString("F2"));
         }
         //Update the timer for all managers instances
@@ -233,7 +234,7 @@ public class GameManager : MonoBehaviour
         {
             //SceneTransition Commence Logic should be here
             //Fade out of scene first
-            StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 2));
+            //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 2));
             isCountingDown = false;
 
             ThingsToDoBeforeGameEnd();
@@ -251,12 +252,11 @@ public class GameManager : MonoBehaviour
     {
         yield return StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 2));
         GameSceneManager.instance.EnableSplashes(
-                GameSceneManager.instance.EndGameSplashes);
+                GameSceneManager.instance.GameEndSplashes);
         yield return StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 2));
 
         yield return StartCoroutine(
-            gameSceneManager.DelaySceneTransiton(3f,
-              GameSceneManager.instance.GameStartSplashes)
+            gameSceneManager.DelaySceneTransiton(3f)
         );
     }
 
@@ -273,6 +273,10 @@ public class GameManager : MonoBehaviour
 
         Realtime[] _rtViews = FindObjectsOfType<Realtime>();
         RealtimeTransform[] _rtTransforms = FindObjectsOfType<RealtimeTransform>();
+
+        //Disable MiniMap Camera and other things that needs to be disabled in game
+        _miniMapCamera.enabled = false;
+        uIManager.timeRemaining.ClearMesh();
 
         //foreach (RealtimeTransform rtt in _rtTransforms)
         //{
