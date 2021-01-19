@@ -153,10 +153,10 @@ public class GameManager : MonoBehaviour
         }
         if (playerNameInputField.text.Length > 0)
         {
-            
+
             _realtime.Connect("UGP_TEST");
-            
-            //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 1));
+
+            StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 1));
         }
     }
 
@@ -196,7 +196,7 @@ public class GameManager : MonoBehaviour
         _enterNameCanvas.gameObject.SetActive(false);
         _miniMapCamera.enabled = true;
         StartCoroutine(DelayPlayerCountCheck(5));
-        //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
+        StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
     }
 
     private IEnumerator DelayPlayerCountCheck(int DelayTime)
@@ -240,9 +240,24 @@ public class GameManager : MonoBehaviour
 
 
             _realtime.room.Disconnect();
-            StartCoroutine(gameSceneManager.DelaySceneTransiton(1f,
-                SceneManager.GetActiveScene().buildIndex + 1));
+            //Enable End Game Screens
+            //StartCoroutine(GameSceneManager.instance.FadeInAndOut(2, 2, 3));
+
+            StartCoroutine(EndDisplaySequebce());
         }
+    }
+
+    private IEnumerator EndDisplaySequebce()
+    {
+        yield return StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 2));
+        GameSceneManager.instance.EnableSplashes(
+                GameSceneManager.instance.EndGameSplashes);
+        yield return StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 2));
+
+        yield return StartCoroutine(
+            gameSceneManager.DelaySceneTransiton(3f,
+              GameSceneManager.instance.GameStartSplashes)
+        );
     }
 
     private void ThingsToDoBeforeGameEnd()

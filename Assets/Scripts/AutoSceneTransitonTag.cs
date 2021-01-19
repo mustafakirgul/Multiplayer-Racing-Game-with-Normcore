@@ -19,7 +19,7 @@ public class AutoSceneTransitonTag : MonoBehaviour
 
         if (gameSceneManager)
         {
-            gameSceneManager.CheckForEndSequenceTransition();
+            //gameSceneManager.CheckForEndSequenceTransition();
         }
 
         playerManager = FindObjectOfType<PlayerManager>();

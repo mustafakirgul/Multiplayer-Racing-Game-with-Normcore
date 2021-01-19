@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class SceneChangeSplashTag : MonoBehaviour
 {
-    public int m_iOrderIndex;
+    public bool isStartSplash;
 }

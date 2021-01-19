@@ -17,7 +17,8 @@ public class GameSceneManager : MonoBehaviour
     [SerializeField]
     private int m_iSplashIndex = 0;
 
-    public Splash[] splashes;
+    public Splash[] GameStartSplashes;
+    public Splash[] EndGameSplashes;
 
     bool transitionStarted;
 
@@ -40,14 +41,33 @@ public class GameSceneManager : MonoBehaviour
     {
         //Check if this is the only instance of a singleton
         SingletonCheck();
+        StopAllCoroutines();
         transitionStarted = false;
         //Obtain reference to fade box
         ObtainReferenceToBox();
-
+        //Disable all End screen splashes
+        DisableSplashes(EndGameSplashes);
+        EnableSplashes(GameStartSplashes);
         //Check if this scene is automatically loaded
-        CheckForEndSequenceTransition();
+        //CheckForEndSequenceTransition();
 
         StartSplashSequence();
+    }
+
+    public void EnableSplashes(Splash[] splashesToEnable)
+    {
+        for (int i = 0; i < splashesToEnable.Length; i++)
+        {
+            splashesToEnable[i].splashedGObj.SetActive(true);
+        }
+    }
+
+    public void DisableSplashes(Splash[] splashesToDisable)
+    {
+        for (int i = 0; i < splashesToDisable.Length; i++)
+        {
+            splashesToDisable[i].splashedGObj.SetActive(false);
+        }
     }
 
     private void ObtainReferenceToBox()
@@ -57,35 +77,39 @@ public class GameSceneManager : MonoBehaviour
             blackSquareBox = transform.GetChild(0).gameObject;
         }
     }
-
     private void StartSplashSequence()
     {
         if (m_bisAutomatedSplashes)
         {
             //Turn off all splashes first
-            for (int i = 0; i < splashes.Length; i++)
+            for (int i = 0; i < GameStartSplashes.Length; i++)
             {
-                splashes[i].splashedGObj.SetActive(false);
+                GameStartSplashes[i].splashedGObj.SetActive(false);
             }
 
             ShowSplash(m_iSplashIndex);
         }
+        else
+        {
+
+        }
     }
     private void ShowSplash(int SplashIndex)
     {
-        if (SplashIndex < splashes.Length)
+        if (SplashIndex < GameStartSplashes.Length)
         {
-            StartCoroutine(FadeInAndOutSplash(m_fFadeTime, m_fFadeTime, splashes[SplashIndex].duration, SplashIndex));
+            StartCoroutine(FadeInAndOutSplash(m_fFadeTime, m_fFadeTime, GameStartSplashes[SplashIndex].duration, SplashIndex));
         }
         else
         {
-            Debug.Log("Loading Next Scene");
-            StartCoroutine(DelaySceneTransiton(5f, SceneManager.GetActiveScene().buildIndex + 1));
-            Array.Clear(splashes, 0, splashes.Length);
-            splashes = new Splash[0];
+            Debug.Log("Loading Game Scene");
+            //Disable all start splashes
+            DisableSplashes(GameStartSplashes);
+            //Fade to Game Scene
+            StartCoroutine(FadeToBlackOutSquare(false, 2));
         }
     }
-    public IEnumerator FadeToBlackOutSquare(bool fadeToBlack, int fadeSpeedTime)
+    public IEnumerator FadeToBlackOutSquare(bool fadeToBlack, float fadeSpeedTime)
     {
         Color fadeColor = blackSquareBox.GetComponent<Image>().color;
         float fadeAmt;
@@ -117,30 +141,31 @@ public class GameSceneManager : MonoBehaviour
         }
     }
 
-    public IEnumerator FadeInAndOut(int fadeIntime, int fadeOutTime, int duration)
+    public IEnumerator FadeInAndOut(float fadeIntime, float fadeOutTime, float duration)
     {
         yield return StartCoroutine(FadeToBlackOutSquare(false, fadeIntime));
         yield return new WaitForSeconds(duration);
         yield return StartCoroutine(FadeToBlackOutSquare(true, fadeOutTime));
     }
 
-    public IEnumerator FadeInAndOutSplash(int fadeIntime, int fadeOutTime, int duration, int Index)
+    public IEnumerator FadeInAndOutSplash(float fadeIntime, float fadeOutTime, float duration, int Index)
     {
-        splashes[Index].splashedGObj.SetActive(true);
+        GameStartSplashes[Index].splashedGObj.SetActive(true);
         yield return StartCoroutine(FadeToBlackOutSquare(false, fadeIntime));
         yield return new WaitForSeconds(duration);
         yield return StartCoroutine(FadeToBlackOutSquare(true, fadeOutTime));
-        if (m_iSplashIndex + 1 < splashes.Length)
-        {
-            m_iSplashIndex++;
-            ShowSplash(m_iSplashIndex);
-        }
-        else
-        {
-            //load next scene
-            StartCoroutine(FadeToBlackOutSquare(true, fadeOutTime));
-            StartCoroutine(DelaySceneTransiton(fadeOutTime, 1));
-        }
+
+        //if (m_iSplashIndex + 1 < GameStartSplashes.Length)
+        //{
+        m_iSplashIndex++;
+        ShowSplash(m_iSplashIndex);
+        //}
+        //else
+        //{
+        //    //load next scene
+        //    StartCoroutine(FadeToBlackOutSquare(true, fadeOutTime));
+        //    StartCoroutine(DelaySceneTransiton(fadeOutTime, GameStartSplashes));
+        //}
     }
 
     public void CheckForEndSequenceTransition()
@@ -150,10 +175,10 @@ public class GameSceneManager : MonoBehaviour
             //transitionStarted = true;
             if (FindObjectOfType<AutoSceneTransitonTag>())
             {
-                StartCoroutine(DelaySceneTransiton(m_fAutoTransitionDelay,
-    (SceneManager.GetActiveScene().buildIndex - 1)));
-                Debug.Log("Auto Scene Transition Tag Found, Changing Scenes in " +
-                    m_fAutoTransitionDelay);
+                //StartCoroutine(DelaySceneTransiton(m_fAutoTransitionDelay, EndGameSplashes));
+                //Debug.Log("Auto Scene Transition Tag Found, Changing Scenes in " +
+                //    m_fAutoTransitionDelay);
+                //Need a new wait to restart and reload the game
             }
             else
             {
@@ -164,11 +189,22 @@ public class GameSceneManager : MonoBehaviour
             }
         }
     }
-    public IEnumerator DelaySceneTransiton(float waitTime, int sceneIndex)
+    public IEnumerator DelaySceneTransiton(float waitTime, Splash[] splashToDisable)
     {
         yield return new WaitForSeconds(waitTime);
-        StartCoroutine(FadeToBlackOutSquare(false, 2));
-        SceneManager.LoadScene(sceneIndex);
+
+        for (int i = 0; i < splashToDisable.Length; i++)
+        {
+            splashToDisable[i].splashedGObj.SetActive(false);
+        }
+
+        //Instead this should change to the game end canvas or the new screen canvas
+        
+        //Don't load the scene instead just reconnect and restart the game
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        //When the new round loads no longer need intro splashes
+        DisableSplashes(GameStartSplashes);
     }
 }
 
