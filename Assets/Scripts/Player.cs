@@ -1,5 +1,4 @@
 ﻿using Normal.Realtime;
-using Normal.Realtime.Serialization;
 using UnityEngine;
 
 public class Player : RealtimeComponent<PlayerModel>
