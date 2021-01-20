@@ -244,11 +244,11 @@ public class GameManager : MonoBehaviour
             //Enable End Game Screens
             //StartCoroutine(GameSceneManager.instance.FadeInAndOut(2, 2, 3));
 
-            StartCoroutine(EndDisplaySequebce());
+            StartCoroutine(EndDisplaySequence());
         }
     }
 
-    private IEnumerator EndDisplaySequebce()
+    private IEnumerator EndDisplaySequence()
     {
         yield return StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 2));
         GameSceneManager.instance.EnableSplashes(

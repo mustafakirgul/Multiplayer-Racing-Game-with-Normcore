@@ -404,6 +404,8 @@ public class NewCarController : MonoBehaviour
     {
         if (isNetworkInstance)
             PlayerManager.instance.RemoveNetworkPlayer(transform);
+        if (CarRB != null)
+            Destroy(CarRB.gameObject);
     }
     private void FixedUpdate()
     {

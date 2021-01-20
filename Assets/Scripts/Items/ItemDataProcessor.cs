@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemType { None, Attack, Armour, Body, Speed }
+public enum ItemType { None, Weapon, Armour, Engine, Other }
 public class ItemDataProcessor : MonoBehaviour
 {
     [SerializeField]
@@ -11,11 +11,11 @@ public class ItemDataProcessor : MonoBehaviour
     [SerializeField]
     private float mf_ItemMeleeAttack;
     [SerializeField]
-    private float mf_ItemDefense;
-    [SerializeField]
     private float mf_ItemHealth;
     [SerializeField]
     private float mf_ItemSpeed;
+    [SerializeField]
+    private float mf_ItemOther;
     [SerializeField]
     private float mf_maxItemCount;
 
@@ -33,17 +33,17 @@ public class ItemDataProcessor : MonoBehaviour
             {
                 case ItemType.None:
                     break;
-                case ItemType.Attack:
+                case ItemType.Weapon:
                     mf_ItemMeleeAttack += m_listOfItems[i].m_Attack;
                     break;
                 case ItemType.Armour:
-                    mf_ItemDefense += m_listOfItems[i].m_Defense;
-                    break;
-                case ItemType.Body:
                     mf_ItemHealth += m_listOfItems[i].m_Health;
                     break;
-                case ItemType.Speed:
+                case ItemType.Engine:
                     mf_ItemSpeed += m_listOfItems[i].m_Speed;
+                    break;
+                case ItemType.Other:
+                    mf_ItemOther += m_listOfItems[i].m_Speed;
                     break;
                 default:
                     break;
@@ -51,23 +51,25 @@ public class ItemDataProcessor : MonoBehaviour
         }
     }
 
+    //Use this for temporary items that will boost the attack or defense
+    //of builds in game
     public void ProcessSingleItemData(ItemBase ItemPickUp)
     {
         switch (ItemPickUp._ItemType)
         {
             case ItemType.None:
                 break;
-            case ItemType.Attack:
+            case ItemType.Weapon:
                 mf_ItemMeleeAttack += ItemPickUp.m_Attack;
                 break;
             case ItemType.Armour:
-                mf_ItemDefense += ItemPickUp.m_Defense;
-                break;
-            case ItemType.Body:
                 mf_ItemHealth += ItemPickUp.m_Health;
                 break;
-            case ItemType.Speed:
+            case ItemType.Engine:
                 mf_ItemSpeed += ItemPickUp.m_Speed;
+                break;
+            case ItemType.Other:
+                mf_ItemOther += ItemPickUp.m_Speed;
                 break;
             default:
                 break;

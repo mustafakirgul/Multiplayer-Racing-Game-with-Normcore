@@ -3,7 +3,7 @@
 public class CarPhysicsSphereCleaner : MonoBehaviour
 {
     Transform master;
-    private void Start()
+    private void Awake()
     {
         if (master==null)
         {
