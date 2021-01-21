@@ -146,13 +146,13 @@ public class GameManager : MonoBehaviour
         }
         switch (_selection)
         {
-            case 1:
+            case 0:
                 preferredCar = "Car1";
                 break;
-            case 2:
+            case 1:
                 preferredCar = "Car2";
                 break;
-            case 3:
+            case 2:
                 preferredCar = "Car3";
                 break;
             default:
@@ -160,7 +160,7 @@ public class GameManager : MonoBehaviour
         }
         if (playerNameInputField.text.Length > 0)
         {
-
+            Debug.Log(preferredCar);
             _realtime.Connect("UGP_TEST");
 
             //Coroutines tend to mess up here due to connection/network related
