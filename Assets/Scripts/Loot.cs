@@ -6,7 +6,7 @@ public class Loot : RealtimeComponent<LootModel>
 {
     [Space(10)] public int id;
     public int collectedBy;
-    private LootModel _model;
+    private LootContainer _container => transform.GetComponent<LootContainer>();
 
     protected override void OnRealtimeModelReplaced(LootModel previousModel, LootModel currentModel)
     {
@@ -20,34 +20,29 @@ public class Loot : RealtimeComponent<LootModel>
 
         if (currentModel != null)
         {
+            
+            _container.SetID(currentModel.id);
+            Debug.LogWarning("ID set in replace event: " + currentModel.id);
             currentModel.idDidChange += IDChanged;
             currentModel.collectedByDidChange += CollectedByChanged;
-            _model = currentModel;
-            if (currentModel.isFreshModel)
-            {
-                id = _model.id;
-            }
         }
     }
 
-    public int SetID(int _id)
+    public void SetID(int _id)
     {
-        if (_model != null && _model.id == 0)
-        {
-            _model.id = _id;
-            return _model.id;
-        }
-        return 0;
+        if (model != null)
+            model.id = _id;
+        Debug.LogWarning("ID set in loot_setid: " + _id);
     }
 
     public int SetCollectedBy(int _collectedBy)
     {
-        if (_collectedBy > 0 && _model.collectedBy == 0)
+        if (_collectedBy > 0 && model.collectedBy == 0)
         {
-            _model.collectedBy = _collectedBy;
+            model.collectedBy = _collectedBy;
         }
 
-        return _model.collectedBy;
+        return model.collectedBy;
     }
 
     private void CollectedByChanged(LootModel lootModel, int value)
