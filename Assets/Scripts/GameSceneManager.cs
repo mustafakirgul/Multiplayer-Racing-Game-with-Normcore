@@ -199,6 +199,12 @@ public class GameSceneManager : MonoBehaviour
         //Don't load the scene instead just reconnect and restart the game
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         GameManager.instance.uIManager.ReactivateLogin();
+        GameManager.instance.uIManager.ResizeUILootContainers();
+
+        //TO DO: loot drop rolls and assign newly obtainloot to 
+        //LootManager.instance.playerObtainedLoot
+
+        GameManager.instance.uIManager.AssignLootToDisplay();
     }
 }
 

@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ItemType: 1
   f_attack: 1
-  f_defense: 0
   f_health: 0
   f_speed: 0
-  Model: {fileID: 0}
+  f_amount: 0
+  itemText: Hello This is Melee 1
+  itemImage: {fileID: 0}
+  m_CosmeticModelToBeApplied: {fileID: 0}

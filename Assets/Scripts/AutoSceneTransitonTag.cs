@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class AutoSceneTransitonTag : MonoBehaviour
 {
     // Start is called before the first frame update
-
     [SerializeField]
     GameSceneManager gameSceneManager;
 

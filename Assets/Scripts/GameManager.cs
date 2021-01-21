@@ -11,11 +11,16 @@ public class GameManager : MonoBehaviour
     private Realtime _realtime;
     public Vector3 center, size;
     Vector3 spawnPoint;
+
+    [Space]
+    [Space]
+    [Header("UI and Camera")]
     public TextMeshProUGUI playerNameInputField;
     public Canvas _enterNameCanvas;
     public Camera _miniMapCamera;
     public string preferredCar;
     string _tempName;
+    [SerializeField]
     ChaseCam chaseCam;
 
     //Game Manager Params
@@ -24,17 +29,21 @@ public class GameManager : MonoBehaviour
     public int m_iNumOfPlayersForGameStart;
     [SerializeField]
     public Race _race;
-    private PlayerManager playerManager;
-    public UIManager uIManager;
-
-    private GameSceneManager gameSceneManager;
     [SerializeField]
     private bool readyToStart;
-
     [SerializeField]
     private Truck lootTruck;
 
-    //bool isConnected;
+    [Space]
+    [Space]
+    [Header("Managers")]
+    //Managers
+    private PlayerManager playerManager;
+    public UIManager uIManager;
+    [SerializeField]
+    private LootManager lootManager;
+    [SerializeField]
+    private GameSceneManager gameSceneManager;
 
     private void OnDrawGizmos()
     {
@@ -56,6 +65,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
     }
+
     #endregion
     private void Awake()
     {
@@ -64,6 +74,7 @@ public class GameManager : MonoBehaviour
         chaseCam = GameObject.FindObjectOfType<ChaseCam>();
         playerManager = FindObjectOfType<PlayerManager>();
         uIManager = FindObjectOfType<UIManager>();
+        lootManager = FindObjectOfType<LootManager>();
         _enterNameCanvas.gameObject.SetActive(true);
         // Get the Realtime component on this game object
         _realtime = GetComponent<Realtime>();
@@ -78,7 +89,6 @@ public class GameManager : MonoBehaviour
         );
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
     }
-
     private void TruckHealthCheck()
     {
         if (lootTruck != null && lootTruck._truck.health <= 0)
@@ -86,7 +96,6 @@ public class GameManager : MonoBehaviour
             HardPushEndGame();
         }
     }
-
     IEnumerator LootTruckHealthCheck()
     {
         while (true)
@@ -95,12 +104,10 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(2f);
         }
     }
-
     public void HardPushEndGame()
     {
         readyToStart = true;
     }
-
     private void Start()
     {
         _race = GetComponent<Race>();
@@ -156,6 +163,8 @@ public class GameManager : MonoBehaviour
 
             _realtime.Connect("UGP_TEST");
 
+            //Coroutines tend to mess up here due to connection/network related
+            //issues
             //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 1));
         }
     }
@@ -166,6 +175,7 @@ public class GameManager : MonoBehaviour
         playerNameInputField = GameObject.FindGameObjectWithTag("enterNameField").GetComponent<TextMeshProUGUI>();
         _enterNameCanvas = GameObject.FindGameObjectWithTag("enterNameCanvas").GetComponent<Canvas>();
         _miniMapCamera = GameObject.FindGameObjectWithTag("miniMapCamera").GetComponent<Camera>();
+        
         gameSceneManager = FindObjectOfType<GameSceneManager>();
         chaseCam = GameObject.FindObjectOfType<ChaseCam>();
         playerManager = FindObjectOfType<PlayerManager>();
@@ -192,11 +202,12 @@ public class GameManager : MonoBehaviour
             _temp.GetComponent<NewCarController>()._realtime = _realtime;
         }
         _temp.GetComponent<Player>().SetPlayerName(playerNameInputField.text);
-        
-        
+        _temp.GetComponent<ItemDataProcessor>().ObtainLoadOutData(lootManager.ObatinCurrentBuild());
+
         FindObjectOfType<MiniMapCamera>()._master = _temp.transform;
         _miniMapCamera.enabled = true;
         _enterNameCanvas.gameObject.SetActive(false);
+        
         StartCoroutine(KeepTrackOfWinConditions(5));
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
     }
@@ -265,11 +276,13 @@ public class GameManager : MonoBehaviour
         //gather race information and store it for evaluation later
         //-----------------------------------------------------------
 
-
         //destroy all players
         //destroy truck
         //unown all realtimeviews
         //destroy anything that contains realtime components, using realtime.destroy
+
+        //Loot manager will need to be update with new roles to do
+        //Loot manager needs to know consumables/powerups like scrap that can persist
 
         Realtime[] _rtViews = FindObjectsOfType<Realtime>();
         RealtimeTransform[] _rtTransforms = FindObjectsOfType<RealtimeTransform>();

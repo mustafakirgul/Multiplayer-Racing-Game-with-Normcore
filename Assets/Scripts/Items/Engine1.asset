@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e7efa47463ff74fb62589c6c453217, type: 3}
   m_Name: Engine1
   m_EditorClassIdentifier: 
-  _ItemType: 4
+  _ItemType: 3
   f_attack: 0
   f_defense: 0
-  f_health: 0
-  f_speed: 1
-  Model: {fileID: 0}
+  f_speed: 0.15
+  f_amount: 0
+  itemText: Engine 1 Text
+  itemImage: {fileID: 0}
+  m_CosmeticModelToBeApplied: {fileID: 0}

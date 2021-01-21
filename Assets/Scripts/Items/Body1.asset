@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e7efa47463ff74fb62589c6c453217, type: 3}
   m_Name: Body1
   m_EditorClassIdentifier: 
-  _ItemType: 1
+  _ItemType: 2
   f_attack: 0
   f_defense: 0
-  f_health: 1
   f_speed: 0
-  Model: {fileID: 0}
+  f_amount: 0
+  itemText: Hello This is Body 1
+  itemImage: {fileID: 0}
+  m_CosmeticModelToBeApplied: {fileID: 0}

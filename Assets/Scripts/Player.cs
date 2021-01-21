@@ -9,6 +9,8 @@ public class Player : RealtimeComponent<PlayerModel>
     public float playerHealth;
     public float maxPlayerHealth;
     public Vector3 explosionForce;
+    public float armourDefenseModifier = 0f;
+    public float healModifier = 0f;
     private PlayerModel _model;
     protected override void OnRealtimeModelReplaced(PlayerModel previousModel, PlayerModel currentModel)
     {
@@ -46,13 +48,13 @@ public class Player : RealtimeComponent<PlayerModel>
 
     public void DamagePlayer(float damage)
     {
-        _model.health -= damage;
+        _model.health -= ((1 - armourDefenseModifier)* damage);
         //PlayerHealthChanged(_model, (playerHealth - damage));
     }
 
     public void HealPlayer(float healingPower)
     {
-        _model.health += healingPower;
+        _model.health += ((1 + healModifier) * healingPower);
         //PlayerHealthChanged(_model, (playerHealth + healingPower));
     }
 

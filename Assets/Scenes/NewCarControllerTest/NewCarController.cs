@@ -17,15 +17,14 @@ public class NewCarController : MonoBehaviour
     private float moveInput, turnInput;
     public float fwdSpeed, reverseSpd, turnSpd, turningFwdSpeed;
     public float airDrag, groundDrag;
-    public float GroundCheckRayLength;
 
     public LayerMask groundLayer;
     public float lerpRotationSpeed;
+    public float GroundCheckRayLength;
 
     public float MinVelocityThreshold;
     public float BrakeForce;
     public float MaxSpeed;
-    public float MaxSpeedModifier;
 
     [SerializeField]
     private bool isGrounded;
@@ -55,6 +54,22 @@ public class NewCarController : MonoBehaviour
     private Transform CameraContainer;
     public bool isNetworkInstance = true;
     public bool offlineTest;
+
+
+    [Space]
+    [Space]
+    [Header("Loot Based Modifiers")]
+    //Does the car need to know about these or does the game manager needs to know about these?
+    //Car simply keeps track of what it encounters and talks to game managers to obtain loot or powerups
+    public float meleeDamageModifier;
+    public float verticalSpdModifier;
+    public float turnSpdModifier;
+
+    //Loot Modifiers
+    //Engine and weapon projectiles needs to be updated
+    public float MaxSpeedModifier, accelerationModifier, HandlingModifier;
+    public GameObject LootWeaponProjectile;
+
 
     [Space]
     [Space]
@@ -152,11 +167,20 @@ public class NewCarController : MonoBehaviour
         followCamera = GameObject.FindObjectOfType<ChaseCam>();
         followCamera.InitCamera(CameraContainer);
     }
+
+    private void CheckIfHasWeapons()
+    {
+        if (LootWeaponProjectile != null)
+        {
+            WeaponProjectile = LootWeaponProjectile;
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
         if (_realtimeView.isOwnedLocallySelf)
         {
+            CheckIfHasWeapons();
             isNetworkInstance = false;
             uIManager = FindObjectOfType<UIManager>();
             uIManager.EnableUI();
@@ -168,7 +192,6 @@ public class NewCarController : MonoBehaviour
             {
                 wheels[i].originY = wheels[i].wheelT.localPosition.y;
             }
-
             currentX = carBody.localEulerAngles.x;
             currentZ = carBody.localEulerAngles.z;
             speedDisplay = uIManager.speedometer;
@@ -314,12 +337,6 @@ public class NewCarController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (!offlineTest)
-        //{
-        //    _realtimeView.RequestOwnership();
-        //    _realtimeTransform.RequestOwnership();
-        //}
-
         if (!isNetworkInstance)
         {
             _realtimeView.RequestOwnership();
@@ -514,7 +531,6 @@ public class NewCarController : MonoBehaviour
             XTimer -= Time.deltaTime;
             XFactor = (XTimer / rotationCooldownTime) * maxXRotation;
             currentX = Mathf.Clamp(Mathf.LerpAngle(currentX, -moveInput * maxXRotation, xRotationLERPSpeed * Time.deltaTime), -XFactor, XFactor);
-
         }
 
         if (ZTimer > 0f)
@@ -524,17 +540,15 @@ public class NewCarController : MonoBehaviour
             currentZ = Mathf.Clamp(Mathf.LerpAngle(currentZ, turnInput * maxZrotation, zRotationLERPSpeed * Time.deltaTime), -ZFactor, ZFactor);
         }
 
-
         carBody.localEulerAngles = new Vector3(currentX, carBody.localEulerAngles.y, currentZ);
-
 
         if (moveInput > 0)
         {
-            moveInput *= fwdSpeed;
+            moveInput *= (fwdSpeed * (1 + accelerationModifier));
         }
         else
         {
-            moveInput *= reverseSpd;
+            moveInput *= (reverseSpd * (1 + accelerationModifier));
         }
 
         //Weapon Controls
@@ -543,11 +557,13 @@ public class NewCarController : MonoBehaviour
             if (readyToFire)
             {
                 readyToFire = false;
+
                 _bulletBuffer = Realtime.Instantiate(WeaponProjectile.name,
                 position: _barrelTip.position,
                 rotation: _barrelTip.rotation,
                 ownedByClient: true,
                 useInstance: _realtime);
+
                 _bulletBuffer.GetComponent<WeaponProjectileBase>().isNetworkInstance = false;
                 _bulletBuffer.GetComponent<WeaponProjectileBase>().Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                 _bulletBuffer.GetComponent<WeaponProjectileBase>().originOwnerID = ownerID;
@@ -586,6 +602,7 @@ public class NewCarController : MonoBehaviour
         }
 
         //AutoDamage Debug
+        //TO REMOVE in testing and final builds
         if (Input.GetKeyDown(KeyCode.L))
         {
             _player.DamagePlayer(5f);
@@ -618,10 +635,6 @@ public class NewCarController : MonoBehaviour
     }
     private void RotationCheck()
     {
-        //transform.rotation = Quaternion.Euler(transform.rotation.x, newRotation, transform.rotation.z);
-        //transform.Rotate(0, Mathf.Lerp(transform.rotation.eulerAngles.y, newRotation, Time.deltaTime), 0, Space.World);
-        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, newRotation, 0), Time.deltaTime);
-
         //Debug.Log(" Vertical input is: " + moveInput);
         //if only pressing turning there should be a small amount of acceleration/speed so car is not turning on its own without momentum
         if (isGrounded)
@@ -629,13 +642,13 @@ public class NewCarController : MonoBehaviour
             if (turnInput != 0 && moveInput == 0)
             {
                 //Debug.Log("Stationary Turning");
-                float StationaryRotation = turnInput * turnSpd * Time.deltaTime;
+                float StationaryRotation = (1 + HandlingModifier) * turnInput * turnSpd * Time.deltaTime;
                 CarRB.AddForce(transform.forward * turningFwdSpeed, ForceMode.Acceleration);
                 transform.Rotate(0, StationaryRotation, 0, Space.World);
             }
             else
             {
-                float motionRotation = turnInput * turnSpd * Time.deltaTime * Input.GetAxisRaw("Vertical");
+                float motionRotation = ((1 + HandlingModifier) * turnInput * turnSpd * Time.deltaTime * Input.GetAxisRaw("Vertical"));
                 transform.Rotate(0, motionRotation, 0, Space.World);
             }
         }

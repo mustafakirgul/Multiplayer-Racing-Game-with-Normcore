@@ -11,41 +11,75 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI speedometer, playerName, timeRemaining;
     private GameObject uIPanel;
     public GameObject enterNamePanel;
-    Realtime _realtime;
 
-    public List<GameObject> BuildModels = new List<GameObject>();
+    //UI Slots for loot inventory
+    //Assigned manually
+    [SerializeField]
+    private AutoResizeLootRectTransforms[] AutoResizeLootRectTransforms;
+    //References to important things
+    Realtime _realtime;
+    GameManager _gameManager;
+    LootManager _lootManager;
+
+    //Assigned manually 
+    //This is a reference to the UI container
+    [SerializeField]
+    private GameObject WeaponGarageSlotContainer;
+    [SerializeField]
+    private GameObject ArmourGarageSlotContainer;
+    [SerializeField]
+    private GameObject EngineGarageSlotContainer;
+
+    //Assigned manually as a reference to populatet the UI
+    [SerializeField]
+    GameObject WeaponUIButton;
+    [SerializeField]
+    GameObject ArmourUIButton;
+    [SerializeField]
+    GameObject EngineUIButton;
+
+    private int lastbuildSelected;
+
+    //Need to add details the mesh of each car
+    public List<GameObject> BuildModelsAppearance = new List<GameObject>();
+
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
+        _gameManager = FindObjectOfType<GameManager>();
+        _lootManager = FindObjectOfType<LootManager>();
         uIPanel = transform.GetChild(0).gameObject;
         EnableUI();
     }
     private void Start()
     {
-        FindObjectOfType<GameManager>().FixAssociations();
+        _gameManager.FixAssociations();
+        AssignLootToDisplay();
     }
 
     //Need to create logic here to select specific models to showcase
     //Based on the selection of each model
     public void CarBuildSelection(int _buildIndex)
     {
-        for (int i = 0; i < BuildModels.Count; i++)
+        for (int i = 0; i < BuildModelsAppearance.Count; i++)
         {
-            BuildModels[i].SetActive(false);
+            BuildModelsAppearance[i].SetActive(false);
         }
 
-        BuildModels[_buildIndex].SetActive(true);
+        BuildModelsAppearance[_buildIndex].SetActive(true);
+        _lootManager.RetreiveBuild(_buildIndex);
     }
 
     //Class selection button should not start here
     public void ConnectToRoom(int _index)
     {
-        for (int i = 0; i < BuildModels.Count; i++)
+        for (int i = 0; i < BuildModelsAppearance.Count; i++)
         {
-            BuildModels[i].SetActive(false);
+            BuildModelsAppearance[i].SetActive(false);
         }
-
         GameManager.instance.ConnectToRoom(_index);
+        _lootManager.DeploySelectedBuild();
+        lastbuildSelected = _index;
     }
     private void Update()
     {
@@ -55,12 +89,69 @@ public class UIManager : MonoBehaviour
             DisableUI();
             enterNamePanel.SetActive(true);
         }
+
+        //To be removed in final build
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            _lootManager.RollForLoot();
+            ResizeUILootContainers();
+        }
     }
     public void ReactivateLogin()
     {
         DisableUI();
         enterNamePanel.SetActive(true);
-        CarBuildSelection(1);
+
+        //Select Default build to display
+        //To Do: remember the load saved build
+        CarBuildSelection(lastbuildSelected);
+    }
+
+    //this needs to run first before the UI methods run
+    public void AssignLootToDisplay()
+    {
+        for (int i = 0; i < _lootManager.playerObtainedLoot.Count; i++)
+        {
+            switch (_lootManager.playerObtainedLoot[i]._ItemType)
+            {
+                case ItemType.Weapon:
+                    GameObject WeaponButtonToAssign =
+                        Instantiate(WeaponUIButton, WeaponGarageSlotContainer.transform);
+                    WeaponButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
+                    break;
+                case ItemType.Armour:
+                    GameObject ArmourButtonToAssign =
+                       Instantiate(ArmourUIButton, ArmourGarageSlotContainer.transform);
+                    ArmourButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
+                    break;
+                case ItemType.Engine:
+                    GameObject EngineButtonToAssign =
+                        Instantiate(EngineUIButton, EngineGarageSlotContainer.transform);
+                    EngineButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (AutoResizeLootRectTransforms.Length != 0)
+        {
+            foreach(AutoResizeLootRectTransforms containers in AutoResizeLootRectTransforms)
+            {
+                containers.ResizeLootScrollBar();
+            }
+        }
+    }
+
+    public void ResizeUILootContainers()
+    {
+        if (AutoResizeLootRectTransforms.Length != 0)
+        {
+            foreach (AutoResizeLootRectTransforms containers in AutoResizeLootRectTransforms)
+            {
+                containers.ResizeLootScrollBar();
+            }
+        }
     }
 
     public void EnableUI()

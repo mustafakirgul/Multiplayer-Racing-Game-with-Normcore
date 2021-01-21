@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c2d1e6cb24415499a1a2fc86597c2d, type: 3}
+  m_Name: TankBuildDefault
+  m_EditorClassIdentifier: 
+  buildType: 2
+  Weapon: {fileID: 11400000, guid: 3e6e53f0fdc6c3c41b6b6d548a07439c, type: 2}
+  Armour: {fileID: 11400000, guid: 042e8a027e3b4e2449acd1f8471caf54, type: 2}
+  Engine: {fileID: 11400000, guid: e28629993c1879c4d8ca0b8585d3c884, type: 2}
