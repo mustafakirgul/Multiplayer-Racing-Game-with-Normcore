@@ -14,17 +14,18 @@ public class Loot : RealtimeComponent<LootModel>
 
         if (previousModel != null)
         {
-            previousModel.idDidChange -= IDChanged;
-            previousModel.collectedByDidChange -= CollectedByChanged;
+            previousModel.idDidChange -= idDidChange;
+            previousModel.collectedByDidChange -= CollectedByDidChange;
         }
 
         if (currentModel != null)
         {
             _container.SetID(currentModel.id);
-            currentModel.idDidChange += IDChanged;
-            currentModel.collectedByDidChange += CollectedByChanged;
+            currentModel.idDidChange += IdDidChange;
+            currentModel.collectedByDidChange += CollectedByDidChange;
         }
     }
+
     public void SetID(int _id)
     {
         if (model != null)
@@ -41,12 +42,22 @@ public class Loot : RealtimeComponent<LootModel>
         return model.collectedBy;
     }
 
-    private void CollectedByChanged(LootModel lootModel, int value)
+    private void CollectedByDidChange(LootModel model, int value)
+    {
+        CollectedByChanged();
+    }
+
+    private void CollectedByChanged()
     {
         collectedBy = model.collectedBy;
     }
 
-    private void IDChanged(LootModel lootModel, int value)
+    private void IdDidChange(LootModel model, int value)
+    {
+        IDChanged();
+    }
+
+    private void IDChanged()
     {
         id = model.id;
     }

@@ -57,16 +57,16 @@ public class Player : RealtimeComponent<PlayerModel>
 
     private void PlayerHealthChanged(PlayerModel playerModel, float value)
     {
-        playerHealth = value;
+        playerHealth = model.health;
     }
 
     private void PlayerForcesChanged(PlayerModel playerModel, Vector3 value)
     {
-        explosionForce = value;
+        explosionForce = model.forces;
     }
 
     private void PlayerNameChanged(PlayerModel playerModel, string value)
     {
-        playerName = value;
+        playerName = model.playerName;
     }
 }
