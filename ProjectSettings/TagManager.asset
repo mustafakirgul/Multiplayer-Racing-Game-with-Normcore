@@ -14,6 +14,7 @@ TagManager:
   - enterNameCanvas
   - miniMapCamera
   - UIManager
+  - Loot
   layers:
   - Default
   - TransparentFX
