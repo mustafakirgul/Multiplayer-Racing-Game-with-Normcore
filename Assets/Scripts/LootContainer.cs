@@ -24,13 +24,15 @@ public class LootContainer : MonoBehaviour
     private void Start()
     {
         isNetworkInstance = !_realtime.isOwnedLocallySelf;
+        if (isNetworkInstance)
+            GetComponent<Rigidbody>().isKinematic = true;
     }
 
     private void Update()
     {
         if (content.id != id)
         {
-            Debug.LogWarning("Loot ID set as: " + SetID(id));
+            Debug.LogWarning("Loot ID set as: " + SetID(content.id));
         }
     }
 
