@@ -26,6 +26,7 @@ public class LootContainer : MonoBehaviour
         isNetworkInstance = !_realtime.isOwnedLocallySelf;
         if (isNetworkInstance)
             GetComponent<Rigidbody>().isKinematic = true;
+        SetID(content.id);
     }
 
     public int SetID(int _id)
