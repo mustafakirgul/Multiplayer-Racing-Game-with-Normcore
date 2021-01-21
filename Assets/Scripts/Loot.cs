@@ -20,12 +20,6 @@ public class Loot : RealtimeComponent<LootModel>
 
         if (currentModel != null)
         {
-            if (currentModel.isFreshModel)
-            {
-                id = currentModel.id;
-                collectedBy = currentModel.collectedBy;
-            }
-
             currentModel.idDidChange += IDChanged;
             currentModel.collectedByDidChange += CollectedByChanged;
             _model = currentModel;
@@ -34,12 +28,13 @@ public class Loot : RealtimeComponent<LootModel>
 
     public int SetID(int _id)
     {
-        if (_model.id == 0)
+        if (_model != null && _model.id == 0)
         {
             _model.id = _id;
+            return _model.id;
         }
 
-        return _model.id;
+        return 0;
     }
 
     public int SetCollectedBy(int _collectedBy)

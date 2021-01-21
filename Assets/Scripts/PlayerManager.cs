@@ -35,6 +35,7 @@ public class PlayerManager : MonoBehaviour
         _pointers = new List<Transform>();
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     public void AddExistingPlayers()
     {
         if (networkPlayers.Count != 0)

@@ -4,15 +4,14 @@ using Normal.Realtime;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
+using Random = System.Random;
 
 public class Truck : RealtimeComponent<TruckModel>
 {
     public TruckWheel[] _wheels;
-    public float _torque;//per powered wheel
-    [Range(0f, 1f)]
-    public float _torqueFactor;
-    [Range(-20f, 20f)]
-    public float _steeringAngle;
+    public float _torque; //per powered wheel
+    [Range(0f, 1f)] public float _torqueFactor;
+    [Range(-20f, 20f)] public float _steeringAngle;
     public float maxSteeringAngle;
     public bool _handBrake;
     int _length;
@@ -26,19 +25,26 @@ public class Truck : RealtimeComponent<TruckModel>
     bool isNetworkInstance;
     Rigidbody truckBody;
     Vector3 _startPosition => new Vector3(0, 30, 0);
+    [Space] [Header("Loot Settings")] public Vector3 lootLaunchPoint;
+    [Range(0, 1)] public float lootChance;
+    public float throwForce;
 
+    [Space]
     //Truck Way Points System
     [SerializeField]
     private List<WayPoint> m_wayPoints;
-    [SerializeField]
-    private Transform currentWPT;
-    [SerializeField]
-    private float steerRefreshTimer;
-    [SerializeField]
-    private int currentWPindex = 0;
+
+    [SerializeField] private Transform currentWPT;
+    [SerializeField] private float steerRefreshTimer;
+    [SerializeField] private int currentWPindex = 0;
     public float waypointSwitchThreshold;
 
     WaitForSeconds waitASecond;
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position + lootLaunchPoint, 1f);
+    }
 
     private void Awake()
     {
@@ -49,8 +55,11 @@ public class Truck : RealtimeComponent<TruckModel>
         _rTTransforms.AddRange(GetComponentsInChildren<RealtimeTransform>());
         _rTTransforms.Add(GetComponent<RealtimeTransform>());
         _length = _wheels.Length;
-        truckBody.centerOfMass = new Vector3(truckBody.centerOfMass.x, -5, truckBody.centerOfMass.z);
+        var centerOfMass = truckBody.centerOfMass;
+        centerOfMass = new Vector3(centerOfMass.x, centerOfMass.y - 5, centerOfMass.z);
+        truckBody.centerOfMass = centerOfMass;
     }
+
     private void Start()
     {
         StartHealth();
@@ -63,15 +72,17 @@ public class Truck : RealtimeComponent<TruckModel>
         m_wayPoints = new List<WayPoint>();
         foreach (WayPoint waypoint in FindObjectsOfType<WayPoint>())
         {
-            if (waypoint.gameObject.activeInHierarchy&&!m_wayPoints.Contains(waypoint))
+            if (waypoint.gameObject.activeInHierarchy && !m_wayPoints.Contains(waypoint))
             {
                 m_wayPoints.Add(waypoint);
             }
         }
-                m_wayPoints = m_wayPoints.OrderBy(waypoint => waypoint.index).ToList();
-        SetWayPoint(0);  // start moving towards first waypoint
+
+        m_wayPoints = m_wayPoints.OrderBy(waypoint => waypoint.index).ToList();
+        SetWayPoint(0); // start moving towards first waypoint
         StartCoroutine(WaypointAI()); // start 
     }
+
     private IEnumerator WaypointAI()
     {
         while (true)
@@ -89,9 +100,11 @@ public class Truck : RealtimeComponent<TruckModel>
                     currentWPindex++;
                     SetWayPoint(currentWPindex);
                 }
+
                 CalculateRoute();
                 yield return waitASecond;
             }
+
             yield return waitASecond;
         }
     }
@@ -105,16 +118,21 @@ public class Truck : RealtimeComponent<TruckModel>
     {
         for (int i = 0; i < _length; i++)
         {
-            _steeringAngle = maxSteeringAngle * Vector3.Dot(Vector3.Cross(transform.forward, (currentWPT.position - transform.position).normalized), Vector3.up);
+            _steeringAngle = maxSteeringAngle *
+                             Vector3.Dot(
+                                 Vector3.Cross(transform.forward,
+                                     (currentWPT.position - transform.position).normalized), Vector3.up);
 
             if (_wheels[i].isSteeringWheel)
             {
-                _wheels[i].collider.steerAngle = Mathf.Lerp(_wheels[i].collider.steerAngle, _steeringAngle, Time.deltaTime * 20f);
+                _wheels[i].collider.steerAngle =
+                    Mathf.Lerp(_wheels[i].collider.steerAngle, _steeringAngle, Time.deltaTime * 20f);
             }
 
             if (_wheels[i].isReverseSteeringWheel)
             {
-                _wheels[i].collider.steerAngle = Mathf.Lerp(_wheels[i].collider.steerAngle, -_steeringAngle, Time.deltaTime * 20f);
+                _wheels[i].collider.steerAngle =
+                    Mathf.Lerp(_wheels[i].collider.steerAngle, -_steeringAngle, Time.deltaTime * 20f);
             }
         }
     }
@@ -141,11 +159,11 @@ public class Truck : RealtimeComponent<TruckModel>
         {
             ResetTransform();
         }
+
         if (_length > 0)
         {
             for (int i = 0; i < _length; i++)
             {
-
                 if (_handBrake)
                 {
                     _wheels[i].collider.motorTorque = 0f;
@@ -157,9 +175,10 @@ public class Truck : RealtimeComponent<TruckModel>
                     _wheels[i].collider.motorTorque = _torque * _torqueFactor;
                 }
 
-                if (_wheels[i].model.GetComponent<RealtimeTransform>().ownerIDSelf != GetComponent<RealtimeTransform>().ownerIDSelf)
-                    _wheels[i].model.GetComponent<RealtimeTransform>().SetOwnership(GetComponent<RealtimeTransform>().ownerIDSelf);
-
+                if (_wheels[i].model.GetComponent<RealtimeTransform>().ownerIDSelf !=
+                    GetComponent<RealtimeTransform>().ownerIDSelf)
+                    _wheels[i].model.GetComponent<RealtimeTransform>()
+                        .SetOwnership(GetComponent<RealtimeTransform>().ownerIDSelf);
 
 
                 _wheels[i].collider.GetWorldPose(out _position, out _rotation);
@@ -170,6 +189,7 @@ public class Truck : RealtimeComponent<TruckModel>
             }
         }
     }
+
     public void AddExplosionForce(Vector3 _origin)
     {
         if (!isNetworkInstance)
@@ -185,12 +205,15 @@ public class Truck : RealtimeComponent<TruckModel>
             }
         }
     }
+
     #region MODEL INTERACTIONS
+
     public int _owner;
     public float _health;
     public float _maxHealth;
     public Vector3 _explosionForce;
     public TruckModel _truck;
+
     protected override void OnRealtimeModelReplaced(TruckModel previousModel, TruckModel currentModel)
     {
         if (previousModel != null)
@@ -200,6 +223,7 @@ public class Truck : RealtimeComponent<TruckModel>
             previousModel.healthDidChange -= HealthChanged;
             previousModel.explosionPointDidChange -= ForcesChanged;
         }
+
         if (currentModel != null)
         {
             if (currentModel.isFreshModel)
@@ -213,6 +237,7 @@ public class Truck : RealtimeComponent<TruckModel>
             _truck = currentModel;
         }
     }
+
     void SetOwner(int _id)
     {
         if (_id >= 0)
@@ -220,10 +245,12 @@ public class Truck : RealtimeComponent<TruckModel>
             _truck.owner = _id;
         }
     }
+
     void ResetExplosionPoint()
     {
         _truck.explosionPoint = Vector3.zero;
     }
+
     void ChangeExplosionForce(Vector3 _origin)
     {
         _truck.explosionPoint += _origin;
@@ -234,9 +261,27 @@ public class Truck : RealtimeComponent<TruckModel>
         _truck.health = _maxHealth;
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     public void DamagePlayer(float damage)
     {
         _truck.health -= damage;
+
+        //random chance of loot drop
+        if (UnityEngine.Random.Range(0f, 1f) < lootChance)
+        {
+            GameObject _temp = Realtime.Instantiate("Loot",
+                position: transform.position + lootLaunchPoint,
+                rotation: Quaternion.identity,
+                ownedByClient:
+                true,
+                preventOwnershipTakeover:
+                true,
+                useInstance:
+                _realtime);
+            _temp.GetComponent<LootContainer>().SetID(UnityEngine.Random.Range(-666, 666));
+
+            _temp.GetComponent<Rigidbody>().AddForce(Vector3.up * throwForce);
+        }
     }
 
     void HealthChanged(TruckModel model, float value)
@@ -253,8 +298,8 @@ public class Truck : RealtimeComponent<TruckModel>
     {
         _owner = value;
     }
-    #endregion
 
+    #endregion
 }
 
 

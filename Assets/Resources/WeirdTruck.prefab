@@ -827,6 +827,9 @@ MonoBehaviour:
   maxSteeringAngle: 60
   _handBrake: 0
   explosionPoint: {x: 0, y: 0, z: 0}
+  lootLaunchPoint: {x: 0, y: 7, z: 0}
+  lootChance: 1
+  throwForce: 50
   m_wayPoints: []
   currentWPT: {fileID: 0}
   steerRefreshTimer: 0.1
