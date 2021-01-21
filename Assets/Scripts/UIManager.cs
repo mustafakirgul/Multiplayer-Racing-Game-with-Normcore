@@ -40,6 +40,9 @@ public class UIManager : MonoBehaviour
 
     private int lastbuildSelected;
 
+    [SerializeField]
+    private int SelectedBuildToView;
+
     //Need to add details the mesh of each car
     public List<GameObject> BuildModelsAppearance = new List<GameObject>();
 
@@ -68,18 +71,19 @@ public class UIManager : MonoBehaviour
 
         BuildModelsAppearance[_buildIndex].SetActive(true);
         _lootManager.RetreiveBuild(_buildIndex);
+        SelectedBuildToView = _buildIndex;
     }
 
     //Class selection button should not start here
-    public void ConnectToRoom(int _index)
+    public void ConnectToRoom()
     {
         for (int i = 0; i < BuildModelsAppearance.Count; i++)
         {
             BuildModelsAppearance[i].SetActive(false);
         }
-        GameManager.instance.ConnectToRoom(_index);
+        GameManager.instance.ConnectToRoom(SelectedBuildToView);
         _lootManager.DeploySelectedBuild();
-        lastbuildSelected = _index;
+        lastbuildSelected = SelectedBuildToView;
     }
     private void Update()
     {
@@ -101,7 +105,6 @@ public class UIManager : MonoBehaviour
     {
         DisableUI();
         enterNamePanel.SetActive(true);
-
         //Select Default build to display
         //To Do: remember the load saved build
         CarBuildSelection(lastbuildSelected);
@@ -142,7 +145,6 @@ public class UIManager : MonoBehaviour
             }
         }
     }
-
     public void ResizeUILootContainers()
     {
         if (AutoResizeLootRectTransforms.Length != 0)
@@ -153,7 +155,6 @@ public class UIManager : MonoBehaviour
             }
         }
     }
-
     public void EnableUI()
     {
         uIPanel.SetActive(true);
