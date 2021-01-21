@@ -28,14 +28,6 @@ public class LootContainer : MonoBehaviour
             GetComponent<Rigidbody>().isKinematic = true;
     }
 
-    private void Update()
-    {
-        if (content.id != id)
-        {
-            Debug.LogWarning("Loot ID set as: " + SetID(content.id));
-        }
-    }
-
     public int SetID(int _id)
     {
         id = _id;
