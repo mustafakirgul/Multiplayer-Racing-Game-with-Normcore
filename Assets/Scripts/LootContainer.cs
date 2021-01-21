@@ -48,6 +48,12 @@ public class LootContainer : MonoBehaviour
     private int UpdateID(int _id)
     {
         id = content.SetID(_id);
+        if (loot == null)
+            loot = transform.GetChild(0).gameObject;
+        if (pickup == null)
+            pickup = transform.GetChild(1).gameObject;
+        loot.SetActive(id > 0);
+        pickup.SetActive(id < 0);
         return id;
     }
 
