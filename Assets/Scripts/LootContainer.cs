@@ -30,11 +30,11 @@ public class LootContainer : MonoBehaviour
     {
         if (content.id != id)
         {
-            Debug.LogWarning("Loot ID set as: " + UpdateID(id));
+            Debug.LogWarning("Loot ID set as: " + SetID(id));
         }
     }
 
-    public void SetID(int _id)
+    public int SetID(int _id)
     {
         id = _id;
         if (loot == null)
@@ -43,18 +43,7 @@ public class LootContainer : MonoBehaviour
             pickup = transform.GetChild(1).gameObject;
         loot.SetActive(id > 0);
         pickup.SetActive(id < 0);
-    }
-
-    private int UpdateID(int _id)
-    {
-        id = content.SetID(_id);
-        if (loot == null)
-            loot = transform.GetChild(0).gameObject;
-        if (pickup == null)
-            pickup = transform.GetChild(1).gameObject;
-        loot.SetActive(id > 0);
-        pickup.SetActive(id < 0);
-        return id;
+        return _id;
     }
 
     private int SetCollectedBy(int _collectedBy)
