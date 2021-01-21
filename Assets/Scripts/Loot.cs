@@ -20,19 +20,15 @@ public class Loot : RealtimeComponent<LootModel>
 
         if (currentModel != null)
         {
-            
             _container.SetID(currentModel.id);
-            Debug.LogWarning("ID set in replace event: " + currentModel.id);
             currentModel.idDidChange += IDChanged;
             currentModel.collectedByDidChange += CollectedByChanged;
         }
     }
-
     public void SetID(int _id)
     {
         if (model != null)
             model.id = _id;
-        Debug.LogWarning("ID set in loot_setid: " + _id);
     }
 
     public int SetCollectedBy(int _collectedBy)
@@ -47,11 +43,11 @@ public class Loot : RealtimeComponent<LootModel>
 
     private void CollectedByChanged(LootModel lootModel, int value)
     {
-        collectedBy = value;
+        collectedBy = model.collectedBy;
     }
 
     private void IDChanged(LootModel lootModel, int value)
     {
-        id = value;
+        id = model.id;
     }
 }

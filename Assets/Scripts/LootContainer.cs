@@ -27,21 +27,9 @@ public class LootContainer : MonoBehaviour
         if (isNetworkInstance)
             GetComponent<Rigidbody>().isKinematic = true;
     }
-
-    private void Update()
-    {
-        if (content.id != id)
-        {
-            SetID(content.id);
-        }
-
-        if (isNetworkInstance) return;
-        _realtime.RequestOwnership();
-    }
-
     public int SetID(int _id)
     {
-        content.id = _id;
+        content.SetID(_id);
         id = _id;
         if (loot == null)
             loot = transform.GetChild(0).gameObject;

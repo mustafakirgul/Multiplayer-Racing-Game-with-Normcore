@@ -121,6 +121,7 @@ MonoBehaviour:
   pickup: {fileID: 4252290464746809472}
   id: 0
   collectedBy: 0
+  dieDelay: 0.5
 --- !u!114 &2652169859653945631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,7 +139,7 @@ MonoBehaviour:
   _syncRotation: 1
   _syncScale: 0
   _syncVelocity: 1
-  _maintainOwnershipWhileSleeping: 0
+  _maintainOwnershipWhileSleeping: 1
 --- !u!1001 &1750953809930073897
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -279,7 +279,6 @@ public class Truck : RealtimeComponent<TruckModel>
                 useInstance:
                 _realtime);
             _temp.GetComponent<LootContainer>().SetID(UnityEngine.Random.Range(-666, 666));
-
             _temp.GetComponent<Rigidbody>().AddForce(Vector3.up * throwForce);
         }
     }

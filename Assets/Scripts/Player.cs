@@ -10,7 +10,6 @@ public class Player : RealtimeComponent<PlayerModel>
     public Vector3 explosionForce;
     public float armourDefenseModifier = 0f;
     public float healModifier = 0f;
-    private PlayerModel _model;
     protected override void OnRealtimeModelReplaced(PlayerModel previousModel, PlayerModel currentModel)
     {
         if (previousModel != null)
@@ -28,7 +27,6 @@ public class Player : RealtimeComponent<PlayerModel>
             currentModel.playerNameDidChange += PlayerNameChanged;
             currentModel.healthDidChange += PlayerHealthChanged;
             currentModel.forcesDidChange += PlayerForcesChanged;
-            _model = currentModel;
         }
     }
 
@@ -36,38 +34,38 @@ public class Player : RealtimeComponent<PlayerModel>
     {
         if (_name.Length > 0)
         {
-            _model.playerName = _name;
+            model.playerName = _name;
         }
     }
 
     public void ChangeExplosionForce(Vector3 _origin)
     {
-        _model.forces = _origin;
+        model.forces = _origin;
     }
 
     public void DamagePlayer(float damage)
     {
-        _model.health -= ((1 - armourDefenseModifier)* damage);
+        model.health -= ((1 - armourDefenseModifier)* damage);
         //PlayerHealthChanged(_model, (playerHealth - damage));
     }
 
     public void HealPlayer(float healingPower)
     {
-        _model.health += ((1 + healModifier) * healingPower);
+        model.health += ((1 + healModifier) * healingPower);
         //PlayerHealthChanged(_model, (playerHealth + healingPower));
     }
 
-    private void PlayerHealthChanged(PlayerModel model, float value)
+    private void PlayerHealthChanged(PlayerModel playerModel, float value)
     {
         playerHealth = value;
     }
 
-    private void PlayerForcesChanged(PlayerModel model, Vector3 value)
+    private void PlayerForcesChanged(PlayerModel playerModel, Vector3 value)
     {
         explosionForce = value;
     }
 
-    private void PlayerNameChanged(PlayerModel model, string value)
+    private void PlayerNameChanged(PlayerModel playerModel, string value)
     {
         playerName = value;
     }
