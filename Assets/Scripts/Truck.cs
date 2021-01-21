@@ -279,23 +279,26 @@ public class Truck : RealtimeComponent<TruckModel>
                 useInstance:
                 _realtime);
             _temp.GetComponent<LootContainer>().SetID(UnityEngine.Random.Range(-666, 666));
-            _temp.GetComponent<Rigidbody>().AddForce(Vector3.up * throwForce);
+            Vector3 _tempDir = UnityEngine.Random.onUnitSphere;
+            _tempDir = new Vector3(_tempDir.x, Mathf.Abs(_tempDir.y) + 20f, _tempDir.z) * throwForce;
+            Debug.DrawLine(lootLaunchPoint, lootLaunchPoint + _tempDir, Color.blue, 3f);
+            _temp.GetComponent<Rigidbody>().AddForce(_tempDir);
         }
     }
 
     void HealthChanged(TruckModel model, float value)
     {
-        _health = value;
+        _health = model.health;
     }
 
     void ForcesChanged(TruckModel model, Vector3 value)
     {
-        _explosionForce = value;
+        _explosionForce = model.explosionPoint;
     }
 
     void OwnerChanged(TruckModel model, int value)
     {
-        _owner = value;
+        _owner = model.owner;
     }
 
     #endregion

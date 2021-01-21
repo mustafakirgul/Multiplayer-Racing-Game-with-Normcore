@@ -14,7 +14,7 @@ public class Loot : RealtimeComponent<LootModel>
 
         if (previousModel != null)
         {
-            previousModel.idDidChange -= idDidChange;
+            previousModel.idDidChange -= IdDidChange;
             previousModel.collectedByDidChange -= CollectedByDidChange;
         }
 

@@ -821,7 +821,7 @@ MonoBehaviour:
     isPowered: 1
     isSteeringWheel: 1
     isReverseSteeringWheel: 0
-  _torque: 26000
+  _torque: 30000
   _torqueFactor: 1
   _steeringAngle: 0
   maxSteeringAngle: 60
@@ -829,15 +829,15 @@ MonoBehaviour:
   explosionPoint: {x: 0, y: 0, z: 0}
   lootLaunchPoint: {x: 0, y: 7, z: 0}
   lootChance: 1
-  throwForce: 50
+  throwForce: 1200
   m_wayPoints: []
   currentWPT: {fileID: 0}
-  steerRefreshTimer: 0.1
+  steerRefreshTimer: 0.016666668
   currentWPindex: 0
   waypointSwitchThreshold: 30
   _owner: 0
   _health: 50
-  _maxHealth: 200
+  _maxHealth: 600
   _explosionForce: {x: 0, y: 0, z: 0}
 --- !u!114 &7175390289188852947
 MonoBehaviour:
