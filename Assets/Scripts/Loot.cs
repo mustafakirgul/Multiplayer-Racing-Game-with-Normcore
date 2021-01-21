@@ -23,6 +23,10 @@ public class Loot : RealtimeComponent<LootModel>
             currentModel.idDidChange += IDChanged;
             currentModel.collectedByDidChange += CollectedByChanged;
             _model = currentModel;
+            if (currentModel.isFreshModel)
+            {
+                id = _model.id;
+            }
         }
     }
 
@@ -33,7 +37,6 @@ public class Loot : RealtimeComponent<LootModel>
             _model.id = _id;
             return _model.id;
         }
-
         return 0;
     }
 
