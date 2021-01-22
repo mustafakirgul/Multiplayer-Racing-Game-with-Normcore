@@ -395,8 +395,11 @@ public class NewCarController : MonoBehaviour
     private void CheckHealth()
     {
         Debug.LogWarning("Health Comparison | local: " + m_fplayerLastHealth + " | model: " + _player.playerHealth);
-        if (Mathf.RoundToInt(m_fplayerLastHealth) != Mathf.RoundToInt(_player.playerHealth))
+        Debug.LogWarning("Health Comparison | local: " + Mathf.Round(m_fplayerLastHealth * 100f) / 100f + " | model: " +
+                         Mathf.Round(_player.playerHealth * 100f) / 100f);
+        if (Mathf.Round(m_fplayerLastHealth * 100f) / 100f != Mathf.Round(_player.playerHealth * 100f) / 100f)
         {
+            Debug.LogWarning("Health is different!");
             if (healthChecker == null)
                 healthChecker = StartCoroutine(UpdateHealthValue());
         }
