@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
         uIManager = FindObjectOfType<UIManager>();
         lootManager = FindObjectOfType<LootManager>();
         _enterNameCanvas.gameObject.SetActive(true);
+        lootTruck = FindObjectOfType<Truck>();
         // Get the Realtime component on this game object
         _realtime = GetComponent<Realtime>();
 
@@ -91,7 +92,7 @@ public class GameManager : MonoBehaviour
     }
     private void TruckHealthCheck()
     {
-        if (lootTruck != null && lootTruck._truck.health <= 0)
+        if (lootTruck != null && lootTruck._health <= 0)
         {
             HardPushEndGame();
         }

@@ -212,7 +212,6 @@ public class Truck : RealtimeComponent<TruckModel>
     public float _health;
     public float _maxHealth;
     public Vector3 _explosionForce;
-    public TruckModel _truck;
 
     protected override void OnRealtimeModelReplaced(TruckModel previousModel, TruckModel currentModel)
     {
