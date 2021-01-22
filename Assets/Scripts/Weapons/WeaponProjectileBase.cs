@@ -45,17 +45,19 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     {
         //Checks for explosion of networked projectiles
         //Once state changes sync with server to make projectile explodes
-        if (_ifExploded && isNetworkInstance)
+        if (isExploded != model.exploded) // there is a change
         {
-            StartCoroutine(HitCR());
-        }
-
-        //No matter if local or server instance, when the projectile explosion state
-        //is updated and if there is an explosion animation, activate it
-
-        if (explosion != null)
-        {
-            explosion.SetActive(true);
+            if (model.exploded) // explosion
+            {
+                //No matter if local or server instance, when the projectile explosion state
+                //is updated and if there is an explosion animation, activate it
+                if (explosion != null)
+                {
+                    explosion.SetActive(true);
+                }
+                isExploded = model.exploded;
+                StartCoroutine(HitCR());
+            }
         }
     }
 
@@ -74,6 +76,8 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     protected virtual void Start()
     {
+        wait1Sec = new WaitForSeconds(1f);
+
         //Set cosmetic explosion to false
         explosion = transform.GetChild(0).gameObject;
         explosion.SetActive(false);
@@ -88,6 +92,10 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         {
             Invoke(nameof(KillTimer), weaponLifeTime);
             isNetworkInstance = false;
+        }
+        else
+        {
+            GetComponent<Collider>().enabled = false;
         }
     }
 
@@ -124,12 +132,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     void Hit()
     {
-        if (!isNetworkInstance && !isExploded)
-        {
             StartCoroutine(HitCR());
-            isExploded = true;
-            model.exploded = true;;
-        }
     }
 
     void HitBlank()
@@ -146,13 +149,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     IEnumerator HitCR()
     {
-        //If this is a server instanced projectile set kinematics to true
-        //This will prevent further physics caculations done locally
-        if (!isNetworkInstance)
-        {
-            rb.isKinematic = true;
-        }
-
         GetComponent<TrailRenderer>().emitting = false;
         colliders = Physics.OverlapSphere(transform.position, explosiveRange);
 
@@ -164,18 +160,19 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                 {
                     Vector3 _origin = colliders[i].transform.position - transform.position;
                     //Debug.Log("In Explosion Range:" + colliders[i]);
+
                     if (colliders[i].gameObject.GetComponent<Player>() != null)
                     {
-                        colliders[i].gameObject.GetComponent<Player>().ChangeExplosionForce(_origin);
-                        colliders[i].gameObject.GetComponent<Player>().DamagePlayer(damage);
+                        Player _player = colliders[i].gameObject.GetComponent<Player>();
+                        _player.ChangeExplosionForce(_origin);
+                        _player.DamagePlayer(damage);
                     }
                     else if (colliders[i].gameObject.GetComponent<Truck>() != null)
                     {
-                        colliders[i].gameObject.GetComponent<Truck>().AddExplosionForce(_origin);
-                        colliders[i].gameObject.GetComponent<Truck>()
-                            .DamagePlayer(damage * truckDamageFactor * (isNetworkInstance ? 0 : 1));
+                        Truck _tempTruck = colliders[i].gameObject.GetComponent<Truck>();
+                        _tempTruck.AddExplosionForce(_origin);
+                        _tempTruck.DamagePlayer(damage * truckDamageFactor);
                     }
-
                     else if (colliders[i].gameObject.GetComponent<Rigidbody>() != null)
                     {
                         colliders[i].gameObject.GetComponent<Rigidbody>()
@@ -185,12 +182,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             }
         }
 
-        if (wait1Sec == null)
-        {
-            wait1Sec = new WaitForSeconds(1f);
-        }
-
-        //GetComponent<MeshRenderer>().enabled = false;
         projectile_Mesh.SetActive(false);
         yield return wait1Sec;
         yield return wait1Sec;
@@ -238,11 +229,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                     }
                 }
             }
-        }
-
-        if (wait1Sec == null)
-        {
-            wait1Sec = new WaitForSeconds(1f);
         }
 
         //GetComponent<MeshRenderer>().enabled = false;
