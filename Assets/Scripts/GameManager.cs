@@ -123,10 +123,10 @@ public class GameManager : MonoBehaviour
     {
         //Debug.LogWarning("Room Game Start Time:" + _race._model.gameStartTime);
         //Debug.LogWarning("connected players:" + playerManager.connectedPlayers.Count);
-        if (readyToStart && _race._model != null)
+        if (readyToStart && _race != null)
         {
             readyToStart = false;
-            if (_race._model.gameStartTime == 0)
+            if (_race.m_fGameStartTime == 0)
             {
                 _race.ChangeGameTime(_realtime.room.time);
             }
