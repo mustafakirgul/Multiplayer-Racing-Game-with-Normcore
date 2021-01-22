@@ -275,8 +275,8 @@ public class NewCarController : MonoBehaviour
                 }
             }
 
-            if (_up) m_fplayerLastHealth += Time.deltaTime;
-            else m_fplayerLastHealth -= Time.deltaTime;
+            if (_up) m_fplayerLastHealth += Time.deltaTime * 5f;
+            else m_fplayerLastHealth -= Time.deltaTime * 5f;
 
             if ((_up && m_fplayerLastHealth > _player.playerHealth) ||
                 (!_up && m_fplayerLastHealth < _player.playerHealth))
@@ -291,10 +291,12 @@ public class NewCarController : MonoBehaviour
 
             yield return waitFrame2;
         }
+
         if (_player.playerHealth <= 0)
         {
             PlayerDeath();
         }
+
         healthChecker = null;
     }
 
@@ -384,7 +386,7 @@ public class NewCarController : MonoBehaviour
             transform.position = CarRB.transform.position;
         }
 
-        if (_player != null)
+        if (_player != null && healthChecker == null)
         {
             CheckHealth();
         }
@@ -392,7 +394,7 @@ public class NewCarController : MonoBehaviour
 
     private void CheckHealth()
     {
-        if (m_fplayerLastHealth != _player.playerHealth && healthChecker == null)
+        if (m_fplayerLastHealth != _player.playerHealth)
         {
             healthChecker = StartCoroutine(UpdateHealthValue());
         }
@@ -426,8 +428,6 @@ public class NewCarController : MonoBehaviour
         Vector3 _rotation = CarRB.rotation.eulerAngles;
         CarRB.transform.rotation = Quaternion.Euler(_rotation.x, _rotation.y, 0);
         CarRB.velocity = Vector3.zero;
-
-        StartCoroutine(UpdateHealthValue());
     }
 
     private void OnDestroy()
