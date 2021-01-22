@@ -136,6 +136,9 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     IEnumerator HitCR()
     {
         GetComponent<TrailRenderer>().emitting = false;
+        rb.isKinematic = true;
+        GetComponent<Collider>().enabled = false;
+        projectile_Mesh.SetActive(false);
         colliders = Physics.OverlapSphere(transform.position, explosiveRange);
 
         if (colliders != null)
@@ -168,7 +171,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             }
         }
 
-        projectile_Mesh.SetActive(false);
         yield return wait1Sec;
         yield return wait1Sec;
         explosion.SetActive(false);

@@ -264,6 +264,8 @@ public class NewCarController : MonoBehaviour
 
     public IEnumerator CR_HealthAnimator()
     {
+        yield return new WaitForSeconds(5f);
+
         while (true)
         {
             if (healthRadialLoader != null)
@@ -401,7 +403,7 @@ public class NewCarController : MonoBehaviour
     {
         isPlayerAlive = true;
         _player.playerHealth = _player.maxPlayerHealth;
-
+        UpdateHealth();
         //Spawn in player animation
         CarRB.position = new Vector3(transform.position.x, transform.position.y + resetHeight, transform.position.z);
         Vector3 _rotation = CarRB.rotation.eulerAngles;
