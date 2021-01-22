@@ -55,6 +55,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                 {
                     explosion.SetActive(true);
                 }
+
                 isExploded = model.exploded;
                 StartCoroutine(HitCR());
             }
@@ -93,10 +94,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             Invoke(nameof(KillTimer), weaponLifeTime);
             isNetworkInstance = false;
         }
-        else
-        {
-            GetComponent<Collider>().enabled = false;
-        }
     }
 
     protected virtual void Update()
@@ -132,20 +129,9 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     void Hit()
     {
-            StartCoroutine(HitCR());
+        StartCoroutine(HitCR());
     }
 
-    void HitBlank()
-    {
-        if (!isNetworkInstance)
-        {
-            StartCoroutine(HitNoDmg());
-        }
-        else
-        {
-            model.exploded = true;
-        }
-    }
 
     IEnumerator HitCR()
     {
