@@ -49,12 +49,9 @@ public class LootManager : MonoBehaviour
     public BuildLoadOutSObj selected_buildLoadOutToView;
 
     //Saved loadouts
-    [SerializeField]
-    private BuildLoadOutSObj Balanced_buildLoadOut;
-    [SerializeField]
-    private BuildLoadOutSObj Speedy_buildLoadOut;
-    [SerializeField]
-    private BuildLoadOutSObj Tank_buildLoadOut;
+    public BuildLoadOutSObj Balanced_buildLoadOut;
+    public BuildLoadOutSObj Speedy_buildLoadOut;
+    public BuildLoadOutSObj Tank_buildLoadOut;
 
 
     private void Awake()

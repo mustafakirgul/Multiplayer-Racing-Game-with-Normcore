@@ -35,7 +35,7 @@ public class Truck : RealtimeComponent<TruckModel>
     private List<WayPoint> m_wayPoints;
 
     [SerializeField] private Transform currentWPT;
-    [SerializeField] private float steerRefreshTimer;
+    [SerializeField] private float steerRefreshTimer = 1 / 60;
     [SerializeField] private int currentWPindex = 0;
     public float waypointSwitchThreshold;
 
@@ -228,13 +228,9 @@ public class Truck : RealtimeComponent<TruckModel>
         {
             if (currentModel.isFreshModel)
                 StartHealth();
-            _health = currentModel.health;
-            _owner = currentModel.owner;
-            _explosionForce = currentModel.explosionPoint;
             currentModel.ownerDidChange += OwnerChanged;
             currentModel.healthDidChange += HealthChanged;
             currentModel.explosionPointDidChange += ForcesChanged;
-            _truck = currentModel;
         }
     }
 
@@ -242,32 +238,35 @@ public class Truck : RealtimeComponent<TruckModel>
     {
         if (_id >= 0)
         {
-            _truck.owner = _id;
+            model.owner = _id;
         }
     }
 
     void ResetExplosionPoint()
     {
-        _truck.explosionPoint = Vector3.zero;
+        model.explosionPoint = Vector3.zero;
     }
 
     void ChangeExplosionForce(Vector3 _origin)
     {
-        _truck.explosionPoint += _origin;
+        model.explosionPoint += _origin;
     }
 
     public void StartHealth()
     {
-        _truck.health = _maxHealth;
+        model.health = _maxHealth;
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
     public void DamagePlayer(float damage)
     {
-        _truck.health -= damage;
+        model.health -= damage;
+        DropRandomLoot();
+    }
 
-        //random chance of loot drop
-        if (UnityEngine.Random.Range(0f, 1f) < lootChance)
+    private void DropRandomLoot()
+    {
+        if (UnityEngine.Random.Range(0f, 1f) < lootChance) //random chance of loot drop
         {
             GameObject _temp = Realtime.Instantiate("Loot",
                 position: transform.position + lootLaunchPoint,
@@ -280,9 +279,9 @@ public class Truck : RealtimeComponent<TruckModel>
                 _realtime);
             _temp.GetComponent<LootContainer>().SetID(UnityEngine.Random.Range(-666, 666));
             Vector3 _tempDir = UnityEngine.Random.onUnitSphere;
-            _tempDir = new Vector3(_tempDir.x, Mathf.Abs(_tempDir.y) + 20f, _tempDir.z) * throwForce;
+            _tempDir = new Vector3(_tempDir.x, Mathf.Abs(_tempDir.y), _tempDir.z) * throwForce;
             Debug.DrawLine(lootLaunchPoint, lootLaunchPoint + _tempDir, Color.blue, 3f);
-            _temp.GetComponent<Rigidbody>().AddForce(_tempDir);
+            _temp.GetComponent<Rigidbody>().AddForce(_tempDir, ForceMode.Impulse);
         }
     }
 

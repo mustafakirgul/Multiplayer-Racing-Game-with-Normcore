@@ -14,8 +14,8 @@ public class UIManager : MonoBehaviour
 
     //UI Slots for loot inventory
     //Assigned manually
-    [SerializeField]
-    private AutoResizeLootRectTransforms[] AutoResizeLootRectTransforms;
+    public AutoResizeLootRectTransforms[] AutoResizeLootRectTransforms;
+
     //References to important things
     Realtime _realtime;
     GameManager _gameManager;
@@ -23,25 +23,18 @@ public class UIManager : MonoBehaviour
 
     //Assigned manually 
     //This is a reference to the UI container
-    [SerializeField]
-    private GameObject WeaponGarageSlotContainer;
-    [SerializeField]
-    private GameObject ArmourGarageSlotContainer;
-    [SerializeField]
-    private GameObject EngineGarageSlotContainer;
+    public GameObject WeaponGarageSlotContainer;
+    public GameObject ArmourGarageSlotContainer;
+    public GameObject EngineGarageSlotContainer;
 
     //Assigned manually as a reference to populatet the UI
-    [SerializeField]
-    GameObject WeaponUIButton;
-    [SerializeField]
-    GameObject ArmourUIButton;
-    [SerializeField]
-    GameObject EngineUIButton;
+    public GameObject WeaponUIButton;
+    public GameObject ArmourUIButton;
+    public GameObject EngineUIButton;
 
     private int lastbuildSelected;
 
-    [SerializeField]
-    private int SelectedBuildToView;
+    public int SelectedBuildToView;
 
     //Need to add details the mesh of each car
     public List<GameObject> BuildModelsAppearance = new List<GameObject>();
@@ -54,6 +47,7 @@ public class UIManager : MonoBehaviour
         uIPanel = transform.GetChild(0).gameObject;
         EnableUI();
     }
+
     private void Start()
     {
         _gameManager.FixAssociations();
@@ -81,10 +75,12 @@ public class UIManager : MonoBehaviour
         {
             BuildModelsAppearance[i].SetActive(false);
         }
+
         GameManager.instance.ConnectToRoom(SelectedBuildToView);
         _lootManager.DeploySelectedBuild();
         lastbuildSelected = SelectedBuildToView;
     }
+
     private void Update()
     {
         if (Input.GetKeyUp(KeyCode.Escape))
@@ -101,6 +97,7 @@ public class UIManager : MonoBehaviour
             ResizeUILootContainers();
         }
     }
+
     public void ReactivateLogin()
     {
         DisableUI();
@@ -124,7 +121,7 @@ public class UIManager : MonoBehaviour
                     break;
                 case ItemType.Armour:
                     GameObject ArmourButtonToAssign =
-                       Instantiate(ArmourUIButton, ArmourGarageSlotContainer.transform);
+                        Instantiate(ArmourUIButton, ArmourGarageSlotContainer.transform);
                     ArmourButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
                     break;
                 case ItemType.Engine:
@@ -139,12 +136,13 @@ public class UIManager : MonoBehaviour
 
         if (AutoResizeLootRectTransforms.Length != 0)
         {
-            foreach(AutoResizeLootRectTransforms containers in AutoResizeLootRectTransforms)
+            foreach (AutoResizeLootRectTransforms containers in AutoResizeLootRectTransforms)
             {
                 containers.ResizeLootScrollBar();
             }
         }
     }
+
     public void ResizeUILootContainers()
     {
         if (AutoResizeLootRectTransforms.Length != 0)
@@ -155,10 +153,12 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+
     public void EnableUI()
     {
         uIPanel.SetActive(true);
     }
+
     public void DisableUI()
     {
         uIPanel.SetActive(false);

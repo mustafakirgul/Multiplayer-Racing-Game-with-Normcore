@@ -11,7 +11,6 @@ public class Bullet : RealtimeComponent<ProjectileModel>
     GameObject explosion;
     WaitForSeconds wait1Sec;
     Collider[] colliders;
-    private ProjectileModel _model;
     public bool isNetworkInstance = true;
     RealtimeView _realtimeView;
     RealtimeTransform _realtimeTransform;
@@ -24,18 +23,20 @@ public class Bullet : RealtimeComponent<ProjectileModel>
             // Unregister from events
             previousModel.explodedDidChange -= UpdateExplosionState;
         }
+
         if (currentModel != null)
         {
             // If this is a model that has no data set on it, populate it with the current mesh renderer color.
             // use [ if (currentModel.isFreshModel)] to initialize player prefab
-            _model = currentModel;
             currentModel.explodedDidChange += UpdateExplosionState;
         }
     }
+
     void KillTimer()
     {
         Hit();
     }
+
     void UpdateExplosionState(ProjectileModel model, bool _state)
     {
         if (_state && isNetworkInstance)
@@ -43,6 +44,7 @@ public class Bullet : RealtimeComponent<ProjectileModel>
             StartCoroutine(HitCR());
         }
     }
+
     private void Awake()
     {
         colliders = new Collider[0];
@@ -57,16 +59,18 @@ public class Bullet : RealtimeComponent<ProjectileModel>
             isNetworkInstance = false;
             Invoke(nameof(KillTimer), 20f);
         }
-        _model.exploded = false;
+
+        model.exploded = false;
     }
 
     private void Update()
     {
-        if (isNetworkInstance || _model == null)
+        if (isNetworkInstance || model == null)
             return;
         _realtimeView.RequestOwnership();
         _realtimeTransform.RequestOwnership();
     }
+
     private void LateUpdate()
     {
         if (isNetworkInstance)
@@ -76,6 +80,7 @@ public class Bullet : RealtimeComponent<ProjectileModel>
             Realtime.Destroy(gameObject);
         }
     }
+
     public void Fire(Transform _barrelTip, float _tipVelocity)
     {
         rb = GetComponent<Rigidbody>();
@@ -87,6 +92,7 @@ public class Bullet : RealtimeComponent<ProjectileModel>
             rb.isKinematic = true;
             return;
         }
+
         GetComponent<MeshRenderer>().enabled = true;
         transform.position = _barrelTip.position;
         transform.rotation = _barrelTip.rotation;
@@ -94,20 +100,23 @@ public class Bullet : RealtimeComponent<ProjectileModel>
             transform.forward * (startSpeed + _tipVelocity),
             ForceMode.VelocityChange);
     }
+
     void Hit()
     {
         if (!isNetworkInstance)
         {
-            _model.exploded = true;
+            model.exploded = true;
             StartCoroutine(HitCR());
         }
     }
+
     IEnumerator HitCR()
     {
         if (!isNetworkInstance)
         {
             rb.isKinematic = true;
         }
+
         GetComponent<TrailRenderer>().emitting = false;
         colliders = Physics.OverlapSphere(transform.position, explosiveRange);
         if (colliders != null)
@@ -130,20 +139,24 @@ public class Bullet : RealtimeComponent<ProjectileModel>
 
                     else if (colliders[i].gameObject.GetComponent<Rigidbody>() != null)
                     {
-                        colliders[i].gameObject.GetComponent<Rigidbody>().AddExplosionForce(200000f, transform.position - _origin, 20f, 1000f);
+                        colliders[i].gameObject.GetComponent<Rigidbody>()
+                            .AddExplosionForce(200000f, transform.position - _origin, 20f, 1000f);
                     }
                 }
             }
         }
+
         if (explosion == null)
         {
             explosion = transform.GetChild(0).gameObject;
         }
+
         explosion.SetActive(true);
         if (wait1Sec == null)
         {
             wait1Sec = new WaitForSeconds(1f);
         }
+
         GetComponent<MeshRenderer>().enabled = false;
         yield return wait1Sec;
         yield return wait1Sec;

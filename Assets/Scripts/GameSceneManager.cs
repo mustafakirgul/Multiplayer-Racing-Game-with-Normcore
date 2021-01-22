@@ -11,8 +11,7 @@ public class GameSceneManager : MonoBehaviour
     public float m_fAutoTransitionDelay;
     public int m_fFadeTime;
 
-    [SerializeField]
-    bool m_bisAutomatedSplashes;
+    public bool m_bisAutomatedSplashes;
 
     [SerializeField]
     private int m_iSplashIndex = 0;
