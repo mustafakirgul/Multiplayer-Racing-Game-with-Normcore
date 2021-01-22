@@ -29,7 +29,6 @@ public class Player : RealtimeComponent<PlayerModel>
                 _id = GetComponent<RealtimeView>().ownerIDInHierarchy;
                 model.health = maxPlayerHealth;
             }
-
             currentModel.playerNameDidChange += PlayerNameChanged;
             currentModel.healthDidChange += PlayerHealthChanged;
             currentModel.forcesDidChange += PlayerForcesChanged;

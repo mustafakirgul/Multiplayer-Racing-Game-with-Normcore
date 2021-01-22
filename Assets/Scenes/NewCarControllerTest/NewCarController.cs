@@ -98,6 +98,7 @@ public class NewCarController : MonoBehaviour
     public GameObject DeathExplosion;
     bool isPlayerAlive;
     public float explosionForce = 2000000f;
+    public float resetHeight;
 
     [Space] [Space] [Header("Boost Params")]
     //Boost Controls
@@ -118,7 +119,7 @@ public class NewCarController : MonoBehaviour
     private bool lights;
 
     //Reset Controls
-    [Space] public float resetHeight;
+
 
     //QA
     [HideInInspector] public int _bombs;
@@ -136,7 +137,8 @@ public class NewCarController : MonoBehaviour
     public float suspensionHeight; // these 2 only work if identical suspension for all wheels is true
     public float wheelSize;
     [SerializeField] public ArcadeWheel[] wheels;
-    private Coroutine healthChecker;
+    private Coroutine healthAnimator;
+    private float _tempHealth;
 
     private void Awake()
     {
@@ -200,11 +202,11 @@ public class NewCarController : MonoBehaviour
             InitCamera();
             PlayerManager.instance.AddLocalPlayer(transform);
             PlayerManager.instance.AddExistingPlayers();
+            healthAnimator = StartCoroutine(CR_HealthAnimator());
         }
         else
         {
             _miniMapRenderer.color = Color.red;
-            m_fplayerLastHealth = 0f;
             isNetworkInstance = true;
             IDDisplay.gameObject.SetActive(true);
             CarRB.gameObject.SetActive(false);
@@ -260,44 +262,23 @@ public class NewCarController : MonoBehaviour
         }
     }
 
-    public IEnumerator UpdateHealthValue()
+    public IEnumerator CR_HealthAnimator()
     {
-        bool _up = true;
-        bool _start = true;
-        while (m_fplayerLastHealth != _player.playerHealth)
+        while (true)
         {
-            if (_start)
-            {
-                _start = false;
-                if (m_fplayerLastHealth > _player.playerHealth)
-                {
-                    _up = false;
-                }
-            }
-
-            if (_up) m_fplayerLastHealth += Time.deltaTime * 5f;
-            else m_fplayerLastHealth -= Time.deltaTime * 5f;
-
-            if ((_up && m_fplayerLastHealth > _player.playerHealth) ||
-                (!_up && m_fplayerLastHealth < _player.playerHealth))
-            {
-                m_fplayerLastHealth = _player.playerHealth;
-            }
-
             if (healthRadialLoader != null)
             {
-                healthRadialLoader.fillAmount = (m_fplayerLastHealth / _player.maxPlayerHealth);
+                _tempHealth = Mathf.Lerp(_tempHealth, m_fplayerLastHealth, Time.deltaTime * 10f);
+                healthRadialLoader.fillAmount = _tempHealth / _player.maxPlayerHealth;
+            }
+
+            if (_player.playerHealth <= 0)
+            {
+                PlayerDeath();
             }
 
             yield return waitFrame2;
         }
-
-        if (_player.playerHealth <= 0)
-        {
-            PlayerDeath();
-        }
-
-        healthChecker = null;
     }
 
     IEnumerator BoostCounter()
@@ -348,7 +329,7 @@ public class NewCarController : MonoBehaviour
         _player.explosionForce = Vector3.zero;
     }
 
-    // Update is called once per frame
+// Update is called once per frame
     void Update()
     {
         if (!isNetworkInstance)
@@ -386,23 +367,17 @@ public class NewCarController : MonoBehaviour
             transform.position = CarRB.transform.position;
         }
 
-        if (_player != null)
+        if (!Mathf.Approximately(m_fplayerLastHealth, _player.playerHealth))
         {
-            CheckHealth();
+            UpdateHealth();
         }
     }
 
-    private void CheckHealth()
+    void UpdateHealth()
     {
-        Debug.LogWarning("Health Comparison | local: " + m_fplayerLastHealth + " | model: " + _player.playerHealth);
-        Debug.LogWarning("Health Comparison | local: " + Mathf.Round(m_fplayerLastHealth * 100f) / 100f + " | model: " +
-                         Mathf.Round(_player.playerHealth * 100f) / 100f);
-        if (Mathf.Round(m_fplayerLastHealth * 100f) / 100f != Mathf.Round(_player.playerHealth * 100f) / 100f)
-        {
-            Debug.LogWarning("Health is different!");
-            if (healthChecker == null)
-                healthChecker = StartCoroutine(UpdateHealthValue());
-        }
+        _tempHealth = m_fplayerLastHealth;
+        m_fplayerLastHealth = _player.playerHealth;
+        StartCoroutine(CR_HealthAnimator());
     }
 
     private void PlayerDeath()
@@ -411,7 +386,7 @@ public class NewCarController : MonoBehaviour
         moveInput = 0;
         turnInput = 0;
         DeathExplosion.SetActive(true);
-        CarRB.AddExplosionForce(150f, this.CarRB.transform.position, 20f, 500f, ForceMode.Impulse);
+        CarRB.AddExplosionForce(20f, this.CarRB.transform.position, 20f, 500f, ForceMode.Impulse);
         StartCoroutine(RespawnCountDown(5f));
     }
 
@@ -419,7 +394,6 @@ public class NewCarController : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         DeathExplosion.SetActive(false);
-        m_fplayerLastHealth = 0f;
         ResetPlayerHealth();
     }
 
@@ -700,13 +674,13 @@ public class NewCarController : MonoBehaviour
         return Mathf.Abs(localVelocity.z);
     }
 
-    //Framerate aware damping
+//Framerate aware damping
     public static float Damp(float source, float target, float smoothing, float dt)
     {
         return Mathf.Lerp(source, target, 1 - Mathf.Pow(smoothing, dt));
     }
 
-    //Weapon Firing Codes
+//Weapon Firing Codes
     private IEnumerator FireCR()
     {
         _bombs++;

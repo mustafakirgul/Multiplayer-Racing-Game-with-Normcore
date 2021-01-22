@@ -973,15 +973,14 @@ MonoBehaviour:
   turningFwdSpeed: 35
   airDrag: 0
   groundDrag: 4
-  GroundCheckRayLength: 0.65
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
   lerpRotationSpeed: 6
+  GroundCheckRayLength: 0.65
   MinVelocityThreshold: 0.25
   BrakeForce: 0.5
   MaxSpeed: 300
-  MaxSpeedModifier: 0
   isGrounded: 0
   extraGravity: 80
   maxSteeringAngle: 45
@@ -997,6 +996,13 @@ MonoBehaviour:
   CameraContainer: {fileID: 1946598630858441357}
   isNetworkInstance: 1
   offlineTest: 0
+  meleeDamageModifier: 0
+  verticalSpdModifier: 0
+  turnSpdModifier: 0
+  MaxSpeedModifier: 0
+  accelerationModifier: 0
+  HandlingModifier: 0
+  LootWeaponProjectile: {fileID: 0}
   WeaponProjectile: {fileID: 3112086905854782875, guid: 5dfb8fa6b064c5341a1a2ed8e2b7ab15,
     type: 3}
   _barrelTip: {fileID: 7999507694352759004}
@@ -1129,17 +1135,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aea1ea25c597714e941284086099dcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_player: {fileID: 0}
-  m_listOfItems:
-  - {fileID: 11400000, guid: 042e8a027e3b4e2449acd1f8471caf54, type: 2}
-  - {fileID: 11400000, guid: 61026f1df7c6d8344849f6da13801624, type: 2}
-  - {fileID: 11400000, guid: 3e6e53f0fdc6c3c41b6b6d548a07439c, type: 2}
-  - {fileID: 11400000, guid: e28629993c1879c4d8ca0b8585d3c884, type: 2}
+  m_playerHealth: {fileID: 0}
+  m_playerCarController: {fileID: 0}
   mf_ItemMeleeAttack: 0
-  mf_ItemDefense: 0
-  mf_ItemHealth: 0
+  mf_ItemArmour: 0
   mf_ItemSpeed: 0
+  mf_ItemOther: 0
   mf_maxItemCount: 0
+  current_buildLoadOut: {fileID: 0}
 --- !u!114 &7582280230186555917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1155,8 +1158,10 @@ MonoBehaviour:
   _id: 0
   playerName: 
   playerHealth: 0
-  maxPlayerHealth: 20
+  maxPlayerHealth: 200
   explosionForce: {x: 0, y: 0, z: 0}
+  armourDefenseModifier: 0
+  healModifier: 0
 --- !u!65 &7324370658739478688
 BoxCollider:
   m_ObjectHideFlags: 0
