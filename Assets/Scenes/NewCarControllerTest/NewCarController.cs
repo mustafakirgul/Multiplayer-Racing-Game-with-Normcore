@@ -386,7 +386,7 @@ public class NewCarController : MonoBehaviour
             transform.position = CarRB.transform.position;
         }
 
-        if (_player != null && healthChecker == null)
+        if (_player != null)
         {
             CheckHealth();
         }
@@ -397,7 +397,8 @@ public class NewCarController : MonoBehaviour
         Debug.LogWarning("Health Comparison | local: " + m_fplayerLastHealth + " | model: " + _player.playerHealth);
         if (Mathf.RoundToInt(m_fplayerLastHealth) != Mathf.RoundToInt(_player.playerHealth))
         {
-            healthChecker = StartCoroutine(UpdateHealthValue());
+            if (healthChecker == null)
+                healthChecker = StartCoroutine(UpdateHealthValue());
         }
     }
 
