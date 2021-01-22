@@ -394,7 +394,8 @@ public class NewCarController : MonoBehaviour
 
     private void CheckHealth()
     {
-        if (m_fplayerLastHealth != _player.playerHealth)
+        Debug.LogWarning("Health Comparison | local: " + m_fplayerLastHealth + " | model: " + _player.playerHealth);
+        if (Mathf.RoundToInt(m_fplayerLastHealth) != Mathf.RoundToInt(_player.playerHealth))
         {
             healthChecker = StartCoroutine(UpdateHealthValue());
         }
