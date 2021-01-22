@@ -46,13 +46,11 @@ public class Player : RealtimeComponent<PlayerModel>
     public void DamagePlayer(float damage)
     {
         model.health -= ((1 - armourDefenseModifier)* damage);
-        //PlayerHealthChanged(_model, (playerHealth - damage));
     }
 
     public void HealPlayer(float healingPower)
     {
         model.health += ((1 + healModifier) * healingPower);
-        //PlayerHealthChanged(_model, (playerHealth + healingPower));
     }
 
     private void PlayerHealthChanged(PlayerModel playerModel, float value)

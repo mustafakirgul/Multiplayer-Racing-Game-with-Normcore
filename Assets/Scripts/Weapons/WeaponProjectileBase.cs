@@ -32,14 +32,11 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     {
         if (previousModel != null)
         {
-            // Unregister from events
             previousModel.explodedDidChange -= UpdateExplosionState;
         }
 
         if (currentModel != null)
         {
-            // If this is a model that has no data set on it, populate it with the current mesh renderer color.
-            // use [ if (currentModel.isFreshModel)] to initialize player prefab
             currentModel.explodedDidChange += UpdateExplosionState;
         }
     }
@@ -130,7 +127,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         if (!isNetworkInstance && !isExploded)
         {
             StartCoroutine(HitCR());
-            isExploded = true;
+            model.exploded = true;;
         }
     }
 
