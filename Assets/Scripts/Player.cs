@@ -10,6 +10,7 @@ public class Player : RealtimeComponent<PlayerModel>
     public Vector3 explosionForce;
     public float armourDefenseModifier = 0f;
     public float healModifier = 0f;
+
     protected override void OnRealtimeModelReplaced(PlayerModel previousModel, PlayerModel currentModel)
     {
         if (previousModel != null)
@@ -19,11 +20,15 @@ public class Player : RealtimeComponent<PlayerModel>
             previousModel.healthDidChange -= PlayerHealthChanged;
             previousModel.forcesDidChange -= PlayerForcesChanged;
         }
+
         if (currentModel != null)
         {
-            // If this is a model that has no data set on it, populate it with the current mesh renderer color.
-            // use [ if (currentModel.isFreshModel)] to initialize player prefab
-            playerName = currentModel.playerName;
+            if (currentModel.isFreshModel)
+            {
+                playerName = currentModel.playerName;
+                _id = GetComponent<RealtimeView>().ownerIDInHierarchy;
+            }
+
             currentModel.playerNameDidChange += PlayerNameChanged;
             currentModel.healthDidChange += PlayerHealthChanged;
             currentModel.forcesDidChange += PlayerForcesChanged;
@@ -45,7 +50,8 @@ public class Player : RealtimeComponent<PlayerModel>
 
     public void DamagePlayer(float damage)
     {
-        model.health -= ((1 - armourDefenseModifier)* damage);
+        model.health -= ((1 - armourDefenseModifier) * damage);
+        Debug.LogWarning("Player got damaged!");
     }
 
     public void HealPlayer(float healingPower)

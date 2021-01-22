@@ -127,6 +127,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         if (!isNetworkInstance && !isExploded)
         {
             StartCoroutine(HitCR());
+            isExploded = true;
             model.exploded = true;;
         }
     }
