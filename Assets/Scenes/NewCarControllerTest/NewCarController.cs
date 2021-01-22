@@ -136,6 +136,7 @@ public class NewCarController : MonoBehaviour
     public float suspensionHeight; // these 2 only work if identical suspension for all wheels is true
     public float wheelSize;
     [SerializeField] public ArcadeWheel[] wheels;
+    private Coroutine healthChecker;
 
     private void Awake()
     {
@@ -290,6 +291,11 @@ public class NewCarController : MonoBehaviour
 
             yield return waitFrame2;
         }
+        if (_player.playerHealth <= 0)
+        {
+            PlayerDeath();
+        }
+        healthChecker = null;
     }
 
     IEnumerator BoostCounter()
@@ -386,14 +392,9 @@ public class NewCarController : MonoBehaviour
 
     private void CheckHealth()
     {
-        if (m_fplayerLastHealth != _player.playerHealth)
+        if (m_fplayerLastHealth != _player.playerHealth && healthChecker == null)
         {
-            StartCoroutine(UpdateHealthValue());
-
-            if (_player.playerHealth <= 0)
-            {
-                PlayerDeath();
-            }
+            healthChecker = StartCoroutine(UpdateHealthValue());
         }
     }
 
