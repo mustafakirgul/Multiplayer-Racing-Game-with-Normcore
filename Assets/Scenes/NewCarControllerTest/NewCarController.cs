@@ -96,7 +96,7 @@ public class NewCarController : MonoBehaviour
     public Image healthRadialLoader;
     public float m_fplayerLastHealth;
     public GameObject DeathExplosion;
-    bool isPlayerAlive = true;
+    bool isPlayerAlive;
     public float explosionForce = 2000000f;
     public float resetHeight;
 
@@ -220,12 +220,8 @@ public class NewCarController : MonoBehaviour
 
         _currentName = _player.playerName;
         IDDisplay.SetText(_currentName);
-        ownerID = GetComponent<RealtimeView>().ownerIDSelf;
-        UpdateHealth();
-        if (healthAnimator == null)
-        {
-            healthAnimator = StartCoroutine(CR_HealthAnimator());
-        }
+        ownerID = _realtimeTransform.ownerIDInHierarchy;
+        ResetPlayerHealth();
     }
 
     void OnValidate()
@@ -278,7 +274,7 @@ public class NewCarController : MonoBehaviour
                 healthRadialLoader.fillAmount = _tempHealth / _player.maxPlayerHealth;
             }
 
-            if (_player.playerHealth < 0 && isPlayerAlive)
+            if (_player.playerHealth <= 0)
             {
                 PlayerDeath();
             }
@@ -383,6 +379,7 @@ public class NewCarController : MonoBehaviour
     {
         _tempHealth = m_fplayerLastHealth;
         m_fplayerLastHealth = _player.playerHealth;
+        StartCoroutine(CR_HealthAnimator());
     }
 
     private void PlayerDeath()
@@ -405,7 +402,7 @@ public class NewCarController : MonoBehaviour
     private void ResetPlayerHealth()
     {
         isPlayerAlive = true;
-        _player.SetHealth(_player.maxPlayerHealth);
+        _player.playerHealth = _player.maxPlayerHealth;
         UpdateHealth();
         //Spawn in player animation
         CarRB.position = new Vector3(transform.position.x, transform.position.y + resetHeight, transform.position.z);

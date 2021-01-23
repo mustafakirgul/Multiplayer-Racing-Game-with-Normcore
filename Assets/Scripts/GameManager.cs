@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour
         if (playerNameInputField.text.Length > 0)
         {
             Debug.Log(preferredCar);
-            _realtime.Connect("UGP_TEST1");
+            _realtime.Connect("UGP_TEST");
 
             //Coroutines tend to mess up here due to connection/network related
             //issues
