@@ -28,7 +28,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     RealtimeTransform _realtimeTransform;
     bool isExploded = false;
     List<GameObject> damagedPlayers;
-    private Coroutine hitCoroutine;
+    private Coroutine hitCoroutine, hitNoDamageCoroutine;
 
     protected override void OnRealtimeModelReplaced(ProjectileModel previousModel, ProjectileModel currentModel)
     {
@@ -103,6 +103,13 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         {
             _realtimeView.RequestOwnership();
             _realtimeTransform.RequestOwnership();
+        }
+        else
+        {
+            if (model.exploded && hitNoDamageCoroutine == null)
+            {
+                hitNoDamageCoroutine = StartCoroutine(HitNoDmg());
+            }
         }
     }
 
@@ -187,55 +194,26 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         hitCoroutine = null;
     }
 
-    // IEnumerator HitNoDmg()
-    // {
-    //     //Once projectile hits, if this object isn't a networked spawned
-    //     //Which means that only if this is a local projectile owned by the player
-    //     //Make them stop moving and commence damage caculations
-    //     //Explosions and animations etc
-    //     if (!isNetworkInstance)
-    //     {
-    //         rb.isKinematic = true;
-    //     }
-    //
-    //     GetComponent<TrailRenderer>().emitting = false;
-    //     colliders = Physics.OverlapSphere(transform.position, explosiveRange);
-    //
-    //     if (colliders != null)
-    //     {
-    //         if (colliders.Length > 0)
-    //         {
-    //             for (int i = 0; i < colliders.Length; i++)
-    //             {
-    //                 Vector3 _origin = colliders[i].transform.position - transform.position;
-    //                 //Debug.Log("In Explosion Range:" + colliders[i]);
-    //                 if (colliders[i].gameObject.GetComponent<Player>() != null)
-    //                 {
-    //                     colliders[i].gameObject.GetComponent<Player>().ChangeExplosionForce(_origin);
-    //                     colliders[i].gameObject.GetComponent<Player>().DamagePlayer(0);
-    //                 }
-    //                 else if (colliders[i].gameObject.GetComponent<Truck>() != null)
-    //                 {
-    //                     colliders[i].gameObject.GetComponent<Truck>().AddExplosionForce(_origin);
-    //                 }
-    //
-    //                 else if (colliders[i].gameObject.GetComponent<Rigidbody>() != null)
-    //                 {
-    //                     colliders[i].gameObject.GetComponent<Rigidbody>()
-    //                         .AddExplosionForce(20000f, transform.position - _origin, 20f, 1000f);
-    //                 }
-    //             }
-    //         }
-    //     }
-    //
-    //     //GetComponent<MeshRenderer>().enabled = false;
-    //     projectile_Mesh.SetActive(false);
-    //     yield return wait1Sec;
-    //     yield return wait1Sec;
-    //     explosion.SetActive(false);
-    //     yield return wait1Sec;
-    //     Realtime.Destroy(gameObject);
-    // }
+    IEnumerator HitNoDmg()
+    {
+        //Once projectile hits, if this object isn't a networked spawned
+        //Which means that only if this is a local projectile owned by the player
+        //Make them stop moving and commence damage caculations
+        //Explosions and animations etc
+        if (!isNetworkInstance)
+        {
+            GetComponent<TrailRenderer>().emitting = false;
+            //GetComponent<MeshRenderer>().enabled = false;
+            projectile_Mesh.SetActive(false);
+            yield return wait1Sec;
+            yield return wait1Sec;
+            explosion.SetActive(false);
+            yield return wait1Sec;
+            Realtime.Destroy(gameObject);
+        }
+
+        hitNoDamageCoroutine = null;
+    }
 
     protected virtual void OnTriggerEnter(Collider other)
     {
