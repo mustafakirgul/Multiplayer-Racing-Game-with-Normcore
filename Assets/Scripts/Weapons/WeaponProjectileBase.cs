@@ -107,9 +107,9 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         {
             _realtimeView.RequestOwnership();
             _realtimeTransform.RequestOwnership();
-            if (model.exploded && hitCoroutine == null)
+            if (model.exploded && hitNoDamageCoroutine == null)
             {
-                hitCoroutine = StartCoroutine(HitCR());
+                hitNoDamageCoroutine = StartCoroutine(HitCR());
             }
         }
         else
