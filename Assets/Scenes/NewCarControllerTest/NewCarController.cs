@@ -274,7 +274,7 @@ public class NewCarController : MonoBehaviour
                 healthRadialLoader.fillAmount = _tempHealth / _player.maxPlayerHealth;
             }
 
-            if (_player.playerHealth <= 0)
+            if (_player.playerHealth <= 0&&isPlayerAlive)
             {
                 PlayerDeath();
             }
