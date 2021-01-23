@@ -76,25 +76,28 @@ public class LootManager : MonoBehaviour
 
     public void DetermineTypeOfPickUP(int playerID, int pickupRoll)
     {
-        if (pickupRoll > 0) 
+        if (pickupRoll > 0)
         {
             numberOfLootRolls++;
-        } 
+        }
         else
         {
-            Debug.Log("player "+ playerID + " obtained a powerup! ");
+            Debug.Log("player " + playerID + " obtained a powerup! ");
         }
     }
 
     public void RollForLoot()
     {
-        for (int i = 0; i < numberOfLootRolls; i++)
+        if (numberOfLootRolls != 0)
         {
-            //To do add more sophisticated loot drop system
-            ItemBase itemToAdd =
-                ReferenceLootPool[Random.Range(0, ReferenceLootPool.Count)];
-            playerObtainedLoot.Add(itemToAdd);
-            //Notification for player who have rolled for loot at the end of the round
+            for (int i = 0; i < numberOfLootRolls; i++)
+            {
+                //To do add more sophisticated loot drop system
+                ItemBase itemToAdd =
+                    ReferenceLootPool[Random.Range(0, ReferenceLootPool.Count)];
+                playerObtainedLoot.Add(itemToAdd);
+                //Notification for player who have rolled for loot at the end of the round
+            }
         }
         //Reset once roll is complete
         numberOfLootRolls = 0;
