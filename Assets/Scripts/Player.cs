@@ -1,4 +1,5 @@
-﻿using Normal.Realtime;
+﻿using System;
+using Normal.Realtime;
 using UnityEngine;
 
 public class Player : RealtimeComponent<PlayerModel>
@@ -26,7 +27,6 @@ public class Player : RealtimeComponent<PlayerModel>
             if (currentModel.isFreshModel)
             {
                 playerName = currentModel.playerName;
-                _id = GetComponent<RealtimeView>().ownerIDSelf;
                 model.health = maxPlayerHealth;
             }
 
@@ -34,6 +34,11 @@ public class Player : RealtimeComponent<PlayerModel>
             currentModel.healthDidChange += PlayerHealthChanged;
             currentModel.forcesDidChange += PlayerForcesChanged;
         }
+    }
+
+    private void Start()
+    {
+        _id = GetComponent<RealtimeView>().ownerIDSelf;
     }
 
     public void SetPlayerName(string _name)
@@ -52,7 +57,7 @@ public class Player : RealtimeComponent<PlayerModel>
     public void DamagePlayer(float damage)
     {
         model.health -= ((1 - armourDefenseModifier) * damage);
-        Debug.LogWarning("Player received " + damage + " damage.");
+        Debug.LogWarning("Player received " + damage + " damage. | Calculated damage: " + ((1 - armourDefenseModifier) * damage));
     }
 
     public void HealPlayer(float healingPower)
