@@ -27,7 +27,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     RealtimeView _realtimeView;
     RealtimeTransform _realtimeTransform;
     public bool isExploded = false;
-    List<GameObject> damagedPlayers;
     private Coroutine hitCoroutine, hitNoDamageCoroutine;
 
     protected override void OnRealtimeModelReplaced(ProjectileModel previousModel, ProjectileModel currentModel)
@@ -158,16 +157,12 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         GetComponent<Collider>().enabled = false;
         projectile_Mesh.SetActive(false);
         colliders = Physics.OverlapSphere(transform.position, explosiveRange);
-        damagedPlayers = new List<GameObject>();
         if (colliders != null)
         {
             if (colliders.Length > 0)
             {
                 for (int i = 0; i < colliders.Length; i++)
                 {
-                    if (!damagedPlayers.Contains(colliders[i].gameObject))
-                    {
-                        damagedPlayers.Add((colliders[i].gameObject));
                         Vector3 _origin = colliders[i].transform.position - transform.position;
                         //Debug.Log("In Explosion Range:" + colliders[i]);
 
@@ -188,7 +183,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                             colliders[i].gameObject.GetComponent<Rigidbody>()
                                 .AddExplosionForce(20000f, transform.position - _origin, 20f, 1000f);
                         }
-                    }
                 }
             }
         }
