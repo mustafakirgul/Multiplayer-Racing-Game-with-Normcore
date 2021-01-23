@@ -26,7 +26,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     public int originOwnerID = -1;
     RealtimeView _realtimeView;
     RealtimeTransform _realtimeTransform;
-    public bool isExploded = false;
+    bool isExploded = false;
     List<GameObject> damagedPlayers;
     private Coroutine hitCoroutine, hitNoDamageCoroutine;
 
@@ -95,10 +95,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             Invoke(nameof(KillTimer), weaponLifeTime);
             isNetworkInstance = false;
         }
-        else
-        {
-            isNetworkInstance = true;
-        }
     }
 
     protected virtual void Update()
@@ -107,10 +103,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         {
             _realtimeView.RequestOwnership();
             _realtimeTransform.RequestOwnership();
-            if (model.exploded && hitNoDamageCoroutine == null)
-            {
-                hitNoDamageCoroutine = StartCoroutine(HitCR());
-            }
         }
         else
         {
@@ -127,6 +119,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         mf_carVelocity = _tipVelocity;
 
         rb = GetComponent<Rigidbody>();
+        wait1Sec = new WaitForSeconds(1f);
 
         //Only apply kinematics after missile explosion occurs
         //Let local physics be done on local machine
@@ -207,7 +200,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         //Which means that only if this is a local projectile owned by the player
         //Make them stop moving and commence damage caculations
         //Explosions and animations etc
-        if (isNetworkInstance)
+        if (!isNetworkInstance)
         {
             GetComponent<TrailRenderer>().emitting = false;
             //GetComponent<MeshRenderer>().enabled = false;
@@ -216,7 +209,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             yield return wait1Sec;
             explosion.SetActive(false);
             yield return wait1Sec;
-            //Realtime.Destroy(gameObject);
+            Realtime.Destroy(gameObject);
         }
 
         hitNoDamageCoroutine = null;
@@ -243,16 +236,19 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             if (other.gameObject.GetComponent<NewCarController>().ownerID == originOwnerID)
             {
                 Debug.Log("Self hit");
+                return;
             }
             else
             {
                 Debug.Log("HIT: " + other.GetComponent<NewCarController>().ownerID);
                 model.exploded = true;
+                Hit();
             }
         }
         else
         {
             model.exploded = true;
+            Hit();
         }
     }
 }
