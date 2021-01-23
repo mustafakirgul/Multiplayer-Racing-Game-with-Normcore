@@ -2626,6 +2626,7 @@ MonoBehaviour:
   Speedy_buildLoadOut: {fileID: 11400000, guid: 821d9c05f890c8c47902fcc0d27ea53d,
     type: 2}
   Tank_buildLoadOut: {fileID: 11400000, guid: dbaca7f026fe15a4eb3647ae0007b6bc, type: 2}
+  numberOfLootRolls: 0
 --- !u!4 &176171384
 Transform:
   m_ObjectHideFlags: 0
@@ -72790,7 +72791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_fGameStartTime: 0
-  m_fRaceDuration: 600
+  m_fRaceDuration: 15
 --- !u!114 &2097422278
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -53,7 +53,8 @@ public class LootManager : MonoBehaviour
     public BuildLoadOutSObj Speedy_buildLoadOut;
     public BuildLoadOutSObj Tank_buildLoadOut;
 
-
+    [SerializeField]
+    private int numberOfLootRolls;
     private void Awake()
     {
         SingletonCheck();
@@ -69,14 +70,34 @@ public class LootManager : MonoBehaviour
         {
             SelectBuildToDisplay(current_buildLoadOut);
         }
+
+        numberOfLootRolls = 0;
+    }
+
+    public void DetermineTypeOfPickUP(int playerID, int pickupRoll)
+    {
+        if (pickupRoll > 0) 
+        {
+            numberOfLootRolls++;
+        } 
+        else
+        {
+            Debug.Log("player "+ playerID + " obtained a powerup! ");
+        }
     }
 
     public void RollForLoot()
     {
-        //To do add more sophisticated loot drop system
-        ItemBase itemToAdd =
-            ReferenceLootPool[Random.Range(0, ReferenceLootPool.Count)];
-        playerObtainedLoot.Add(itemToAdd);
+        for (int i = 0; i < numberOfLootRolls; i++)
+        {
+            //To do add more sophisticated loot drop system
+            ItemBase itemToAdd =
+                ReferenceLootPool[Random.Range(0, ReferenceLootPool.Count)];
+            playerObtainedLoot.Add(itemToAdd);
+            //Notification for player who have rolled for loot at the end of the round
+        }
+        //Reset once roll is complete
+        numberOfLootRolls = 0;
     }
 
     public void SelectBuildToDisplay(BuildLoadOutSObj buildToDisplay)

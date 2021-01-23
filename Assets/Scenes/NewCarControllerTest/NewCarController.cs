@@ -62,7 +62,8 @@ public class NewCarController : MonoBehaviour
     //Engine and weapon projectiles needs to be updated
     public float MaxSpeedModifier, accelerationModifier, HandlingModifier;
     public GameObject LootWeaponProjectile;
-
+    [SerializeField]
+    private LootManager lootManager;
 
     [Space]
     [Space]
@@ -181,6 +182,7 @@ public class NewCarController : MonoBehaviour
             isNetworkInstance = false;
             uIManager = FindObjectOfType<UIManager>();
             uIManager.EnableUI();
+            lootManager = FindObjectOfType<LootManager>();
             //Decouple Sphere Physics from car model
             CarRB.transform.parent = null;
             wheelCount = wheels.Length;
@@ -700,6 +702,16 @@ public class NewCarController : MonoBehaviour
     {
         yield return muzzleWait;
         muzzleFlash.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        LootContainer lootbox = collision.gameObject.GetComponent<LootContainer>();
+
+        if (lootbox != null)
+        {
+            lootManager.DetermineTypeOfPickUP(ownerID, lootbox.GetCollected(ownerID));
+        }
     }
 }
 

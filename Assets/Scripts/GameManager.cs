@@ -270,6 +270,7 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(
             gameSceneManager.DelaySceneTransiton(3f)
         );
+        lootManager.RollForLoot();
     }
 
     private void ThingsToDoBeforeGameEnd()
