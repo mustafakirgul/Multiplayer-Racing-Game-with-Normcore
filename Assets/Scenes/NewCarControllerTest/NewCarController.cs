@@ -175,7 +175,7 @@ public class NewCarController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (_realtimeView.isOwnedLocallySelf)
+        if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             CheckIfHasWeapons();
             isNetworkInstance = false;
@@ -188,6 +188,11 @@ public class NewCarController : MonoBehaviour
             for (int i = 0; i < wheels.Length; i++)
             {
                 wheels[i].originY = wheels[i].wheelT.localPosition.y;
+            }
+
+            if (healthAnimator == null)
+            {
+                healthAnimator = StartCoroutine(CR_HealthAnimator());
             }
 
             currentX = carBody.localEulerAngles.x;
@@ -274,7 +279,7 @@ public class NewCarController : MonoBehaviour
                 healthRadialLoader.fillAmount = _tempHealth / _player.maxPlayerHealth;
             }
 
-            if (_player.playerHealth <= 0&&isPlayerAlive)
+            if (_player.playerHealth <= 0 && isPlayerAlive)
             {
                 PlayerDeath();
             }
@@ -379,7 +384,6 @@ public class NewCarController : MonoBehaviour
     {
         _tempHealth = m_fplayerLastHealth;
         m_fplayerLastHealth = _player.playerHealth;
-        StartCoroutine(CR_HealthAnimator());
     }
 
     private void PlayerDeath()
@@ -401,14 +405,14 @@ public class NewCarController : MonoBehaviour
 
     private void ResetPlayerHealth()
     {
-        isPlayerAlive = true;
-        _player.playerHealth = _player.maxPlayerHealth;
+        _player.ResetHealth();
         UpdateHealth();
         //Spawn in player animation
         CarRB.position = new Vector3(transform.position.x, transform.position.y + resetHeight, transform.position.z);
         Vector3 _rotation = CarRB.rotation.eulerAngles;
         CarRB.transform.rotation = Quaternion.Euler(_rotation.x, _rotation.y, 0);
         CarRB.velocity = Vector3.zero;
+        isPlayerAlive = true;
     }
 
     private void OnDestroy()

@@ -1,4 +1,5 @@
-﻿using Normal.Realtime;
+﻿using System;
+using Normal.Realtime;
 using UnityEngine;
 
 public class Player : RealtimeComponent<PlayerModel>
@@ -23,16 +24,17 @@ public class Player : RealtimeComponent<PlayerModel>
 
         if (currentModel != null)
         {
-            if (currentModel.isFreshModel)
-            {
-                playerName = currentModel.playerName;
-                _id = GetComponent<RealtimeView>().ownerIDInHierarchy;
-                model.health = maxPlayerHealth;
-            }
             currentModel.playerNameDidChange += PlayerNameChanged;
             currentModel.healthDidChange += PlayerHealthChanged;
             currentModel.forcesDidChange += PlayerForcesChanged;
         }
+    }
+
+    private void Start()
+    {
+        playerName = currentModel.playerName;
+        _id = GetComponent<RealtimeView>().ownerIDInHierarchy;
+        ResetHealth();
     }
 
     public void SetPlayerName(string _name)
@@ -41,6 +43,11 @@ public class Player : RealtimeComponent<PlayerModel>
         {
             model.playerName = _name;
         }
+    }
+
+    public void ResetHealth()
+    {
+        model.health = maxPlayerHealth;
     }
 
     public void ChangeExplosionForce(Vector3 _origin)
