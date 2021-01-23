@@ -26,8 +26,7 @@ public class Player : RealtimeComponent<PlayerModel>
         {
             if (currentModel.isFreshModel)
             {
-                playerName = currentModel.playerName;
-                model.health = maxPlayerHealth;
+                playerName = model.playerName;
             }
 
             currentModel.playerNameDidChange += PlayerNameChanged;
@@ -39,14 +38,12 @@ public class Player : RealtimeComponent<PlayerModel>
     private void Start()
     {
         _id = GetComponent<RealtimeView>().ownerIDSelf;
+        SetHealth(maxPlayerHealth);
     }
 
     public void SetPlayerName(string _name)
     {
-        if (_name.Length > 0)
-        {
-            model.playerName = _name;
-        }
+        model.playerName = _name;
     }
 
     public void ChangeExplosionForce(Vector3 _origin)
@@ -57,7 +54,14 @@ public class Player : RealtimeComponent<PlayerModel>
     public void DamagePlayer(float damage)
     {
         model.health -= ((1 - armourDefenseModifier) * damage);
-        Debug.LogWarning("Player received " + damage + " damage. | Calculated damage: " + ((1 - armourDefenseModifier) * damage));
+        Debug.LogWarning("Player received " + damage + " damage. | Calculated damage: " +
+                         ((1 - armourDefenseModifier) * damage));
+    }
+
+    public void SetHealth(float value)
+    {
+        Debug.LogWarning("Model health set to: " + value);
+        model.health = value;
     }
 
     public void HealPlayer(float healingPower)
