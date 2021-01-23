@@ -32,7 +32,7 @@ public class Player : RealtimeComponent<PlayerModel>
 
     private void Start()
     {
-        playerName = currentModel.playerName;
+        playerName = model.playerName;
         _id = GetComponent<RealtimeView>().ownerIDInHierarchy;
         ResetHealth();
     }
