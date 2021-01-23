@@ -26,10 +26,9 @@ public class Player : RealtimeComponent<PlayerModel>
             if (currentModel.isFreshModel)
             {
                 playerName = currentModel.playerName;
-                _id = GetComponent<RealtimeView>().ownerIDSelf;
+                _id = GetComponent<RealtimeView>().ownerIDInHierarchy;
                 model.health = maxPlayerHealth;
             }
-
             currentModel.playerNameDidChange += PlayerNameChanged;
             currentModel.healthDidChange += PlayerHealthChanged;
             currentModel.forcesDidChange += PlayerForcesChanged;
@@ -52,7 +51,7 @@ public class Player : RealtimeComponent<PlayerModel>
     public void DamagePlayer(float damage)
     {
         model.health -= ((1 - armourDefenseModifier) * damage);
-        Debug.LogWarning("Player received " + damage + " damage.");
+        Debug.LogWarning("Player got damaged!");
     }
 
     public void HealPlayer(float healingPower)
