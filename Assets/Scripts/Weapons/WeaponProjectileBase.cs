@@ -59,7 +59,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                 }
 
                 isExploded = model.exploded;
-                StartCoroutine(HitCR());
             }
         }
     }
