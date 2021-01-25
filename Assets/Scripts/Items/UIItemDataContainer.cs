@@ -8,21 +8,41 @@ public class UIItemDataContainer : MonoBehaviour
     //Button 
     public void InjectButtonBuildDataToBuild()
     {
-        switch (LootManager.instance.
-            playerObtainedLoot[_buttonItemID]._ItemType)
+        UIManager uiManager = FindObjectOfType<UIManager>();
+        LootManager lootManager = LootManager.instance;
+
+        switch (lootManager.playerObtainedLoot[_buttonItemID]._ItemType)
         {
             case ItemType.Weapon:
 
-                LootManager.instance.selected_buildLoadOutToView.Weapon
-                = LootManager.instance.playerObtainedLoot[_buttonItemID];
+                lootManager.selected_buildLoadOutToView.Weapon
+                = lootManager.playerObtainedLoot[_buttonItemID];
+                //UI Image visualizaions
+                uiManager.SelectedWeapon =
+                lootManager.selected_buildLoadOutToView.Weapon.m_image;
+                //UI Text for Item
+                uiManager.ItemDescription.text =
+                    lootManager.selected_buildLoadOutToView.Weapon.m_text;
                 break;
             case ItemType.Armour:
-                LootManager.instance.selected_buildLoadOutToView.Armour
-                = LootManager.instance.playerObtainedLoot[_buttonItemID];
+                lootManager.selected_buildLoadOutToView.Armour
+                = lootManager.playerObtainedLoot[_buttonItemID];
+                //UI Image visualizaions
+                uiManager.SelectedArmour =
+                lootManager.selected_buildLoadOutToView.Armour.m_image;
+                //UI Text for Item
+                uiManager.ItemDescription.text =
+                    lootManager.selected_buildLoadOutToView.Armour.m_text;
                 break;
             case ItemType.Engine:
-                LootManager.instance.selected_buildLoadOutToView.Engine
-                = LootManager.instance.playerObtainedLoot[_buttonItemID];
+                lootManager.selected_buildLoadOutToView.Engine
+                = lootManager.playerObtainedLoot[_buttonItemID];
+                //UI Image visualizaions
+                uiManager.SelectedEngine =
+                lootManager.selected_buildLoadOutToView.Engine.m_image;
+                //UI Text for Item
+                uiManager.ItemDescription.text =
+                    lootManager.selected_buildLoadOutToView.Engine.m_text;
                 break;
             default:
                 Debug.Log("Not a valid equipment type!");

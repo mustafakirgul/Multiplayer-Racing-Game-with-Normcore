@@ -12,7 +12,7 @@ public class ItemBase : ScriptableObject
 
     [SerializeField] private string itemText = "";
 
-    [SerializeField] private Texture2D itemImage = null;
+    [SerializeField] private Image itemImage;
 
     public float m_Attack => f_attack;
     public float m_Defense => f_defense;
@@ -22,7 +22,7 @@ public class ItemBase : ScriptableObject
 
     public string m_text => itemText;
 
-    public Texture2D m_image => itemImage;
+    public Image m_image => itemImage;
 
     [SerializeField] private GameObject m_CosmeticModelToBeApplied;
 }

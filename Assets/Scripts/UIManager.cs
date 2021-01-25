@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+
 public class UIManager : MonoBehaviour
 {
     public Image boostRadialLoader;
@@ -27,7 +28,7 @@ public class UIManager : MonoBehaviour
     public GameObject ArmourGarageSlotContainer;
     public GameObject EngineGarageSlotContainer;
 
-    //Assigned manually as a reference to populatet the UI
+    //Assigned manually as a reference to populate the UI
     public GameObject WeaponUIButton;
     public GameObject ArmourUIButton;
     public GameObject EngineUIButton;
@@ -39,6 +40,13 @@ public class UIManager : MonoBehaviour
     //Need to add details the mesh of each car
     public List<GameObject> BuildModelsAppearance = new List<GameObject>();
 
+    //UI weapon display for current build
+    public Image SelectedWeapon = null;
+    public Image SelectedEngine = null;
+    public Image SelectedArmour = null;
+
+    //May be extend to include perk selection
+    public TextMeshProUGUI ItemDescription;
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
@@ -65,6 +73,11 @@ public class UIManager : MonoBehaviour
 
         BuildModelsAppearance[_buildIndex].SetActive(true);
         _lootManager.RetreiveBuild(_buildIndex);
+
+        //Add loadout image visualizations
+        AssignLoadOutLootItemVisualImage(_lootManager.selected_buildLoadOutToView);
+
+
         SelectedBuildToView = _buildIndex;
     }
 
@@ -79,6 +92,13 @@ public class UIManager : MonoBehaviour
         GameManager.instance.ConnectToRoom(SelectedBuildToView);
         _lootManager.DeploySelectedBuild();
         lastbuildSelected = SelectedBuildToView;
+    }
+
+    private void AssignLoadOutLootItemVisualImage(BuildLoadOutSObj build)
+    {
+        SelectedWeapon = build.Weapon.m_image;
+        SelectedArmour = build.Armour.m_image;
+        SelectedEngine = build.Engine.m_image;
     }
 
     private void Update()
