@@ -38,8 +38,17 @@ public class Truck : RealtimeComponent<TruckModel>
     [SerializeField] private float steerRefreshTimer = 1 / 60;
     [SerializeField] private int currentWPindex = 0;
     public float waypointSwitchThreshold;
+    private bool damageFeedback;
 
     WaitForSeconds waitASecond;
+
+    public GameObject damageSphere;
+
+    private Vector3 _tempSizeForDamageSphere;
+
+    private Coroutine cr_DamageFeedback;
+    public float damageDisplayTime;
+    private WaitForSeconds wait;
 
     private void OnDrawGizmos()
     {
@@ -58,6 +67,7 @@ public class Truck : RealtimeComponent<TruckModel>
         var centerOfMass = truckBody.centerOfMass;
         centerOfMass = new Vector3(centerOfMass.x, centerOfMass.y - 5, centerOfMass.z);
         truckBody.centerOfMass = centerOfMass;
+        wait = new WaitForSeconds(damageDisplayTime);
     }
 
     private void Start()
@@ -65,6 +75,13 @@ public class Truck : RealtimeComponent<TruckModel>
         StartHealth();
         InitializWaypointAI();
         waitASecond = new WaitForSeconds(steerRefreshTimer);
+        if (damageSphere == null)
+            Debug.LogError("No damage sphere for truck!");
+        else
+        {
+            damageFeedback = true;
+            damageSphere.SetActive(false);
+        }
     }
 
     public void InitializWaypointAI()
@@ -260,7 +277,28 @@ public class Truck : RealtimeComponent<TruckModel>
     public void DamagePlayer(float damage)
     {
         model.health -= damage;
+        DamageFeedback();
         DropRandomLoot();
+    }
+
+    private void DamageFeedback()
+    {
+        if (!damageFeedback) return;
+        if (cr_DamageFeedback != null)
+            StopCoroutine(cr_DamageFeedback);
+        cr_DamageFeedback = StartCoroutine(CR_DamageFeedback());
+    }
+
+    IEnumerator CR_DamageFeedback()
+    {
+#if UNITY_EDITOR
+        wait = new WaitForSeconds(damageDisplayTime);
+#endif
+        yield return wait;
+        damageSphere.SetActive(true);
+        yield return wait;
+        damageSphere.SetActive(false);
+        cr_DamageFeedback = null;
     }
 
     private void DropRandomLoot()
