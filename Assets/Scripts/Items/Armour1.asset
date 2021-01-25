@@ -17,6 +17,6 @@ MonoBehaviour:
   f_defense: 0.15
   f_speed: 0
   f_amount: 0
-  itemText: Armour 1 Text
+  itemText: 'Armour 1 Text: stop 15% of incoming Damage'
   itemImage: {fileID: 0}
   m_CosmeticModelToBeApplied: {fileID: 0}
