@@ -18,5 +18,5 @@ MonoBehaviour:
   f_speed: 0.5
   f_amount: 0
   itemText: Engine 1 Text
-  itemImage: {fileID: 0}
+  itemImage: {fileID: 2800000, guid: 8c73d50718d4d4afcad2325c2bb54676, type: 3}
   m_CosmeticModelToBeApplied: {fileID: 0}

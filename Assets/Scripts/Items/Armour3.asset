@@ -17,6 +17,6 @@ MonoBehaviour:
   f_defense: 0.66
   f_speed: 0
   f_amount: 0
-  itemText: Armour 3 Text
-  itemImage: {fileID: 0}
+  itemText: Armour 3 Text 300%
+  itemImage: {fileID: 2800000, guid: ee4dc4706d49c41a4920d697958c42f8, type: 3}
   m_CosmeticModelToBeApplied: {fileID: 0}

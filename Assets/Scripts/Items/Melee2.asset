@@ -17,6 +17,6 @@ MonoBehaviour:
   f_defense: 0
   f_speed: 0
   f_amount: 0
-  itemText: Hello This is Melee 1
-  itemImage: {fileID: 0}
+  itemText: Hello This is Melee 2
+  itemImage: {fileID: 2800000, guid: a76e8223b5a504144be5364047b0dd5f, type: 3}
   m_CosmeticModelToBeApplied: {fileID: 0}
