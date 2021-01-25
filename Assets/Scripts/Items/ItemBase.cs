@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 [CreateAssetMenu]
 public class ItemBase : ScriptableObject
@@ -12,7 +11,7 @@ public class ItemBase : ScriptableObject
 
     [SerializeField] private string itemText = "";
 
-    [SerializeField] private Image itemImage;
+    [SerializeField] private Texture2D itemImage;
 
     public float m_Attack => f_attack;
     public float m_Defense => f_defense;
@@ -22,7 +21,7 @@ public class ItemBase : ScriptableObject
 
     public string m_text => itemText;
 
-    public Image m_image => itemImage;
+    public Texture2D m_image => itemImage;
 
     [SerializeField] private GameObject m_CosmeticModelToBeApplied;
 }

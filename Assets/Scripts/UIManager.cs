@@ -41,12 +41,13 @@ public class UIManager : MonoBehaviour
     public List<GameObject> BuildModelsAppearance = new List<GameObject>();
 
     //UI weapon display for current build
-    public Image SelectedWeapon = null;
-    public Image SelectedEngine = null;
-    public Image SelectedArmour = null;
+    public Texture2D SelectedWeapon = null;
+    public Texture2D SelectedEngine = null;
+    public Texture2D SelectedArmour = null;
 
     //May be extend to include perk selection
     public TextMeshProUGUI ItemDescription;
+
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
