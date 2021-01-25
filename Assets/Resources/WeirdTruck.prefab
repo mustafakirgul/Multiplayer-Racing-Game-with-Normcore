@@ -823,10 +823,10 @@ MonoBehaviour:
     isSteeringWheel: 1
     isReverseSteeringWheel: 0
   _torque: 30000
-  _torqueFactor: 0
+  _torqueFactor: 1
   _steeringAngle: 0
   maxSteeringAngle: 60
-  _handBrake: 1
+  _handBrake: 0
   explosionPoint: {x: 0, y: 0, z: 0}
   lootLaunchPoint: {x: 0, y: 7, z: 0}
   lootChance: 0.1
