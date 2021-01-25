@@ -15,8 +15,8 @@ MonoBehaviour:
   _ItemType: 3
   f_attack: 0
   f_defense: 0
-  f_speed: 2
+  f_speed: 1
   f_amount: 0
-  itemText: Engine 1 Text
+  itemText: Engine 4 Text (100% increase in handling)
   itemImage: {fileID: 2800000, guid: 8c404b46cdeb54c05ba5f67680471942, type: 3}
   m_CosmeticModelToBeApplied: {fileID: 0}

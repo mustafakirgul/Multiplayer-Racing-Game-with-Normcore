@@ -41,9 +41,9 @@ public class UIManager : MonoBehaviour
     public List<GameObject> BuildModelsAppearance = new List<GameObject>();
 
     //UI weapon display for current build
-    public Texture2D SelectedWeapon = null;
-    public Texture2D SelectedEngine = null;
-    public Texture2D SelectedArmour = null;
+    public RawImage SelectedWeapon;
+    public RawImage SelectedEngine;
+    public RawImage SelectedArmour;
 
     //May be extend to include perk selection
     public TextMeshProUGUI ItemDescription;
@@ -75,11 +75,10 @@ public class UIManager : MonoBehaviour
         BuildModelsAppearance[_buildIndex].SetActive(true);
         _lootManager.RetreiveBuild(_buildIndex);
 
+        SelectedBuildToView = _buildIndex;
+        
         //Add loadout image visualizations
         AssignLoadOutLootItemVisualImage(_lootManager.selected_buildLoadOutToView);
-
-
-        SelectedBuildToView = _buildIndex;
     }
 
     //Class selection button should not start here
@@ -97,9 +96,9 @@ public class UIManager : MonoBehaviour
 
     private void AssignLoadOutLootItemVisualImage(BuildLoadOutSObj build)
     {
-        SelectedWeapon = build.Weapon.m_image;
-        SelectedArmour = build.Armour.m_image;
-        SelectedEngine = build.Engine.m_image;
+        SelectedWeapon.texture = build.Weapon.m_image;
+        SelectedArmour.texture = build.Armour.m_image;
+        SelectedEngine.texture = build.Engine.m_image;
     }
 
     private void Update()

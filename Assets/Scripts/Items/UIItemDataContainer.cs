@@ -18,7 +18,7 @@ public class UIItemDataContainer : MonoBehaviour
                 lootManager.selected_buildLoadOutToView.Weapon
                 = lootManager.playerObtainedLoot[_buttonItemID];
                 //UI Image visualizaions
-                uiManager.SelectedWeapon =
+                uiManager.SelectedWeapon.texture =
                 lootManager.selected_buildLoadOutToView.Weapon.m_image;
                 //UI Text for Item
                 uiManager.ItemDescription.text =
@@ -28,7 +28,7 @@ public class UIItemDataContainer : MonoBehaviour
                 lootManager.selected_buildLoadOutToView.Armour
                 = lootManager.playerObtainedLoot[_buttonItemID];
                 //UI Image visualizaions
-                uiManager.SelectedArmour =
+                uiManager.SelectedArmour.texture =
                 lootManager.selected_buildLoadOutToView.Armour.m_image;
                 //UI Text for Item
                 uiManager.ItemDescription.text =
@@ -38,7 +38,7 @@ public class UIItemDataContainer : MonoBehaviour
                 lootManager.selected_buildLoadOutToView.Engine
                 = lootManager.playerObtainedLoot[_buttonItemID];
                 //UI Image visualizaions
-                uiManager.SelectedEngine =
+                uiManager.SelectedEngine.texture =
                 lootManager.selected_buildLoadOutToView.Engine.m_image;
                 //UI Text for Item
                 uiManager.ItemDescription.text =
