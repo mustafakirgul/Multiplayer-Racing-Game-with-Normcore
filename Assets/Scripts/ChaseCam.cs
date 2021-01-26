@@ -15,6 +15,8 @@ public class ChaseCam : MonoBehaviour
     public float rotationDamping;
     public float heightDamping;
 
+    public bool bToggleRearView = false;
+
     private void Start()
     {
         if (target != null)
@@ -31,6 +33,11 @@ public class ChaseCam : MonoBehaviour
         }
     }
 
+    public void ToggleRearView(Transform _target)
+    {
+        target = _target;
+    }
+
     public void ResetCam()
     {
         isInitialized = false;
@@ -38,7 +45,7 @@ public class ChaseCam : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (target==null)
+        if (target == null)
         {
             isInitialized = false;
         }
@@ -50,20 +57,32 @@ public class ChaseCam : MonoBehaviour
             float currentRotationAngle = transform.eulerAngles.y;
             float currentHeight = transform.position.y;
 
-            // Damp the rotation around the y-axis
-            currentRotationAngle = Mathf.LerpAngle(currentRotationAngle, wantedRotationAngle, rotationDamping * Time.deltaTime);
+            if (!bToggleRearView)
+            {
 
-            // Damp the height
-            currentHeight = Mathf.Lerp(currentHeight, wantedHeight, heightDamping * Time.deltaTime);
+                // Damp the rotation around the y-axis
+                currentRotationAngle = Mathf.LerpAngle(currentRotationAngle, wantedRotationAngle, rotationDamping * Time.deltaTime);
 
-            // Convert the angle into a rotation
-            Quaternion currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
+                // Damp the height
+                currentHeight = Mathf.Lerp(currentHeight, wantedHeight, heightDamping * Time.deltaTime);
 
-            // Set the position of the camera on the x-z plane to:
-            // distance meters behind the target
-            transform.position = target.position;
-            transform.position -= currentRotation * Vector3.forward * distance;
 
+                // Convert the angle into a rotation
+                Quaternion currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
+
+                // Set the position of the camera on the x-z plane to:
+                // distance meters behind the target
+                transform.position = target.position;
+                transform.position -= currentRotation * Vector3.forward * distance;
+            }
+            else
+            {
+                currentRotationAngle = wantedRotationAngle;
+                currentHeight = wantedHeight;
+                transform.position = target.position;
+                Quaternion currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
+                transform.position -= currentRotation * Vector3.forward * distance;
+            }
             // Set the height of the camera
             transform.position = new Vector3(transform.position.x, currentHeight, transform.position.z);
 
