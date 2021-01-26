@@ -11,6 +11,7 @@ public class Player : RealtimeComponent<PlayerModel>
     public Vector3 explosionForce;
     public float armourDefenseModifier = 0f;
     public float healModifier = 0f;
+    private NewCarController controller;
 
     protected override void OnRealtimeModelReplaced(PlayerModel previousModel, PlayerModel currentModel)
     {
@@ -35,6 +36,10 @@ public class Player : RealtimeComponent<PlayerModel>
         playerName = model.playerName;
         _id = GetComponent<RealtimeView>().ownerIDInHierarchy;
         ResetHealth();
+        if (controller == null && !GetComponent<NewCarController>().isNetworkInstance)
+        {
+            controller = GetComponent<NewCarController>();
+        }
     }
 
     public void SetPlayerName(string _name)
@@ -58,7 +63,10 @@ public class Player : RealtimeComponent<PlayerModel>
     public void DamagePlayer(float damage)
     {
         model.health -= ((1 - armourDefenseModifier) * damage);
-        Debug.LogWarning("Player got damaged!");
+        if (controller != null)
+        {
+            controller.DamageFeedback();
+        }
     }
 
     public void HealPlayer(float healingPower)

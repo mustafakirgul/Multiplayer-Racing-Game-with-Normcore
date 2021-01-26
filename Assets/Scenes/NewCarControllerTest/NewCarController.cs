@@ -8,9 +8,7 @@ using UnityEngine.UI;
 
 public class NewCarController : MonoBehaviour
 {
-    [Space]
-    [Space]
-    [Header("Car Controller Main Settings")]
+    [Space] [Space] [Header("Car Controller Main Settings")]
     public Rigidbody CarRB;
 
     private float moveInput, turnInput;
@@ -39,9 +37,7 @@ public class NewCarController : MonoBehaviour
     float currentZ, currentX;
     float XTimer, ZTimer, XFactor, ZFactor;
 
-    [Space]
-    [Space]
-    [Header("Camera and Networking")]
+    [Space] [Space] [Header("Camera and Networking")]
     //Neworking Related Functionalities
     public Realtime _realtime;
 
@@ -50,13 +46,11 @@ public class NewCarController : MonoBehaviour
     public int ownerID;
     private ChaseCam followCamera;
     public Transform CameraContainer;
-    public bool isNetworkInstance = true;
+    public bool isNetworkInstance = false;
     public bool offlineTest;
 
 
-    [Space]
-    [Space]
-    [Header("Loot Based Modifiers")]
+    [Space] [Space] [Header("Loot Based Modifiers")]
     //Does the car need to know about these or does the game manager needs to know about these?
     //Car simply keeps track of what it encounters and talks to game managers to obtain loot or powerups
     public float meleeDamageModifier;
@@ -68,8 +62,7 @@ public class NewCarController : MonoBehaviour
     //Engine and weapon projectiles needs to be updated
     public float MaxSpeedModifier, accelerationModifier, HandlingModifier;
     public GameObject LootWeaponProjectile;
-    [SerializeField]
-    private LootManager lootManager;
+    [SerializeField] private LootManager lootManager;
 
     [Space]
     [Space]
@@ -96,9 +89,7 @@ public class NewCarController : MonoBehaviour
 
     public TextMeshProUGUI speedDisplay, IDDisplay;
 
-    [Space]
-    [Space]
-    [Header("Health Params")]
+    [Space] [Space] [Header("Health Params")]
     //Health Controls
     public Player _player;
 
@@ -108,10 +99,11 @@ public class NewCarController : MonoBehaviour
     bool isPlayerAlive;
     public float explosionForce = 2000000f;
     public float resetHeight;
+    public float damageFeedbackDuration = .1f; //duration of camera shake
+    private Coroutine cR_damageEffect;
+    private WaitForEndOfFrame waitFrameDamageEffect;
 
-    [Space]
-    [Space]
-    [Header("Boost Params")]
+    [Space] [Space] [Header("Boost Params")]
     //Boost Controls
     public Image boostRadialLoader;
 
@@ -121,9 +113,7 @@ public class NewCarController : MonoBehaviour
     public bool boosterReady;
     private float boosterCounter;
 
-    [Space]
-    [Space]
-    [Header("Light Controls")]
+    [Space] [Space] [Header("Light Controls")]
     //Light Controls
     public Light RHL;
 
@@ -144,8 +134,7 @@ public class NewCarController : MonoBehaviour
 
     public SpriteRenderer _miniMapRenderer;
 
-    [Space]
-    [Header("Suspension and Wheel Settings")]
+    [Space] [Header("Suspension and Wheel Settings")]
     public bool identicalSuspension4AW;
 
     public float suspensionHeight; // these 2 only work if identical suspension for all wheels is true
@@ -156,20 +145,23 @@ public class NewCarController : MonoBehaviour
 
     private void Awake()
     {
-        _realtime = FindObjectOfType<Realtime>();
-        _realtimeView = GetComponent<RealtimeView>();
-        _realtimeTransform = GetComponent<RealtimeTransform>();
+        isNetworkInstance = false;
+        waitFrameDamageEffect = new WaitForEndOfFrame();
         if (!offlineTest)
         {
+            _realtime = FindObjectOfType<Realtime>();
+            _realtimeView = GetComponent<RealtimeView>();
+            _realtimeTransform = GetComponent<RealtimeTransform>();
             _realtimeView.enabled = true;
             _realtimeTransform.enabled = true;
-            fireTimer = 1f / fireRate;
-            _player = GetComponent<Player>();
-            waitFrame = new WaitForEndOfFrame();
-            waitFrame2 = new WaitForEndOfFrame();
-            wait = new WaitForSeconds(fireTimer);
-            muzzleWait = new WaitForSeconds(.2f);
         }
+
+        fireTimer = 1f / fireRate;
+        _player = GetComponent<Player>();
+        waitFrame = new WaitForEndOfFrame();
+        waitFrame2 = new WaitForEndOfFrame();
+        wait = new WaitForSeconds(fireTimer);
+        muzzleWait = new WaitForSeconds(.2f);
     }
 
     void InitCamera()
@@ -189,7 +181,8 @@ public class NewCarController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (_realtimeView.isOwnedLocallyInHierarchy)
+        isNetworkInstance = !_realtimeView.isOwnedLocallyInHierarchy;
+        if (!isNetworkInstance)
         {
             CheckIfHasWeapons();
             isNetworkInstance = false;
@@ -215,35 +208,56 @@ public class NewCarController : MonoBehaviour
             speedDisplay = uIManager.speedometer;
             healthRadialLoader = uIManager.playerHealthRadialLoader;
             IDDisplay = uIManager.playerName;
-            IDDisplay.gameObject.SetActive(false);
+            //IDDisplay.gameObject.SetActive(false);
             boostRadialLoader = uIManager.boostRadialLoader;
             StartCoroutine(BoostCounter());
             StartCoroutine(FireCR());
             InitCamera();
-            PlayerManager.instance.AddLocalPlayer(transform);
-            PlayerManager.instance.AddExistingPlayers();
-            healthAnimator = StartCoroutine(CR_HealthAnimator());
+            if (!offlineTest)
+            {
+                PlayerManager.instance.AddLocalPlayer(transform);
+                healthAnimator = StartCoroutine(CR_HealthAnimator());
+                PlayerManager.instance.UpdateExistingPlayers();    
+            }
         }
         else
         {
             _miniMapRenderer.color = Color.red;
-            isNetworkInstance = true;
-            StartCoroutine(DelayNameSet(1));
+            StartCoroutine(DelayNameSet(1f));
             CarRB.gameObject.SetActive(false);
             if (!PlayerManager.instance.networkPlayers.Contains(transform))
             {
-                PlayerManager.instance.networkPlayers.Add(transform);
-                PlayerManager.instance.AddExistingPlayers();
+                PlayerManager.instance.AddNetworkPlayer(transform);
             }
         }
-
         _currentName = _player.playerName;
         IDDisplay.SetText(_currentName);
         ownerID = _realtimeTransform.ownerIDInHierarchy;
         ResetPlayerHealth();
     }
 
-    private IEnumerator DelayNameSet(int WaitTime)
+    public void DamageFeedback()
+    {
+        if (cR_damageEffect != null)
+        {
+            StopCoroutine(cR_damageEffect);
+        }
+
+        cR_damageEffect = StartCoroutine(CR_DamageEffect());
+    }
+
+    IEnumerator CR_DamageEffect()
+    {
+        float _temp = damageFeedbackDuration;
+        while (_temp > 0)
+        {
+            _temp -= Time.deltaTime;
+//damage effect
+            yield return waitFrameDamageEffect;
+        }
+    }
+
+    private IEnumerator DelayNameSet(float WaitTime)
     {
         yield return new WaitForSeconds(WaitTime);
         if (_currentName != _player.playerName)
@@ -439,7 +453,7 @@ public class NewCarController : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (isNetworkInstance)
+        if (isNetworkInstance&&!offlineTest)
             PlayerManager.instance.RemoveNetworkPlayer(transform);
         if (CarRB != null)
             Destroy(CarRB.gameObject);
@@ -648,6 +662,7 @@ public class NewCarController : MonoBehaviour
             _player.HealPlayer(5f);
         }
     }
+
     void GroundCheck()
     {
         isGrounded = Physics.Raycast(transform.position, -transform.up, out RaycastHit ground, GroundCheckRayLength,

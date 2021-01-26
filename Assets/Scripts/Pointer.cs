@@ -26,7 +26,7 @@ public class Pointer : MonoBehaviour
         {
             if (_target == null || _master == null)
             {
-                PlayerManager.instance.RemovePointer(transform);
+                //PlayerManager.instance.RemovePointer(transform);
                 Realtime.Destroy(gameObject);
             }
             AnimateRenderer();
