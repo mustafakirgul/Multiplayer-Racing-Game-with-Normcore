@@ -73,6 +73,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     void KillTimer()
     {
+        hitCoroutine = StartCoroutine(HitCR());
         Hit();
     }
 
@@ -90,6 +91,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         originOwnerID = _realtimeTransform.ownerIDSelf;
         _realtimeView.SetOwnership(originOwnerID);
         _realtimeTransform.SetOwnership(originOwnerID);
+
         if (_realtimeView.isOwnedLocallySelf)
         {
             Invoke(nameof(KillTimer), weaponLifeTime);
