@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d67815e3e54964b468163edef7642784, type: 3}
+  m_Name: LootPoolPlayerSave
+  m_EditorClassIdentifier: 
+  RollPool:
+  - {fileID: 11400000, guid: 042e8a027e3b4e2449acd1f8471caf54, type: 2}
+  - {fileID: 11400000, guid: a458992c062e7b241a56133c054f5f22, type: 2}
+  - {fileID: 11400000, guid: 2c10ed545e21d72499d7e0f20d6b3303, type: 2}
+  - {fileID: 11400000, guid: e28629993c1879c4d8ca0b8585d3c884, type: 2}
+  - {fileID: 11400000, guid: 3e08040d861aeae4096def5e94ba1c71, type: 2}
+  - {fileID: 11400000, guid: 450a2f2a2c53cb047912df782f6d7c41, type: 2}
+  - {fileID: 11400000, guid: 7dfa2140696b7b243b762f677ce4eeb5, type: 2}
+  - {fileID: 11400000, guid: 3e6e53f0fdc6c3c41b6b6d548a07439c, type: 2}
+  - {fileID: 11400000, guid: eb260a5d0307ddf49bfba3b8ae2cfe87, type: 2}
+  - {fileID: 11400000, guid: 8424554ddb379164c9f626293684e236, type: 2}
+  PlayerLoot:
+  - {fileID: 11400000, guid: 042e8a027e3b4e2449acd1f8471caf54, type: 2}
+  - {fileID: 11400000, guid: e28629993c1879c4d8ca0b8585d3c884, type: 2}
+  - {fileID: 11400000, guid: 8424554ddb379164c9f626293684e236, type: 2}
+  PlayerLootToAdd: []

@@ -41,9 +41,7 @@ public class LootManager : MonoBehaviour
     [Space]
     [Header("Garage Settings")]
     [SerializeField]
-
-    private List<ItemBase> ReferenceLootPool = new List<ItemBase>();
-    public List<ItemBase> playerObtainedLoot = new List<ItemBase>();
+    public RollPoolAndPlayerItemSave playerLootPoolSave;
 
     public BuildType selected_buildType;
     public BuildLoadOutSObj selected_buildLoadOutToView;
@@ -53,8 +51,8 @@ public class LootManager : MonoBehaviour
     public BuildLoadOutSObj Speedy_buildLoadOut;
     public BuildLoadOutSObj Tank_buildLoadOut;
 
-    [SerializeField]
-    private int numberOfLootRolls;
+    //[SerializeField]
+    public int numberOfLootRolls;
     private void Awake()
     {
         SingletonCheck();
@@ -93,10 +91,15 @@ public class LootManager : MonoBehaviour
             for (int i = 0; i < numberOfLootRolls; i++)
             {
                 //To do add more sophisticated loot drop system
-                ItemBase itemToAdd =
-                    ReferenceLootPool[Random.Range(0, ReferenceLootPool.Count)];
-                playerObtainedLoot.Add(itemToAdd);
+                //ItemBase itemToAdd = 
+                //    ReferenceLootPool[Random.Range(0, ReferenceLootPool.Count)];
+                //playerObtainedLoot.Add(itemToAdd);
                 //Notification for player who have rolled for loot at the end of the round
+
+                ItemBase itemToAdd =
+                    playerLootPoolSave.m_RollPool[Random.Range(0, playerLootPoolSave.m_RollPool.Count)];
+                playerLootPoolSave.PlayerLoot.Add(itemToAdd);
+                playerLootPoolSave.PlayerLootToAdd.Add(itemToAdd);
             }
         }
         //Reset once roll is complete

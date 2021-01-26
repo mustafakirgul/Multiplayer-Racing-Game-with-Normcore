@@ -266,11 +266,10 @@ public class GameManager : MonoBehaviour
         GameSceneManager.instance.EnableSplashes(
                 GameSceneManager.instance.GameEndSplashes);
         yield return StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 2));
-
+        lootManager.RollForLoot();
         yield return StartCoroutine(
             gameSceneManager.DelaySceneTransiton(3f)
         );
-        lootManager.RollForLoot();
     }
 
     private void ThingsToDoBeforeGameEnd()

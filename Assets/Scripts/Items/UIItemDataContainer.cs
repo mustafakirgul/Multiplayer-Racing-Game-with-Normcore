@@ -11,12 +11,12 @@ public class UIItemDataContainer : MonoBehaviour
         UIManager uiManager = FindObjectOfType<UIManager>();
         LootManager lootManager = LootManager.instance;
 
-        switch (lootManager.playerObtainedLoot[_buttonItemID]._ItemType)
+        switch (lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID]._ItemType)
         {
             case ItemType.Weapon:
 
                 lootManager.selected_buildLoadOutToView.Weapon
-                = lootManager.playerObtainedLoot[_buttonItemID];
+                = lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID];
                 //UI Image visualizaions
                 uiManager.SelectedWeapon.texture =
                 lootManager.selected_buildLoadOutToView.Weapon.m_image;
@@ -26,7 +26,7 @@ public class UIItemDataContainer : MonoBehaviour
                 break;
             case ItemType.Armour:
                 lootManager.selected_buildLoadOutToView.Armour
-                = lootManager.playerObtainedLoot[_buttonItemID];
+                = lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID];
                 //UI Image visualizaions
                 uiManager.SelectedArmour.texture =
                 lootManager.selected_buildLoadOutToView.Armour.m_image;
@@ -36,7 +36,7 @@ public class UIItemDataContainer : MonoBehaviour
                 break;
             case ItemType.Engine:
                 lootManager.selected_buildLoadOutToView.Engine
-                = lootManager.playerObtainedLoot[_buttonItemID];
+                = lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID];
                 //UI Image visualizaions
                 uiManager.SelectedEngine.texture =
                 lootManager.selected_buildLoadOutToView.Engine.m_image;

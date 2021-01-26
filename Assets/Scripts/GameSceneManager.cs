@@ -197,13 +197,17 @@ public class GameSceneManager : MonoBehaviour
 
         //Don't load the scene instead just reconnect and restart the game
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //Select the last build left off before start of the game
         GameManager.instance.uIManager.ReactivateLogin();
+
+        //Accomodate for new loot added to the menu
         GameManager.instance.uIManager.ResizeUILootContainers();
 
         //TO DO: loot drop rolls and assign newly obtainloot to 
+        //Display only new weapons that are dropped, avoid duplicating them in the UI
+        GameManager.instance.uIManager.AssignAdditionalLootFromGameToDisplay();
         //LootManager.instance.playerObtainedLoot
 
-        GameManager.instance.uIManager.AssignLootToDisplay();
     }
 }
 

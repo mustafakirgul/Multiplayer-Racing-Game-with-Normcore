@@ -48,6 +48,14 @@ public class UIManager : MonoBehaviour
     //May be extend to include perk selection
     public TextMeshProUGUI ItemDescription;
 
+    //Loot saving sObj display containers for menu
+    [SerializeField]
+    private List<GameObject> weaponsDisplayUI = new List<GameObject>();
+    [SerializeField]
+    private List<GameObject> armourDisplayUI = new List<GameObject>();
+    [SerializeField]
+    private List<GameObject> engineDisplayUI = new List<GameObject>();
+
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
@@ -60,7 +68,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         _gameManager.FixAssociations();
-        AssignLootToDisplay();
+        AssignLootToDisplayAtStart();
         AssignLoadOutLootItemVisualImage(_lootManager.selected_buildLoadOutToView);
     }
 
@@ -74,10 +82,9 @@ public class UIManager : MonoBehaviour
         }
 
         BuildModelsAppearance[_buildIndex].SetActive(true);
-        _lootManager.RetreiveBuild(_buildIndex);
 
+        _lootManager.RetreiveBuild(_buildIndex);
         SelectedBuildToView = _buildIndex;
-        
         //Add loadout image visualizations
         AssignLoadOutLootItemVisualImage(_lootManager.selected_buildLoadOutToView);
     }
@@ -114,8 +121,9 @@ public class UIManager : MonoBehaviour
         //To be removed in final build
         if (Input.GetKeyDown(KeyCode.N))
         {
-            _lootManager.RollForLoot();
-            ResizeUILootContainers();
+            _lootManager.numberOfLootRolls++;
+            //_lootManager.RollForLoot();
+            //ResizeUILootContainers();
         }
     }
 
@@ -129,11 +137,12 @@ public class UIManager : MonoBehaviour
     }
 
     //this needs to run first before the UI methods run
-    public void AssignLootToDisplay()
+    //With sObjImplementation this will only need to be done once
+    public void AssignLootToDisplayAtStart()
     {
-        for (int i = 0; i < _lootManager.playerObtainedLoot.Count; i++)
+        for (int i = 0; i < _lootManager.playerLootPoolSave.PlayerLoot.Count; i++)
         {
-            switch (_lootManager.playerObtainedLoot[i]._ItemType)
+            switch (_lootManager.playerLootPoolSave.PlayerLoot[i]._ItemType)
             {
                 case ItemType.Weapon:
                     GameObject WeaponButtonToAssign =
@@ -162,6 +171,44 @@ public class UIManager : MonoBehaviour
                 containers.ResizeLootScrollBar();
             }
         }
+    }
+
+    public void AssignAdditionalLootFromGameToDisplay()
+    {
+        for (int i = 0; i < _lootManager.playerLootPoolSave.PlayerLootToAdd.Count; i++)
+        {
+            switch (_lootManager.playerLootPoolSave.PlayerLootToAdd[i]._ItemType)
+            {
+                case ItemType.Weapon:
+                    GameObject WeaponButtonToAssign =
+                        Instantiate(WeaponUIButton, WeaponGarageSlotContainer.transform);
+                    WeaponButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
+                    break;
+                case ItemType.Armour:
+                    GameObject ArmourButtonToAssign =
+                        Instantiate(ArmourUIButton, ArmourGarageSlotContainer.transform);
+                    ArmourButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
+                    break;
+                case ItemType.Engine:
+                    GameObject EngineButtonToAssign =
+                        Instantiate(EngineUIButton, EngineGarageSlotContainer.transform);
+                    EngineButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (AutoResizeLootRectTransforms.Length != 0)
+        {
+            foreach (AutoResizeLootRectTransforms containers in AutoResizeLootRectTransforms)
+            {
+                containers.ResizeLootScrollBar();
+            }
+        }
+
+        //Empty array for next round
+        _lootManager.playerLootPoolSave.PlayerLootToAdd.Clear();
     }
 
     public void ResizeUILootContainers()

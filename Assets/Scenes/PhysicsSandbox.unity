@@ -2619,6 +2619,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3e08040d861aeae4096def5e94ba1c71, type: 2}
   - {fileID: 11400000, guid: 450a2f2a2c53cb047912df782f6d7c41, type: 2}
   - {fileID: 11400000, guid: 7dfa2140696b7b243b762f677ce4eeb5, type: 2}
+  playerLootPoolSave: {fileID: 11400000, guid: f4af1a47b6b1a90409e63d9317c5340e, type: 2}
   selected_buildType: 0
   selected_buildLoadOutToView: {fileID: 0}
   Balanced_buildLoadOut: {fileID: 11400000, guid: 3cb30a6725e004c43ac4cbf3cdf4c539,
