@@ -61,6 +61,7 @@ public class UIManager : MonoBehaviour
     {
         _gameManager.FixAssociations();
         AssignLootToDisplay();
+        AssignLoadOutLootItemVisualImage(_lootManager.selected_buildLoadOutToView);
     }
 
     //Need to create logic here to select specific models to showcase
