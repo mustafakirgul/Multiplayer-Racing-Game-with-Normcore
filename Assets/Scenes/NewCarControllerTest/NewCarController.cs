@@ -45,9 +45,12 @@ public class NewCarController : MonoBehaviour
     private RealtimeTransform _realtimeTransform;
     public int ownerID;
     private ChaseCam followCamera;
-    public Transform CameraContainer;
+    public Transform CameraContainer, fowardCamera, rearCamera;
     public bool isNetworkInstance = false;
     public bool offlineTest;
+
+    bool resetReverseView = false;
+    bool CoroutineReset = false;
 
 
     [Space] [Space] [Header("Loot Based Modifiers")]
@@ -686,6 +689,27 @@ public class NewCarController : MonoBehaviour
             LHL.enabled = lights;
         }
 
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            resetReverseView = true;
+            followCamera.bToggleRearView = true;
+            followCamera.ToggleRearView(rearCamera);
+        }
+
+        if (Input.GetKeyUp(KeyCode.U))
+        {
+            if (resetReverseView)
+            {
+                resetReverseView = false;
+                followCamera.ResetCam();
+                followCamera.InitCamera(fowardCamera);
+                if (!CoroutineReset)
+                {
+                    StartCoroutine(DelayCameraLerpReset());
+                }
+            }
+        }
+
         //AutoDamage Debug
         //TO REMOVE in testing and final builds
         if (Input.GetKeyDown(KeyCode.L))
@@ -699,6 +723,13 @@ public class NewCarController : MonoBehaviour
         }
     }
 
+    private IEnumerator DelayCameraLerpReset()
+    {
+        CoroutineReset = true;
+        yield return new WaitForSeconds(0.1f);
+        followCamera.bToggleRearView = false;
+        CoroutineReset = false;
+    }
     void GroundCheck()
     {
         isGrounded = Physics.Raycast(transform.position, -transform.up, out RaycastHit ground, GroundCheckRayLength,
