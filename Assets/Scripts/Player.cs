@@ -40,6 +40,7 @@ public class Player : RealtimeComponent<PlayerModel>
             if (!controller.offlineTest)
             {
                 playerName = model.playerName;
+                
                 _id = GetComponent<RealtimeView>().ownerIDInHierarchy;
             }
         }

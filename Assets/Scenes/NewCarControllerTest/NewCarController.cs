@@ -99,9 +99,12 @@ public class NewCarController : MonoBehaviour
     bool isPlayerAlive = true;
     public float explosionForce = 2000000f;
     public float resetHeight;
-    public float damageFeedbackDuration = .1f; //duration of camera shake
+
+
+    public float damageFeedbackDuration = .33f; //duration of camera shake
     private Coroutine cR_damageEffect;
     private WaitForEndOfFrame waitFrameDamageEffect;
+    public CanvasGroup damageIndicatorCanvasGroup;
 
     [Space] [Space] [Header("Boost Params")]
     //Boost Controls
@@ -142,6 +145,7 @@ public class NewCarController : MonoBehaviour
     [SerializeField] public ArcadeWheel[] wheels;
     private Coroutine healthAnimator;
     private float _tempHealth;
+
 
     private void Awake()
     {
@@ -188,7 +192,7 @@ public class NewCarController : MonoBehaviour
             _miniMapRenderer.enabled = false;
             isNetworkInstance = false;
         }
-        
+
         if (!isNetworkInstance)
         {
             CheckIfHasWeapons();
@@ -201,6 +205,7 @@ public class NewCarController : MonoBehaviour
                 healthRadialLoader = uIManager.playerHealthRadialLoader;
                 IDDisplay = uIManager.playerName;
                 boostRadialLoader = uIManager.boostRadialLoader;
+                damageIndicatorCanvasGroup = uIManager.damageIndicatorCanvasGroup;
             }
 
             lootManager = FindObjectOfType<LootManager>();
@@ -272,9 +277,11 @@ public class NewCarController : MonoBehaviour
         while (_temp > 0)
         {
             _temp -= Time.deltaTime;
-//damage effect
+            damageIndicatorCanvasGroup.alpha = _temp / damageFeedbackDuration;
             yield return waitFrameDamageEffect;
         }
+
+        damageIndicatorCanvasGroup.alpha = 0f;
     }
 
     private IEnumerator DelayNameSet(float WaitTime)
@@ -398,7 +405,6 @@ public class NewCarController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.LogWarning("Update - New Car Controller");
         if (!isNetworkInstance)
         {
             if (!offlineTest)
@@ -425,7 +431,6 @@ public class NewCarController : MonoBehaviour
             //disable controls when player is dead
             if (isPlayerAlive)
             {
-                Debug.LogWarning("Player is alive!");
                 DetectInput();
                 RotationCheck();
                 TurnTheWheels();

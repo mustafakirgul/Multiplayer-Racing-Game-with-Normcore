@@ -48,6 +48,8 @@ public class UIManager : MonoBehaviour
     //May be extend to include perk selection
     public TextMeshProUGUI ItemDescription;
 
+    public CanvasGroup damageIndicatorCanvasGroup;
+
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
@@ -59,6 +61,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        if (damageIndicatorCanvasGroup != null)
+            damageIndicatorCanvasGroup.alpha = 0f;
         _gameManager.FixAssociations();
         AssignLootToDisplayAtStart();
         AssignLoadOutLootItemVisualImage(_lootManager.selected_buildLoadOutToView);
