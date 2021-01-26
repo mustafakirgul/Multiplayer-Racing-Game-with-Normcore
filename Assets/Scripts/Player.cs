@@ -37,12 +37,11 @@ public class Player : RealtimeComponent<PlayerModel>
         if (controller == null && !GetComponent<NewCarController>().isNetworkInstance)
         {
             controller = GetComponent<NewCarController>();
-        }
-
-        if (controller.offlineTest)
-        {
-            playerName = model.playerName;
-            _id = GetComponent<RealtimeView>().ownerIDInHierarchy;
+            if (!controller.offlineTest)
+            {
+                playerName = model.playerName;
+                _id = GetComponent<RealtimeView>().ownerIDInHierarchy;
+            }
         }
     }
 

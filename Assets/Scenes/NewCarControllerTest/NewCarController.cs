@@ -59,7 +59,7 @@ public class NewCarController : MonoBehaviour
     public float turnSpdModifier;
 
     //Loot Modifiers
-    //Engine and weapon projectiles needs to be updated
+    //Engine and weapon projectiles need to be updated
     public float MaxSpeedModifier, accelerationModifier, HandlingModifier;
     public GameObject LootWeaponProjectile;
     [SerializeField] private LootManager lootManager;
@@ -96,7 +96,7 @@ public class NewCarController : MonoBehaviour
     public Image healthRadialLoader;
     public float m_fplayerLastHealth;
     public GameObject DeathExplosion;
-    bool isPlayerAlive;
+    bool isPlayerAlive = true;
     public float explosionForce = 2000000f;
     public float resetHeight;
     public float damageFeedbackDuration = .1f; //duration of camera shake
@@ -184,15 +184,25 @@ public class NewCarController : MonoBehaviour
         if (!offlineTest)
             isNetworkInstance = !_realtimeView.isOwnedLocallyInHierarchy;
         else
+        {
+            _miniMapRenderer.enabled = false;
             isNetworkInstance = false;
-
+        }
+        
         if (!isNetworkInstance)
         {
             CheckIfHasWeapons();
             isNetworkInstance = false;
             uIManager = FindObjectOfType<UIManager>();
             if (uIManager != null)
+            {
                 uIManager.EnableUI();
+                speedDisplay = uIManager.speedometer;
+                healthRadialLoader = uIManager.playerHealthRadialLoader;
+                IDDisplay = uIManager.playerName;
+                boostRadialLoader = uIManager.boostRadialLoader;
+            }
+
             lootManager = FindObjectOfType<LootManager>();
             //Decouple Sphere Physics from car model
             CarRB.transform.parent = null;
@@ -203,19 +213,20 @@ public class NewCarController : MonoBehaviour
                 wheels[i].originY = wheels[i].wheelT.localPosition.y;
             }
 
-            if (healthAnimator == null)
-            {
-                healthAnimator = StartCoroutine(CR_HealthAnimator());
-            }
 
             currentX = carBody.localEulerAngles.x;
             currentZ = carBody.localEulerAngles.z;
-            speedDisplay = uIManager.speedometer;
-            healthRadialLoader = uIManager.playerHealthRadialLoader;
-            IDDisplay = uIManager.playerName;
+
             //IDDisplay.gameObject.SetActive(false);
-            boostRadialLoader = uIManager.boostRadialLoader;
-            StartCoroutine(BoostCounter());
+            if (!offlineTest)
+            {
+                StartCoroutine(BoostCounter());
+                if (healthAnimator == null)
+                {
+                    healthAnimator = StartCoroutine(CR_HealthAnimator());
+                }
+            }
+
             StartCoroutine(FireCR());
             InitCamera();
             if (!offlineTest)
@@ -236,10 +247,13 @@ public class NewCarController : MonoBehaviour
             }
         }
 
-        _currentName = _player.playerName;
-        IDDisplay.SetText(_currentName);
-        ownerID = _realtimeTransform.ownerIDInHierarchy;
-        ResetPlayerHealth();
+        if (!offlineTest)
+        {
+            _currentName = _player.playerName;
+            IDDisplay.SetText(_currentName);
+            ownerID = _realtimeTransform.ownerIDInHierarchy;
+            ResetPlayerHealth();
+        }
     }
 
     public void DamageFeedback()
@@ -384,6 +398,7 @@ public class NewCarController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.LogWarning("Update - New Car Controller");
         if (!isNetworkInstance)
         {
             if (!offlineTest)
@@ -410,6 +425,7 @@ public class NewCarController : MonoBehaviour
             //disable controls when player is dead
             if (isPlayerAlive)
             {
+                Debug.LogWarning("Player is alive!");
                 DetectInput();
                 RotationCheck();
                 TurnTheWheels();
@@ -610,25 +626,30 @@ public class NewCarController : MonoBehaviour
         }
 
         //Weapon Controls
-        if (Input.GetKey(KeyCode.LeftControl) || Input.GetButton("Fire"))
+        if (!offlineTest)
         {
-            if (readyToFire)
+            if (Input.GetKey(KeyCode.LeftControl) || Input.GetButton("Fire"))
             {
-                readyToFire = false;
+                if (readyToFire)
+                {
+                    readyToFire = false;
 
-                _bulletBuffer = Realtime.Instantiate(WeaponProjectile.name,
-                    position: _barrelTip.position,
-                    rotation: _barrelTip.rotation,
-                    ownedByClient: true,
-                    useInstance: _realtime);
+                    _bulletBuffer = Realtime.Instantiate(WeaponProjectile.name,
+                        position: _barrelTip.position,
+                        rotation: _barrelTip.rotation,
+                        ownedByClient: true,
+                        useInstance: _realtime);
 
-                _bulletBuffer.GetComponent<WeaponProjectileBase>().isNetworkInstance = false;
-                _bulletBuffer.GetComponent<WeaponProjectileBase>().Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
-                _bulletBuffer.GetComponent<WeaponProjectileBase>().originOwnerID = ownerID;
+                    _bulletBuffer.GetComponent<WeaponProjectileBase>().isNetworkInstance = false;
+                    _bulletBuffer.GetComponent<WeaponProjectileBase>()
+                        .Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
+                    _bulletBuffer.GetComponent<WeaponProjectileBase>().originOwnerID = ownerID;
 
-                StartCoroutine(FireCR());
+                    StartCoroutine(FireCR());
+                }
             }
         }
+
 
         //Need to add reset timer to avoid spamming
         if (Input.GetKeyDown(KeyCode.R) || Input.GetButton("Reset")) //reset
