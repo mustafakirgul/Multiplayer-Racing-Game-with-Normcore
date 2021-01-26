@@ -181,7 +181,11 @@ public class NewCarController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        isNetworkInstance = !_realtimeView.isOwnedLocallyInHierarchy;
+        if (!offlineTest)
+            isNetworkInstance = !_realtimeView.isOwnedLocallyInHierarchy;
+        else
+            isNetworkInstance = false;
+        
         if (!isNetworkInstance)
         {
             CheckIfHasWeapons();
@@ -380,22 +384,26 @@ public class NewCarController : MonoBehaviour
     {
         if (!isNetworkInstance)
         {
-            _realtimeView.RequestOwnership();
-            _realtimeTransform.RequestOwnership();
-
-            if (IDDisplay.text != _currentName)
-                IDDisplay.SetText(_currentName);
-
-            for (int i = 0; i < wheelCount; i++)
+            if (!offlineTest)
             {
-                wheels[i].wheelRTV.RequestOwnership();
-                wheels[i].wheelRT.RequestOwnership();
-            }
+                _realtimeView.RequestOwnership();
+                _realtimeTransform.RequestOwnership();
 
-            if (_player.explosionForce != Vector3.zero)
-            {
-                ExplosionForce(_player.explosionForce);
+                if (IDDisplay.text != _currentName)
+                    IDDisplay.SetText(_currentName);
+
+                for (int i = 0; i < wheelCount; i++)
+                {
+                    wheels[i].wheelRTV.RequestOwnership();
+                    wheels[i].wheelRT.RequestOwnership();
+                }
+
+                if (_player.explosionForce != Vector3.zero)
+                {
+                    ExplosionForce(_player.explosionForce);
+                }    
             }
+            
 
             //disable controls when player is dead
             if (isPlayerAlive)

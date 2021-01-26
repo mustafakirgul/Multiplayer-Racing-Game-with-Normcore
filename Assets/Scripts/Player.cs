@@ -33,12 +33,16 @@ public class Player : RealtimeComponent<PlayerModel>
 
     private void Start()
     {
-        playerName = model.playerName;
-        _id = GetComponent<RealtimeView>().ownerIDInHierarchy;
         ResetHealth();
         if (controller == null && !GetComponent<NewCarController>().isNetworkInstance)
         {
             controller = GetComponent<NewCarController>();
+        }
+
+        if (controller.offlineTest)
+        {
+            playerName = model.playerName;
+            _id = GetComponent<RealtimeView>().ownerIDInHierarchy;
         }
     }
 
