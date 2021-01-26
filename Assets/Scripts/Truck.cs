@@ -128,6 +128,8 @@ public class Truck : RealtimeComponent<TruckModel>
 
     void SetWayPoint(int wayPointIndex)
     {
+        if (m_wayPoints.Count == 0)
+            return;
         currentWPT = m_wayPoints[wayPointIndex % m_wayPoints.Count].transform;
     }
 

@@ -998,7 +998,7 @@ MonoBehaviour:
   CameraContainer: {fileID: 1946598630858441357}
   fowardCamera: {fileID: 8575587571685806368}
   rearCamera: {fileID: 2242678404415448609}
-  isNetworkInstance: 1
+  isNetworkInstance: 0
   offlineTest: 0
   meleeDamageModifier: 0
   verticalSpdModifier: 0
@@ -1025,6 +1025,7 @@ MonoBehaviour:
   explosionForce: 20000
   resetHeight: 1
   damageFeedbackDuration: 0.1
+  damageIndicatorCanvasGroup: {fileID: 0}
   boostRadialLoader: {fileID: 0}
   enableBoost: 1
   boostCooldownTime: 5

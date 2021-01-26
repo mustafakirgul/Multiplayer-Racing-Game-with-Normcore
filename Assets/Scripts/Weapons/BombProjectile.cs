@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class BombProjectile : WeaponProjectileBase
 {
-    // Update is called once per frame
-    [SerializeField]
-    private Collider ColliderToArm;
+    public Collider ColliderToArm;
+
     protected override void Update()
     {
         base.Update();
@@ -18,8 +17,8 @@ public class BombProjectile : WeaponProjectileBase
 
         base.Fire(_barrelTip, mf_carVelocity);
         rb.AddForce(
-        -transform.forward * (startSpeed + mf_carVelocity),
-        ForceMode.VelocityChange);
+            -transform.forward * (startSpeed + mf_carVelocity),
+            ForceMode.VelocityChange);
     }
 
     private IEnumerator DelayActivation(float waitTime)

@@ -11,7 +11,7 @@ public class ItemBase : ScriptableObject
 
     [SerializeField] private string itemText = "";
 
-    [SerializeField] private Texture2D itemImage;
+    public Texture2D itemImage;
 
     public float m_Attack => f_attack;
     public float m_Defense => f_defense;

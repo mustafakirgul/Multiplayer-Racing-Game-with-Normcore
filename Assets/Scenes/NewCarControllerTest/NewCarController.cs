@@ -247,21 +247,21 @@ public class NewCarController : MonoBehaviour
         else
         {
             _miniMapRenderer.color = Color.red;
-            StartCoroutine(DelayNameSet(1f));
             CarRB.gameObject.SetActive(false);
             if (!PlayerManager.instance.networkPlayers.Contains(transform))
             {
                 PlayerManager.instance.AddNetworkPlayer(transform);
             }
+
+            if (!offlineTest)
+            {
+                _currentName = _player.playerName;
+                ownerID = _realtimeTransform.ownerIDInHierarchy;
+                ResetPlayerHealth();
+            }
         }
 
-        if (!offlineTest)
-        {
-            _currentName = _player.playerName;
-            IDDisplay.SetText(_currentName);
-            ownerID = _realtimeTransform.ownerIDInHierarchy;
-            ResetPlayerHealth();
-        }
+        StartCoroutine(DelayNameSet(3f));
     }
 
     public void DamageFeedback()
@@ -290,8 +290,10 @@ public class NewCarController : MonoBehaviour
     private IEnumerator DelayNameSet(float WaitTime)
     {
         yield return new WaitForSeconds(WaitTime);
+        Debug.LogWarning("NameChangeCRInside");
         if (_currentName != _player.playerName)
         {
+            Debug.LogWarning("NameChangeCRIFInside");
             _currentName = _player.playerName;
             IDDisplay.gameObject.SetActive(true);
             IDDisplay.SetText(_player.playerName);
@@ -730,6 +732,7 @@ public class NewCarController : MonoBehaviour
         followCamera.bToggleRearView = false;
         CoroutineReset = false;
     }
+
     void GroundCheck()
     {
         isGrounded = Physics.Raycast(transform.position, -transform.up, out RaycastHit ground, GroundCheckRayLength,
