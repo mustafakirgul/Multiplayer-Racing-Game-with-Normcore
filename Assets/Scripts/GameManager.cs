@@ -113,13 +113,13 @@ public class GameManager : MonoBehaviour
     {
         _race = GetComponent<Race>();
     }
-    public void PlayerCountDownCheck()
+    /*public void PlayerCountDownCheck()
     {
         if (playerManager.connectedPlayers.Count >= m_iNumOfPlayersForGameStart)
         {
             readyToStart = true;
         }
-    }
+    }*/
     private void Update()
     {
         //Debug.LogWarning("Room Game Start Time:" + _race._model.gameStartTime);
@@ -217,7 +217,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(DelayTime);
         lootTruck = FindObjectOfType<Truck>();
-        playerManager.AddExistingPlayers();
+        playerManager.UpdateExistingPlayers();
         StartCoroutine(LootTruckHealthCheck());
     }
     private IEnumerator CountDownTimeContinously()
