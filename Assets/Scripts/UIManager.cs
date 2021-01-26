@@ -48,14 +48,6 @@ public class UIManager : MonoBehaviour
     //May be extend to include perk selection
     public TextMeshProUGUI ItemDescription;
 
-    //Loot saving sObj display containers for menu
-    [SerializeField]
-    private List<GameObject> weaponsDisplayUI = new List<GameObject>();
-    [SerializeField]
-    private List<GameObject> armourDisplayUI = new List<GameObject>();
-    [SerializeField]
-    private List<GameObject> engineDisplayUI = new List<GameObject>();
-
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
