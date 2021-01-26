@@ -67,9 +67,9 @@ public class PlayerManager : MonoBehaviour
             foundTransforms[i] = carControllers[i].transform;
             if (carControllers[i].isNetworkInstance)
             {
-                if (!networkPlayers.Contains(networkPlayers[i]))
+                if (!networkPlayers.Contains(foundTransforms[i]))
                 {
-                    networkPlayers.Add(networkPlayers[i]);
+                    networkPlayers.Add(foundTransforms[i]);
                 }
             }
         }

@@ -8,9 +8,7 @@ using UnityEngine.UI;
 
 public class NewCarController : MonoBehaviour
 {
-    [Space]
-    [Space]
-    [Header("Car Controller Main Settings")]
+    [Space] [Space] [Header("Car Controller Main Settings")]
     public Rigidbody CarRB;
 
     private float moveInput, turnInput;
@@ -39,9 +37,7 @@ public class NewCarController : MonoBehaviour
     float currentZ, currentX;
     float XTimer, ZTimer, XFactor, ZFactor;
 
-    [Space]
-    [Space]
-    [Header("Camera and Networking")]
+    [Space] [Space] [Header("Camera and Networking")]
     //Neworking Related Functionalities
     public Realtime _realtime;
 
@@ -49,17 +45,12 @@ public class NewCarController : MonoBehaviour
     private RealtimeTransform _realtimeTransform;
     public int ownerID;
     private ChaseCam followCamera;
-    public Transform CameraContainer, fowardCamera, rearCamera;
+    public Transform CameraContainer;
     public bool isNetworkInstance = false;
     public bool offlineTest;
-    bool resetReverseView = false;
-
-    bool CoroutineReset = false;
 
 
-    [Space]
-    [Space]
-    [Header("Loot Based Modifiers")]
+    [Space] [Space] [Header("Loot Based Modifiers")]
     //Does the car need to know about these or does the game manager needs to know about these?
     //Car simply keeps track of what it encounters and talks to game managers to obtain loot or powerups
     public float meleeDamageModifier;
@@ -98,9 +89,7 @@ public class NewCarController : MonoBehaviour
 
     public TextMeshProUGUI speedDisplay, IDDisplay;
 
-    [Space]
-    [Space]
-    [Header("Health Params")]
+    [Space] [Space] [Header("Health Params")]
     //Health Controls
     public Player _player;
 
@@ -110,13 +99,14 @@ public class NewCarController : MonoBehaviour
     bool isPlayerAlive = true;
     public float explosionForce = 2000000f;
     public float resetHeight;
-    public float damageFeedbackDuration = .1f; //duration of camera shake
+
+
+    public float damageFeedbackDuration = .33f; //duration of camera shake
     private Coroutine cR_damageEffect;
     private WaitForEndOfFrame waitFrameDamageEffect;
+    public CanvasGroup damageIndicatorCanvasGroup;
 
-    [Space]
-    [Space]
-    [Header("Boost Params")]
+    [Space] [Space] [Header("Boost Params")]
     //Boost Controls
     public Image boostRadialLoader;
 
@@ -126,9 +116,7 @@ public class NewCarController : MonoBehaviour
     public bool boosterReady;
     private float boosterCounter;
 
-    [Space]
-    [Space]
-    [Header("Light Controls")]
+    [Space] [Space] [Header("Light Controls")]
     //Light Controls
     public Light RHL;
 
@@ -149,8 +137,7 @@ public class NewCarController : MonoBehaviour
 
     public SpriteRenderer _miniMapRenderer;
 
-    [Space]
-    [Header("Suspension and Wheel Settings")]
+    [Space] [Header("Suspension and Wheel Settings")]
     public bool identicalSuspension4AW;
 
     public float suspensionHeight; // these 2 only work if identical suspension for all wheels is true
@@ -158,6 +145,7 @@ public class NewCarController : MonoBehaviour
     [SerializeField] public ArcadeWheel[] wheels;
     private Coroutine healthAnimator;
     private float _tempHealth;
+
 
     private void Awake()
     {
@@ -182,7 +170,6 @@ public class NewCarController : MonoBehaviour
 
     void InitCamera()
     {
-        CameraContainer = fowardCamera;
         followCamera = GameObject.FindObjectOfType<ChaseCam>();
         followCamera.InitCamera(CameraContainer);
     }
@@ -218,6 +205,7 @@ public class NewCarController : MonoBehaviour
                 healthRadialLoader = uIManager.playerHealthRadialLoader;
                 IDDisplay = uIManager.playerName;
                 boostRadialLoader = uIManager.boostRadialLoader;
+                damageIndicatorCanvasGroup = uIManager.damageIndicatorCanvasGroup;
             }
 
             lootManager = FindObjectOfType<LootManager>();
@@ -289,9 +277,11 @@ public class NewCarController : MonoBehaviour
         while (_temp > 0)
         {
             _temp -= Time.deltaTime;
-            //damage effect
+            damageIndicatorCanvasGroup.alpha = _temp / damageFeedbackDuration;
             yield return waitFrameDamageEffect;
         }
+
+        damageIndicatorCanvasGroup.alpha = 0f;
     }
 
     private IEnumerator DelayNameSet(float WaitTime)
@@ -415,7 +405,6 @@ public class NewCarController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.LogWarning("Update - New Car Controller");
         if (!isNetworkInstance)
         {
             if (!offlineTest)
@@ -442,7 +431,6 @@ public class NewCarController : MonoBehaviour
             //disable controls when player is dead
             if (isPlayerAlive)
             {
-                Debug.LogWarning("Player is alive!");
                 DetectInput();
                 RotationCheck();
                 TurnTheWheels();
@@ -667,26 +655,6 @@ public class NewCarController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            resetReverseView = true;
-            followCamera.bToggleRearView = true;
-            followCamera.ToggleRearView(rearCamera);
-        }
-        
-        if(Input.GetKeyUp(KeyCode.U))
-        {
-            if (resetReverseView)
-            {
-                resetReverseView = false;
-                followCamera.ResetCam();
-                followCamera.InitCamera(fowardCamera);
-                if (!CoroutineReset)
-                {
-                    StartCoroutine(DelayCameraLerpReset());
-                }
-            }
-        }
 
         //Need to add reset timer to avoid spamming
         if (Input.GetKeyDown(KeyCode.R) || Input.GetButton("Reset")) //reset
@@ -731,13 +699,6 @@ public class NewCarController : MonoBehaviour
         }
     }
 
-    private IEnumerator DelayCameraLerpReset()
-    {
-        CoroutineReset = true;
-        yield return new WaitForSeconds(0.1f);
-        followCamera.bToggleRearView = false;
-        CoroutineReset = false;
-    }
     void GroundCheck()
     {
         isGrounded = Physics.Raycast(transform.position, -transform.up, out RaycastHit ground, GroundCheckRayLength,
