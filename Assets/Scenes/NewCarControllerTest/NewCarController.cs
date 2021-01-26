@@ -185,13 +185,14 @@ public class NewCarController : MonoBehaviour
             isNetworkInstance = !_realtimeView.isOwnedLocallyInHierarchy;
         else
             isNetworkInstance = false;
-        
+
         if (!isNetworkInstance)
         {
             CheckIfHasWeapons();
             isNetworkInstance = false;
             uIManager = FindObjectOfType<UIManager>();
-            uIManager.EnableUI();
+            if (uIManager != null)
+                uIManager.EnableUI();
             lootManager = FindObjectOfType<LootManager>();
             //Decouple Sphere Physics from car model
             CarRB.transform.parent = null;
@@ -221,7 +222,7 @@ public class NewCarController : MonoBehaviour
             {
                 PlayerManager.instance.AddLocalPlayer(transform);
                 healthAnimator = StartCoroutine(CR_HealthAnimator());
-                PlayerManager.instance.UpdateExistingPlayers();    
+                PlayerManager.instance.UpdateExistingPlayers();
             }
         }
         else
@@ -234,6 +235,7 @@ public class NewCarController : MonoBehaviour
                 PlayerManager.instance.AddNetworkPlayer(transform);
             }
         }
+
         _currentName = _player.playerName;
         IDDisplay.SetText(_currentName);
         ownerID = _realtimeTransform.ownerIDInHierarchy;
@@ -401,9 +403,9 @@ public class NewCarController : MonoBehaviour
                 if (_player.explosionForce != Vector3.zero)
                 {
                     ExplosionForce(_player.explosionForce);
-                }    
+                }
             }
-            
+
 
             //disable controls when player is dead
             if (isPlayerAlive)
@@ -461,7 +463,7 @@ public class NewCarController : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (isNetworkInstance&&!offlineTest)
+        if (isNetworkInstance && !offlineTest)
             PlayerManager.instance.RemoveNetworkPlayer(transform);
         if (CarRB != null)
             Destroy(CarRB.gameObject);
