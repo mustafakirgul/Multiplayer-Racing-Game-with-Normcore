@@ -11,6 +11,8 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     public float weaponLifeTime;
     public float truckDamageFactor;
 
+    public float weaponFireRate;
+
     protected float mf_carVelocity;
 
     public GameObject projectile_Mesh;

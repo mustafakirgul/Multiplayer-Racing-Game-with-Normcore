@@ -1008,7 +1008,7 @@ MonoBehaviour:
   HandlingModifier: 0
   LootWeaponProjectile: {fileID: 0}
   lootManager: {fileID: 0}
-  WeaponProjectile: {fileID: 3112086905854782875, guid: 5dfb8fa6b064c5341a1a2ed8e2b7ab15,
+  WeaponProjectile: {fileID: 3112086905854782875, guid: e220297a90909d147a2ac03c3dc95e92,
     type: 3}
   _barrelTip: {fileID: 7999507694352759004}
   fireRate: 2

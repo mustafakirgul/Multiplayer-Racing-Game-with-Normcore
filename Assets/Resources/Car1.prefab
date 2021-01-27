@@ -1011,7 +1011,7 @@ MonoBehaviour:
   WeaponProjectile: {fileID: 3112086905854782875, guid: 5dfb8fa6b064c5341a1a2ed8e2b7ab15,
     type: 3}
   _barrelTip: {fileID: 7999507694352759004}
-  fireRate: 2
+  fireRate: 10
   readyToFire: 0
   muzzleFlash: {fileID: 312486024225244060}
   uIManager: {fileID: 0}

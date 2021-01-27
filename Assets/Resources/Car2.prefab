@@ -1513,7 +1513,7 @@ MonoBehaviour:
   HandlingModifier: 0
   LootWeaponProjectile: {fileID: 0}
   lootManager: {fileID: 0}
-  WeaponProjectile: {fileID: 3112086905854782875, guid: 5dfb8fa6b064c5341a1a2ed8e2b7ab15,
+  WeaponProjectile: {fileID: 3112086905854782875, guid: faaa7fc8be60d0744a8fa08762d869e4,
     type: 3}
   _barrelTip: {fileID: 869938959033596282}
   fireRate: 1
@@ -1530,6 +1530,7 @@ MonoBehaviour:
   explosionForce: 20000
   resetHeight: 1
   damageFeedbackDuration: 0.1
+  damageIndicatorCanvasGroup: {fileID: 0}
   boostRadialLoader: {fileID: 0}
   enableBoost: 1
   boostCooldownTime: 5

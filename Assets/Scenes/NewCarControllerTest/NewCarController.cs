@@ -8,7 +8,9 @@ using UnityEngine.UI;
 
 public class NewCarController : MonoBehaviour
 {
-    [Space] [Space] [Header("Car Controller Main Settings")]
+    [Space]
+    [Space]
+    [Header("Car Controller Main Settings")]
     public Rigidbody CarRB;
 
     private float moveInput, turnInput;
@@ -37,7 +39,9 @@ public class NewCarController : MonoBehaviour
     float currentZ, currentX;
     float XTimer, ZTimer, XFactor, ZFactor;
 
-    [Space] [Space] [Header("Camera and Networking")]
+    [Space]
+    [Space]
+    [Header("Camera and Networking")]
     //Neworking Related Functionalities
     public Realtime _realtime;
 
@@ -53,7 +57,9 @@ public class NewCarController : MonoBehaviour
     bool CoroutineReset = false;
 
 
-    [Space] [Space] [Header("Loot Based Modifiers")]
+    [Space]
+    [Space]
+    [Header("Loot Based Modifiers")]
     //Does the car need to know about these or does the game manager needs to know about these?
     //Car simply keeps track of what it encounters and talks to game managers to obtain loot or powerups
     public float meleeDamageModifier;
@@ -76,7 +82,7 @@ public class NewCarController : MonoBehaviour
 
     private GameObject _bulletBuffer;
     public Transform _barrelTip;
-    public float fireRate; //number of bullets fired per second //Weapon Change should affect this variable
+    public float fireRate = 1; //number of bullets fired per second //Weapon Change should affect this variable
     public bool readyToFire = false;
     public GameObject muzzleFlash;
     float fireTimer;
@@ -92,7 +98,9 @@ public class NewCarController : MonoBehaviour
 
     public TextMeshProUGUI speedDisplay, IDDisplay;
 
-    [Space] [Space] [Header("Health Params")]
+    [Space]
+    [Space]
+    [Header("Health Params")]
     //Health Controls
     public Player _player;
 
@@ -109,7 +117,9 @@ public class NewCarController : MonoBehaviour
     private WaitForEndOfFrame waitFrameDamageEffect;
     public CanvasGroup damageIndicatorCanvasGroup;
 
-    [Space] [Space] [Header("Boost Params")]
+    [Space]
+    [Space]
+    [Header("Boost Params")]
     //Boost Controls
     public Image boostRadialLoader;
 
@@ -119,7 +129,9 @@ public class NewCarController : MonoBehaviour
     public bool boosterReady;
     private float boosterCounter;
 
-    [Space] [Space] [Header("Light Controls")]
+    [Space]
+    [Space]
+    [Header("Light Controls")]
     //Light Controls
     public Light RHL;
 
@@ -140,7 +152,8 @@ public class NewCarController : MonoBehaviour
 
     public SpriteRenderer _miniMapRenderer;
 
-    [Space] [Header("Suspension and Wheel Settings")]
+    [Space]
+    [Header("Suspension and Wheel Settings")]
     public bool identicalSuspension4AW;
 
     public float suspensionHeight; // these 2 only work if identical suspension for all wheels is true
@@ -163,7 +176,16 @@ public class NewCarController : MonoBehaviour
             _realtimeTransform.enabled = true;
         }
 
-        fireTimer = 1f / fireRate;
+        if (WeaponProjectile != null)
+        {
+            fireRate = WeaponProjectile.GetComponent<WeaponProjectileBase>().weaponFireRate;
+            fireTimer = 1f / fireRate;
+        }
+        else
+        {
+            fireTimer = 1f / fireRate;
+        }
+
         _player = GetComponent<Player>();
         waitFrame = new WaitForEndOfFrame();
         waitFrame2 = new WaitForEndOfFrame();
