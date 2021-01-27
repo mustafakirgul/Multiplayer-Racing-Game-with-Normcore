@@ -284,9 +284,13 @@ public class GameManager : MonoBehaviour
             _realtime.room.Disconnect();
             //Enable End Game Screens
             //StartCoroutine(GameSceneManager.instance.FadeInAndOut(2, 2, 3));
-
-            StartCoroutine(EndDisplaySequence());
+            GameManager.instance.phaseManager.NextPhase();
         }
+    }
+
+    public void StartEndDisplaySequence()
+    {
+        StartCoroutine(EndDisplaySequence());
     }
 
     private IEnumerator EndDisplaySequence()
