@@ -199,6 +199,7 @@ public class NewCarController : MonoBehaviour
         if (!isNetworkInstance)
         {
             CheckIfHasWeapons();
+            ownerID = _realtimeTransform.ownerIDInHierarchy;
             isNetworkInstance = false;
             uIManager = FindObjectOfType<UIManager>();
             if (uIManager != null)
