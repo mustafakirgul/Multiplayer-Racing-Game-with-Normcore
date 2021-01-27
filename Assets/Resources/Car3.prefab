@@ -994,7 +994,7 @@ MonoBehaviour:
   xRotationLERPSpeed: 3
   rotationCooldownTime: 4
   _realtime: {fileID: 0}
-  ownerID: 1
+  ownerID: 0
   CameraContainer: {fileID: 1946598630858441357}
   fowardCamera: {fileID: 5717124033490577883}
   rearCamera: {fileID: 3691375968880366191}
@@ -1025,6 +1025,7 @@ MonoBehaviour:
   explosionForce: 20000
   resetHeight: 1
   damageFeedbackDuration: 0.1
+  damageIndicatorCanvasGroup: {fileID: 0}
   boostRadialLoader: {fileID: 0}
   enableBoost: 1
   boostCooldownTime: 5

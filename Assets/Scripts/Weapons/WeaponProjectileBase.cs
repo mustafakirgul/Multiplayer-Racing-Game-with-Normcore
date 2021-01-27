@@ -73,7 +73,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     void KillTimer()
     {
-        hitCoroutine = StartCoroutine(HitCR());
+        //hitCoroutine = StartCoroutine(HitCR());
         Hit();
     }
 

@@ -994,11 +994,11 @@ MonoBehaviour:
   xRotationLERPSpeed: 3
   rotationCooldownTime: 4
   _realtime: {fileID: 0}
-  ownerID: 1
+  ownerID: 0
   CameraContainer: {fileID: 1946598630858441357}
   fowardCamera: {fileID: 8575587571685806368}
   rearCamera: {fileID: 2242678404415448609}
-  isNetworkInstance: 0
+  isNetworkInstance: 1
   offlineTest: 0
   meleeDamageModifier: 0
   verticalSpdModifier: 0

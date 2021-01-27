@@ -653,7 +653,7 @@ public class NewCarController : MonoBehaviour
                     _bulletBuffer.GetComponent<WeaponProjectileBase>().isNetworkInstance = false;
                     _bulletBuffer.GetComponent<WeaponProjectileBase>()
                         .Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
-                    _bulletBuffer.GetComponent<WeaponProjectileBase>().originOwnerID = ownerID;
+                    //_bulletBuffer.GetComponent<WeaponProjectileBase>().originOwnerID = ownerID;
 
                     StartCoroutine(FireCR());
                 }

@@ -43,21 +43,28 @@ public class Player : RealtimeComponent<PlayerModel>
                 _id = GetComponent<RealtimeView>().ownerIDInHierarchy;
             }
         }
+
+        if (model.playerName.Length > 0)
+        {
+            playerName = model.playerName;
+            if (controller == null) return;
+            controller.IDDisplay.SetText(playerName);
+        }
     }
 
     private void Update()
     {
         if (model == null)
             return;
-        if (model.playerName != playerName)
-        {
-            if (model.playerName.Length > 0)
-            {
-                playerName = model.playerName;
-                if (controller == null) return;
-                controller.IDDisplay.SetText(playerName);
-            }
-        }
+        //if (model.playerName != playerName)
+        //{
+        //    if (model.playerName.Length > 0)
+        //    {
+        //        playerName = model.playerName;
+        //        if (controller == null) return;
+        //        controller.IDDisplay.SetText(playerName);
+        //    }
+        //}
     }
 
     public void SetPlayerName(string _name)
