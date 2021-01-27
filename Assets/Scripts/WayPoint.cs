@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+
 public class WayPoint : MonoBehaviour
 {
     public int index = -1;
@@ -7,7 +8,12 @@ public class WayPoint : MonoBehaviour
 
     private void OnValidate()
     {
-        //index = Convert.ToInt32(transform.name.Split("("[0])[1].Split(")"[0])[0]);
-        GetComponent<MeshRenderer>().enabled = defaultState;
+        if (gameObject.activeInHierarchy)
+        {
+            string _temp = transform.name.Split("("[0])[1];
+            _temp = _temp.Remove(_temp.Length - 1, 1);
+            index = Convert.ToInt32(_temp);
+            GetComponent<MeshRenderer>().enabled = defaultState;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Normal.Realtime;
@@ -16,6 +17,14 @@ public class PlayerManager : MonoBehaviour
     private Transform[] foundTransforms;
     private NewCarController[] carControllers;
 
+    public Vector3 spawnPoint;
+    public Mesh gizmoMesh;
+    [Range(0, 359)] public float spawnRotation;
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireMesh(gizmoMesh, spawnPoint, Quaternion.Euler(-90, spawnRotation, 0), new Vector3(293, 539, 293));
+    }
 
     private void SingletonCheck()
     {
@@ -92,8 +101,8 @@ public class PlayerManager : MonoBehaviour
         if (FindObjectOfType<Truck>() == null)
         {
             _temp = Realtime.Instantiate("WeirdTruck",
-                position: localPlayer.position + (Vector3.forward * 100f) + (Vector3.up * 5f),
-                rotation: Quaternion.identity,
+                position: spawnPoint,
+                rotation: Quaternion.Euler(0, spawnRotation, 0),
                 ownedByClient: true,
                 preventOwnershipTakeover: false,
                 destroyWhenOwnerOrLastClientLeaves: false,
@@ -105,8 +114,8 @@ public class PlayerManager : MonoBehaviour
             _temp = FindObjectOfType<Truck>().gameObject;
             _temp.GetComponent<RealtimeView>().RequestOwnership();
             _temp.GetComponent<RealtimeTransform>().RequestOwnership();
-            _temp.transform.position = localPlayer.position + (Vector3.forward * 100f) + (Vector3.up * 5f);
-            _temp.transform.rotation = Quaternion.identity;
+            _temp.transform.position = spawnPoint;
+            _temp.transform.rotation = Quaternion.Euler(0, spawnRotation, 0);
             _temp.GetComponent<Truck>().StartHealth();
         }
     }

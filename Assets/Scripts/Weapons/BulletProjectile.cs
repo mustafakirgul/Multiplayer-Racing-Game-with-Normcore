@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BulletProjectile : WeaponProjectileBase
 {
-    [SerializeField]
-    private float bulletSpeed;
+    public float bulletSpeed;
+
     protected override void Update()
     {
         base.Update();
