@@ -9,50 +9,50 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     private Realtime _realtime;
-    public Vector3 center, size;
+    public Vector3 center, size; //for player spawn box
+    [Range(0, 359)] public float direction; //y angle of the spawned player
     Vector3 spawnPoint;
 
-    [Space]
-    [Space]
-    [Header("UI and Camera")]
+    [Space] [Space] [Header("UI and Camera")]
     public TextMeshProUGUI playerNameInputField;
+
     public Canvas _enterNameCanvas;
     public Camera _miniMapCamera;
     public string preferredCar;
     string _tempName;
-    [SerializeField]
-    ChaseCam chaseCam;
+    [SerializeField] ChaseCam chaseCam;
 
     //Game Manager Params
     public float m_fMaxTimer;
     public float m_localTimer;
     public int m_iNumOfPlayersForGameStart;
-    [SerializeField]
-    public Race _race;
-    [SerializeField]
-    private bool readyToStart;
-    [SerializeField]
-    private Truck lootTruck;
+    [SerializeField] public Race _race;
+    [SerializeField] private bool readyToStart;
+    [SerializeField] private Truck lootTruck;
 
-    [Space]
-    [Space]
-    [Header("Managers")]
+    [Space] [Space] [Header("Managers")]
     //Managers
     private PlayerManager playerManager;
+
     public UIManager uIManager;
-    [SerializeField]
-    private LootManager lootManager;
-    [SerializeField]
-    private GameSceneManager gameSceneManager;
+    [SerializeField] private LootManager lootManager;
+    [SerializeField] private GameSceneManager gameSceneManager;
 
     private void OnDrawGizmos()
     {
+        float radians = direction * Mathf.Deg2Rad;
+        float x = Mathf.Cos(radians);
+        float y = Mathf.Sin(radians);
+        Vector3 pos = new Vector3(x, 0, y); //Vector2 is fine, if you're in 2D
+        Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(center, size);
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(center, center + (pos * 5f));
     }
 
     #region Singleton Logic
+
     public static GameManager instance = null;
-    public bool isConnected;
     private bool isCountingDown;
 
     private void SingletonCheck()
@@ -62,11 +62,13 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
     #endregion
+
     private void Awake()
     {
         SingletonCheck();
@@ -90,6 +92,7 @@ public class GameManager : MonoBehaviour
         );
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
     }
+
     private void TruckHealthCheck()
     {
         if (lootTruck != null && lootTruck._health <= 0)
@@ -97,6 +100,7 @@ public class GameManager : MonoBehaviour
             HardPushEndGame();
         }
     }
+
     IEnumerator LootTruckHealthCheck()
     {
         while (true)
@@ -105,14 +109,17 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(2f);
         }
     }
+
     public void HardPushEndGame()
     {
         readyToStart = true;
     }
+
     private void Start()
     {
         _race = GetComponent<Race>();
     }
+
     /*public void PlayerCountDownCheck()
     {
         if (playerManager.connectedPlayers.Count >= m_iNumOfPlayersForGameStart)
@@ -131,20 +138,24 @@ public class GameManager : MonoBehaviour
             {
                 _race.ChangeGameTime(_realtime.room.time);
             }
+
             isCountingDown = true;
             StartCoroutine(CountDownTimeContinously());
         }
     }
+
     private void DidDisconnectFromRoom(Realtime realtime)
     {
         chaseCam.ResetCam();
     }
+
     public void ConnectToRoom(int _selection)
     {
         if (_realtime.connected)
         {
             _realtime.Disconnect();
         }
+
         switch (_selection)
         {
             case 0:
@@ -159,6 +170,7 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
+
         if (playerNameInputField.text.Length > 0)
         {
             Debug.Log(preferredCar);
@@ -176,7 +188,7 @@ public class GameManager : MonoBehaviour
         playerNameInputField = GameObject.FindGameObjectWithTag("enterNameField").GetComponent<TextMeshProUGUI>();
         _enterNameCanvas = GameObject.FindGameObjectWithTag("enterNameCanvas").GetComponent<Canvas>();
         _miniMapCamera = GameObject.FindGameObjectWithTag("miniMapCamera").GetComponent<Camera>();
-        
+
         gameSceneManager = FindObjectOfType<GameSceneManager>();
         chaseCam = GameObject.FindObjectOfType<ChaseCam>();
         playerManager = FindObjectOfType<PlayerManager>();
@@ -188,11 +200,11 @@ public class GameManager : MonoBehaviour
         //isConnected = true;
         _tempName = preferredCar != "" ? preferredCar : "Car1";
         GameObject _temp = Realtime.Instantiate(_tempName,
-                            position: spawnPoint,
-                            rotation: Quaternion.identity,
-                       ownedByClient: true,
+            position: spawnPoint,
+            rotation: Quaternion.Euler(0, direction, 0),
+            ownedByClient: true,
             preventOwnershipTakeover: true,
-                         useInstance: _realtime);
+            useInstance: _realtime);
 
         if (_temp.GetComponent<NewCarController>()._realtime)
         {
@@ -202,13 +214,14 @@ public class GameManager : MonoBehaviour
         {
             _temp.GetComponent<NewCarController>()._realtime = _realtime;
         }
+
         _temp.GetComponent<Player>().SetPlayerName(playerNameInputField.text);
         _temp.GetComponent<ItemDataProcessor>().ObtainLoadOutData(lootManager.ObatinCurrentBuild());
 
         FindObjectOfType<MiniMapCamera>()._master = _temp.transform;
         _miniMapCamera.enabled = true;
         _enterNameCanvas.gameObject.SetActive(false);
-        
+
         StartCoroutine(KeepTrackOfWinConditions(5));
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
     }
@@ -220,6 +233,7 @@ public class GameManager : MonoBehaviour
         playerManager.UpdateExistingPlayers();
         StartCoroutine(LootTruckHealthCheck());
     }
+
     private IEnumerator CountDownTimeContinously()
     {
         while (true)
@@ -229,9 +243,11 @@ public class GameManager : MonoBehaviour
                 TimerCountDown();
                 yield return null;
             }
+
             yield return null;
         }
     }
+
     private void TimerCountDown()
     {
         double _temp = _race.m_fRaceDuration - (_realtime.room.time - _race.m_fGameStartTime);
@@ -241,6 +257,7 @@ public class GameManager : MonoBehaviour
             uIManager.timeRemaining.ClearMesh();
             uIManager.timeRemaining.SetText(_temp.ToString("F2"));
         }
+
         //Update the timer for all managers instances
         if (_temp <= 0)
         {
@@ -264,7 +281,7 @@ public class GameManager : MonoBehaviour
     {
         yield return StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 2));
         GameSceneManager.instance.EnableSplashes(
-                GameSceneManager.instance.GameEndSplashes);
+            GameSceneManager.instance.GameEndSplashes);
         yield return StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 2));
         lootManager.RollForLoot();
         yield return StartCoroutine(
@@ -306,6 +323,7 @@ public class GameManager : MonoBehaviour
         }
     }
 }
+
 public struct GameWinConditions
 {
     //Parameters to fulfill winconditions
@@ -313,4 +331,3 @@ public struct GameWinConditions
     public int playerIDtoAward;
     public bool isCompleted;
 }
-
