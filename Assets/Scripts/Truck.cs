@@ -55,6 +55,12 @@ public class Truck : RealtimeComponent<TruckModel>
         Gizmos.DrawWireSphere(transform.position + lootLaunchPoint, 1f);
     }
 
+    public void UpdateToqueFactor(float _f)
+    {
+        _torqueFactor = _f;
+        Debug.LogWarning("Truck Torque Factor = " + _torqueFactor);
+    }
+
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();

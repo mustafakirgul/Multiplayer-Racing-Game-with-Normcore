@@ -93,7 +93,6 @@ public class PlayerManager : MonoBehaviour
 
         return localPlayer;
     }
-
     public void AddLocalPlayer(Transform _player)
     {
         localPlayer = _player;

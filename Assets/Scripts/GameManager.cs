@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     public int m_iNumOfPlayersForGameStart;
     [SerializeField] public Race _race;
     [SerializeField] private bool readyToStart;
-    [SerializeField] private Truck lootTruck;
+    public Truck lootTruck;
 
     [Space] [Space] [Header("Managers")]
     //Managers
@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviour
     public UIManager uIManager;
     [SerializeField] private LootManager lootManager;
     [SerializeField] private GameSceneManager gameSceneManager;
+
+    public PhaseManager phaseManager;
 
     private void OnDrawGizmos()
     {
@@ -69,9 +71,18 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    public void UpdateLootTruckTorqueFactor(float _f)
+    {
+        if (lootTruck != null)
+        {
+            lootTruck.UpdateToqueFactor(_f);
+        }
+    }
+
     private void Awake()
     {
         SingletonCheck();
+        phaseManager = GetComponent<PhaseManager>();
         gameSceneManager = FindObjectOfType<GameSceneManager>();
         chaseCam = GameObject.FindObjectOfType<ChaseCam>();
         playerManager = FindObjectOfType<PlayerManager>();
@@ -223,6 +234,7 @@ public class GameManager : MonoBehaviour
         _enterNameCanvas.gameObject.SetActive(false);
 
         StartCoroutine(KeepTrackOfWinConditions(5));
+        phaseManager.StartPhaseSystem();
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
     }
 

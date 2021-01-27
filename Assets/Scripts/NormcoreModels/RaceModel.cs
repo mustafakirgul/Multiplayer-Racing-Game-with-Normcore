@@ -4,8 +4,8 @@ using Normal.Realtime.Serialization;
 [RealtimeModel]
 public partial class RaceModel
 {
-    [RealtimeProperty(1, true, true)]
-    private double _gameStartTime;
+    [RealtimeProperty(1, true, true)] private double _gameStartTime;
+    [RealtimeProperty(2, true, true)] private int _phase;
 }
 
 
@@ -23,18 +23,34 @@ public partial class RaceModel : RealtimeModel {
         }
     }
     
+    public int phase {
+        get {
+            return _cache.LookForValueInCache(_phase, entry => entry.phaseSet, entry => entry.phase);
+        }
+        set {
+            if (this.phase == value) return;
+            _cache.UpdateLocalCache(entry => { entry.phaseSet = true; entry.phase = value; return entry; });
+            InvalidateReliableLength();
+            FirePhaseDidChange(value);
+        }
+    }
+    
     public delegate void PropertyChangedHandler<in T>(RaceModel model, T value);
     public event PropertyChangedHandler<double> gameStartTimeDidChange;
+    public event PropertyChangedHandler<int> phaseDidChange;
     
     private struct LocalCacheEntry {
         public bool gameStartTimeSet;
         public double gameStartTime;
+        public bool phaseSet;
+        public int phase;
     }
     
     private LocalChangeCache<LocalCacheEntry> _cache = new LocalChangeCache<LocalCacheEntry>();
     
     public enum PropertyID : uint {
         GameStartTime = 1,
+        Phase = 2,
     }
     
     public RaceModel() : this(null) {
@@ -55,15 +71,27 @@ public partial class RaceModel : RealtimeModel {
         }
     }
     
+    private void FirePhaseDidChange(int value) {
+        try {
+            phaseDidChange?.Invoke(this, value);
+        } catch (System.Exception exception) {
+            UnityEngine.Debug.LogException(exception);
+        }
+    }
+    
     protected override int WriteLength(StreamContext context) {
         int length = 0;
         if (context.fullModel) {
             FlattenCache();
             length += WriteStream.WriteDoubleLength((uint)PropertyID.GameStartTime);
+            length += WriteStream.WriteVarint32Length((uint)PropertyID.Phase, (uint)_phase);
         } else if (context.reliableChannel) {
             LocalCacheEntry entry = _cache.localCache;
             if (entry.gameStartTimeSet) {
                 length += WriteStream.WriteDoubleLength((uint)PropertyID.GameStartTime);
+            }
+            if (entry.phaseSet) {
+                length += WriteStream.WriteVarint32Length((uint)PropertyID.Phase, (uint)entry.phase);
             }
         }
         return length;
@@ -74,14 +102,19 @@ public partial class RaceModel : RealtimeModel {
         
         if (context.fullModel) {
             stream.WriteDouble((uint)PropertyID.GameStartTime, _gameStartTime);
+            stream.WriteVarint32((uint)PropertyID.Phase, (uint)_phase);
         } else if (context.reliableChannel) {
             LocalCacheEntry entry = _cache.localCache;
-            if (entry.gameStartTimeSet) {
+            if (entry.gameStartTimeSet || entry.phaseSet) {
                 _cache.PushLocalCacheToInflight(context.updateID);
                 ClearCacheOnStreamCallback(context);
             }
             if (entry.gameStartTimeSet) {
                 stream.WriteDouble((uint)PropertyID.GameStartTime, entry.gameStartTime);
+                didWriteProperties = true;
+            }
+            if (entry.phaseSet) {
+                stream.WriteVarint32((uint)PropertyID.Phase, (uint)entry.phase);
                 didWriteProperties = true;
             }
             
@@ -101,6 +134,15 @@ public partial class RaceModel : RealtimeModel {
                     }
                     break;
                 }
+                case (uint)PropertyID.Phase: {
+                    int previousValue = _phase;
+                    _phase = (int)stream.ReadVarint32();
+                    bool phaseExistsInChangeCache = _cache.ValueExistsInCache(entry => entry.phaseSet);
+                    if (!phaseExistsInChangeCache && _phase != previousValue) {
+                        FirePhaseDidChange(_phase);
+                    }
+                    break;
+                }
                 default: {
                     stream.SkipProperty();
                     break;
@@ -115,6 +157,7 @@ public partial class RaceModel : RealtimeModel {
     
     private void FlattenCache() {
         _gameStartTime = gameStartTime;
+        _phase = phase;
         _cache.Clear();
     }
     

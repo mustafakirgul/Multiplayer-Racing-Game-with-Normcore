@@ -26,6 +26,12 @@ public class Loot : RealtimeComponent<LootModel>
         }
     }
 
+    private void Awake()
+    {
+        if (id == 0) return;
+        SetID(id);
+    }
+
     public void SetID(int _id)
     {
         if (model != null)

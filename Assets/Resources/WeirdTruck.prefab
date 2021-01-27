@@ -823,7 +823,7 @@ MonoBehaviour:
     isSteeringWheel: 1
     isReverseSteeringWheel: 0
   _torque: 30000
-  _torqueFactor: 1
+  _torqueFactor: 0
   _steeringAngle: 0
   maxSteeringAngle: 60
   _handBrake: 0
