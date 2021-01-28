@@ -98,6 +98,7 @@ public class GameManager : MonoBehaviour
                 {
                     CanMoveWalls = true;
                     Walls[i].GetComponent<RealtimeView>().RequestOwnership();
+                    Walls[i].GetComponent<RealtimeTransform>().RequestOwnership();
                 }
             }
         }
