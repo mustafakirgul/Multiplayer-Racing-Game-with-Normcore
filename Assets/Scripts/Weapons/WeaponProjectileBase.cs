@@ -76,7 +76,11 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     void KillTimer()
     {
         //hitCoroutine = StartCoroutine(HitCR());
-        Hit();
+        GetComponent<TrailRenderer>().emitting = false;
+        rb.isKinematic = true;
+        GetComponent<Collider>().enabled = false;
+        projectile_Mesh.SetActive(false);
+        Realtime.Destroy(gameObject);
     }
 
     protected virtual void Start()

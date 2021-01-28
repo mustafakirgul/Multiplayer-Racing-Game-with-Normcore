@@ -24,7 +24,8 @@ public class PhaseManager : MonoBehaviour
         phase++;
         if (phase == phases.Count)
             endOfPhasesEvent.Invoke();
-        phase %= phases.Count;
+        //phase %= phases.Count;
+        if(phase <= phases.Count - 1)
         GameManager.instance._race.ChangePhase(phase);
     }
 
@@ -32,7 +33,7 @@ public class PhaseManager : MonoBehaviour
     {
         if (newPhase != -1) // use -1 as phase index to initialize it
             newPhase = Mathf.Abs(newPhase);
-        phase = newPhase % phases.Count;
+        phase = newPhase;
         phases[phase].startEvent.Invoke();
         if (phases[phase].startMessage.Length > 0)
         {
