@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Normal.Realtime;
 
 public class Wall : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class Wall : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("Wall is owned by: " + GetComponent<RealtimeTransform>().ownerIDInHierarchy);
+
         if (EndPos != null)
         {
             EndPos.transform.parent = null;

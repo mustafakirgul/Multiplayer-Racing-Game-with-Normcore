@@ -4508,6 +4508,101 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1001 &283753763
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1983843159, guid: 805cea4fbcb18694fbd291354e82a00a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1983843160, guid: 805cea4fbcb18694fbd291354e82a00a, type: 3}
+      propertyPath: _realtime
+      value: 
+      objectReference: {fileID: 2097422275}
+    - target: {fileID: 1983843160, guid: 805cea4fbcb18694fbd291354e82a00a, type: 3}
+      propertyPath: _viewUUID
+      value: bf73c372-ac4b-4352-a514-1465784d265c
+      objectReference: {fileID: 0}
+    - target: {fileID: 1983843160, guid: 805cea4fbcb18694fbd291354e82a00a, type: 3}
+      propertyPath: _isRootPrefabView
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1983843160, guid: 805cea4fbcb18694fbd291354e82a00a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635713673487937260, guid: 805cea4fbcb18694fbd291354e82a00a,
+        type: 3}
+      propertyPath: m_Name
+      value: Wall2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635713673487937262, guid: 805cea4fbcb18694fbd291354e82a00a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 14.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635713673487937262, guid: 805cea4fbcb18694fbd291354e82a00a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 127
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635713673487937262, guid: 805cea4fbcb18694fbd291354e82a00a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -486
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635713673487937262, guid: 805cea4fbcb18694fbd291354e82a00a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635713673487937262, guid: 805cea4fbcb18694fbd291354e82a00a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635713673487937262, guid: 805cea4fbcb18694fbd291354e82a00a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635713673487937262, guid: 805cea4fbcb18694fbd291354e82a00a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635713673487937262, guid: 805cea4fbcb18694fbd291354e82a00a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635713673487937262, guid: 805cea4fbcb18694fbd291354e82a00a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635713673487937262, guid: 805cea4fbcb18694fbd291354e82a00a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635713673487937262, guid: 805cea4fbcb18694fbd291354e82a00a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 805cea4fbcb18694fbd291354e82a00a, type: 3}
+--- !u!1 &283753764 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2635713673487937260, guid: 805cea4fbcb18694fbd291354e82a00a,
+    type: 3}
+  m_PrefabInstance: {fileID: 283753763}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &289164780
 Mesh:
   m_ObjectHideFlags: 0
@@ -7517,18 +7612,6 @@ Transform:
   m_Father: {fileID: 983573882}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &359565581 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2635713673487937261, guid: 805cea4fbcb18694fbd291354e82a00a,
-    type: 3}
-  m_PrefabInstance: {fileID: 2635713673130010592}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ecc1b73927c2c94e9a34b0ef60bd501, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &361417761
 GameObject:
   m_ObjectHideFlags: 0
@@ -75418,6 +75501,12 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1983843158 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2635713673487937260, guid: 805cea4fbcb18694fbd291354e82a00a,
+    type: 3}
+  m_PrefabInstance: {fileID: 2635713673130010592}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1988900436
 GameObject:
   m_ObjectHideFlags: 0
@@ -79871,6 +79960,10 @@ MonoBehaviour:
   lootManager: {fileID: 176171383}
   gameSceneManager: {fileID: 4176943516331438294}
   phaseManager: {fileID: 0}
+  Walls:
+  - {fileID: 1983843158}
+  - {fileID: 283753764}
+  CanMoveWalls: 0
 --- !u!114 &2097422277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79933,8 +80026,8 @@ MonoBehaviour:
     startEvent:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 359565581}
-          m_MethodName: GoDown
+        - m_Target: {fileID: 2097422276}
+          m_MethodName: AssignWallsIDs
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -79955,23 +80048,23 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 2097422276}
+          m_MethodName: MakeWallsGoDown
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - startMessage: Kill the ironhog to win the race!
     type: 1
     duration: 0
     startEvent:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 2097422276}
-          m_MethodName: UpdateLootTruckTorqueFactor
-          m_Mode: 4
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 1
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
   - startMessage: Iron Hog is killed!!!
     type: 0
     duration: 5
@@ -79989,8 +80082,8 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 359565581}
-          m_MethodName: GoUp
+        - m_Target: {fileID: 2097422276}
+          m_MethodName: MakeWallsGoUp
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -80005,6 +80098,7 @@ MonoBehaviour:
   endOfPhasesEvent:
     m_PersistentCalls:
       m_Calls: []
+  Walls: []
 --- !u!1 &2100388584
 GameObject:
   m_ObjectHideFlags: 0
@@ -81194,10 +81288,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1983843159, guid: 805cea4fbcb18694fbd291354e82a00a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1983843160, guid: 805cea4fbcb18694fbd291354e82a00a, type: 3}
+      propertyPath: _realtime
+      value: 
+      objectReference: {fileID: 2097422275}
+    - target: {fileID: 1983843160, guid: 805cea4fbcb18694fbd291354e82a00a, type: 3}
+      propertyPath: _viewUUID
+      value: 7004cede-1be3-41a5-bab6-c34e4c1ce1da
+      objectReference: {fileID: 0}
+    - target: {fileID: 1983843160, guid: 805cea4fbcb18694fbd291354e82a00a, type: 3}
+      propertyPath: _isRootPrefabView
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1983843160, guid: 805cea4fbcb18694fbd291354e82a00a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2635713673487937260, guid: 805cea4fbcb18694fbd291354e82a00a,
         type: 3}
       propertyPath: m_Name
-      value: Wall
+      value: Wall1
       objectReference: {fileID: 0}
     - target: {fileID: 2635713673487937262, guid: 805cea4fbcb18694fbd291354e82a00a,
         type: 3}
@@ -81738,6 +81852,11 @@ PrefabInstance:
       propertyPath: _viewUUID
       value: b3f208bd-1e6e-45a7-b1a8-9f226c3e6bc9
       objectReference: {fileID: 0}
+    - target: {fileID: 2362304983049477165, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: _isRootPrefabView
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2362304983668075281, guid: 192a6e82ccd178e46b67b579c2031b3a,
         type: 3}
       propertyPath: _realtime
@@ -81747,6 +81866,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _viewUUID
       value: 2689ddbc-d8be-4b6e-b8cf-4442c595e727
+      objectReference: {fileID: 0}
+    - target: {fileID: 2362304983668075281, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: _isRootPrefabView
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4575351312826395872, guid: 192a6e82ccd178e46b67b579c2031b3a,
         type: 3}
@@ -81791,7 +81915,7 @@ PrefabInstance:
     - target: {fileID: 4575351312826395875, guid: 192a6e82ccd178e46b67b579c2031b3a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 21
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 4575351312826395875, guid: 192a6e82ccd178e46b67b579c2031b3a,
         type: 3}

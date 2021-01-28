@@ -24,7 +24,10 @@ public class Race : RealtimeComponent<RaceModel>
 
     public void ChangePhase(int phase)
     {
-        model.phase = phase;
+        if (GameManager.instance.lootTruck.realtimeView.isOwnedLocallySelf)
+        {
+            model.phase = phase;
+        }
     }
 
     private void PhaseChanged(RaceModel raceModel, int phase)

@@ -13,7 +13,9 @@ public class GameManager : MonoBehaviour
     [Range(0, 359)] public float direction; //y angle of the spawned player
     Vector3 spawnPoint;
 
-    [Space] [Space] [Header("UI and Camera")]
+    [Space]
+    [Space]
+    [Header("UI and Camera")]
     public TextMeshProUGUI playerNameInputField;
 
     public Canvas _enterNameCanvas;
@@ -30,7 +32,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool readyToStart;
     public Truck lootTruck;
 
-    [Space] [Space] [Header("Managers")]
+    [Space]
+    [Space]
+    [Header("Managers")]
     //Managers
     private PlayerManager playerManager;
 
@@ -39,6 +43,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameSceneManager gameSceneManager;
 
     public PhaseManager phaseManager;
+
+    [SerializeField]
+    private GameObject[] Walls;
+
+    [SerializeField]
+    bool CanMoveWalls = false;
 
     private void OnDrawGizmos()
     {
@@ -78,7 +88,42 @@ public class GameManager : MonoBehaviour
             lootTruck.UpdateToqueFactor(_f);
         }
     }
+    public void AssignWallsIDs()
+    {
+        if (Walls.Length != 0)
+        {
+            for (int i = 0; i < Walls.Length; i++)
+            {
+                if (Walls[i].GetComponent<RealtimeView>().isUnownedInHierarchy)
+                {
+                    CanMoveWalls = true;
+                    Walls[i].GetComponent<RealtimeView>().RequestOwnership();
+                }
+            }
+        }
+    }
 
+    public void MakeWallsGoUp()
+    {
+        if (CanMoveWalls)
+        {
+            for (int i = 0; i < Walls.Length; i++)
+            {
+                Walls[i].GetComponent<Wall>().GoUp();
+            }
+        }
+    }
+
+    public void MakeWallsGoDown()
+    {
+        if (CanMoveWalls)
+        {
+            for (int i = 0; i < Walls.Length; i++)
+            {
+                Walls[i].GetComponent<Wall>().GoDown();
+            }
+        }
+    }
     private void Awake()
     {
         SingletonCheck();

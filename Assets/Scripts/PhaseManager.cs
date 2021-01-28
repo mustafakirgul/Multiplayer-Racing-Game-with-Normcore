@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using Normal.Realtime;
 
 public class PhaseManager : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class PhaseManager : MonoBehaviour
     public UnityEvent endOfPhasesEvent;
     private Coroutine timer, displayMessage;
     private WaitForSeconds wait, waitForMessage;
+
+    [SerializeField]
+    private GameObject[] Walls;
 
     public void StartPhaseSystem()
     {
@@ -25,8 +29,8 @@ public class PhaseManager : MonoBehaviour
         if (phase == phases.Count)
             endOfPhasesEvent.Invoke();
         //phase %= phases.Count;
-        if(phase <= phases.Count - 1)
-        GameManager.instance._race.ChangePhase(phase);
+        if (phase <= phases.Count - 1)
+            GameManager.instance._race.ChangePhase(phase);
     }
 
     public void JumpToPhase(int newPhase) //called by the network instance if the phase number is changed
