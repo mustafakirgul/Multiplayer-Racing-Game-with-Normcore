@@ -249,6 +249,8 @@ GameObject:
   - component: {fileID: 2635713673487937261}
   - component: {fileID: 2635713673487937264}
   - component: {fileID: 2635713673487937263}
+  - component: {fileID: 1983843159}
+  - component: {fileID: 1983843160}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -288,6 +290,8 @@ MonoBehaviour:
   StartPos: {fileID: 9137782742528001613}
   EndPos: {fileID: 32722748}
   speed: 5
+  MoveToTarget: 0
+  ResetToStart: 0
 --- !u!65 &2635713673487937264
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -317,3 +321,43 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1983843159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2635713673487937260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1029778088, guid: 30f4fd177e1fad742be136a8237ab587, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolate: 1
+  _syncPosition: 1
+  _syncRotation: 1
+  _syncScale: 1
+  _syncVelocity: 1
+  _maintainOwnershipWhileSleeping: 0
+--- !u!114 &1983843160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2635713673487937260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -363599832, guid: 30f4fd177e1fad742be136a8237ab587, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _realtime: {fileID: 0}
+  _sceneViewUUID: 
+  _viewUUID: 
+  _sceneViewPreventOwnershipTakeover: 0
+  _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
+  _isRootPrefabView: 1
+  _components:
+  - componentID: 1
+    component: {fileID: 1983843159}
+  _childViews: []

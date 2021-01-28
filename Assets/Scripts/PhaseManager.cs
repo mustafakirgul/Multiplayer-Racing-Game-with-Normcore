@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using Normal.Realtime;
 
 public class PhaseManager : MonoBehaviour
 {
@@ -14,36 +15,47 @@ public class PhaseManager : MonoBehaviour
     private Coroutine timer, displayMessage;
     private WaitForSeconds wait, waitForMessage;
 
+    [SerializeField] private GameObject[] Walls;
+
     public void StartPhaseSystem()
     {
+        Debug.LogWarning("Phase system Start");
         JumpToPhase(0);
     }
 
     public void NextPhase() //called locally by the local game manager, depending on conditions
     {
+        Debug.LogWarning("Previous Phase: " + phase);
         phase++;
         if (phase == phases.Count)
+        {
             endOfPhasesEvent.Invoke();
-        //phase %= phases.Count;
-        if(phase <= phases.Count - 1)
-        GameManager.instance._race.ChangePhase(phase);
+            phase = -1;
+        }
+        else if (phase < phases.Count)
+        {
+            Debug.LogWarning("Current Phase: " + phase);
+            GameManager.instance._race.ChangePhase(phase);
+        }
     }
 
     public void JumpToPhase(int newPhase) //called by the network instance if the phase number is changed
     {
-        if (newPhase != -1) // use -1 as phase index to initialize it
-            newPhase = Mathf.Abs(newPhase);
-        phase = newPhase;
-        phases[phase].startEvent.Invoke();
-        if (phases[phase].startMessage.Length > 0)
+        if (newPhase > -1) // use -1 as phase index to initialize it
         {
-            if (displayMessage != null) StopCoroutine(displayMessage);
-            displayMessage = StartCoroutine(CR_DisplayMessage(phases[phase].startMessage));
-        }
+            phase = newPhase;
+            phases[phase].startEvent.Invoke();
+            Debug.LogWarning("Start Event of Phase " + phase);
+            if (phases[phase].startMessage.Length > 0)
+            {
+                if (displayMessage != null) StopCoroutine(displayMessage);
+                displayMessage = StartCoroutine(CR_DisplayMessage(phases[phase].startMessage));
+            }
 
-        if (phases[phase].type == PhaseType.timeBased
-        ) //if time based set up the timer - if not, just wait for someone to trigger the transition
-            StartTimer(phases[phase].duration);
+            if (phases[phase].type == PhaseType.timeBased
+            ) //if time based set up the timer - if not, just wait for someone to trigger the transition
+                StartTimer(phases[phase].duration);
+        }
     }
 
     private void StartTimer(float duration)

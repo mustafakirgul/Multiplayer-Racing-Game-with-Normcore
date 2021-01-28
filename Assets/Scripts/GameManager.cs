@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour
 
     public PhaseManager phaseManager;
 
+    [SerializeField] private GameObject[] Walls;
+
+    [SerializeField] bool CanMoveWalls = false;
+
     private void OnDrawGizmos()
     {
         float radians = direction * Mathf.Deg2Rad;
@@ -76,6 +80,44 @@ public class GameManager : MonoBehaviour
         if (lootTruck != null)
         {
             lootTruck.UpdateToqueFactor(_f);
+        }
+    }
+
+    public void AssignWallsIDs()
+    {
+        if (Walls.Length != 0)
+        {
+            for (int i = 0; i < Walls.Length; i++)
+            {
+                if (Walls[i].GetComponent<RealtimeView>().isUnownedInHierarchy)
+                {
+                    CanMoveWalls = true;
+                    Walls[i].GetComponent<RealtimeView>().RequestOwnership();
+                    Walls[i].GetComponent<RealtimeTransform>().RequestOwnership();
+                }
+            }
+        }
+    }
+
+    public void MakeWallsGoUp()
+    {
+        if (CanMoveWalls)
+        {
+            for (int i = 0; i < Walls.Length; i++)
+            {
+                Walls[i].GetComponent<Wall>().GoUp();
+            }
+        }
+    }
+
+    public void MakeWallsGoDown()
+    {
+        if (CanMoveWalls)
+        {
+            for (int i = 0; i < Walls.Length; i++)
+            {
+                Walls[i].GetComponent<Wall>().GoDown();
+            }
         }
     }
 
@@ -280,12 +322,15 @@ public class GameManager : MonoBehaviour
 
             ThingsToDoBeforeGameEnd();
 
-
-            _realtime.room.Disconnect();
             //Enable End Game Screens
             //StartCoroutine(GameSceneManager.instance.FadeInAndOut(2, 2, 3));
             GameManager.instance.phaseManager.NextPhase();
         }
+    }
+
+    public void DisconnectFromServer()
+    {
+        _realtime.room.Disconnect();
     }
 
     public void StartEndDisplaySequence()
