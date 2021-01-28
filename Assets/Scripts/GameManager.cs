@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] Walls;
 
     [SerializeField] bool CanMoveWalls = false;
+    private bool isKilled;
 
     private void OnDrawGizmos()
     {
@@ -158,7 +159,12 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            TruckHealthCheck();
+            if (!isKilled)
+            {
+                isKilled = true;
+                TruckHealthCheck();
+            }
+
             yield return new WaitForSeconds(2f);
         }
     }
@@ -247,6 +253,7 @@ public class GameManager : MonoBehaviour
         chaseCam = GameObject.FindObjectOfType<ChaseCam>();
         playerManager = FindObjectOfType<PlayerManager>();
         uIManager = FindObjectOfType<UIManager>();
+        isKilled = false;
     }
 
     private void DidConnectToRoom(Realtime realtime)
