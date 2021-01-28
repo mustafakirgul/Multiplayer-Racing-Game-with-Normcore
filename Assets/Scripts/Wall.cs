@@ -6,8 +6,7 @@ public class Wall : MonoBehaviour
 {
     private Rigidbody rb => GetComponent<Rigidbody>();
 
-    [SerializeField]
-    private Transform StartPos, EndPos;
+    public Transform StartPos, EndPos;
 
     public float speed;
 
@@ -25,6 +24,7 @@ public class Wall : MonoBehaviour
             StartPos.transform.parent = null;
         }
     }
+
     public void GoDown()
     {
         MoveToTarget = true;
