@@ -154,6 +154,7 @@ public class GameManager : MonoBehaviour
             if (!isKilled)
             {
                 isKilled = true;
+                Debug.LogWarning("Truck is killed!");
                 HardPushEndGame();
             }
         }
@@ -331,7 +332,7 @@ public class GameManager : MonoBehaviour
 
             //Enable End Game Screens
             //StartCoroutine(GameSceneManager.instance.FadeInAndOut(2, 2, 3));
-            GameManager.instance.phaseManager.NextPhase();
+            //GameManager.instance.phaseManager.NextPhase();
         }
     }
 
