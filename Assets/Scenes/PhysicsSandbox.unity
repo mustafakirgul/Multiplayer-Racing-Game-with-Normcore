@@ -8666,6 +8666,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a8480ce736b9fb439828dc832c57023, type: 3}
+--- !u!114 &422487279 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4575351312826395874, guid: 192a6e82ccd178e46b67b579c2031b3a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4575351312405547021}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3c2a43d09630764297afdf40ab5b302, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &436306706
 GameObject:
   m_ObjectHideFlags: 0
@@ -79932,6 +79944,17 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 422487279}
+          m_MethodName: SpawnPredeterminedItems
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - startMessage: Kill the ironhog to win the race!
     type: 1
     duration: 0
@@ -81698,6 +81721,95 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Big CheeseBurgers
+--- !u!1001 &4575351312405547021
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2362304983049477165, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: _realtime
+      value: 
+      objectReference: {fileID: 2097422275}
+    - target: {fileID: 2362304983049477165, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: _viewUUID
+      value: b3f208bd-1e6e-45a7-b1a8-9f226c3e6bc9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2362304983668075281, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: _realtime
+      value: 
+      objectReference: {fileID: 2097422275}
+    - target: {fileID: 2362304983668075281, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: _viewUUID
+      value: 2689ddbc-d8be-4b6e-b8cf-4442c595e727
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575351312826395872, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: m_Name
+      value: PrespawnManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575351312826395875, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575351312826395875, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575351312826395875, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575351312826395875, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575351312826395875, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575351312826395875, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575351312826395875, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575351312826395875, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575351312826395875, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575351312826395875, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575351312826395875, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 192a6e82ccd178e46b67b579c2031b3a, type: 3}
 --- !u!1001 &4915209532587630304
 PrefabInstance:
   m_ObjectHideFlags: 0

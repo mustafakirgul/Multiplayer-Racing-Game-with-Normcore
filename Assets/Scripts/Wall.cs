@@ -40,11 +40,13 @@ public class Wall : MonoBehaviour
         //Two bools to avoid wasting update cycles
         if (MoveToTarget)
         {
+            ResetToStart = false;
             MoveWall(EndPos);
         }
 
         if (ResetToStart)
         {
+            MoveToTarget = false;
             MoveWall(StartPos);
         }
     }
