@@ -154,9 +154,8 @@ public class GameManager : MonoBehaviour
             if (!isKilled)
             {
                 isKilled = true;
+                HardPushEndGame();
             }
-
-            HardPushEndGame();
         }
     }
 
@@ -172,7 +171,7 @@ public class GameManager : MonoBehaviour
     public void HardPushEndGame()
     {
         readyToStart = true;
-        GameManager.instance.phaseManager.NextPhase();
+        GameManager.instance._race.NextPhase();
     }
 
     private void Start()
