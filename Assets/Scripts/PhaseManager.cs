@@ -31,6 +31,7 @@ public class PhaseManager : MonoBehaviour
         {
             endOfPhasesEvent.Invoke();
             phase = -1;
+            GameManager.instance._race.ChangePhase(phase);
         }
         else if (phase < phases.Count)
         {
