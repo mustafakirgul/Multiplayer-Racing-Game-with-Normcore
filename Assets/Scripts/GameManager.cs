@@ -13,9 +13,7 @@ public class GameManager : MonoBehaviour
     [Range(0, 359)] public float direction; //y angle of the spawned player
     Vector3 spawnPoint;
 
-    [Space]
-    [Space]
-    [Header("UI and Camera")]
+    [Space] [Space] [Header("UI and Camera")]
     public TextMeshProUGUI playerNameInputField;
 
     public Canvas _enterNameCanvas;
@@ -32,9 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool readyToStart;
     public Truck lootTruck;
 
-    [Space]
-    [Space]
-    [Header("Managers")]
+    [Space] [Space] [Header("Managers")]
     //Managers
     private PlayerManager playerManager;
 
@@ -44,11 +40,9 @@ public class GameManager : MonoBehaviour
 
     public PhaseManager phaseManager;
 
-    [SerializeField]
-    private GameObject[] Walls;
+    [SerializeField] private GameObject[] Walls;
 
-    [SerializeField]
-    bool CanMoveWalls = false;
+    [SerializeField] bool CanMoveWalls = false;
 
     private void OnDrawGizmos()
     {
@@ -88,6 +82,7 @@ public class GameManager : MonoBehaviour
             lootTruck.UpdateToqueFactor(_f);
         }
     }
+
     public void AssignWallsIDs()
     {
         if (Walls.Length != 0)
@@ -125,6 +120,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
     private void Awake()
     {
         SingletonCheck();
@@ -326,12 +322,15 @@ public class GameManager : MonoBehaviour
 
             ThingsToDoBeforeGameEnd();
 
-
-            _realtime.room.Disconnect();
             //Enable End Game Screens
             //StartCoroutine(GameSceneManager.instance.FadeInAndOut(2, 2, 3));
             GameManager.instance.phaseManager.NextPhase();
         }
+    }
+
+    public void DisconnectFromServer()
+    {
+        _realtime.room.Disconnect();
     }
 
     public void StartEndDisplaySequence()
