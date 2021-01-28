@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour
             if (!isKilled)
             {
                 isKilled = true;
-                Debug.LogWarning("Truck is killed!");
+                //Debug.LogWarning("Truck is killed!");
                 HardPushEndGame();
             }
         }

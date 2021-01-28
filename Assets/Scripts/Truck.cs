@@ -58,7 +58,7 @@ public class Truck : RealtimeComponent<TruckModel>
     public void UpdateToqueFactor(float _f)
     {
         _torqueFactor = _f;
-        Debug.LogWarning("Truck Torque Factor = " + _torqueFactor);
+        //Debug.LogWarning("Truck Torque Factor = " + _torqueFactor);
     }
 
     private void Awake()

@@ -19,13 +19,13 @@ public class PhaseManager : MonoBehaviour
 
     public void StartPhaseSystem()
     {
-        Debug.LogWarning("Phase system Start");
+        //Debug.LogWarning("Phase system Start");
         JumpToPhase(0);
     }
 
     public void NextPhase() //called locally by the local game manager, depending on conditions
     {
-        Debug.LogWarning("Previous Phase: " + phase);
+        //Debug.LogWarning("Previous Phase: " + phase);
         phase++;
         if (phase == phases.Count)
         {
@@ -35,7 +35,7 @@ public class PhaseManager : MonoBehaviour
         }
         else if (phase < phases.Count)
         {
-            Debug.LogWarning("Current Phase: " + phase);
+            //Debug.LogWarning("Current Phase: " + phase);
             GameManager.instance._race.ChangePhase(phase);
         }
     }
@@ -46,7 +46,7 @@ public class PhaseManager : MonoBehaviour
         {
             phase = newPhase;
             phases[phase].startEvent.Invoke();
-            Debug.LogWarning("Start Event of Phase " + phase);
+            //Debug.LogWarning("Start Event of Phase " + phase);
             if (phases[phase].startMessage.Length > 0)
             {
                 if (displayMessage != null) StopCoroutine(displayMessage);
