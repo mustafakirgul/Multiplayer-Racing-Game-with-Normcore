@@ -8,7 +8,7 @@ public class LootContainer : MonoBehaviour
     private Loot content => GetComponent<Loot>();
     public GameObject loot, pickup;
     public int id, collectedBy;
-    public float dieDelay = .5f;
+    public float dieDelay = 1f;
     private RealtimeView _realtime => GetComponent<RealtimeView>();
     private bool isNetworkInstance;
 
@@ -31,6 +31,7 @@ public class LootContainer : MonoBehaviour
             _realtime.RequestOwnership();
         }
     }
+
     public int SetID(int _id)
     {
         content.SetID(_id);

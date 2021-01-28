@@ -820,11 +820,14 @@ public class NewCarController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        LootContainer lootbox = collision.gameObject.GetComponent<LootContainer>();
-
-        if (lootbox != null)
+        if (!isNetworkInstance)
         {
-            lootManager.DetermineTypeOfPickUP(ownerID, lootbox.GetCollected(ownerID));
+            LootContainer lootbox = collision.gameObject.GetComponent<LootContainer>();
+
+            if (lootbox != null)
+            {
+                lootManager.DetermineTypeOfPickUP(ownerID, lootbox.GetCollected(ownerID));
+            }
         }
     }
 }
