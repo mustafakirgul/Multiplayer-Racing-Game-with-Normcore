@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] Walls;
 
     [SerializeField] bool CanMoveWalls = false;
-    private bool isKilled;
+    public bool truckIsKilled;
 
     private void OnDrawGizmos()
     {
@@ -149,12 +149,12 @@ public class GameManager : MonoBehaviour
 
     private void TruckHealthCheck()
     {
-        if (lootTruck != null && lootTruck._health <= 0)
+        if (lootTruck._health <= 0 || lootTruck != null)
         {
-            if (!isKilled)
+            if (!truckIsKilled)
             {
-                isKilled = true;
-                //Debug.LogWarning("Truck is killed!");
+                truckIsKilled = true;
+                Debug.LogWarning("Truck is killed!");
                 HardPushEndGame();
             }
         }
@@ -172,7 +172,6 @@ public class GameManager : MonoBehaviour
     public void HardPushEndGame()
     {
         readyToStart = true;
-        GameManager.instance._race.NextPhase();
     }
 
     private void Start()
@@ -253,7 +252,7 @@ public class GameManager : MonoBehaviour
         chaseCam = GameObject.FindObjectOfType<ChaseCam>();
         playerManager = FindObjectOfType<PlayerManager>();
         uIManager = FindObjectOfType<UIManager>();
-        isKilled = false;
+        truckIsKilled = false;
     }
 
     private void DidConnectToRoom(Realtime realtime)
@@ -291,7 +290,8 @@ public class GameManager : MonoBehaviour
     private IEnumerator KeepTrackOfWinConditions(int DelayTime)
     {
         yield return new WaitForSeconds(DelayTime);
-        lootTruck = FindObjectOfType<Truck>();
+        if (lootTruck == null)
+            lootTruck = FindObjectOfType<Truck>();
         playerManager.UpdateExistingPlayers();
         StartCoroutine(LootTruckHealthCheck());
     }
@@ -383,13 +383,13 @@ public class GameManager : MonoBehaviour
         //    rtt.room.Disconnect();
         //}
 
-        foreach (Realtime rt in _rtViews)
+        /*foreach (Realtime rt in _rtViews)
         {
             if (!rt.transform.GetComponent<GameManager>())
             {
                 Realtime.Destroy(rt);
             }
-        }
+        }*/
     }
 }
 
