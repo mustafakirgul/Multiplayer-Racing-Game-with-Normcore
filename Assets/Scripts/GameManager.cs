@@ -166,6 +166,7 @@ public class GameManager : MonoBehaviour
     public void HardPushEndGame()
     {
         readyToStart = true;
+        GameManager.instance.phaseManager.NextPhase();
     }
 
     private void Start()
