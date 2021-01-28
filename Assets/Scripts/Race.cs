@@ -39,7 +39,7 @@ public class Race : RealtimeComponent<RaceModel>
             if (GameManager.instance.phaseManager.phases[GameManager.instance.phaseManager.phase].type ==
                 PhaseType.conditionBased)
             {
-                model.phase += 1;
+                GameManager.instance.phaseManager.NextPhase();
             }
         }
     }
