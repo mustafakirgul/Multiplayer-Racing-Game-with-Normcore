@@ -151,6 +151,11 @@ public class GameManager : MonoBehaviour
     {
         if (lootTruck != null && lootTruck._health <= 0)
         {
+            if (!isKilled)
+            {
+                isKilled = true;
+            }
+
             HardPushEndGame();
         }
     }
@@ -159,12 +164,7 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            if (!isKilled)
-            {
-                isKilled = true;
-                TruckHealthCheck();
-            }
-
+            TruckHealthCheck();
             yield return new WaitForSeconds(2f);
         }
     }
