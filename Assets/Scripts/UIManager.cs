@@ -50,6 +50,8 @@ public class UIManager : MonoBehaviour
 
     public CanvasGroup damageIndicatorCanvasGroup;
 
+    public GameObject IronHogHPBar;
+
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
