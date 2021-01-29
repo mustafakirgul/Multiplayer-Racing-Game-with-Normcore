@@ -13,9 +13,7 @@ public class GameManager : MonoBehaviour
     [Range(0, 359)] public float direction; //y angle of the spawned player
     Vector3 spawnPoint;
 
-    [Space]
-    [Space]
-    [Header("UI and Camera")]
+    [Space] [Space] [Header("UI and Camera")]
     public TextMeshProUGUI playerNameInputField;
 
     public Canvas _enterNameCanvas;
@@ -32,9 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool readyToStart;
     public Truck lootTruck;
 
-    [Space]
-    [Space]
-    [Header("Managers")]
+    [Space] [Space] [Header("Managers")]
     //Managers
     private PlayerManager playerManager;
 
@@ -44,7 +40,7 @@ public class GameManager : MonoBehaviour
 
     public PhaseManager phaseManager;
 
-    [SerializeField] private GameObject[] Walls;
+    public GameObject[] Walls;
 
     [SerializeField] bool CanMoveWalls = false;
     public bool truckIsKilled;
@@ -160,7 +156,7 @@ public class GameManager : MonoBehaviour
             if (!truckIsKilled)
             {
                 truckIsKilled = true;
-                Debug.LogWarning("Truck is killed!");
+                Debug.LogWarning("IronHog has been killed!");
                 HardPushEndGame();
             }
         }
@@ -261,7 +257,8 @@ public class GameManager : MonoBehaviour
 
     public void FixAssociations()
     {
-        lootTruck = FindObjectOfType<Truck>();
+        if (lootTruck == null)
+            lootTruck = FindObjectOfType<Truck>();
         playerNameInputField = GameObject.FindGameObjectWithTag("enterNameField").GetComponent<TextMeshProUGUI>();
         _enterNameCanvas = GameObject.FindGameObjectWithTag("enterNameCanvas").GetComponent<Canvas>();
         _miniMapCamera = GameObject.FindGameObjectWithTag("miniMapCamera").GetComponent<Camera>();
