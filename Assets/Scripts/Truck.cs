@@ -338,6 +338,7 @@ public class Truck : RealtimeComponent<TruckModel>
     void HealthChanged(TruckModel truckModel, float value)
     {
         _health = model.health;
+        GameManager.instance.TruckHealthCheck();
     }
 
     void ForcesChanged(TruckModel truckModel, Vector3 value)

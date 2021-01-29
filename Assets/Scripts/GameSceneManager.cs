@@ -13,8 +13,7 @@ public class GameSceneManager : MonoBehaviour
 
     public bool m_bisAutomatedSplashes;
 
-    [SerializeField]
-    private int m_iSplashIndex = 0;
+    [SerializeField] private int m_iSplashIndex = 0;
 
     public Splash[] GameStartSplashes;
     public Splash[] GameEndSplashes;
@@ -22,7 +21,9 @@ public class GameSceneManager : MonoBehaviour
     bool transitionStarted;
 
     #region Singleton Logic
+
     public static GameSceneManager instance = null;
+
     private void SingletonCheck()
     {
         if (instance != null && instance != this)
@@ -30,10 +31,14 @@ public class GameSceneManager : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
+
         instance = this;
+        transform.SetParent(null);
         DontDestroyOnLoad(this.gameObject);
     }
+
     #endregion
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -75,6 +80,7 @@ public class GameSceneManager : MonoBehaviour
             blackSquareBox = transform.GetChild(0).gameObject;
         }
     }
+
     private void StartSplashSequence()
     {
         if (m_bisAutomatedSplashes)
@@ -89,14 +95,15 @@ public class GameSceneManager : MonoBehaviour
         }
         else
         {
-
         }
     }
+
     private void ShowSplash(int SplashIndex)
     {
         if (SplashIndex < GameStartSplashes.Length)
         {
-            StartCoroutine(FadeInAndOutSplash(m_fFadeTime, m_fFadeTime, GameStartSplashes[SplashIndex].duration, SplashIndex));
+            StartCoroutine(FadeInAndOutSplash(m_fFadeTime, m_fFadeTime, GameStartSplashes[SplashIndex].duration,
+                SplashIndex));
         }
         else
         {
@@ -107,6 +114,7 @@ public class GameSceneManager : MonoBehaviour
             StartCoroutine(FadeToBlackOutSquare(false, 2));
         }
     }
+
     public IEnumerator FadeToBlackOutSquare(bool fadeToBlack, float fadeSpeedTime)
     {
         Color fadeColor = blackSquareBox.GetComponent<Image>().color;
@@ -117,7 +125,6 @@ public class GameSceneManager : MonoBehaviour
             //Fade Out (Screen turns black)
             while (blackSquareBox.GetComponent<Image>().color.a < 1)
             {
-
                 fadeAmt = fadeColor.a + (Time.deltaTime / fadeSpeedTime);
 
                 fadeColor = new Color(fadeColor.r, fadeColor.g, fadeColor.b, fadeAmt);
@@ -187,6 +194,7 @@ public class GameSceneManager : MonoBehaviour
             }
         }
     }
+
     public IEnumerator DelaySceneTransiton(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
@@ -207,7 +215,6 @@ public class GameSceneManager : MonoBehaviour
         //Display only new weapons that are dropped, avoid duplicating them in the UI
         GameManager.instance.uIManager.AssignAdditionalLootFromGameToDisplay();
         //LootManager.instance.playerObtainedLoot
-
     }
 }
 

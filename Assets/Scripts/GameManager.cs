@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
         }
 
         instance = this;
+        transform.parent = null;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -157,7 +158,7 @@ public class GameManager : MonoBehaviour
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
     }
 
-    private void TruckHealthCheck()
+    public void TruckHealthCheck()
     {
         if (lootTruck._health <= 0)
         {
@@ -183,14 +184,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator LootTruckHealthCheck()
+    /*IEnumerator LootTruckHealthCheck()
     {
         while (true)
         {
             TruckHealthCheck();
-            yield return new WaitForSeconds(2f);
+            yield return new waitf(2f);
         }
-    }
+    }*/
 
     private void Start()
     {
@@ -317,7 +318,7 @@ public class GameManager : MonoBehaviour
         }
 
         phaseManager.StartPhaseSystem();
-        TruckHealthCheckCR = StartCoroutine(LootTruckHealthCheck());
+        //TruckHealthCheckCR = StartCoroutine(LootTruckHealthCheck());
         //Debug.LogWarning("HealthCheckStartedAtTheBeginningOfTheGame");
     }
 

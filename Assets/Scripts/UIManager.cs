@@ -67,6 +67,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        transform.SetParent(null);
         if (damageIndicatorCanvasGroup != null)
             damageIndicatorCanvasGroup.alpha = 0f;
         _gameManager.FixAssociations();
@@ -137,6 +138,7 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+
     public void InitTruckHealth()
     {
         InitTruckHealthCR = StartCoroutine(InitializeTruckHealthBar());
@@ -144,13 +146,14 @@ public class UIManager : MonoBehaviour
 
     public void DeactivateTruckHealthUI()
     {
-        if(InitTruckHealthCR != null)
-        StopCoroutine(InitTruckHealthCR);
-        if(UpdateTruckHealthCR != null)
-        StopCoroutine(UpdateTruckHealthCR);
+        if (InitTruckHealthCR != null)
+            StopCoroutine(InitTruckHealthCR);
+        if (UpdateTruckHealthCR != null)
+            StopCoroutine(UpdateTruckHealthCR);
         IronHogHPBar.gameObject.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
         IronHogHPBar.SetActive(false);
     }
+
     private IEnumerator InitializeTruckHealthBar()
     {
         IronHogHPBar.SetActive(true);
@@ -165,6 +168,7 @@ public class UIManager : MonoBehaviour
 
         UpdateTruckHealthCR = StartCoroutine(UpdateTruckHealthUI());
     }
+
     private IEnumerator UpdateTruckHealthUI()
     {
         Image HealthBar = IronHogHPBar.gameObject.transform.GetChild(0).GetComponent<Image>();
@@ -176,6 +180,7 @@ public class UIManager : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
+
     public void ReactivateLogin()
     {
         DisableUI();

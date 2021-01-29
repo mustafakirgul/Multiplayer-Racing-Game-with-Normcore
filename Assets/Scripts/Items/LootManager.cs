@@ -20,6 +20,7 @@ public class LootManager : MonoBehaviour
             return;
         }
         instance = this;
+        transform.parent = null;
         DontDestroyOnLoad(gameObject);
     }
     #endregion

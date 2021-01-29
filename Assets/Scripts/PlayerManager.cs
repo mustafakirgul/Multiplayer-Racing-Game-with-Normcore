@@ -35,6 +35,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         instance = this;
+        transform.parent = null;
         DontDestroyOnLoad(this.gameObject);
     }
 
