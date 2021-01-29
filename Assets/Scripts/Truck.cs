@@ -50,6 +50,8 @@ public class Truck : RealtimeComponent<TruckModel>
     public float damageDisplayTime;
     private WaitForSeconds wait;
 
+    private RealtimeTransform rtTransform => GetComponent<RealtimeTransform>();
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position + lootLaunchPoint, 1f);
@@ -225,6 +227,7 @@ public class Truck : RealtimeComponent<TruckModel>
         if (realtimeView.isUnownedInHierarchy)
         {
             realtimeView.SetOwnership(PlayerManager.instance.RequestOwner());
+            rtTransform.SetOwnership(PlayerManager.instance.RequestOwner());
         }
     }
 
