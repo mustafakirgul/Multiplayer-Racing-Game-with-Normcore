@@ -101,8 +101,8 @@ public class PlayerManager : MonoBehaviour
                 position: spawnPoint,
                 rotation: Quaternion.Euler(0, spawnRotation, 0),
                 ownedByClient: true,
-                preventOwnershipTakeover: true,
-                destroyWhenOwnerOrLastClientLeaves: false,
+                preventOwnershipTakeover: false,
+                destroyWhenOwnerOrLastClientLeaves: true,
                 useInstance: _realtime);
             _temp.GetComponent<Truck>().StartHealth();
         }
