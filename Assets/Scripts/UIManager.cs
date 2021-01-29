@@ -144,7 +144,9 @@ public class UIManager : MonoBehaviour
 
     public void DeactivateTruckHealthUI()
     {
+        if(InitTruckHealthCR != null)
         StopCoroutine(InitTruckHealthCR);
+        if(UpdateTruckHealthCR != null)
         StopCoroutine(UpdateTruckHealthCR);
         IronHogHPBar.gameObject.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
         IronHogHPBar.SetActive(false);

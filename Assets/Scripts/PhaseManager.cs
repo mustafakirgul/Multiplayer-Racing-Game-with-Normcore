@@ -26,6 +26,7 @@ public class PhaseManager : MonoBehaviour
     public void NextPhase() //called locally by the local game manager, depending on conditions
     {
         //Debug.LogWarning("Previous Phase: " + phase);
+        if(GameManager.instance.lootTruck.isOwnedLocallyInHierarchy)
         phase++;
         if (phase == phases.Count)
         {
