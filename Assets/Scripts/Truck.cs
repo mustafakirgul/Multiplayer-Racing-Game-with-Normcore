@@ -220,6 +220,14 @@ public class Truck : RealtimeComponent<TruckModel>
         }
     }
 
+    private void LateUpdate()
+    {
+        if (realtimeView.isUnownedInHierarchy)
+        {
+            realtimeView.SetOwnership(PlayerManager.instance.RequestOwner());
+        }
+    }
+
     public void AddExplosionForce(Vector3 _origin)
     {
         if (!isNetworkInstance)
@@ -339,6 +347,7 @@ public class Truck : RealtimeComponent<TruckModel>
     {
         _health = value;
     }
+
     void ForcesChanged(TruckModel model, Vector3 value)
     {
         _explosionForce = value;

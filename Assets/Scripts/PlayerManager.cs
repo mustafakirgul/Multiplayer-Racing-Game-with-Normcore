@@ -85,13 +85,9 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    internal Transform RequestOwner(List<RealtimeTransform> _transforms)
+    public int RequestOwner()
     {
-        for (int i = 0; i < _transforms.Count; i++)
-        {
-            _transforms[i].SetOwnership(_realtime.clientID);
-        }
-        return localPlayer;
+        return _realtime.clientID;
     }
 
     public void AddLocalPlayer(Transform _player)

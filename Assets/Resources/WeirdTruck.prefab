@@ -894,8 +894,8 @@ MonoBehaviour:
   _syncPosition: 1
   _syncRotation: 1
   _syncScale: 0
-  _syncVelocity: 0
-  _maintainOwnershipWhileSleeping: 1
+  _syncVelocity: 1
+  _maintainOwnershipWhileSleeping: 0
 --- !u!1 &2538681255026893905
 GameObject:
   m_ObjectHideFlags: 0
