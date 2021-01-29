@@ -86,6 +86,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void UpdateLootTruckHandBrakeState(bool _b)
+    {
+        if (lootTruck != null)
+        {
+            lootTruck.Handrake(_b);
+        }
+    }
+
     public void AssignWallsIDs()
     {
         if (Walls.Length != 0)
@@ -158,7 +166,7 @@ public class GameManager : MonoBehaviour
                 phaseManager.NextPhase();
                 truckIsKilled = true;
                 readyToStart = true;
-                Debug.LogWarning("IronHog has been killed!");
+                //Debug.LogWarning("IronHog has been killed!");
             }
         }
     }
@@ -293,8 +301,6 @@ public class GameManager : MonoBehaviour
         _enterNameCanvas.gameObject.SetActive(false);
 
         StartCoroutine(KeepTrackOfWinConditions(3));
-        phaseManager.StartPhaseSystem();
-
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
     }
 
@@ -307,11 +313,12 @@ public class GameManager : MonoBehaviour
         if (TruckHealthCheckCR != null)
         {
             StopCoroutine(TruckHealthCheckCR);
-            Debug.LogWarning("HealthCheckStoppedAtTheBeginningOfTheGame");
+            //Debug.LogWarning("HealthCheckStoppedAtTheBeginningOfTheGame");
         }
 
+        phaseManager.StartPhaseSystem();
         TruckHealthCheckCR = StartCoroutine(LootTruckHealthCheck());
-        Debug.LogWarning("HealthCheckStartedAtTheBeginningOfTheGame");
+        //Debug.LogWarning("HealthCheckStartedAtTheBeginningOfTheGame");
     }
 
     private IEnumerator CountDownTimeContinously()
@@ -387,7 +394,7 @@ public class GameManager : MonoBehaviour
         //Disable other things that needs to be disabled in game
         uIManager.timeRemaining.ClearMesh();
         StopCoroutine(TruckHealthCheckCR);
-        Debug.LogWarning("HealthCheckStoppedAtTheEndOfTheGame");
+        //Debug.LogWarning("HealthCheckStoppedAtTheEndOfTheGame");
         _race.ChangeGameTime(0);
     }
 }

@@ -45,13 +45,13 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         }
     }
 
-    private void UpdateExplosionState(ProjectileModel model, bool _ifExploded)
+    private void UpdateExplosionState(ProjectileModel projectileModel, bool value)
     {
         //Checks for explosion of networked projectiles
         //Once state changes sync with server to make projectile explodes
-        if (isExploded != model.exploded) // there is a change
+        if (isExploded != projectileModel.exploded) // there is a change
         {
-            if (model.exploded) // explosion
+            if (projectileModel.exploded) // explosion
             {
                 //No matter if local or server instance, when the projectile explosion state
                 //is updated and if there is an explosion animation, activate it
@@ -60,7 +60,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                     explosion.SetActive(true);
                 }
 
-                isExploded = model.exploded;
+                isExploded = projectileModel.exploded;
             }
         }
     }

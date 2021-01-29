@@ -20,14 +20,15 @@ public class PhaseManager : MonoBehaviour
     public void StartPhaseSystem()
     {
         //Debug.LogWarning("Phase system Start");
-        JumpToPhase(0);
+        if (GameManager.instance.lootTruck.isOwnedLocallyInHierarchy)
+            JumpToPhase(0);
     }
 
     public void NextPhase() //called locally by the local game manager, depending on conditions
     {
         //Debug.LogWarning("Previous Phase: " + phase);
-        if (GameManager.instance.lootTruck.isOwnedLocallyInHierarchy)
-            phase++;
+        if (!GameManager.instance.lootTruck.isOwnedLocallyInHierarchy) return;
+        phase++;
         if (phase == phases.Count)
         {
             endOfPhasesEvent.Invoke();

@@ -61,6 +61,11 @@ public class Truck : RealtimeComponent<TruckModel>
         //Debug.LogWarning("Truck Torque Factor = " + _torqueFactor);
     }
 
+    public void Handrake(bool state)
+    {
+        _handBrake = state;
+    }
+
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
