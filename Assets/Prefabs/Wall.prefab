@@ -290,6 +290,7 @@ MonoBehaviour:
   StartPos: {fileID: 9137782742528001613}
   EndPos: {fileID: 32722748}
   speed: 5
+  resetSpeed: 15
   MoveToTarget: 0
   ResetToStart: 0
 --- !u!65 &2635713673487937264

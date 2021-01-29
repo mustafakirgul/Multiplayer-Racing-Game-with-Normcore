@@ -9,9 +9,11 @@ public class Wall : MonoBehaviour
 
     public Transform StartPos, EndPos;
 
-    public float speed;
+    public float speed, resetSpeed;
 
     public bool MoveToTarget, ResetToStart;
+
+    float step;
 
     private void Start()
     {
@@ -56,7 +58,15 @@ public class Wall : MonoBehaviour
 
     private void MoveWall(Transform target)
     {
-        float step = speed * Time.deltaTime;
+        if (MoveToTarget)
+        {
+            step = speed * Time.deltaTime;
+        }
+        else
+        {
+            step = resetSpeed * Time.deltaTime;
+        }
+
         transform.position = Vector3.MoveTowards(transform.position, target.position, step);
 
         if (Vector3.Distance(transform.position, target.position) <= 1f)
