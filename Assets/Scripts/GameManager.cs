@@ -45,8 +45,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] bool CanMoveWalls = false;
     public bool truckIsKilled;
 
-    Coroutine TruckHealthCheckCR;
-
     private void OnDrawGizmos()
     {
         float radians = direction * Mathf.Deg2Rad;
@@ -160,6 +158,8 @@ public class GameManager : MonoBehaviour
 
     public void TruckHealthCheck()
     {
+        if (lootTruck == null) return;
+
         if (lootTruck._health <= 0)
         {
             if (!truckIsKilled)
@@ -311,12 +311,6 @@ public class GameManager : MonoBehaviour
         if (lootTruck == null)
             lootTruck = FindObjectOfType<Truck>();
         playerManager.UpdateExistingPlayers();
-        if (TruckHealthCheckCR != null)
-        {
-            StopCoroutine(TruckHealthCheckCR);
-            //Debug.LogWarning("HealthCheckStoppedAtTheBeginningOfTheGame");
-        }
-
         phaseManager.StartPhaseSystem();
         //TruckHealthCheckCR = StartCoroutine(LootTruckHealthCheck());
         //Debug.LogWarning("HealthCheckStartedAtTheBeginningOfTheGame");
@@ -394,7 +388,6 @@ public class GameManager : MonoBehaviour
 
         //Disable other things that needs to be disabled in game
         uIManager.timeRemaining.ClearMesh();
-        StopCoroutine(TruckHealthCheckCR);
         //Debug.LogWarning("HealthCheckStoppedAtTheEndOfTheGame");
         _race.ChangeGameTime(0);
     }
