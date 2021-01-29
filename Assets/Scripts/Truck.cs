@@ -330,17 +330,17 @@ public class Truck : RealtimeComponent<TruckModel>
         }
     }
 
-    void HealthChanged(TruckModel model, float value)
+    void HealthChanged(TruckModel truckModel, float value)
     {
         _health = model.health;
     }
 
-    void ForcesChanged(TruckModel model, Vector3 value)
+    void ForcesChanged(TruckModel truckModel, Vector3 value)
     {
         _explosionForce = model.explosionPoint;
     }
 
-    void OwnerChanged(TruckModel model, int value)
+    void OwnerChanged(TruckModel truckModel, int value)
     {
         _owner = model.owner;
     }
