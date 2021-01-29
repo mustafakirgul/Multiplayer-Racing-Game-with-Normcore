@@ -338,7 +338,21 @@ public class Truck : RealtimeComponent<TruckModel>
     void HealthChanged(TruckModel truckModel, float value)
     {
         _health = model.health;
-        GameManager.instance.TruckHealthCheck();
+        TruckHealthCheck();
+    }
+
+    public void TruckHealthCheck()
+    {
+        if (_health <= 0)
+        {
+            if (!GameManager.instance.truckIsKilled)
+            {
+                GameManager.instance.truckIsKilled = true;
+                GameManager.instance.readyToStart = true;
+                GameManager.instance.phaseManager.NextPhase();
+                //Debug.LogWarning("IronHog has been killed!");
+            }
+        }
     }
 
     void ForcesChanged(TruckModel truckModel, Vector3 value)

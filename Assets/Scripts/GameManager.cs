@@ -26,8 +26,8 @@ public class GameManager : MonoBehaviour
     public float m_fMaxTimer;
     public float m_localTimer;
     public int m_iNumOfPlayersForGameStart;
-    [SerializeField] public Race _race;
-    [SerializeField] private bool readyToStart;
+    public Race _race;
+    public bool readyToStart;
     public Truck lootTruck;
 
     [Space] [Space] [Header("Managers")]
@@ -154,22 +154,6 @@ public class GameManager : MonoBehaviour
             UnityEngine.Random.Range(center.z - (size.z * .5f), center.z + (size.z * .5f))
         );
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
-    }
-
-    public void TruckHealthCheck()
-    {
-        if (lootTruck == null) return;
-
-        if (lootTruck._health <= 0)
-        {
-            if (!truckIsKilled)
-            {
-                phaseManager.NextPhase();
-                truckIsKilled = true;
-                readyToStart = true;
-                //Debug.LogWarning("IronHog has been killed!");
-            }
-        }
     }
 
     private void ResetBoolsForNewRound()
