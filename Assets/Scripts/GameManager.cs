@@ -155,9 +155,9 @@ public class GameManager : MonoBehaviour
         {
             if (!truckIsKilled)
             {
+                phaseManager.NextPhase();
                 truckIsKilled = true;
                 Debug.LogWarning("IronHog has been killed!");
-                HardPushEndGame();
             }
         }
     }
@@ -294,10 +294,9 @@ public class GameManager : MonoBehaviour
         _temp.GetComponent<ItemDataProcessor>().ObtainLoadOutData(lootManager.ObatinCurrentBuild());
         FindObjectOfType<MiniMapCamera>()._master = _temp.transform;
         ResetBoolsForNewRound();
-        _miniMapCamera.enabled = true;
         _enterNameCanvas.gameObject.SetActive(false);
 
-        StartCoroutine(KeepTrackOfWinConditions(5));
+        StartCoroutine(KeepTrackOfWinConditions(3));
         phaseManager.StartPhaseSystem();
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
     }
@@ -308,6 +307,11 @@ public class GameManager : MonoBehaviour
         if (lootTruck == null)
             lootTruck = FindObjectOfType<Truck>();
         playerManager.UpdateExistingPlayers();
+        if (TruckHealthCheckCR != null)
+        {
+            StopCoroutine(TruckHealthCheckCR);
+        }
+
         TruckHealthCheckCR = StartCoroutine(LootTruckHealthCheck());
     }
 
@@ -347,7 +351,6 @@ public class GameManager : MonoBehaviour
 
             //Enable End Game Screens
             //StartCoroutine(GameSceneManager.instance.FadeInAndOut(2, 2, 3));
-            GameManager.instance.phaseManager.NextPhase();
         }
     }
 
@@ -378,33 +381,14 @@ public class GameManager : MonoBehaviour
         //gather race information and store it for evaluation later
         //-----------------------------------------------------------
 
-        //destroy all players
-        //destroy truck
-        //unown all realtimeviews
-        //destroy anything that contains realtime components, using realtime.destroy
 
         //Loot manager will need to be update with new roles to do
         //Loot manager needs to know consumables/powerups like scrap that can persist
 
-        Realtime[] _rtViews = FindObjectsOfType<Realtime>();
-        RealtimeTransform[] _rtTransforms = FindObjectsOfType<RealtimeTransform>();
-
-        //Disable MiniMap Camera and other things that needs to be disabled in game
-        _miniMapCamera.enabled = false;
+        //Disable other things that needs to be disabled in game
         uIManager.timeRemaining.ClearMesh();
-
-        //foreach (RealtimeTransform rtt in _rtTransforms)
-        //{
-        //    rtt.room.Disconnect();
-        //}
         StopCoroutine(TruckHealthCheckCR);
-        /*foreach (Realtime rt in _rtViews)
-        {
-            if (!rt.transform.GetComponent<GameManager>())
-            {
-                Realtime.Destroy(rt);
-            }
-        }*/
+        HardPushEndGame();
     }
 }
 
