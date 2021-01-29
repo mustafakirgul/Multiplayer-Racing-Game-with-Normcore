@@ -93,11 +93,14 @@ public class PlayerManager : MonoBehaviour
 
         return localPlayer;
     }
+
     public void AddLocalPlayer(Transform _player)
     {
         localPlayer = _player;
+
         UpdateExistingPlayers();
-        if (FindObjectOfType<Truck>() == null)
+        Truck truck = FindObjectOfType<Truck>();
+        if (truck == null)
         {
             _temp = Realtime.Instantiate("WeirdTruck",
                 position: spawnPoint,
@@ -108,7 +111,7 @@ public class PlayerManager : MonoBehaviour
                 useInstance: _realtime);
             _temp.GetComponent<Truck>().StartHealth();
         }
-        else if (FindObjectOfType<Truck>().GetComponent<RealtimeTransform>().isUnownedSelf)
+        else if (truck.GetComponent<RealtimeTransform>().isUnownedSelf)
         {
             _temp = FindObjectOfType<Truck>().gameObject;
             _temp.GetComponent<RealtimeView>().RequestOwnership();
@@ -116,6 +119,10 @@ public class PlayerManager : MonoBehaviour
             _temp.transform.position = spawnPoint;
             _temp.transform.rotation = Quaternion.Euler(0, spawnRotation, 0);
             _temp.GetComponent<Truck>().StartHealth();
+        }
+        else
+        {
+            truck.StartHealth();
         }
     }
 
