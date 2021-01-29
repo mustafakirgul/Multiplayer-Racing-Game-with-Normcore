@@ -46,7 +46,7 @@ public class PlayerManager : MonoBehaviour
     public Transform localPlayer;
 
     GameObject _temp;
-    Realtime _realtime;
+    public Realtime _realtime;
 
     private void Awake()
     {
@@ -101,7 +101,7 @@ public class PlayerManager : MonoBehaviour
                 position: spawnPoint,
                 rotation: Quaternion.Euler(0, spawnRotation, 0),
                 ownedByClient: true,
-                preventOwnershipTakeover: false,
+                preventOwnershipTakeover: true,
                 destroyWhenOwnerOrLastClientLeaves: false,
                 useInstance: _realtime);
             _temp.GetComponent<Truck>().StartHealth();
