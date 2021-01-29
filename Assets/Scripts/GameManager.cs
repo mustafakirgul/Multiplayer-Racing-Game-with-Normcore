@@ -158,7 +158,7 @@ public class GameManager : MonoBehaviour
                 phaseManager.NextPhase();
                 truckIsKilled = true;
                 readyToStart = true;
-                Debug.LogWarning("IronHog has been killed!");
+                //Debug.LogWarning("IronHog has been killed!");
             }
         }
     }
@@ -307,11 +307,11 @@ public class GameManager : MonoBehaviour
         if (TruckHealthCheckCR != null)
         {
             StopCoroutine(TruckHealthCheckCR);
-            Debug.LogWarning("HealthCheckStoppedAtTheBeginningOfTheGame");
+            //Debug.LogWarning("HealthCheckStoppedAtTheBeginningOfTheGame");
         }
 
         TruckHealthCheckCR = StartCoroutine(LootTruckHealthCheck());
-        Debug.LogWarning("HealthCheckStartedAtTheBeginningOfTheGame");
+        //Debug.LogWarning("HealthCheckStartedAtTheBeginningOfTheGame");
     }
 
     private IEnumerator CountDownTimeContinously()
@@ -337,10 +337,10 @@ public class GameManager : MonoBehaviour
             uIManager.timeRemaining.ClearMesh();
             uIManager.timeRemaining.SetText(_temp.ToString("F2"));
         }
-
-        //Update the timer for all managers instances
-        if (_temp <= 0)
+        else
         {
+            _race.ChangeGameTime(0d);
+            _race.ChangePhase(-1);
             //SceneTransition Commence Logic should be here
             //Fade out of scene first
             //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 2));
@@ -387,8 +387,7 @@ public class GameManager : MonoBehaviour
         //Disable other things that needs to be disabled in game
         uIManager.timeRemaining.ClearMesh();
         StopCoroutine(TruckHealthCheckCR);
-        Debug.LogWarning("HealthCheckStoppedAtTheEndOfTheGame");
-        _race.ChangeGameTime(0);
+        //Debug.LogWarning("HealthCheckStoppedAtTheEndOfTheGame");
     }
 }
 
