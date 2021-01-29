@@ -13,7 +13,9 @@ public class GameManager : MonoBehaviour
     [Range(0, 359)] public float direction; //y angle of the spawned player
     Vector3 spawnPoint;
 
-    [Space] [Space] [Header("UI and Camera")]
+    [Space]
+    [Space]
+    [Header("UI and Camera")]
     public TextMeshProUGUI playerNameInputField;
 
     public Canvas _enterNameCanvas;
@@ -30,7 +32,9 @@ public class GameManager : MonoBehaviour
     public bool readyToStart;
     public Truck lootTruck;
 
-    [Space] [Space] [Header("Managers")]
+    [Space]
+    [Space]
+    [Header("Managers")]
     //Managers
     private PlayerManager playerManager;
 
@@ -167,6 +171,19 @@ public class GameManager : MonoBehaviour
             lootTruck.StartHealth();
         }
     }
+    public void TruckHealthCheck()
+    {
+        if (lootTruck._health <= 0)
+        {
+            if (!GameManager.instance.truckIsKilled)
+            {
+                GameManager.instance.truckIsKilled = true;
+                GameManager.instance.readyToStart = true;
+                GameManager.instance.phaseManager.NextPhase();
+                //Debug.LogWarning("IronHog has been killed!");
+            }
+        }
+    }
 
     private void Start()
     {
@@ -197,6 +214,11 @@ public class GameManager : MonoBehaviour
                 isCountingDown = true;
                 StartCoroutine(CountDownTimeContinously());
             }
+        }
+
+        if (lootTruck != null)
+        {
+            TruckHealthCheck();
         }
     }
 
@@ -230,7 +252,7 @@ public class GameManager : MonoBehaviour
         if (playerNameInputField.text.Length > 0)
         {
             Debug.Log(preferredCar);
-            _realtime.Connect("UGP_TEST");
+            _realtime.Connect("UGP_TEST1");
 
             //Coroutines tend to mess up here due to connection/network related
             //issues

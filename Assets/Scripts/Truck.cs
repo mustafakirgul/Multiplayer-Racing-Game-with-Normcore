@@ -335,34 +335,18 @@ public class Truck : RealtimeComponent<TruckModel>
         }
     }
 
-    void HealthChanged(TruckModel truckModel, float value)
+    void HealthChanged(TruckModel model, float value)
     {
-        _health = model.health;
-        TruckHealthCheck();
+        _health = value;
+    }
+    void ForcesChanged(TruckModel model, Vector3 value)
+    {
+        _explosionForce = value;
     }
 
-    public void TruckHealthCheck()
+    void OwnerChanged(TruckModel model, int value)
     {
-        if (model.health <= 0)
-        {
-            if (!GameManager.instance.truckIsKilled)
-            {
-                GameManager.instance.truckIsKilled = true;
-                GameManager.instance.readyToStart = true;
-                GameManager.instance.phaseManager.NextPhase();
-                //Debug.LogWarning("IronHog has been killed!");
-            }
-        }
-    }
-
-    void ForcesChanged(TruckModel truckModel, Vector3 value)
-    {
-        _explosionForce = model.explosionPoint;
-    }
-
-    void OwnerChanged(TruckModel truckModel, int value)
-    {
-        _owner = model.owner;
+        _owner = value;
     }
 
     #endregion
