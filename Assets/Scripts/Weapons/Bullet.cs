@@ -162,7 +162,7 @@ public class Bullet : RealtimeComponent<ProjectileModel>
         yield return wait1Sec;
         explosion.SetActive(false);
         yield return wait1Sec;
-        Realtime.Destroy(gameObject);
+        if (realtimeView.isOwnedLocallyInHierarchy) Realtime.Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
