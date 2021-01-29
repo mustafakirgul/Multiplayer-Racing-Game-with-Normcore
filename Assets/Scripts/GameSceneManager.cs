@@ -44,7 +44,6 @@ public class GameSceneManager : MonoBehaviour
     {
         //Check if this is the only instance of a singleton
         SingletonCheck();
-        StopAllCoroutines();
         transitionStarted = false;
         //Obtain reference to fade box
         ObtainReferenceToBox();
