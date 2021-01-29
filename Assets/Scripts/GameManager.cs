@@ -13,7 +13,9 @@ public class GameManager : MonoBehaviour
     [Range(0, 359)] public float direction; //y angle of the spawned player
     Vector3 spawnPoint;
 
-    [Space] [Space] [Header("UI and Camera")]
+    [Space]
+    [Space]
+    [Header("UI and Camera")]
     public TextMeshProUGUI playerNameInputField;
 
     public Canvas _enterNameCanvas;
@@ -30,7 +32,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool readyToStart;
     public Truck lootTruck;
 
-    [Space] [Space] [Header("Managers")]
+    [Space]
+    [Space]
+    [Header("Managers")]
     //Managers
     private PlayerManager playerManager;
 
@@ -44,6 +48,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] bool CanMoveWalls = false;
     public bool truckIsKilled;
+
+    Coroutine TruckHealthCheckCR;
 
     private void OnDrawGizmos()
     {
@@ -149,7 +155,7 @@ public class GameManager : MonoBehaviour
 
     private void TruckHealthCheck()
     {
-        if (lootTruck._health <= 0 || lootTruck != null)
+        if (lootTruck._health <= 0)
         {
             if (!truckIsKilled)
             {
@@ -157,6 +163,18 @@ public class GameManager : MonoBehaviour
                 Debug.LogWarning("Truck is killed!");
                 HardPushEndGame();
             }
+        }
+    }
+
+    private void ResetBoolsForNewRound()
+    {
+        truckIsKilled = false;
+        readyToStart = false;
+        isCountingDown = false;
+
+        if (lootTruck != null)
+        {
+            lootTruck.StartHealth();
         }
     }
 
@@ -277,8 +295,8 @@ public class GameManager : MonoBehaviour
 
         _temp.GetComponent<Player>().SetPlayerName(playerNameInputField.text);
         _temp.GetComponent<ItemDataProcessor>().ObtainLoadOutData(lootManager.ObatinCurrentBuild());
-
         FindObjectOfType<MiniMapCamera>()._master = _temp.transform;
+        ResetBoolsForNewRound();
         _miniMapCamera.enabled = true;
         _enterNameCanvas.gameObject.SetActive(false);
 
@@ -293,7 +311,7 @@ public class GameManager : MonoBehaviour
         if (lootTruck == null)
             lootTruck = FindObjectOfType<Truck>();
         playerManager.UpdateExistingPlayers();
-        StartCoroutine(LootTruckHealthCheck());
+        TruckHealthCheckCR = StartCoroutine(LootTruckHealthCheck());
     }
 
     private IEnumerator CountDownTimeContinously()
@@ -332,7 +350,7 @@ public class GameManager : MonoBehaviour
 
             //Enable End Game Screens
             //StartCoroutine(GameSceneManager.instance.FadeInAndOut(2, 2, 3));
-            //GameManager.instance.phaseManager.NextPhase();
+            GameManager.instance.phaseManager.NextPhase();
         }
     }
 
@@ -382,7 +400,7 @@ public class GameManager : MonoBehaviour
         //{
         //    rtt.room.Disconnect();
         //}
-
+        StopCoroutine(TruckHealthCheckCR);
         /*foreach (Realtime rt in _rtViews)
         {
             if (!rt.transform.GetComponent<GameManager>())
