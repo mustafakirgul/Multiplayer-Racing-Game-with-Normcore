@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Collections;
 
 
 public class UIManager : MonoBehaviour
@@ -50,7 +51,10 @@ public class UIManager : MonoBehaviour
 
     public CanvasGroup damageIndicatorCanvasGroup;
 
+    //IronHog Health UI
     public GameObject IronHogHPBar;
+    float _tempTruckHealth = 0f, _lastTruckHealth;
+    Coroutine InitTruckHealthCR, UpdateTruckHealthCR;
 
     private void Awake()
     {
@@ -123,8 +127,53 @@ public class UIManager : MonoBehaviour
             //_lootManager.RollForLoot();
             //ResizeUILootContainers();
         }
+
+        if (_gameManager.lootTruck != null)
+        {
+            if (!Mathf.Approximately(_lastTruckHealth, _gameManager.lootTruck._health))
+            {
+                _tempTruckHealth = _lastTruckHealth;
+                _lastTruckHealth = _gameManager.lootTruck._health;
+            }
+        }
+    }
+    public void InitTruckHealth()
+    {
+        InitTruckHealthCR = StartCoroutine(InitializeTruckHealthBar());
     }
 
+    public void DeactivateTruckHealthUI()
+    {
+        StopCoroutine(InitTruckHealthCR);
+        StopCoroutine(UpdateTruckHealthCR);
+        IronHogHPBar.gameObject.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
+        IronHogHPBar.SetActive(false);
+    }
+    private IEnumerator InitializeTruckHealthBar()
+    {
+        IronHogHPBar.SetActive(true);
+        Image HealthBar = IronHogHPBar.gameObject.transform.GetChild(0).GetComponent<Image>();
+
+        while (HealthBar.fillAmount < 0.99f)
+        {
+            _tempTruckHealth = Mathf.Lerp(_tempTruckHealth, _gameManager.lootTruck._maxHealth, Time.deltaTime * 1f);
+            HealthBar.fillAmount = _tempTruckHealth / _gameManager.lootTruck._maxHealth;
+            yield return null;
+        }
+
+        UpdateTruckHealthCR = StartCoroutine(UpdateTruckHealthUI());
+    }
+    private IEnumerator UpdateTruckHealthUI()
+    {
+        Image HealthBar = IronHogHPBar.gameObject.transform.GetChild(0).GetComponent<Image>();
+
+        while (true)
+        {
+            _tempTruckHealth = Mathf.Lerp(_tempTruckHealth, _lastTruckHealth, Time.deltaTime * 5f);
+            HealthBar.fillAmount = _tempTruckHealth / _gameManager.lootTruck._maxHealth;
+            yield return new WaitForEndOfFrame();
+        }
+    }
     public void ReactivateLogin()
     {
         DisableUI();
