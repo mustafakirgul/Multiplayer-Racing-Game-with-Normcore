@@ -27,18 +27,6 @@ public class Race : RealtimeComponent<RaceModel>
         model.phase = phase;
     }
 
-    public void NextPhase() //do not call ever
-    {
-        if (model.phase + 1 < GameManager.instance.phaseManager.phases.Count)
-        {
-            if (GameManager.instance.phaseManager.phases[GameManager.instance.phaseManager.phase].type ==
-                PhaseType.conditionBased)
-            {
-                GameManager.instance.phaseManager.NextPhase();
-            }
-        }
-    }
-
     private void PhaseChanged(RaceModel raceModel, int phase)
     {
         m_iPhase = model.phase;
