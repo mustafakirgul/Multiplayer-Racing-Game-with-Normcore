@@ -91,14 +91,12 @@ public class PlayerManager : MonoBehaviour
         {
             _transforms[i].SetOwnership(_realtime.clientID);
         }
-
         return localPlayer;
     }
 
     public void AddLocalPlayer(Transform _player)
     {
         localPlayer = _player;
-
         UpdateExistingPlayers();
         Truck truck = FindObjectOfType<Truck>();
         if (truck == null)
@@ -112,7 +110,7 @@ public class PlayerManager : MonoBehaviour
                 useInstance: _realtime);
             _temp.GetComponent<Truck>().StartHealth();
         }
-        else if (truck.GetComponent<RealtimeTransform>().isUnownedSelf)
+        else if (truck.GetComponent<RealtimeTransform>().isUnownedInHierarchy)
         {
             _temp = FindObjectOfType<Truck>().gameObject;
             _temp.GetComponent<RealtimeView>().RequestOwnership();
