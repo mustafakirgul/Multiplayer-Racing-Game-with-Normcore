@@ -263,7 +263,7 @@ public class Truck : RealtimeComponent<TruckModel>
         }
     }
 
-    void SetOwner(int _id)
+    public void SetOwner(int _id)
     {
         if (_id >= 0)
         {
@@ -271,12 +271,12 @@ public class Truck : RealtimeComponent<TruckModel>
         }
     }
 
-    void ResetExplosionPoint()
+    public void ResetExplosionPoint()
     {
         model.explosionPoint = Vector3.zero;
     }
 
-    void ChangeExplosionForce(Vector3 _origin)
+    public void ChangeExplosionForce(Vector3 _origin)
     {
         model.explosionPoint += _origin;
     }

@@ -117,6 +117,7 @@ public class PlayerManager : MonoBehaviour
             _temp = FindObjectOfType<Truck>().gameObject;
             _temp.GetComponent<RealtimeView>().RequestOwnership();
             _temp.GetComponent<RealtimeTransform>().RequestOwnership();
+            _temp.GetComponent<Truck>().SetOwner(localPlayer.GetComponent<Player>()._id);
             _temp.transform.position = spawnPoint;
             _temp.transform.rotation = Quaternion.Euler(0, spawnRotation, 0);
             _temp.GetComponent<Truck>().StartHealth();
