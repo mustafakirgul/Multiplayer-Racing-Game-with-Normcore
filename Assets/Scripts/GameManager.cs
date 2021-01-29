@@ -151,7 +151,7 @@ public class GameManager : MonoBehaviour
 
     private void TruckHealthCheck()
     {
-        if (lootTruck._health < 0)
+        if (lootTruck._health <= 0)
         {
             if (!truckIsKilled)
             {
@@ -388,6 +388,7 @@ public class GameManager : MonoBehaviour
         uIManager.timeRemaining.ClearMesh();
         StopCoroutine(TruckHealthCheckCR);
         Debug.LogWarning("HealthCheckStoppedAtTheEndOfTheGame");
+        _race.ChangeGameTime(0);
     }
 }
 
