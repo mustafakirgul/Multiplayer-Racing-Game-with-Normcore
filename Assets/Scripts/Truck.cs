@@ -177,7 +177,7 @@ public class Truck : RealtimeComponent<TruckModel>
     {
         //Debug.Log("truck health is: " + _health);
 
-        isNetworkInstance = !_rTTransform.isOwnedLocallySelf;
+        isNetworkInstance = !_rTTransform.isOwnedLocallyInHierarchy;
 
 #if (UNITY_EDITOR)
         if (Input.GetKeyDown(KeyCode.P))

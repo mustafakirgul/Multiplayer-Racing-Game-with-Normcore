@@ -98,7 +98,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         _realtimeView.SetOwnership(originOwnerID);
         _realtimeTransform.SetOwnership(originOwnerID);
 
-        if (_realtimeView.isOwnedLocallySelf)
+        if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             Invoke(nameof(KillTimer), weaponLifeTime);
             isNetworkInstance = false;

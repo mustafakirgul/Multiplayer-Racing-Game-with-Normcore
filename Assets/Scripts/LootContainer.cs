@@ -23,7 +23,7 @@ public class LootContainer : MonoBehaviour
 
     private void Start()
     {
-        isNetworkInstance = !_realtime.isOwnedLocallySelf;
+        isNetworkInstance = !_realtime.isOwnedLocallyInHierarchy;
         if (isNetworkInstance)
             GetComponent<Rigidbody>().isKinematic = true;
         else

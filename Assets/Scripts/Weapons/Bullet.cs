@@ -54,7 +54,7 @@ public class Bullet : RealtimeComponent<ProjectileModel>
 
     private void Start()
     {
-        if (_realtimeView.isOwnedLocallySelf)
+        if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             isNetworkInstance = false;
             Invoke(nameof(KillTimer), 20f);

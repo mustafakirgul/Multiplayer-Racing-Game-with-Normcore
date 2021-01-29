@@ -155,7 +155,7 @@
 //
 //         torqueDistributionValue = 1f / wheels.Count;
 //
-//         if (_realtimeView.isOwnedLocallySelf)
+//         if (_realtimeView.isOwnedLocallyInHierarchy)
 //         {
 //             isNetworkInstance = false;
 //             uIManager = FindObjectOfType<UIManager>();
