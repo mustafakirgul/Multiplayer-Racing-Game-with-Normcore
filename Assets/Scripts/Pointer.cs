@@ -20,6 +20,7 @@ public class Pointer : MonoBehaviour
         _mat = _renderer.material;
         _baseColor = Color.red;
     }
+
     void Update()
     {
         if (_isInitialized)
@@ -27,8 +28,9 @@ public class Pointer : MonoBehaviour
             if (_target == null || _master == null)
             {
                 //PlayerManager.instance.RemovePointer(transform);
-                Realtime.Destroy(gameObject);
+                Destroy(gameObject);
             }
+
             AnimateRenderer();
             PositionPointer();
         }
@@ -54,14 +56,15 @@ public class Pointer : MonoBehaviour
 
     private void PositionPointer()
     {
-        if (transform!=null&&_master!=null)
+        if (transform != null && _master != null)
         {
             transform.position =
-            _master.position +
-            (_target.position - _master.position).normalized *
-            distanceFromMaster;
-            transform.position = new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z);
-        }        
+                _master.position +
+                (_target.position - _master.position).normalized *
+                distanceFromMaster;
+            transform.position =
+                new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z);
+        }
     }
 
     private void AnimateRenderer()

@@ -168,15 +168,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /*IEnumerator LootTruckHealthCheck()
-    {
-        while (true)
-        {
-            TruckHealthCheck();
-            yield return new waitf(2f);
-        }
-    }*/
-
     private void Start()
     {
         _race = GetComponent<Race>();
@@ -201,8 +192,11 @@ public class GameManager : MonoBehaviour
                 _race.ChangeGameTime(_realtime.room.time);
             }
 
-            isCountingDown = true;
-            StartCoroutine(CountDownTimeContinously());
+            if (!isCountingDown)
+            {
+                isCountingDown = true;
+                StartCoroutine(CountDownTimeContinously());
+            }
         }
     }
 
@@ -285,13 +279,12 @@ public class GameManager : MonoBehaviour
         ResetBoolsForNewRound();
         _enterNameCanvas.gameObject.SetActive(false);
 
-        StartCoroutine(KeepTrackOfWinConditions(3));
+        Invoke("KeepTrackOfWinConditions", 3);
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
     }
 
-    private IEnumerator KeepTrackOfWinConditions(int DelayTime)
+    private void KeepTrackOfWinConditions()
     {
-        yield return new WaitForSeconds(DelayTime);
         if (lootTruck == null)
             lootTruck = FindObjectOfType<Truck>();
         playerManager.UpdateExistingPlayers();
@@ -310,6 +303,7 @@ public class GameManager : MonoBehaviour
                 yield return null;
             }
 
+            isCountingDown = false;
             yield return null;
         }
     }

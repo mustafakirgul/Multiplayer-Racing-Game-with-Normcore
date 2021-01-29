@@ -337,7 +337,7 @@ public class Truck : RealtimeComponent<TruckModel>
 
     void HealthChanged(TruckModel truckModel, float value)
     {
-        //_health = model.health;
+        _health = model.health;
         TruckHealthCheck();
     }
 

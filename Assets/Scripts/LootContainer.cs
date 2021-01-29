@@ -69,6 +69,6 @@ public class LootContainer : MonoBehaviour
     IEnumerator CR_Die()
     {
         yield return new WaitForSeconds(dieDelay);
-        Realtime.Destroy(gameObject);
+        if (!isNetworkInstance) Realtime.Destroy(gameObject);
     }
 }

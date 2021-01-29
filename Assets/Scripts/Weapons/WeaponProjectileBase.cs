@@ -80,7 +80,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         rb.isKinematic = true;
         GetComponent<Collider>().enabled = false;
         projectile_Mesh.SetActive(false);
-        Realtime.Destroy(gameObject);
+        if (realtimeView.isOwnedLocallyInHierarchy) Realtime.Destroy(gameObject);
     }
 
     protected virtual void Start()
@@ -202,7 +202,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         yield return wait1Sec;
         explosion.SetActive(false);
         yield return wait1Sec;
-        Realtime.Destroy(gameObject);
+        if (realtimeView.isOwnedLocallyInHierarchy) Realtime.Destroy(gameObject);
         hitCoroutine = null;
     }
 
