@@ -151,12 +151,13 @@ public class GameManager : MonoBehaviour
 
     private void TruckHealthCheck()
     {
-        if (lootTruck._health <= 0)
+        if (lootTruck._health < 0)
         {
             if (!truckIsKilled)
             {
                 phaseManager.NextPhase();
                 truckIsKilled = true;
+                readyToStart = true;
                 Debug.LogWarning("IronHog has been killed!");
             }
         }
@@ -181,11 +182,6 @@ public class GameManager : MonoBehaviour
             TruckHealthCheck();
             yield return new WaitForSeconds(2f);
         }
-    }
-
-    public void HardPushEndGame()
-    {
-        readyToStart = true;
     }
 
     private void Start()
@@ -298,6 +294,7 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(KeepTrackOfWinConditions(3));
         phaseManager.StartPhaseSystem();
+
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
     }
 
@@ -310,9 +307,11 @@ public class GameManager : MonoBehaviour
         if (TruckHealthCheckCR != null)
         {
             StopCoroutine(TruckHealthCheckCR);
+            Debug.LogWarning("HealthCheckStoppedAtTheBeginningOfTheGame");
         }
 
         TruckHealthCheckCR = StartCoroutine(LootTruckHealthCheck());
+        Debug.LogWarning("HealthCheckStartedAtTheBeginningOfTheGame");
     }
 
     private IEnumerator CountDownTimeContinously()
@@ -388,7 +387,7 @@ public class GameManager : MonoBehaviour
         //Disable other things that needs to be disabled in game
         uIManager.timeRemaining.ClearMesh();
         StopCoroutine(TruckHealthCheckCR);
-        HardPushEndGame();
+        Debug.LogWarning("HealthCheckStoppedAtTheEndOfTheGame");
     }
 }
 
