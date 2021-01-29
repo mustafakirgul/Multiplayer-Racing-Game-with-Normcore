@@ -44,18 +44,15 @@ public class PhaseManager : MonoBehaviour
 
     public void JumpToPhase(int newPhase) //called by the network instance if the phase number is changed
     {
-        if (newPhase > -1) // use -1 as phase index to initialize it
-        {
-            phase = newPhase;
-            phases[phase].startEvent.Invoke();
-            //Debug.LogWarning("Start Event of Phase " + phase);
-            if (phases[phase].startMessage.Length > 0)
+        phase = newPhase;
+        phases[phase].startEvent.Invoke();
+        //Debug.LogWarning("Start Event of Phase " + phase);
+        if (phases[phase].startMessage.Length > 0)
 
-                DisplayMessage(phases[phase].startMessage);
-            if (phases[phase].type == PhaseType.timeBased
-            ) //if time based set up the timer - if not, just wait for someone to trigger the transition
-                StartTimer(phases[phase].duration);
-        }
+            DisplayMessage(phases[phase].startMessage);
+        if (phases[phase].type == PhaseType.timeBased
+        ) //if time based set up the timer - if not, just wait for someone to trigger the transition
+            StartTimer(phases[phase].duration);
     }
 
     private void StartTimer(float duration)
