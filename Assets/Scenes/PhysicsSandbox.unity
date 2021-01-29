@@ -76237,12 +76237,12 @@ PrefabInstance:
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
       propertyPath: phases.Array.data[3].startEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
       propertyPath: endOfPhasesEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
@@ -76252,7 +76252,7 @@ PrefabInstance:
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
       propertyPath: phases.Array.data[4].startEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
@@ -76277,7 +76277,7 @@ PrefabInstance:
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
       propertyPath: endOfPhasesEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartEndDisplaySequence
+      value: DisconnectFromServer
       objectReference: {fileID: 0}
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
@@ -76303,16 +76303,16 @@ PrefabInstance:
         type: 3}
       propertyPath: endOfPhasesEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 707250627}
+      objectReference: {fileID: 0}
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
       propertyPath: endOfPhasesEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: DeactivateTruckHealthUI
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
       propertyPath: endOfPhasesEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
@@ -76332,7 +76332,7 @@ PrefabInstance:
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
       propertyPath: phases.Array.data[4].startEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DisconnectFromServer
+      value: StartEndDisplaySequence
       objectReference: {fileID: 0}
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
@@ -76483,6 +76483,26 @@ PrefabInstance:
         type: 3}
       propertyPath: phases.Array.data[3].startEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
+        type: 3}
+      propertyPath: phases.Array.data[3].startEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
+        type: 3}
+      propertyPath: phases.Array.data[3].startEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 2097422276}
+    - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
+        type: 3}
+      propertyPath: phases.Array.data[3].startEvent.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: MakeWallsGoUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
+        type: 3}
+      propertyPath: phases.Array.data[3].startEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3256981861654351050, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
