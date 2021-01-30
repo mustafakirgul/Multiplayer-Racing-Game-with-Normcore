@@ -13,9 +13,7 @@ public class GameManager : MonoBehaviour
     [Range(0, 359)] public float direction; //y angle of the spawned player
     Vector3 spawnPoint;
 
-    [Space]
-    [Space]
-    [Header("UI and Camera")]
+    [Space] [Space] [Header("UI and Camera")]
     public TextMeshProUGUI playerNameInputField;
 
     public Canvas _enterNameCanvas;
@@ -32,9 +30,7 @@ public class GameManager : MonoBehaviour
     public bool readyToStart;
     public Truck lootTruck;
 
-    [Space]
-    [Space]
-    [Header("Managers")]
+    [Space] [Space] [Header("Managers")]
     //Managers
     private PlayerManager playerManager;
 
@@ -94,6 +90,14 @@ public class GameManager : MonoBehaviour
         if (lootTruck != null)
         {
             lootTruck.Handrake(_b);
+        }
+    }
+
+    public void UpdateInvincibilityOfTruck(bool _i)
+    {
+        if (lootTruck != null)
+        {
+            lootTruck.SetInvincibility(_i);
         }
     }
 
@@ -171,6 +175,7 @@ public class GameManager : MonoBehaviour
             lootTruck.StartHealth();
         }
     }
+
     public void TruckHealthCheck()
     {
         if (lootTruck._health <= 0)
@@ -252,7 +257,7 @@ public class GameManager : MonoBehaviour
         if (playerNameInputField.text.Length > 0)
         {
             Debug.Log(preferredCar);
-            _realtime.Connect("UGP_TEST2");
+            _realtime.Connect("UGP_TEST5");
 
             //Coroutines tend to mess up here due to connection/network related
             //issues

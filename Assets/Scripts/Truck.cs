@@ -51,6 +51,7 @@ public class Truck : RealtimeComponent<TruckModel>
     private WaitForSeconds wait;
 
     private RealtimeTransform rtTransform => GetComponent<RealtimeTransform>();
+    public bool isInvincible = true;
 
     private void OnDrawGizmos()
     {
@@ -95,6 +96,11 @@ public class Truck : RealtimeComponent<TruckModel>
             damageFeedback = true;
             damageSphere.SetActive(false);
         }
+    }
+
+    public void SetInvincibility(bool state)
+    {
+        isInvincible = state;
     }
 
     public void InitializWaypointAI()
@@ -297,14 +303,18 @@ public class Truck : RealtimeComponent<TruckModel>
     public void StartHealth()
     {
         model.health = _maxHealth;
+        currentWPindex = 0;
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
     public void DamagePlayer(float damage)
     {
-        model.health -= damage;
-        DamageFeedback();
-        DropRandomLoot();
+        if (!isInvincible)
+        {
+            model.health -= damage;
+            DamageFeedback();
+            DropRandomLoot();
+        }
     }
 
     private void DamageFeedback()
