@@ -117,6 +117,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ResetWalls()
+    {
+        if (CanMoveWalls)
+        {
+            for (int i = 0; i < Walls.Length; i++)
+            {
+                Walls[i].GetComponentInChildren<Wall>().ResetWall();
+            }
+        }
+    }
+
     public void MakeWallsGoUp()
     {
         if (CanMoveWalls)
@@ -124,8 +135,8 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < Walls.Length; i++)
             {
                 Walls[i].GetComponentInChildren<Wall>().GoUp();
-                Walls[i].GetComponentInChildren<RealtimeView>().ClearOwnership();
-                Walls[i].GetComponentInChildren<RealtimeTransform>().ClearOwnership();
+                /*Walls[i].GetComponentInChildren<RealtimeView>().ClearOwnership();
+                Walls[i].GetComponentInChildren<RealtimeTransform>().ClearOwnership();*/
             }
         }
     }
