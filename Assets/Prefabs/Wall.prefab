@@ -100,7 +100,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1128708783}
@@ -140,6 +140,7 @@ MonoBehaviour:
   MoveRange: 200
   MoveToTarget: 0
   ResetToStart: 0
+  localY: 0
 --- !u!65 &6101822089683392535
 BoxCollider:
   m_ObjectHideFlags: 0
