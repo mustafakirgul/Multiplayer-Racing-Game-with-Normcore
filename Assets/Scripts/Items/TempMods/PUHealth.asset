@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffd731f758e34594091ebccfeab7cc00, type: 3}
+  m_Name: PUHealth
+  m_EditorClassIdentifier: 
+  powerUpType: 3
+  PrimaryModifierValue: 2
+  ExtraWeaponModifierValue: 0
+  projectileType: {fileID: 0}
+  MeshAppearance: {fileID: 8904205021780674824, guid: 15dba62a8b429564795a6e030275da69,
+    type: 3}

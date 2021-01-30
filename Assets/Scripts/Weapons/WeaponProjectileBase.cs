@@ -11,6 +11,8 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     public float weaponLifeTime;
     public float truckDamageFactor;
 
+    public float truckDamageTempModifier;
+
     public float weaponFireRate;
 
     protected float mf_carVelocity;
@@ -186,7 +188,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                         {
                             Truck _tempTruck = colliders[i].gameObject.GetComponent<Truck>();
                             _tempTruck.AddExplosionForce(_origin);
-                            _tempTruck.DamagePlayer(damage * truckDamageFactor);
+                            _tempTruck.DamagePlayer(damage * (truckDamageFactor + truckDamageTempModifier));
                         }
                         else if (colliders[i].gameObject.GetComponent<Rigidbody>() != null)
                         {

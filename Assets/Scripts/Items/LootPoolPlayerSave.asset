@@ -28,3 +28,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e28629993c1879c4d8ca0b8585d3c884, type: 2}
   - {fileID: 11400000, guid: 8424554ddb379164c9f626293684e236, type: 2}
   PlayerLootToAdd: []
+  PlayerPowerUps:
+  - {fileID: 11400000, guid: 305ecfa6ac18d6f4cae3e2b303ef8a47, type: 2}
+  - {fileID: 11400000, guid: ab8162d25ad1cff49a207ca1227f88c1, type: 2}
+  - {fileID: 11400000, guid: 67b71ffdf81d2234e943ebfbdcd4ab9b, type: 2}
+  - {fileID: 11400000, guid: 4ff5e738094b1f24eb22c0e03d6bafbb, type: 2}
+  - {fileID: 11400000, guid: 4d907e3bf0c2f434d9f6609108a03a59, type: 2}
+  - {fileID: 11400000, guid: 3e1614fc66fc40d43ab583cd1ffe429c, type: 2}
+  - {fileID: 11400000, guid: 893e3c3d271331644b8b1dd2a79733b7, type: 2}

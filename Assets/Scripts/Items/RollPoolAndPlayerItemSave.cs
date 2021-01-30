@@ -12,4 +12,6 @@ public class RollPoolAndPlayerItemSave : ScriptableObject
     public List<ItemBase> PlayerLoot = new List<ItemBase>();
 
     public List<ItemBase> PlayerLootToAdd = new List<ItemBase>();
+
+    public List<TempItemSObj> PlayerPowerUps = new List<TempItemSObj>();
 }

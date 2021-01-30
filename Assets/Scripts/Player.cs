@@ -10,6 +10,7 @@ public class Player : RealtimeComponent<PlayerModel>
     public float maxPlayerHealth;
     public Vector3 explosionForce;
     public float armourDefenseModifier = 0f;
+    public float tempDefenseModifier = 0f;
     public float healModifier = 0f;
     private NewCarController controller;
 
@@ -67,6 +68,11 @@ public class Player : RealtimeComponent<PlayerModel>
         //}
     }
 
+    public void UpdateTempDefenseModifier(float value)
+    {
+        tempDefenseModifier = value;
+    }
+
     public void SetPlayerName(string _name)
     {
         model.playerName = _name;
@@ -84,7 +90,7 @@ public class Player : RealtimeComponent<PlayerModel>
 
     public void DamagePlayer(float damage)
     {
-        model.health -= ((1 - armourDefenseModifier) * damage);
+        model.health -= ((1 - armourDefenseModifier - tempDefenseModifier * 0.5f) * damage);
 
         if (controller != null)
         {

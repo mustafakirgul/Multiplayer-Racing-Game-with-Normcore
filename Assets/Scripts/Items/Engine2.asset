@@ -15,7 +15,7 @@ MonoBehaviour:
   _ItemType: 3
   f_attack: 0
   f_defense: 0
-  f_speed: 0.2
+  f_speed: 0.14
   f_amount: 0
   itemText: Engine 2 Text (20% increase in handling)
   itemImage: {fileID: 2800000, guid: 5857c737b1cf341c98868522cbdc4cbb, type: 3}

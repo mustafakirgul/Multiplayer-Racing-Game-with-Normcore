@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ItemType: 2
   f_attack: 0
-  f_defense: 0.66
+  f_defense: 0.25
   f_speed: 0
   f_amount: 0
   itemText: 'Armour 3 Text: stops 66% of incoming damage'

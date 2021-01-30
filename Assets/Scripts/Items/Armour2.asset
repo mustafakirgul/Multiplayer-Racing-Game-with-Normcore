@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ItemType: 2
   f_attack: 0
-  f_defense: 0.45
+  f_defense: 0.15
   f_speed: 0
   f_amount: 0
   itemText: Armour 2 Text stops 45% of incoming damage

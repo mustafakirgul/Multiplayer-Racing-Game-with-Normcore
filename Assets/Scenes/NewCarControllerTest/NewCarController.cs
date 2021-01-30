@@ -8,7 +8,9 @@ using UnityEngine.UI;
 
 public class NewCarController : MonoBehaviour
 {
-    [Space] [Space] [Header("Car Controller Main Settings")]
+    [Space]
+    [Space]
+    [Header("Car Controller Main Settings")]
     public Rigidbody CarRB;
 
     private float moveInput, turnInput;
@@ -37,7 +39,9 @@ public class NewCarController : MonoBehaviour
     float currentZ, currentX;
     float XTimer, ZTimer, XFactor, ZFactor;
 
-    [Space] [Space] [Header("Camera and Networking")]
+    [Space]
+    [Space]
+    [Header("Camera and Networking")]
     //Neworking Related Functionalities
     public Realtime _realtime;
 
@@ -53,7 +57,9 @@ public class NewCarController : MonoBehaviour
     bool CoroutineReset = false;
 
 
-    [Space] [Space] [Header("Loot Based Modifiers")]
+    [Space]
+    [Space]
+    [Header("Loot Based Modifiers")]
     //Does the car need to know about these or does the game manager needs to know about these?
     //Car simply keeps track of what it encounters and talks to game managers to obtain loot or powerups
     public float meleeDamageModifier;
@@ -67,6 +73,12 @@ public class NewCarController : MonoBehaviour
     public GameObject LootWeaponProjectile;
     [SerializeField] private LootManager lootManager;
 
+    //Temporary mods
+    public float tempSpeedModifier = 0f;
+    public float tempDefenseModifier = 0f;
+    public float tempTruckDamageModifier = 0f;
+    public float tempBoostModifier = 0;
+
     [Space]
     [Space]
     [Header("Weapon Controls")]
@@ -79,7 +91,10 @@ public class NewCarController : MonoBehaviour
     public float fireRate = 1; //number of bullets fired per second //Weapon Change should affect this variable
     public bool readyToFire = false;
     public GameObject muzzleFlash;
+    public float currentAmmo;
     float fireTimer;
+
+
 
     [Space]
     [Space]
@@ -92,7 +107,9 @@ public class NewCarController : MonoBehaviour
 
     public TextMeshProUGUI speedDisplay, IDDisplay;
 
-    [Space] [Space] [Header("Health Params")]
+    [Space]
+    [Space]
+    [Header("Health Params")]
     //Health Controls
     public Player _player;
 
@@ -109,7 +126,9 @@ public class NewCarController : MonoBehaviour
     private WaitForEndOfFrame waitFrameDamageEffect;
     public CanvasGroup damageIndicatorCanvasGroup;
 
-    [Space] [Space] [Header("Boost Params")]
+    [Space]
+    [Space]
+    [Header("Boost Params")]
     //Boost Controls
     public Image boostRadialLoader;
 
@@ -119,7 +138,9 @@ public class NewCarController : MonoBehaviour
     public bool boosterReady;
     private float boosterCounter;
 
-    [Space] [Space] [Header("Light Controls")]
+    [Space]
+    [Space]
+    [Header("Light Controls")]
     //Light Controls
     public Light RHL;
 
@@ -140,7 +161,8 @@ public class NewCarController : MonoBehaviour
 
     public SpriteRenderer _miniMapRenderer;
 
-    [Space] [Header("Suspension and Wheel Settings")]
+    [Space]
+    [Header("Suspension and Wheel Settings")]
     public bool identicalSuspension4AW;
 
     public float suspensionHeight; // these 2 only work if identical suspension for all wheels is true
@@ -179,7 +201,6 @@ public class NewCarController : MonoBehaviour
         wait = new WaitForSeconds(fireTimer);
         muzzleWait = new WaitForSeconds(.2f);
     }
-
     void InitCamera()
     {
         followCamera = GameObject.FindObjectOfType<ChaseCam>();
@@ -461,6 +482,13 @@ public class NewCarController : MonoBehaviour
             UpdateHealth();
         }
     }
+    public void ResetTempModifiers()
+    {
+        tempTruckDamageModifier = 0;
+        tempSpeedModifier = 0;
+        tempDefenseModifier = 0;
+        tempBoostModifier = 0;
+    }
 
     void UpdateHealth()
     {
@@ -650,9 +678,11 @@ public class NewCarController : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.LeftControl) || Input.GetButton("Fire"))
             {
-                if (readyToFire)
+                if (readyToFire && currentAmmo > 0)
                 {
                     readyToFire = false;
+                    currentAmmo--;
+                    currentAmmo = Mathf.Clamp(currentAmmo, 0, 999);
 
                     _bulletBuffer = Realtime.Instantiate(WeaponProjectile.name,
                         position: _barrelTip.position,
@@ -660,9 +690,11 @@ public class NewCarController : MonoBehaviour
                         ownedByClient: true,
                         useInstance: _realtime);
 
-                    _bulletBuffer.GetComponent<WeaponProjectileBase>().isNetworkInstance = false;
-                    _bulletBuffer.GetComponent<WeaponProjectileBase>()
-                        .Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
+                    WeaponProjectileBase weaponBase = _bulletBuffer.GetComponent<WeaponProjectileBase>();
+
+                    weaponBase.isNetworkInstance = false;
+                    weaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
+                    weaponBase.truckDamageTempModifier = tempTruckDamageModifier;
                     //_bulletBuffer.GetComponent<WeaponProjectileBase>().originOwnerID = ownerID;
 
                     StartCoroutine(FireCR());
@@ -690,7 +722,7 @@ public class NewCarController : MonoBehaviour
             if (boosterReady && isGrounded)
             {
                 boosterReady = false;
-                CarRB.AddForce(transform.forward * dashForce, ForceMode.VelocityChange);
+                CarRB.AddForce(transform.forward * (dashForce + tempBoostModifier), ForceMode.VelocityChange);
             }
         }
 
@@ -777,13 +809,13 @@ public class NewCarController : MonoBehaviour
             if (turnInput != 0 && moveInput == 0)
             {
                 //Debug.Log("Stationary Turning");
-                float StationaryRotation = (1 + HandlingModifier) * turnInput * turnSpd * Time.deltaTime;
+                float StationaryRotation = (1 + HandlingModifier + tempSpeedModifier) * turnInput * turnSpd * Time.deltaTime;
                 CarRB.AddForce(transform.forward * turningFwdSpeed, ForceMode.Acceleration);
                 transform.Rotate(0, StationaryRotation, 0, Space.World);
             }
             else
             {
-                float motionRotation = ((1 + HandlingModifier) * turnInput * turnSpd * Time.deltaTime *
+                float motionRotation = ((1 + HandlingModifier + tempSpeedModifier) * turnInput * turnSpd * Time.deltaTime *
                                         Input.GetAxisRaw("Vertical"));
                 transform.Rotate(0, motionRotation, 0, Space.World);
             }
@@ -826,8 +858,56 @@ public class NewCarController : MonoBehaviour
 
             if (lootbox != null)
             {
-                lootManager.DetermineTypeOfPickUP(ownerID, lootbox.GetCollected(ownerID));
+                int LootRoll = lootbox.GetCollected(ownerID);
+
+                if (LootRoll > 0)
+                {
+                    lootManager.numberOfLootRolls++;
+                }
+                else
+                {
+                    //Player got powerup here
+                    //Use a decode or script obj to determine what each temp powerup should be
+                    ApplyPowerUpToPlayer(lootManager.DecodePowerUp(Mathf.Abs(LootRoll)));
+                }
             }
+        }
+    }
+    public void ApplyPowerUpToPlayer(TempItemSObj PowerUp)
+    {
+        switch (PowerUp.powerUpType)
+        {
+            case PowerUpType.Ammo:
+                //Idea add weapon ammo pick up modifier
+                currentAmmo++;
+                break;
+            case PowerUpType.Boost:
+                //Custom boost condition here to do
+                tempBoostModifier = PowerUp.PrimaryModifierValue;
+                break;
+            case PowerUpType.Defense:
+                tempDefenseModifier = PowerUp.PrimaryModifierValue;
+                _player.UpdateTempDefenseModifier(tempDefenseModifier);
+                break;
+            case PowerUpType.Health:
+                //Heals are per float value based on health
+                //Could use percentage
+                _player.HealPlayer(PowerUp.PrimaryModifierValue);
+                break;
+            case PowerUpType.Speed:
+                tempSpeedModifier = PowerUp.PrimaryModifierValue;
+                break;
+            case PowerUpType.SuperGun:
+                //Set super gun Projectile Here
+                LootWeaponProjectile = PowerUp.projectileType;
+                
+                break;
+            case PowerUpType.TruckAttack:
+                tempTruckDamageModifier = PowerUp.PrimaryModifierValue;
+                break;
+            default:
+                Debug.Log("PowerUp Type Not recognized, Check Power Up ID");
+                break;
         }
     }
 }

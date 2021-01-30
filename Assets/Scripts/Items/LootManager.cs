@@ -8,6 +8,17 @@ public enum BuildType
     Speedy,
     Tank
 }
+
+public enum PowerUpType
+{
+    Ammo,
+    Boost,
+    Defense,
+    Health,
+    Speed,
+    SuperGun,
+    TruckAttack,
+}
 public class LootManager : MonoBehaviour
 {
     #region Singleton Logic
@@ -73,18 +84,12 @@ public class LootManager : MonoBehaviour
         numberOfLootRolls = 0;
     }
 
-    public void DetermineTypeOfPickUP(int playerID, int pickupRoll)
+    public TempItemSObj DecodePowerUp(int ItemID)
     {
-        if (pickupRoll > 0)
-        {
-            numberOfLootRolls++;
-        }
-        else
-        {
-            Debug.Log("player " + playerID + " obtained a powerup! ");
-        }
+        //Note index for List starts still at 0 so minus 1 to start from the 1st element in the PU list
+        TempItemSObj PURoll = playerLootPoolSave.PlayerPowerUps[ItemID - 1];
+        return PURoll;
     }
-
     public void RollForLoot()
     {
         if (numberOfLootRolls != 0)
