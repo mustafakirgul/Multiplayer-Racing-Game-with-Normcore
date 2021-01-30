@@ -124,6 +124,8 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < Walls.Length; i++)
             {
                 Walls[i].GetComponent<Wall>().GoUp();
+                Walls[i].GetComponent<RealtimeView>().ClearOwnership();
+                Walls[i].GetComponent<RealtimeTransform>().ClearOwnership();
             }
         }
     }
