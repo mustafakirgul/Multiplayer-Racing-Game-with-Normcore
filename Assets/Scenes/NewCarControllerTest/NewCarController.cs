@@ -868,9 +868,18 @@ public class NewCarController : MonoBehaviour
                 else
                 {
                     //Player got powerup here
-                    //Use a decode or script obj to determine what each temp powerup should be
+                    //Use a decode or script obj to determine what   each temp powerup should be
                     ApplyPowerUpToPlayer(lootManager.DecodePowerUp(LootRoll));
                 }
+            }
+        }
+        else
+        {
+            //Just destroy the object
+            if(collision.gameObject.GetComponent<LootContainer>() != null)
+            {
+                StartCoroutine(
+                collision.gameObject.GetComponent<LootContainer>().CR_Die());
             }
         }
     }
@@ -901,7 +910,7 @@ public class NewCarController : MonoBehaviour
             case PowerUpType.SuperGun:
                 //Set super gun Projectile Here
                 LootWeaponProjectile = PowerUp.projectileType;
-                
+
                 break;
             case PowerUpType.TruckAttack:
                 tempTruckDamageModifier = PowerUp.PrimaryModifierValue;

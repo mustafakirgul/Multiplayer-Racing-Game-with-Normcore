@@ -13,7 +13,6 @@ public class PrespawnManager : MonoBehaviour
     {
         _realtime = FindObjectOfType<Realtime>();
         ReferenceItemsToSpawn();
-
     }
 
     private void ReferenceItemsToSpawn()
@@ -46,5 +45,15 @@ public class PrespawnManager : MonoBehaviour
                 _realtime);
             _temp.GetComponent<LootContainer>().SetID(lootID);
         }
+    }
+
+    public void DeActivateSpawner()
+    {
+        this.gameObject.SetActive(false);
+    }
+
+    public void ReActivateSpawner()
+    {
+        this.gameObject.SetActive(true);
     }
 }

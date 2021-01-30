@@ -8,12 +8,23 @@ public class PowerUpMeshGetter : MonoBehaviour
 
     Loot LootID;
 
+    LootContainer LootContainerID;
+
     // Start is called before the first frame update
     void Start()
     {
         lootManager = FindObjectOfType<LootManager>();
+     
+        StartCoroutine(waitToApplyMesh());
+        //ApplyLootMesh(LootID.id);
+    }
+
+    private IEnumerator waitToApplyMesh()
+    {
+        yield return new WaitForSeconds(0f);
         LootID = GetComponent<Loot>();
-        ApplyLootMesh(Mathf.Abs(LootID.id));
+        LootContainerID = GetComponent<LootContainer>();
+        ApplyLootMesh(Mathf.Abs(LootContainerID.id));
     }
 
     public void ApplyLootMesh(int PUIndex)

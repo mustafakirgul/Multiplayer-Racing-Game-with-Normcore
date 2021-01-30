@@ -7774,18 +7774,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a8480ce736b9fb439828dc832c57023, type: 3}
---- !u!114 &422487279 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4575351312826395874, guid: 192a6e82ccd178e46b67b579c2031b3a,
-    type: 3}
-  m_PrefabInstance: {fileID: 4575351312405547021}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3c2a43d09630764297afdf40ab5b302, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &436306706
 GameObject:
   m_ObjectHideFlags: 0
@@ -76275,9 +76263,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
+      propertyPath: phases.Array.data[1].startEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
+        type: 3}
       propertyPath: phases.Array.data[1].startEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 422487279}
+      objectReference: {fileID: 2097422276}
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
       propertyPath: messageTMPro
@@ -76602,6 +76595,11 @@ PrefabInstance:
         type: 3}
       propertyPath: phases.Array.data[0].startEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
+        type: 3}
+      propertyPath: phases.Array.data[1].startEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: MakeWallsGoDown
       objectReference: {fileID: 0}
     - target: {fileID: 3256981861654351050, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
@@ -77202,6 +77200,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1929572994}
     m_Modifications:
+    - target: {fileID: 1894851572110262017, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: id
+      value: -5
+      objectReference: {fileID: 0}
     - target: {fileID: 2285152514010313162, guid: 192a6e82ccd178e46b67b579c2031b3a,
         type: 3}
       propertyPath: _realtime
@@ -77246,6 +77249,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _isRootPrefabView
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681107084549329638, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: id
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681107085235561946, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: id
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 4575351312826395872, guid: 192a6e82ccd178e46b67b579c2031b3a,
         type: 3}
@@ -77305,6 +77318,21 @@ PrefabInstance:
     - target: {fileID: 4575351312826395875, guid: 192a6e82ccd178e46b67b579c2031b3a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5009331289841605422, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: id
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8861484840034583029, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: id
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8861484841626138313, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: id
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

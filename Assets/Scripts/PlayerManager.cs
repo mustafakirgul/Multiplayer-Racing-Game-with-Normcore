@@ -104,6 +104,8 @@ public class PlayerManager : MonoBehaviour
         localPlayer = _player;
         UpdateExistingPlayers();
         Truck truck = FindObjectOfType<Truck>();
+
+        PrespawnManager prespawnManager = FindObjectOfType<PrespawnManager>();
         if (truck == null)
         {
             _temp = Realtime.Instantiate("WeirdTruck",
@@ -114,6 +116,12 @@ public class PlayerManager : MonoBehaviour
                 destroyWhenOwnerOrLastClientLeaves: true,
                 useInstance: _realtime);
             _temp.GetComponent<Truck>().StartHealth();
+
+            //Spawn PowerUps and one time things here
+            //This is the first player who will spawn the truck
+            prespawnManager.ReActivateSpawner();
+            prespawnManager.SpawnPredeterminedItems();
+            prespawnManager.DeActivateSpawner();
         }
         else if (truck.GetComponent<RealtimeTransform>().isUnownedInHierarchy)
         {
@@ -124,10 +132,13 @@ public class PlayerManager : MonoBehaviour
             _temp.transform.position = spawnPoint;
             _temp.transform.rotation = Quaternion.Euler(0, spawnRotation, 0);
             _temp.GetComponent<Truck>().StartHealth();
+
+            prespawnManager.DeActivateSpawner();
         }
         else
         {
             truck.StartHealth();
+            prespawnManager.DeActivateSpawner();
         }
     }
 

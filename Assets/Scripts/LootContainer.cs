@@ -10,6 +10,8 @@ public class LootContainer : MonoBehaviour
     public int id, collectedBy;
     public float dieDelay = 1f;
     private RealtimeView _realtime => GetComponent<RealtimeView>();
+
+    [SerializeField]
     private bool isNetworkInstance;
 
     private void OnDrawGizmos()
@@ -66,7 +68,7 @@ public class LootContainer : MonoBehaviour
             0; //return 0 meaning the item was already collected by someone and pending to be destroyed from the game world
     }
 
-    IEnumerator CR_Die()
+    public IEnumerator CR_Die()
     {
         yield return new WaitForSeconds(dieDelay);
         if (!isNetworkInstance) Realtime.Destroy(gameObject);
