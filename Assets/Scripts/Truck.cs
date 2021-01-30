@@ -226,8 +226,10 @@ public class Truck : RealtimeComponent<TruckModel>
     {
         if (realtimeView.isUnownedInHierarchy)
         {
-            realtimeView.SetOwnership(PlayerManager.instance.RequestOwner());
-            rtTransform.SetOwnership(PlayerManager.instance.RequestOwner());
+            int _ownerID = PlayerManager.instance.RequestOwner();
+            realtimeView.SetOwnership(_ownerID);
+            rtTransform.SetOwnership(_ownerID);
+            SetOwner(_ownerID);
         }
     }
 

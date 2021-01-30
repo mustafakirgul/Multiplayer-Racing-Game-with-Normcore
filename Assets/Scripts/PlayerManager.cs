@@ -100,7 +100,7 @@ public class PlayerManager : MonoBehaviour
             _temp = Realtime.Instantiate("WeirdTruck",
                 position: spawnPoint,
                 rotation: Quaternion.Euler(0, spawnRotation, 0),
-                ownedByClient: true,
+                ownedByClient: false,
                 preventOwnershipTakeover: false,
                 destroyWhenOwnerOrLastClientLeaves: true,
                 useInstance: _realtime);
