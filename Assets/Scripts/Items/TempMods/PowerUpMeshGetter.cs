@@ -19,14 +19,18 @@ public class PowerUpMeshGetter : MonoBehaviour
     public void ApplyLootMesh(int PUIndex)
     {
         PUIndex--;
-        if (PUIndex < 0) PUIndex = 0;
-        GameObject MeshToApply = lootManager.playerLootPoolSave.PlayerPowerUps[PUIndex].MeshAppearance;
 
-        if (MeshToApply != null)
+        if (PUIndex < 0)
+            PUIndex = 0;
+
+        if (lootManager.playerLootPoolSave.PlayerPowerUps[PUIndex].MeshAppearance != null)
         {
+            Debug.LogWarning("MeshtoApply: " + PUIndex);
             this.transform.GetChild(1).gameObject.SetActive(false);
             Instantiate(lootManager.playerLootPoolSave.PlayerPowerUps[PUIndex].MeshAppearance,
                 this.gameObject.transform);
         }
+        else
+            Debug.LogWarning("No Mesh To Apply");
     }
 }

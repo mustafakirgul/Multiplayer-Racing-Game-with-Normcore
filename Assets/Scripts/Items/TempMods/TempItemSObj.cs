@@ -1,17 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[CreateAssetMenu]
-public class TempItemSObj : ScriptableObject
+namespace Items.TempMods
 {
-    public PowerUpType powerUpType;
+    [CreateAssetMenu]
+    public class TempItemSObj : ScriptableObject
+    {
+        public PowerUpType powerUpType;
 
-    public float PrimaryModifierValue;
+        public float PrimaryModifierValue;
 
-    public float ExtraWeaponModifierValue;
+        public float ExtraWeaponModifierValue;
 
-    public GameObject projectileType;
+        public GameObject projectileType;
 
-    public GameObject MeshAppearance;
+        public GameObject MeshAppearance;
+    }
 }

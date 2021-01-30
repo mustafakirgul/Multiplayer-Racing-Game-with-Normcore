@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffd731f758e34594091ebccfeab7cc00, type: 3}
+  m_Script: {fileID: 11500000, guid: d87ee263c4d4f1149b31d24ccf474311, type: 3}
   m_Name: PUHealth
   m_EditorClassIdentifier: 
   powerUpType: 3
   PrimaryModifierValue: 2
   ExtraWeaponModifierValue: 0
   projectileType: {fileID: 0}
-  MeshAppearance: {fileID: 8904205021780674824, guid: 15dba62a8b429564795a6e030275da69,
+  MeshAppearance: {fileID: 8904205021780674824, guid: 93c59fffd3a231d4bb54673e76b3f557,
     type: 3}

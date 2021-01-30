@@ -29,11 +29,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8424554ddb379164c9f626293684e236, type: 2}
   PlayerLootToAdd: []
   PlayerPowerUps:
-  - {fileID: 11400000, guid: 305ecfa6ac18d6f4cae3e2b303ef8a47, type: 2}
-  - {fileID: 11400000, guid: ab8162d25ad1cff49a207ca1227f88c1, type: 2}
-  - {fileID: 11400000, guid: 67b71ffdf81d2234e943ebfbdcd4ab9b, type: 2}
-  - {fileID: 11400000, guid: 4ff5e738094b1f24eb22c0e03d6bafbb, type: 2}
-  - {fileID: 11400000, guid: 4d907e3bf0c2f434d9f6609108a03a59, type: 2}
-  - {fileID: 11400000, guid: 3e1614fc66fc40d43ab583cd1ffe429c, type: 2}
-  - {fileID: 11400000, guid: 893e3c3d271331644b8b1dd2a79733b7, type: 2}
-  - {fileID: 11400000, guid: 305ecfa6ac18d6f4cae3e2b303ef8a47, type: 2}
+  - {fileID: 11400000, guid: 3cbdb096c6805624cb5c69352b870534, type: 2}
+  - {fileID: 11400000, guid: 1e2d7c2efdcd74946b56911bc952eb13, type: 2}
+  - {fileID: 11400000, guid: 9bab35ff60a4f2546bcd5d138e3757f0, type: 2}
+  - {fileID: 11400000, guid: 2608bf11721847045bbdc7ce4988d99a, type: 2}
+  - {fileID: 11400000, guid: 2e210a31e39923c4a9438907b291feec, type: 2}
+  - {fileID: 11400000, guid: 1629d2791c585954f9d99d11e3980085, type: 2}
+  - {fileID: 11400000, guid: 721f6bff524fc824589f4113f7379370, type: 2}
+  - {fileID: 11400000, guid: 3cbdb096c6805624cb5c69352b870534, type: 2}

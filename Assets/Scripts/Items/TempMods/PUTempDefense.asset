@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffd731f758e34594091ebccfeab7cc00, type: 3}
+  m_Script: {fileID: 11500000, guid: d87ee263c4d4f1149b31d24ccf474311, type: 3}
   m_Name: PUTempDefense
   m_EditorClassIdentifier: 
   powerUpType: 2
   PrimaryModifierValue: 0.2
   ExtraWeaponModifierValue: 0
   projectileType: {fileID: 0}
-  MeshAppearance: {fileID: 1489029179633375303, guid: a97fee63eee3fd4409af393586e41672,
+  MeshAppearance: {fileID: 1489029179633375303, guid: 662beb9316f399844be6effecff4bfa3,
     type: 3}
