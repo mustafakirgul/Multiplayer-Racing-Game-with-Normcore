@@ -19,10 +19,13 @@ public enum PowerUpType
     SuperGun,
     TruckAttack,
 }
+
 public class LootManager : MonoBehaviour
 {
     #region Singleton Logic
+
     public static LootManager instance = null;
+
     private void SingletonCheck()
     {
         if (instance != null && instance != this)
@@ -30,10 +33,12 @@ public class LootManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         instance = this;
         transform.parent = null;
         DontDestroyOnLoad(gameObject);
     }
+
     #endregion
 
     //Instead of a list of Itembase
@@ -42,17 +47,12 @@ public class LootManager : MonoBehaviour
     //Even for specific builds where 2 of a kind of item can be equipped
     //Still only use 1 extra type
 
-    [Space]
-    [Space]
-    [Header("In-Game Applied LoadOut")]
+    [Space] [Space] [Header("In-Game Applied LoadOut")]
     public BuildType current_buildType;
-    [SerializeField]
-    private BuildLoadOutSObj current_buildLoadOut;
 
-    [Space]
-    [Space]
-    [Header("Garage Settings")]
-    [SerializeField]
+    [SerializeField] private BuildLoadOutSObj current_buildLoadOut;
+
+    [Space] [Space] [Header("Garage Settings")] [SerializeField]
     public RollPoolAndPlayerItemSave playerLootPoolSave;
 
     public BuildType selected_buildType;
@@ -65,10 +65,12 @@ public class LootManager : MonoBehaviour
 
     //[SerializeField]
     public int numberOfLootRolls;
+
     private void Awake()
     {
         SingletonCheck();
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -89,15 +91,18 @@ public class LootManager : MonoBehaviour
         if (ItemID == 0)
         {
             //Creates a powerup with no effect
-            TempItemSObj DummyPU = playerLootPoolSave.PlayerPowerUps[playerLootPoolSave.PlayerPowerUps.Count];
-            Debug.LogWarning("Item is already picked up! If this is the prespawner, make sure it is disabled after spawning items");
+            TempItemSObj DummyPU = playerLootPoolSave.PlayerPowerUps[playerLootPoolSave.PlayerPowerUps.Count - 1];
+            Debug.LogWarning(
+                "Item is already picked up! If this is the prespawner, make sure it is disabled after spawning items");
             return DummyPU;
         }
+
         int Index = Mathf.Abs(ItemID);
         //Note index for List starts still at 0 so minus 1 to start from the 1st element in the PU list
         TempItemSObj DecodedPU = playerLootPoolSave.PlayerPowerUps[Index - 1];
         return DecodedPU;
     }
+
     public void RollForLoot()
     {
         if (numberOfLootRolls != 0)
@@ -116,6 +121,7 @@ public class LootManager : MonoBehaviour
                 playerLootPoolSave.PlayerLootToAdd.Add(itemToAdd);
             }
         }
+
         //Reset once roll is complete
         numberOfLootRolls = 0;
     }
@@ -136,12 +142,14 @@ public class LootManager : MonoBehaviour
             return null;
         }
     }
+
     //For UI build buttons to use
     public void DeploySelectedBuild()
     {
         current_buildLoadOut = selected_buildLoadOutToView;
         current_buildType = selected_buildLoadOutToView.buildType;
     }
+
     public void RetreiveBuild(int buildIndex)
     {
         switch (buildIndex)
@@ -160,6 +168,7 @@ public class LootManager : MonoBehaviour
                 break;
         }
     }
+
     //For UI Use
     public BuildLoadOutSObj ObtainLastLoadedBuild()
     {
