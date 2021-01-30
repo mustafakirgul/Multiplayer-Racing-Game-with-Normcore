@@ -87,7 +87,16 @@ public class PlayerManager : MonoBehaviour
 
     public int RequestOwner()
     {
-        return _realtime.clientID;
+        int _lowestID = _realtime.clientID;
+        foreach (Transform player in networkPlayers)
+        {
+            int _temp = player.GetComponent<NewCarController>()._player._id;
+            if (_temp<_lowestID)
+            {
+                _lowestID = _temp;
+            }
+        }
+        return _lowestID;
     }
 
     public void AddLocalPlayer(Transform _player)
