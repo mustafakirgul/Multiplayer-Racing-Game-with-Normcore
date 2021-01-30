@@ -76271,7 +76271,7 @@ PrefabInstance:
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
       propertyPath: phases.Array.data[0].startEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
@@ -76571,6 +76571,36 @@ PrefabInstance:
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
       propertyPath: phases.Array.data[2].startEvent.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
+        type: 3}
+      propertyPath: phases.Array.data[0].startEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
+        type: 3}
+      propertyPath: phases.Array.data[0].startEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
+        type: 3}
+      propertyPath: phases.Array.data[0].startEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
+        type: 3}
+      propertyPath: phases.Array.data[0].startEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2097422276}
+    - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
+        type: 3}
+      propertyPath: phases.Array.data[0].startEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ResetWalls
+      objectReference: {fileID: 0}
+    - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
+        type: 3}
+      propertyPath: phases.Array.data[0].startEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3256981861654351050, guid: c4243823ecb99bd4bbfff6f0ba948113,
