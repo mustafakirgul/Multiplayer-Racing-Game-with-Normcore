@@ -86,9 +86,17 @@ public class LootManager : MonoBehaviour
 
     public TempItemSObj DecodePowerUp(int ItemID)
     {
+        if (ItemID == 0)
+        {
+            //Creates a powerup with no effect
+            TempItemSObj DummyPU = playerLootPoolSave.PlayerPowerUps[playerLootPoolSave.PlayerPowerUps.Count];
+            Debug.LogWarning("Item is already picked up! If this is the prespawner, make sure it is disabled after spawning items");
+            return DummyPU;
+        }
+        int Index = Mathf.Abs(ItemID);
         //Note index for List starts still at 0 so minus 1 to start from the 1st element in the PU list
-        TempItemSObj PURoll = playerLootPoolSave.PlayerPowerUps[ItemID - 1];
-        return PURoll;
+        TempItemSObj DecodedPU = playerLootPoolSave.PlayerPowerUps[Index - 1];
+        return DecodedPU;
     }
     public void RollForLoot()
     {

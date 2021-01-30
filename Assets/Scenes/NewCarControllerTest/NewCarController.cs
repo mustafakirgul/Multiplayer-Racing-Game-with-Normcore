@@ -868,7 +868,7 @@ public class NewCarController : MonoBehaviour
                 {
                     //Player got powerup here
                     //Use a decode or script obj to determine what each temp powerup should be
-                    ApplyPowerUpToPlayer(lootManager.DecodePowerUp(Mathf.Abs(LootRoll)));
+                    ApplyPowerUpToPlayer(lootManager.DecodePowerUp(LootRoll));
                 }
             }
         }
