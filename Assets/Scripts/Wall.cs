@@ -25,7 +25,7 @@ public class Wall : MonoBehaviour
         MoveToTarget = false;
         ResetToStart = false;
         localY = 0;
-        if (GetComponent<RealtimeTransform>().isUnownedInHierarchy)
+        if (GetComponent<RealtimeTransform>().isOwnedLocallyInHierarchy)
         {
             transform.localPosition = Vector3.zero;
         }
@@ -43,12 +43,12 @@ public class Wall : MonoBehaviour
 
     private void Update()
     {
-        //Two bools to avoid wasting update cycles
-        if (MoveToTarget)
-        {
-            ResetToStart = false;
-            MoveWall();
-        }
+        if (GetComponent<RealtimeTransform>().isOwnedLocallyInHierarchy) //Two bools to avoid wasting update cycles
+            if (MoveToTarget)
+            {
+                ResetToStart = false;
+                MoveWall();
+            }
 
         if (ResetToStart)
         {
