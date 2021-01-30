@@ -76156,6 +76156,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall1
       objectReference: {fileID: 0}
+    - target: {fileID: 2635713673487937261, guid: 805cea4fbcb18694fbd291354e82a00a,
+        type: 3}
+      propertyPath: MoveRange
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635713673487937261, guid: 805cea4fbcb18694fbd291354e82a00a,
+        type: 3}
+      propertyPath: resetSpeed
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 2635713673487937262, guid: 805cea4fbcb18694fbd291354e82a00a,
         type: 3}
       propertyPath: m_LocalPosition.x

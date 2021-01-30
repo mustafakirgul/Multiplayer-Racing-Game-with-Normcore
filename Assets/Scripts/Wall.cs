@@ -7,7 +7,7 @@ public class Wall : MonoBehaviour
 {
     private Rigidbody rb => GetComponent<Rigidbody>();
 
-    public float speed, resetSpeed;
+    public float speed, resetSpeed, MoveRange;
 
     public bool MoveToTarget, ResetToStart;
 
@@ -46,12 +46,6 @@ public class Wall : MonoBehaviour
 
         if (ResetToStart)
         {
-            startingPos =
-                new Vector3
-        (this.transform.position.x,
-        this.transform.position.y,
-        this.transform.position.z);
-
             MoveToTarget = false;
             MoveWall();
         }
@@ -68,12 +62,17 @@ public class Wall : MonoBehaviour
             step = resetSpeed * Time.deltaTime;
         }
 
-        transform.position += Vector3.up * 1f * step;
+        transform.position += transform.up * 1f * step;
 
-        if (Vector3.Distance(startingPos, transform.position) >= 150f)
+        if (Vector3.Distance(startingPos, transform.position) >= MoveRange)
         {
             MoveToTarget = false;
             ResetToStart = false;
+            startingPos =
+             new Vector3
+            (this.transform.position.x,
+            this.transform.position.y,
+            this.transform.position.z);
         }
     }
 }
