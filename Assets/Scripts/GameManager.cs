@@ -110,8 +110,10 @@ public class GameManager : MonoBehaviour
                 if (Walls[i].GetComponentInChildren<RealtimeView>().isUnownedInHierarchy)
                 {
                     CanMoveWalls = true;
-                    Walls[i].GetComponentInChildren<RealtimeView>().RequestOwnership();
-                    Walls[i].GetComponentInChildren<RealtimeTransform>().RequestOwnership();
+                    Walls[i].GetComponentInChildren<RealtimeView>()
+                        .SetOwnership(playerManager.localPlayer.GetComponent<Player>()._id);
+                    Walls[i].GetComponentInChildren<RealtimeTransform>()
+                        .SetOwnership(playerManager.localPlayer.GetComponent<Player>()._id);
                 }
             }
         }
