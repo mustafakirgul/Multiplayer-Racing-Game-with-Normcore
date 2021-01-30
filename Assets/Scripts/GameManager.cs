@@ -107,11 +107,11 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < Walls.Length; i++)
             {
-                if (Walls[i].GetComponent<RealtimeView>().isUnownedInHierarchy)
+                if (Walls[i].GetComponentInChildren<RealtimeView>().isUnownedInHierarchy)
                 {
                     CanMoveWalls = true;
-                    Walls[i].GetComponent<RealtimeView>().RequestOwnership();
-                    Walls[i].GetComponent<RealtimeTransform>().RequestOwnership();
+                    Walls[i].GetComponentInChildren<RealtimeView>().RequestOwnership();
+                    Walls[i].GetComponentInChildren<RealtimeTransform>().RequestOwnership();
                 }
             }
         }
@@ -123,9 +123,9 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < Walls.Length; i++)
             {
-                Walls[i].GetComponent<Wall>().GoUp();
-                Walls[i].GetComponent<RealtimeView>().ClearOwnership();
-                Walls[i].GetComponent<RealtimeTransform>().ClearOwnership();
+                Walls[i].GetComponentInChildren<Wall>().GoUp();
+                Walls[i].GetComponentInChildren<RealtimeView>().ClearOwnership();
+                Walls[i].GetComponentInChildren<RealtimeTransform>().ClearOwnership();
             }
         }
     }
@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < Walls.Length; i++)
             {
-                Walls[i].GetComponent<Wall>().GoDown();
+                Walls[i].transform.GetChild(0).GetComponent<Wall>().GoDown();
             }
         }
     }
@@ -310,6 +310,11 @@ public class GameManager : MonoBehaviour
 
         Invoke("KeepTrackOfWinConditions", 3);
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
+
+        foreach (var wall in Walls)
+        {
+            wall.GetComponentInChildren<Wall>().ResetWall();
+        }
     }
 
     private void KeepTrackOfWinConditions()

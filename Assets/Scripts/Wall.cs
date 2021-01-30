@@ -2,27 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Normal.Realtime;
+using UnityEngine.UIElements;
 
 public class Wall : MonoBehaviour
 {
-    private Rigidbody rb => GetComponent<Rigidbody>();
-
     public float speed, resetSpeed, MoveRange;
 
     public bool MoveToTarget, ResetToStart;
 
-    Vector3 startingPos = new Vector3();
-
     float step;
+    public float localY;
 
     private void Start()
     {
-        Debug.Log("Wall is owned by: " + GetComponent<RealtimeTransform>().ownerIDInHierarchy);
+        localY = 0f;
+    }
 
-        startingPos = new Vector3
-        (this.transform.position.x,
-        this.transform.position.y,
-        this.transform.position.z);
+    public void ResetWall()
+    {
+        int temp = GetComponent<RealtimeTransform>().ownerIDInHierarchy;
+        Debug.Log("Wall is owned by: " + temp);
+        MoveToTarget = false;
+        ResetToStart = false;
+        localY = 0;
+        if (GetComponent<RealtimeTransform>().isUnownedInHierarchy)
+        {
+            transform.localPosition = Vector3.zero;
+        }
     }
 
     public void GoDown()
@@ -49,6 +55,8 @@ public class Wall : MonoBehaviour
             MoveToTarget = false;
             MoveWall();
         }
+
+        transform.localPosition = new Vector3(0, localY, 0);
     }
 
     private void MoveWall()
@@ -56,23 +64,21 @@ public class Wall : MonoBehaviour
         if (MoveToTarget)
         {
             step = -speed * Time.deltaTime;
+            localY += step;
+            if (localY <= -MoveRange)
+            {
+                MoveToTarget = false;
+            }
         }
-        else
+        else if (ResetToStart)
         {
             step = resetSpeed * Time.deltaTime;
-        }
-
-        transform.position += transform.up * 1f * step;
-
-        if (Vector3.Distance(startingPos, transform.position) >= MoveRange)
-        {
-            MoveToTarget = false;
-            ResetToStart = false;
-            startingPos =
-             new Vector3
-            (this.transform.position.x,
-            this.transform.position.y,
-            this.transform.position.z);
+            localY += step;
+            if (localY >= 0f)
+            {
+                ResetToStart = false;
+                localY = 0f;
+            }
         }
     }
 }
