@@ -7,11 +7,11 @@ public class Wall : MonoBehaviour
 {
     private Rigidbody rb => GetComponent<Rigidbody>();
 
-    public Transform StartPos, EndPos;
-
     public float speed, resetSpeed;
 
     public bool MoveToTarget, ResetToStart;
+
+    Vector3 startingPos = new Vector3();
 
     float step;
 
@@ -19,15 +19,10 @@ public class Wall : MonoBehaviour
     {
         Debug.Log("Wall is owned by: " + GetComponent<RealtimeTransform>().ownerIDInHierarchy);
 
-        if (EndPos != null)
-        {
-            EndPos.transform.parent = null;
-        }
-
-        if (StartPos != null)
-        {
-            StartPos.transform.parent = null;
-        }
+        startingPos = new Vector3
+        (this.transform.position.x,
+        this.transform.position.y,
+        this.transform.position.z);
     }
 
     public void GoDown()
@@ -46,30 +41,36 @@ public class Wall : MonoBehaviour
         if (MoveToTarget)
         {
             ResetToStart = false;
-            MoveWall(EndPos);
+            MoveWall();
         }
 
         if (ResetToStart)
         {
+            startingPos =
+                new Vector3
+        (this.transform.position.x,
+        this.transform.position.y,
+        this.transform.position.z);
+
             MoveToTarget = false;
-            MoveWall(StartPos);
+            MoveWall();
         }
     }
 
-    private void MoveWall(Transform target)
+    private void MoveWall()
     {
         if (MoveToTarget)
         {
-            step = speed * Time.deltaTime;
+            step = -speed * Time.deltaTime;
         }
         else
         {
             step = resetSpeed * Time.deltaTime;
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+        transform.position += Vector3.up * 1f * step;
 
-        if (Vector3.Distance(transform.position, target.position) <= 1f)
+        if (Vector3.Distance(startingPos, transform.position) >= 150f)
         {
             MoveToTarget = false;
             ResetToStart = false;
