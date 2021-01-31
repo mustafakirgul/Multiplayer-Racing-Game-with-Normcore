@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M.Car.Speedy.L4.Wheels
+  m_Name: M.Car.Tanky.L5.Wheels
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ShaderKeywords: _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP
   m_LightmapFlags: 4
@@ -21,11 +21,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 4381726add1f6894daca9742d8f1f640, type: 3}
+        m_Texture: {fileID: 2800000, guid: 647525e85dce06d4599cce5726707ee8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: ffab11abedcd3be4bbbd486ea2289387, type: 3}
+        m_Texture: {fileID: 2800000, guid: f85c9cd319af6c64ba8891a0953b4f58, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -33,15 +33,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 4381726add1f6894daca9742d8f1f640, type: 3}
+        m_Texture: {fileID: 2800000, guid: 647525e85dce06d4599cce5726707ee8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: b24c85e8edc0bc847b96decf030607f0, type: 3}
+        m_Texture: {fileID: 2800000, guid: 413100d69e9100846bfde8b10b49948a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: 3a5a39e7e8d3da94ab6c157216902989, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8a2b24bbe94243a47a16a5ee119e9235, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
