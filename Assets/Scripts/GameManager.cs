@@ -1,10 +1,7 @@
 ﻿using Normal.Realtime;
 using TMPro;
-using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -40,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     public PhaseManager phaseManager;
 
-    public GameObject[] Walls;
+    public WallLocalMarker[] Walls;
 
     [SerializeField] bool CanMoveWalls = false;
     public bool truckIsKilled;
@@ -107,7 +104,7 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < Walls.Length; i++)
             {
-                if (Walls[i].GetComponentInChildren<RealtimeView>().isUnownedInHierarchy)
+                if (Walls[i].GetComponentInChildren<RealtimeView>().isOwnedLocallyInHierarchy)
                 {
                     CanMoveWalls = true;
                     Walls[i].GetComponentInChildren<RealtimeView>()
@@ -121,36 +118,25 @@ public class GameManager : MonoBehaviour
 
     public void ResetWalls()
     {
-        if (CanMoveWalls)
+        for (int i = 0; i < Walls.Length; i++)
         {
-            for (int i = 0; i < Walls.Length; i++)
-            {
-                Walls[i].GetComponentInChildren<Wall>().ResetWall();
-            }
+            Walls[i].ResetWall();
         }
     }
 
     public void MakeWallsGoUp()
     {
-        if (CanMoveWalls)
+        for (int i = 0; i < Walls.Length; i++)
         {
-            for (int i = 0; i < Walls.Length; i++)
-            {
-                Walls[i].GetComponentInChildren<Wall>().GoUp();
-                /*Walls[i].GetComponentInChildren<RealtimeView>().ClearOwnership();
-                Walls[i].GetComponentInChildren<RealtimeTransform>().ClearOwnership();*/
-            }
+            Walls[i].OpenWall();
         }
     }
 
     public void MakeWallsGoDown()
     {
-        if (CanMoveWalls)
+        for (int i = 0; i < Walls.Length; i++)
         {
-            for (int i = 0; i < Walls.Length; i++)
-            {
-                Walls[i].transform.GetChild(0).GetComponent<Wall>().GoDown();
-            }
+            Walls[i].CloseWall();
         }
     }
 
@@ -177,6 +163,7 @@ public class GameManager : MonoBehaviour
             UnityEngine.Random.Range(center.z - (size.z * .5f), center.z + (size.z * .5f))
         );
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
+        Walls = FindObjectsOfType<WallLocalMarker>();
     }
 
     private void ResetBoolsForNewRound()
@@ -326,7 +313,7 @@ public class GameManager : MonoBehaviour
 
         foreach (var wall in Walls)
         {
-            wall.GetComponentInChildren<Wall>().ResetWall();
+            wall.ResetWall();
         }
     }
 
