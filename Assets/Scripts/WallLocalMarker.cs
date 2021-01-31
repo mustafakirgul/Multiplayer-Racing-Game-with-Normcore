@@ -6,21 +6,23 @@ public class WallLocalMarker : MonoBehaviour
 {
     public GameObject wall;
     public float openY;
-    public float openSpeed, closeSpeed;
+    [SerializeField] private float targetY, currentY;
+    public float speed;
     private GameObject networkedWall;
-    bool isNetworkInstance;
+    bool isNetworkInstance = true;
     private RealtimeView rtView, childRtView;
     private RealtimeTransform rtTransform, childRtTransform;
     private Realtime _realtime;
-    private bool openWall;
+    [SerializeField] private bool isRunning;
+    public bool showPreview;
 
     private void OnDrawGizmos()
     {
-        if (wall == null) return;
+        if (wall == null || !showPreview) return;
         Gizmos.DrawMesh(wall.GetComponent<MeshFilter>().sharedMesh, transform.position, transform.rotation,
             wall.transform.localScale);
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(new Vector3(transform.position.x, transform.position.y + openY, transform.position.z),
+        Gizmos.DrawWireSphere(transform.TransformPoint(new Vector3(0f, openY, 0f)),
             1f);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, 1f);
@@ -28,41 +30,29 @@ public class WallLocalMarker : MonoBehaviour
 
     private void Update()
     {
-        if (openWall)
-        {
-            OpenWallInternal();
-        }
-        else
-        {
-            CloseWallInternal();
-        }
-    }
-
-    private void OpenWallInternal()
-    {
         if (isNetworkInstance) return;
-
-        networkedWall.transform.position =
-            Vector3.Lerp(networkedWall.transform.localPosition,
-                new Vector3(networkedWall.transform.localPosition.x, openY, networkedWall.transform.localPosition.z),
-                openSpeed * Time.deltaTime);
-    }
-
-    private void CloseWallInternal()
-    {
-        if (isNetworkInstance) return;
-        networkedWall.transform.position =
-            Vector3.Lerp(networkedWall.transform.localPosition, Vector3.zero, closeSpeed * Time.deltaTime);
+        if (isRunning)
+        {
+            currentY = Mathf.Lerp(currentY, targetY, speed * Time.deltaTime);
+            networkedWall.transform.localPosition = new Vector3(0, currentY, 0);
+            if (Mathf.Abs(targetY - currentY) < .5f)
+            {
+                currentY = targetY;
+                isRunning = false;
+            }
+        }
     }
 
     public void OpenWall()
     {
-        openWall = true;
+        targetY = openY;
+        isRunning = true;
     }
 
     public void CloseWall()
     {
-        openWall = false;
+        targetY = 0f;
+        isRunning = true;
     }
 
     public void ResetWall()
@@ -70,20 +60,21 @@ public class WallLocalMarker : MonoBehaviour
         if (_realtime == null) _realtime = FindObjectOfType<Realtime>();
         if (rtView == null) rtView = GetComponent<RealtimeView>();
         if (rtTransform == null) rtTransform = GetComponent<RealtimeTransform>();
-        if (rtView.isUnownedInHierarchy) rtView.SetOwnership(_realtime.clientID);
-        if (rtTransform.isUnownedInHierarchy) rtTransform.SetOwnership(_realtime.clientID);
-        isNetworkInstance = rtView.isOwnedLocallyInHierarchy;
+        if (rtView.isUnownedSelf)
+        {
+            rtView.SetOwnership(_realtime.clientID);
+            rtTransform.SetOwnership(_realtime.clientID);
+        }
+
+        isNetworkInstance = !rtView.isOwnedLocallyInHierarchy;
         if (isNetworkInstance) return;
 
         if (networkedWall != null)
         {
-            if (!networkedWall.GetComponent<RealtimeView>().isOwnedLocallyInHierarchy)
-            {
-                networkedWall.GetComponent<RealtimeView>().RequestOwnership();
-                networkedWall.GetComponent<RealtimeTransform>().RequestOwnership();
+            networkedWall.GetComponent<RealtimeView>().SetOwnership(_realtime.clientID);
+            networkedWall.GetComponent<RealtimeTransform>().SetOwnership(_realtime.clientID);
+            if (!networkedWall.GetComponent<RealtimeView>().isUnownedInHierarchy)
                 Realtime.Destroy(networkedWall);
-                networkedWall = null; // just to make sure
-            }
         }
 
         networkedWall = Realtime.Instantiate(wall.transform.name,
@@ -93,11 +84,17 @@ public class WallLocalMarker : MonoBehaviour
             preventOwnershipTakeover: false,
             destroyWhenOwnerOrLastClientLeaves: true,
             useInstance: _realtime);
+        Debug.LogWarning("Networked Wall Instantiated");
 
+        networkedWall.transform.SetParent(transform);
+        networkedWall.transform.localPosition = Vector3.zero;
         childRtView = networkedWall.GetComponent<RealtimeView>();
         childRtTransform = networkedWall.GetComponent<RealtimeTransform>();
 
-        if (childRtView.isUnownedInHierarchy) childRtView.SetOwnership(_realtime.clientID);
-        if (childRtTransform.isUnownedInHierarchy) childRtTransform.SetOwnership(_realtime.clientID);
+        if (childRtView.isUnownedSelf)
+        {
+            childRtView.SetOwnership(_realtime.clientID);
+            childRtTransform.SetOwnership(_realtime.clientID);
+        }
     }
 }

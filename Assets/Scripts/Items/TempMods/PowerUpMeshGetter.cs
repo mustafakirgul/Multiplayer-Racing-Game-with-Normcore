@@ -14,7 +14,7 @@ public class PowerUpMeshGetter : MonoBehaviour
     void Start()
     {
         lootManager = FindObjectOfType<LootManager>();
-     
+
         StartCoroutine(waitToApplyMesh());
         //ApplyLootMesh(LootID.id);
     }
@@ -36,7 +36,7 @@ public class PowerUpMeshGetter : MonoBehaviour
 
         if (lootManager.playerLootPoolSave.PlayerPowerUps[PUIndex].MeshAppearance != null)
         {
-            Debug.LogWarning("MeshtoApply: " + PUIndex);
+            //Debug.LogWarning("MeshtoApply: " + PUIndex);
             this.transform.GetChild(1).gameObject.SetActive(false);
             Instantiate(lootManager.playerLootPoolSave.PlayerPowerUps[PUIndex].MeshAppearance,
                 this.gameObject.transform);

@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < Walls.Length; i++)
         {
-            Walls[i].OpenWall();
+            Walls[i].CloseWall();
         }
     }
 
@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < Walls.Length; i++)
         {
-            Walls[i].CloseWall();
+            Walls[i].OpenWall();
         }
     }
 
@@ -144,7 +144,6 @@ public class GameManager : MonoBehaviour
             UnityEngine.Random.Range(center.z - (size.z * .5f), center.z + (size.z * .5f))
         );
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
-        Walls = FindObjectsOfType<WallLocalMarker>();
     }
 
     private void ResetBoolsForNewRound()
@@ -176,6 +175,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _race = GetComponent<Race>();
+        Walls = FindObjectsOfType<WallLocalMarker>();
     }
 
     /*public void PlayerCountDownCheck()
@@ -291,11 +291,7 @@ public class GameManager : MonoBehaviour
 
         Invoke("KeepTrackOfWinConditions", 3);
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
-
-        foreach (var wall in Walls)
-        {
-            wall.ResetWall();
-        }
+        ResetWalls();
     }
 
     private void KeepTrackOfWinConditions()

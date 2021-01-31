@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2635713673487937262}
   - component: {fileID: 1983843159}
+  - component: {fileID: 8341167186879821286}
+  - component: {fileID: 6003323473071915498}
   m_Layer: 0
   m_Name: WallLocalMarker
   m_TagString: Untagged
@@ -44,7 +46,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 932560395804624112, guid: 1aec1b231f21c95439dba8bd1e681eaa, type: 3}
-  openY: 0
-  openSpeed: 0
-  closeSpeed: 0
+  openY: -100
+  targetY: 0
+  currentY: 0
+  speed: 1
+  isRunning: 0
+  showPreview: 1
+--- !u!114 &8341167186879821286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2635713673487937260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -363599832, guid: 30f4fd177e1fad742be136a8237ab587, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _realtime: {fileID: 0}
+  _sceneViewUUID: 
+  _viewUUID: 
+  _sceneViewPreventOwnershipTakeover: 0
+  _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
+  _isRootPrefabView: 1
+  _components:
+  - componentID: 1
+    component: {fileID: 6003323473071915498}
+  _childViews: []
+--- !u!114 &6003323473071915498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2635713673487937260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1029778088, guid: 30f4fd177e1fad742be136a8237ab587, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolate: 1
+  _syncPosition: 1
+  _syncRotation: 1
+  _syncScale: 0
+  _syncVelocity: 1
+  _maintainOwnershipWhileSleeping: 0
