@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
 
     public WallLocalMarker[] Walls;
 
-    [SerializeField] bool CanMoveWalls = false;
     public bool truckIsKilled;
 
     private void OnDrawGizmos()
@@ -95,24 +94,6 @@ public class GameManager : MonoBehaviour
         if (lootTruck != null)
         {
             lootTruck.SetInvincibility(_i);
-        }
-    }
-
-    public void AssignWallsIDs()
-    {
-        if (Walls.Length != 0)
-        {
-            for (int i = 0; i < Walls.Length; i++)
-            {
-                if (Walls[i].GetComponentInChildren<RealtimeView>().isOwnedLocallyInHierarchy)
-                {
-                    CanMoveWalls = true;
-                    Walls[i].GetComponentInChildren<RealtimeView>()
-                        .SetOwnership(playerManager.localPlayer.GetComponent<Player>()._id);
-                    Walls[i].GetComponentInChildren<RealtimeTransform>()
-                        .SetOwnership(playerManager.localPlayer.GetComponent<Player>()._id);
-                }
-            }
         }
     }
 
