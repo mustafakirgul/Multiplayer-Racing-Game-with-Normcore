@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PUAmmo
   m_EditorClassIdentifier: 
   powerUpType: 0
-  PrimaryModifierValue: 1
+  PrimaryModifierValue: 5
   ExtraWeaponModifierValue: 0
   projectileType: {fileID: 0}
   MeshAppearance: {fileID: 8904205021780674824, guid: a8fba5ed2bfedef4f90eb22dde03938b,

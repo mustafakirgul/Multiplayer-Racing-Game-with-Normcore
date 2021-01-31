@@ -21,6 +21,7 @@ public class PlayerManager : MonoBehaviour
     public Mesh gizmoMesh;
     [Range(0, 359)] public float spawnRotation;
 
+    PrespawnManager prespawnManager;
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireMesh(gizmoMesh, spawnPoint, Quaternion.Euler(-90, spawnRotation, 0), new Vector3(293, 539, 293));
@@ -54,6 +55,7 @@ public class PlayerManager : MonoBehaviour
         wait = new WaitForSeconds(20f);
         cR_playerListCleanUp = StartCoroutine(CR_PlayerListCleanUp());
         _realtime = FindObjectOfType<Realtime>();
+        prespawnManager = FindObjectOfType<PrespawnManager>();
         //GameManager.instance.PlayerCountDownCheck();
     }
 
@@ -105,7 +107,7 @@ public class PlayerManager : MonoBehaviour
         UpdateExistingPlayers();
         Truck truck = FindObjectOfType<Truck>();
 
-        PrespawnManager prespawnManager = FindObjectOfType<PrespawnManager>();
+        //PrespawnManager prespawnManager = FindObjectOfType<PrespawnManager>();
         if (truck == null)
         {
             _temp = Realtime.Instantiate("WeirdTruck",

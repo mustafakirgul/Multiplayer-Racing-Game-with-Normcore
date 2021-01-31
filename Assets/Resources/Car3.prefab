@@ -1008,12 +1008,17 @@ MonoBehaviour:
   HandlingModifier: 0
   LootWeaponProjectile: {fileID: 0}
   lootManager: {fileID: 0}
+  tempSpeedModifier: 0
+  tempDefenseModifier: 0
+  tempTruckDamageModifier: 0
+  tempBoostModifier: 0
   WeaponProjectile: {fileID: 3112086905854782875, guid: e220297a90909d147a2ac03c3dc95e92,
     type: 3}
   _barrelTip: {fileID: 7999507694352759004}
   fireRate: 10
   readyToFire: 0
   muzzleFlash: {fileID: 312486024225244060}
+  currentAmmo: 200
   uIManager: {fileID: 0}
   _currentName: 
   speedDisplay: {fileID: 0}
@@ -1168,6 +1173,7 @@ MonoBehaviour:
   maxPlayerHealth: 200
   explosionForce: {x: 0, y: 0, z: 0}
   armourDefenseModifier: 0
+  tempDefenseModifier: 0
   healModifier: 0
 --- !u!65 &7324370658739478688
 BoxCollider:

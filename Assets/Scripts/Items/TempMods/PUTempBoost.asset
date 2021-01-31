@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PUTempBoost
   m_EditorClassIdentifier: 
   powerUpType: 1
-  PrimaryModifierValue: 1
+  PrimaryModifierValue: 0.1
   ExtraWeaponModifierValue: 0
   projectileType: {fileID: 0}
   MeshAppearance: {fileID: 8904205021780674824, guid: 417f30187c65b7b4ba6eb222fdf2be66,
