@@ -34,7 +34,7 @@ public class WallLocalMarker : MonoBehaviour
         if (isRunning)
         {
             currentY = Mathf.Lerp(currentY, targetY, speed * Time.deltaTime);
-            networkedWall.transform.localPosition = new Vector3(0, currentY, 0);
+            networkedWall.transform.position = transform.position + new Vector3(0, currentY, 0);
             if (Mathf.Abs(targetY - currentY) < .5f)
             {
                 currentY = targetY;
@@ -75,6 +75,7 @@ public class WallLocalMarker : MonoBehaviour
             networkedWall.GetComponent<RealtimeTransform>().SetOwnership(_realtime.clientID);
             if (!networkedWall.GetComponent<RealtimeView>().isUnownedInHierarchy)
                 Realtime.Destroy(networkedWall);
+            Debug.LogWarning("Existing wall removed!");
         }
 
         networkedWall = Realtime.Instantiate(wall.transform.name,
@@ -85,9 +86,6 @@ public class WallLocalMarker : MonoBehaviour
             destroyWhenOwnerOrLastClientLeaves: true,
             useInstance: _realtime);
         Debug.LogWarning("Networked Wall Instantiated");
-
-        networkedWall.transform.SetParent(transform);
-        networkedWall.transform.localPosition = Vector3.zero;
         childRtView = networkedWall.GetComponent<RealtimeView>();
         childRtTransform = networkedWall.GetComponent<RealtimeTransform>();
 
