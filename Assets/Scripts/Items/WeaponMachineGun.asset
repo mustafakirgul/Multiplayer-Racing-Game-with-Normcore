@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38e7efa47463ff74fb62589c6c453217, type: 3}
+  m_Name: WeaponMachineGun
+  m_EditorClassIdentifier: 
+  _ItemType: 1
+  f_attack: 0
+  f_defense: 0.25
+  f_speed: 0
+  f_amount: 0
+  f_fireRate: 0.5
+  itemText: 'Armour 3 Text: stops 66% of incoming damage'
+  itemImage: {fileID: 2800000, guid: 4805620c001a84dc7b5d4bc68cbb6b4c, type: 3}
+  WeaponProjectile: {fileID: 3112086905854782875, guid: e220297a90909d147a2ac03c3dc95e92,
+    type: 3}
+  m_CosmeticModelToBeApplied: {fileID: 0}

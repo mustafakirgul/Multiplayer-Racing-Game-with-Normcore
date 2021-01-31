@@ -16,4 +16,5 @@ MonoBehaviour:
   PrimaryModifierValue: 0.02
   ExtraWeaponModifierValue: 0
   projectileType: {fileID: 0}
-  MeshAppearance: {fileID: 0}
+  MeshAppearance: {fileID: 8904205021780674824, guid: 8eb05ba3fa7c09643b8be044aab3cfd4,
+    type: 3}

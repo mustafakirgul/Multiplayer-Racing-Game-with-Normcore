@@ -401,7 +401,7 @@ public class NewCarController : MonoBehaviour
                 {
                     boostRadialLoader.enabled = true;
                     boosterCounter += Time.deltaTime;
-                    boostRadialLoader.fillAmount = boosterCounter / boostCooldownTime;
+                    boostRadialLoader.fillAmount = boosterCounter / (boostCooldownTime * (1- tempBoostModifier));
                 }
                 else
                 {
@@ -723,7 +723,7 @@ public class NewCarController : MonoBehaviour
             if (boosterReady && isGrounded)
             {
                 boosterReady = false;
-                CarRB.AddForce(transform.forward * (dashForce + tempBoostModifier), ForceMode.VelocityChange);
+                CarRB.AddForce(transform.forward * (dashForce), ForceMode.VelocityChange);
             }
         }
 

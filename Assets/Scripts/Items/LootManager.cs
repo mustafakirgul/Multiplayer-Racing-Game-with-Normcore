@@ -10,6 +10,16 @@ public enum BuildType
     Tank
 }
 
+public enum LootType
+{
+    Armour_One,
+    Engine_One,
+    Boost_One,
+    Mine_Weapons,
+    Homing_Missiles,
+    Machine_Gun,
+}
+
 public enum PowerUpType
 {
     Ammo,
