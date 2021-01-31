@@ -11,7 +11,7 @@ public class WallLocalMarker : MonoBehaviour
     bool isNetworkInstance;
     private RealtimeView rtView, childRtView;
     private RealtimeTransform rtTransform, childRtTransform;
-    public Realtime _realtime;
+    private Realtime _realtime;
     private bool openWall;
 
     private void OnDrawGizmos()
