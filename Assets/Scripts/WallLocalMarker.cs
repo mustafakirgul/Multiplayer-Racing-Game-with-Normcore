@@ -31,7 +31,7 @@ public class WallLocalMarker : MonoBehaviour
     private void Update()
     {
         if (isNetworkInstance) return;
-        if (isRunning)
+        if (isRunning && networkedWall != null)
         {
             currentY = Mathf.Lerp(currentY, targetY, speed * Time.deltaTime);
             networkedWall.transform.position = transform.position + new Vector3(0, currentY, 0);
