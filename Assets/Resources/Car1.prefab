@@ -1017,7 +1017,7 @@ MonoBehaviour:
   fireRate: 10
   readyToFire: 0
   muzzleFlash: {fileID: 312486024225244060}
-  currentAmmo: 20
+  currentAmmo: 10
   uIManager: {fileID: 0}
   _currentName: 
   speedDisplay: {fileID: 0}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PUSuperGun
   m_EditorClassIdentifier: 
   powerUpType: 5
-  PrimaryModifierValue: 0.1
+  PrimaryModifierValue: 5
   ExtraWeaponModifierValue: 2
   projectileType: {fileID: 3112086905854782875, guid: ef92a2c0c3fb2af43a149768530d0d25,
     type: 3}
