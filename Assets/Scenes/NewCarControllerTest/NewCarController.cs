@@ -221,9 +221,10 @@ public class NewCarController : MonoBehaviour
         WeaponProjectile = PermanentLootWeaponProjectile;
         fireRate = PermaFireRatet;
         fireTimer = 1f / fireRate;
+        wait = new WaitForSeconds(fireTimer);
         //tempTruckDamageModifier = PermaDmgMod;
         //Permanent Weapon starts off as 0
-        currentAmmo = 0f;
+        currentAmmo = 20f;
     }
 
     private void SwitchWeaponsDuringGame(GameObject LootWeaponProjectile, float lootFireRate, float damageModifier)
@@ -240,6 +241,7 @@ public class NewCarController : MonoBehaviour
         WeaponProjectile = LootWeaponProjectile;
         fireRate = lootFireRate;
         fireTimer = 1f / fireRate;
+        wait = new WaitForSeconds(fireTimer);
         tempTruckDamageModifier = damageModifier;
         currentAmmo = 100f;
     }
@@ -250,6 +252,7 @@ public class NewCarController : MonoBehaviour
             WeaponProjectile = savedWeaponProjectile;
             fireRate = savedWeaponFireRate;
             fireTimer = 1f / fireRate;
+            wait = new WaitForSeconds(fireTimer);
             currentAmmo = savedWeaponAmmo;
             ResetSavedWeapon();
         }
