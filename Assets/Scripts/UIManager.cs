@@ -196,22 +196,29 @@ public class UIManager : MonoBehaviour
     {
         for (int i = 0; i < _lootManager.playerLootPoolSave.PlayerLoot.Count; i++)
         {
+
             switch (_lootManager.playerLootPoolSave.PlayerLoot[i]._ItemType)
             {
                 case ItemType.Weapon:
                     GameObject WeaponButtonToAssign =
                         Instantiate(WeaponUIButton, WeaponGarageSlotContainer.transform);
                     WeaponButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
+                    //Toggle New flags for new weapons
+                    EnabledTagIfNew(i, WeaponButtonToAssign);
                     break;
                 case ItemType.Armour:
                     GameObject ArmourButtonToAssign =
                         Instantiate(ArmourUIButton, ArmourGarageSlotContainer.transform);
                     ArmourButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
+                    //Toggle New flags for new weapons
+                    EnabledTagIfNew(i, ArmourButtonToAssign);
                     break;
                 case ItemType.Engine:
                     GameObject EngineButtonToAssign =
                         Instantiate(EngineUIButton, EngineGarageSlotContainer.transform);
                     EngineButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
+                    //Toggle New flags for new weapons
+                    EnabledTagIfNew(i, EngineButtonToAssign);
                     break;
                 default:
                     break;
@@ -227,26 +234,49 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void EnabledTagIfNew(int FlagToEnable, GameObject ButtonToEnable)
+    {
+        //if item is new
+        if (_lootManager.playerLootPoolSave.PlayerNewLabelLootFlags[FlagToEnable])
+        {
+            ButtonToEnable.transform.GetChild(1).gameObject.SetActive(true);
+        }
+        else
+        {
+            ButtonToEnable.transform.GetChild(1).gameObject.SetActive(false);
+        }
+    }
+
     public void AssignAdditionalLootFromGameToDisplay()
     {
         for (int i = 0; i < _lootManager.playerLootPoolSave.PlayerLootToAdd.Count; i++)
         {
+            bool isNew = true;
+            _lootManager.playerLootPoolSave.PlayerNewLabelLootFlags.Add(isNew);
+
             switch (_lootManager.playerLootPoolSave.PlayerLootToAdd[i]._ItemType)
             {
                 case ItemType.Weapon:
                     GameObject WeaponButtonToAssign =
                         Instantiate(WeaponUIButton, WeaponGarageSlotContainer.transform);
                     WeaponButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
+                    //Set the new flag to true
+                    
+                    WeaponButtonToAssign.transform.GetChild(1).gameObject.SetActive(true);
                     break;
                 case ItemType.Armour:
                     GameObject ArmourButtonToAssign =
                         Instantiate(ArmourUIButton, ArmourGarageSlotContainer.transform);
                     ArmourButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
+                    //Set the new flag to true
+                    ArmourButtonToAssign.transform.GetChild(1).gameObject.SetActive(true);
                     break;
                 case ItemType.Engine:
                     GameObject EngineButtonToAssign =
                         Instantiate(EngineUIButton, EngineGarageSlotContainer.transform);
                     EngineButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
+                    //Set the new flag to true
+                    EngineButtonToAssign.transform.GetChild(1).gameObject.SetActive(true);
                     break;
                 default:
                     break;

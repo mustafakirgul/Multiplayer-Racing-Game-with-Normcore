@@ -17,12 +17,16 @@ public class UIItemDataContainer : MonoBehaviour
 
                 lootManager.selected_buildLoadOutToView.Weapon
                 = lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID];
+
                 //UI Image visualizaions
                 uiManager.SelectedWeapon.texture =
                 lootManager.selected_buildLoadOutToView.Weapon.m_image;
                 //UI Text for Item
                 uiManager.ItemDescription.text =
                     lootManager.selected_buildLoadOutToView.Weapon.m_text;
+
+                //Set new flag to false
+                lootManager.playerLootPoolSave.PlayerNewLabelLootFlags[_buttonItemID] = false;
                 break;
             case ItemType.Armour:
                 lootManager.selected_buildLoadOutToView.Armour
@@ -33,6 +37,9 @@ public class UIItemDataContainer : MonoBehaviour
                 //UI Text for Item
                 uiManager.ItemDescription.text =
                     lootManager.selected_buildLoadOutToView.Armour.m_text;
+
+                //Set new flag to false
+                lootManager.playerLootPoolSave.PlayerNewLabelLootFlags[_buttonItemID] = false;
                 break;
             case ItemType.Engine:
                 lootManager.selected_buildLoadOutToView.Engine
@@ -43,6 +50,9 @@ public class UIItemDataContainer : MonoBehaviour
                 //UI Text for Item
                 uiManager.ItemDescription.text =
                     lootManager.selected_buildLoadOutToView.Engine.m_text;
+
+                //Set new flag to false
+                lootManager.playerLootPoolSave.PlayerNewLabelLootFlags[_buttonItemID] = false;
                 break;
             default:
                 Debug.Log("Not a valid equipment type!");
