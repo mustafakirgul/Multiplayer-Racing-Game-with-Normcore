@@ -85,6 +85,14 @@ public class MissileProjectile : WeaponProjectileBase
             //Detection logic for homing missile
             for (int i = 0; i < MissileTargets.Length; i++)
             {
+                //To Do: add in a new system for target selection/priority
+                //Logic to prioritize targets
+                if (MissileTargets[i].transform.root.tag == "target")
+                {
+                    LockedTarget = MissileTargets[i].transform;
+                    return;
+                }
+
                 if (MissileTargets[i].transform.root.GetComponent<NewCarController>())
                 {
                     if (MissileTargets[i].transform.root.GetComponent<NewCarController>().ownerID
@@ -97,12 +105,6 @@ public class MissileProjectile : WeaponProjectileBase
                     {
                         continue;
                     }
-                }
-                //Logic to prioritize targets
-                if (MissileTargets[i].transform.root.tag == "target")
-                {
-                    LockedTarget = MissileTargets[i].transform;
-                    return;
                 }
             }
         }
