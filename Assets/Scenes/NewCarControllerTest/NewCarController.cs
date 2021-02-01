@@ -71,7 +71,6 @@ public class NewCarController : MonoBehaviour
     //Loot Modifiers
     //Engine and weapon projectiles need to be updated
     public float MaxSpeedModifier, accelerationModifier, HandlingModifier;
-    public GameObject LootWeaponProjectile;
     [SerializeField] private LootManager lootManager;
 
     //Temporary mods
@@ -84,6 +83,7 @@ public class NewCarController : MonoBehaviour
     [Space]
     [Header("Weapon Controls")]
     //Weapon Controls
+    //This is the default weapon the truck fires
     [SerializeField]
     private GameObject WeaponProjectile;
 
@@ -95,7 +95,12 @@ public class NewCarController : MonoBehaviour
     public float currentAmmo;
     float fireTimer;
 
-
+    //Make default weapon as a readable weapon stats with firerate and 
+    //Sobj
+    private GameObject savedWeaponProjectile;
+    private float savedWeaponFireRate;
+    private float savedWeaponAmmo;
+    private float savedTempDamageRate;
 
     [Space]
     [Space]
@@ -188,6 +193,8 @@ public class NewCarController : MonoBehaviour
 
         if (WeaponProjectile != null)
         {
+            //Note Fire Rate should either be projectile based on SOBJ item based
+            //Choose one not both
             fireRate = WeaponProjectile.GetComponent<WeaponProjectileBase>().weaponFireRate;
             fireTimer = 1f / fireRate;
         }
@@ -208,12 +215,41 @@ public class NewCarController : MonoBehaviour
         followCamera.InitCamera(CameraContainer);
     }
 
-    private void CheckIfHasWeapons()
+    private void SwitchWeaponsDuringGame(GameObject LootWeaponProjectile, float lootFireRate, float damageModifier)
     {
-        if (LootWeaponProjectile != null)
+        if (WeaponProjectile != null)
         {
-            WeaponProjectile = LootWeaponProjectile;
+            //Cache data for existing weapon in use
+            savedWeaponProjectile = WeaponProjectile;
+            savedWeaponFireRate = fireRate;
+            savedWeaponAmmo = currentAmmo;
+            savedTempDamageRate = tempTruckDamageModifier;
         }
+
+        WeaponProjectile = LootWeaponProjectile;
+        fireRate = lootFireRate;
+        fireTimer = 1f / fireRate;
+        tempTruckDamageModifier = damageModifier;
+        currentAmmo = 100f;
+    }
+    private void SwitchBackToSavedWeapon()
+    {
+        //Run this when the ammo runs out on the temp weapon
+        {
+            WeaponProjectile = savedWeaponProjectile;
+            fireRate = savedWeaponFireRate;
+            fireTimer = 1f / fireRate;
+            currentAmmo = savedWeaponAmmo;
+            ResetSavedWeapon();
+        }
+    }
+    private void ResetSavedWeapon()
+    {
+
+        savedWeaponProjectile = null;
+        savedWeaponAmmo = 0;
+        savedWeaponFireRate = 0;
+        savedTempDamageRate = 0;
     }
 
     // Start is called before the first frame update
@@ -229,7 +265,6 @@ public class NewCarController : MonoBehaviour
 
         if (!isNetworkInstance)
         {
-            CheckIfHasWeapons();
             ownerID = _realtimeTransform.ownerIDInHierarchy;
             isNetworkInstance = false;
             uIManager = FindObjectOfType<UIManager>();
@@ -401,7 +436,7 @@ public class NewCarController : MonoBehaviour
                 {
                     boostRadialLoader.enabled = true;
                     boosterCounter += Time.deltaTime;
-                    boostRadialLoader.fillAmount = boosterCounter / (boostCooldownTime * (1- tempBoostModifier));
+                    boostRadialLoader.fillAmount = boosterCounter / (boostCooldownTime * (1 - tempBoostModifier));
                 }
                 else
                 {
@@ -700,6 +735,19 @@ public class NewCarController : MonoBehaviour
 
                     StartCoroutine(FireCR());
                 }
+                else if (currentAmmo <= 0)
+                {
+                    if (savedWeaponProjectile != null)
+                    {
+                        SwitchBackToSavedWeapon();
+                    }
+                    else
+                    {
+                        //Do nothing, no ammo!
+                        Debug.Log("No ammo remains!");
+                    }
+                }
+              
             }
         }
 
@@ -876,7 +924,7 @@ public class NewCarController : MonoBehaviour
         else
         {
             //Just destroy the object
-            if(collision.gameObject.GetComponent<LootContainer>() != null)
+            if (collision.gameObject.GetComponent<LootContainer>() != null)
             {
                 StartCoroutine(
                 collision.gameObject.GetComponent<LootContainer>().CR_Die());
@@ -909,8 +957,8 @@ public class NewCarController : MonoBehaviour
                 break;
             case PowerUpType.SuperGun:
                 //Set super gun Projectile Here
-                LootWeaponProjectile = PowerUp.projectileType;
-
+                SwitchWeaponsDuringGame
+                (PowerUp.projectileType, PowerUp.PrimaryModifierValue, PowerUp.ExtraWeaponModifierValue);
                 break;
             case PowerUpType.TruckAttack:
                 tempTruckDamageModifier = PowerUp.PrimaryModifierValue;

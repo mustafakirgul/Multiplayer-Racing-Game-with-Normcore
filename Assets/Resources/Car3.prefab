@@ -1006,7 +1006,6 @@ MonoBehaviour:
   MaxSpeedModifier: 0
   accelerationModifier: 0
   HandlingModifier: 0
-  LootWeaponProjectile: {fileID: 0}
   lootManager: {fileID: 0}
   tempSpeedModifier: 0
   tempDefenseModifier: 0
@@ -1018,7 +1017,7 @@ MonoBehaviour:
   fireRate: 10
   readyToFire: 0
   muzzleFlash: {fileID: 312486024225244060}
-  currentAmmo: 200
+  currentAmmo: 30
   uIManager: {fileID: 0}
   _currentName: 
   speedDisplay: {fileID: 0}

@@ -15,6 +15,7 @@ MonoBehaviour:
   powerUpType: 5
   PrimaryModifierValue: 0.1
   ExtraWeaponModifierValue: 2
-  projectileType: {fileID: 0}
+  projectileType: {fileID: 3112086905854782875, guid: ef92a2c0c3fb2af43a149768530d0d25,
+    type: 3}
   MeshAppearance: {fileID: 8904205021780674824, guid: 517d27f49af315f4bbef6ce7688cba88,
     type: 3}

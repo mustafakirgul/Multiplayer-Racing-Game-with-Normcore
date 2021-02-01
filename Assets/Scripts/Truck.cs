@@ -350,7 +350,9 @@ public class Truck : RealtimeComponent<TruckModel>
                 true,
                 useInstance:
                 _realtime);
-            _temp.GetComponent<LootContainer>().SetID(UnityEngine.Random.Range(-666, 666));
+            int PUCount =
+            LootManager.instance.playerLootPoolSave.PlayerPowerUps.Count;
+            _temp.GetComponent<LootContainer>().SetID(UnityEngine.Random.Range(-PUCount, 666));
             Vector3 _tempDir = UnityEngine.Random.onUnitSphere;
             _tempDir = new Vector3(_tempDir.x, Mathf.Abs(_tempDir.y), _tempDir.z) * throwForce;
             Debug.DrawLine(lootLaunchPoint, lootLaunchPoint + _tempDir, Color.blue, 3f);

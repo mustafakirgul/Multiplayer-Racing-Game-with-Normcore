@@ -80942,6 +80942,11 @@ PrefabInstance:
       propertyPath: m_UseGravity
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3100507788467986755, guid: 192a6e82ccd178e46b67b579c2031b3a,
+        type: 3}
+      propertyPath: powerUpTypeSelected
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3292785388586224445, guid: 192a6e82ccd178e46b67b579c2031b3a,
         type: 3}
       propertyPath: m_IsKinematic
