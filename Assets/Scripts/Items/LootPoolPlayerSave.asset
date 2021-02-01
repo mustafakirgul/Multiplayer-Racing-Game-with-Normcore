@@ -24,10 +24,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: eb260a5d0307ddf49bfba3b8ae2cfe87, type: 2}
   - {fileID: 11400000, guid: 8424554ddb379164c9f626293684e236, type: 2}
   PlayerLoot:
-  - {fileID: 11400000, guid: 042e8a027e3b4e2449acd1f8471caf54, type: 2}
-  - {fileID: 11400000, guid: e28629993c1879c4d8ca0b8585d3c884, type: 2}
+  - {fileID: 11400000, guid: c8e5e0ab9767e1147ace4bfab4aca856, type: 2}
+  - {fileID: 11400000, guid: e5a33d74b3df55345b24cca1659708aa, type: 2}
   - {fileID: 11400000, guid: 8424554ddb379164c9f626293684e236, type: 2}
-  PlayerNewLabelLootFlags: 000000
+  PlayerNewLabelLootFlags: 010101
   PlayerLootToAdd: []
   PlayerPowerUps:
   - {fileID: 11400000, guid: 3cbdb096c6805624cb5c69352b870534, type: 2}

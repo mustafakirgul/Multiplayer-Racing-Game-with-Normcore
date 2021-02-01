@@ -18,7 +18,7 @@ MonoBehaviour:
   f_speed: 0
   f_amount: 0
   f_fireRate: 1.5
-  itemText: 'Armour 3 Text: stops 66% of incoming damage'
+  itemText: Missile Weapon Projectile
   itemImage: {fileID: 2800000, guid: 573821d83e23a47af9fb254d6c99d1ad, type: 3}
   WeaponProjectile: {fileID: 3112086905854782875, guid: 5dfb8fa6b064c5341a1a2ed8e2b7ab15,
     type: 3}

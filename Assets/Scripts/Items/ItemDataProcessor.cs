@@ -41,6 +41,8 @@ public class ItemDataProcessor : MonoBehaviour
                 break;
             case ItemType.Weapon:
                 mf_ItemMeleeAttack += ItemPickUp.m_Attack;
+
+                //Additional Weapon logic here
                 break;
             case ItemType.Armour:
                 mf_ItemArmour += ItemPickUp.m_Defense;
@@ -65,6 +67,12 @@ public class ItemDataProcessor : MonoBehaviour
                 mf_ItemMeleeAttack = ItemPickUp.m_Attack;
                 m_playerCarController.meleeDamageModifier = mf_ItemMeleeAttack;
                 //TO DO need to add weapon projectile for ranged weapons etc.
+                m_playerCarController.SetCurrentWeapon(
+                    ItemPickUp.GetProjectileForWeapon, 
+                    ItemPickUp.m_fireRate,
+                    //Temp Truck Damage Modifier
+                    ItemPickUp.m_Attack
+                    );
                 break;
             case ItemType.Armour:
                 mf_ItemArmour = ItemPickUp.m_Defense;

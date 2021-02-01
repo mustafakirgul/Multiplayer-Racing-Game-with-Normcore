@@ -215,6 +215,17 @@ public class NewCarController : MonoBehaviour
         followCamera.InitCamera(CameraContainer);
     }
 
+    //Use this to apply weapons for loot
+    public void SetCurrentWeapon(GameObject PermanentLootWeaponProjectile, float PermaFireRatet, float PermaDmgMod)
+    {
+        WeaponProjectile = PermanentLootWeaponProjectile;
+        fireRate = PermaFireRatet;
+        fireTimer = 1f / fireRate;
+        //tempTruckDamageModifier = PermaDmgMod;
+        //Permanent Weapon starts off as 0
+        currentAmmo = 0f;
+    }
+
     private void SwitchWeaponsDuringGame(GameObject LootWeaponProjectile, float lootFireRate, float damageModifier)
     {
         if (WeaponProjectile != null)
@@ -747,7 +758,7 @@ public class NewCarController : MonoBehaviour
                         Debug.Log("No ammo remains!");
                     }
                 }
-              
+
             }
         }
 
