@@ -840,8 +840,8 @@ MonoBehaviour:
   damageDisplayTime: 0.25
   isInvincible: 1
   _owner: 0
-  _health: 200
-  _maxHealth: 200
+  _health: 5
+  _maxHealth: 5
   _explosionForce: {x: 0, y: 0, z: 0}
 --- !u!114 &7175390289188852947
 MonoBehaviour:
