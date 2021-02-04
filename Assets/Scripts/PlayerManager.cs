@@ -22,6 +22,7 @@ public class PlayerManager : MonoBehaviour
     [Range(0, 359)] public float spawnRotation;
 
     PrespawnManager prespawnManager;
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireMesh(gizmoMesh, spawnPoint, Quaternion.Euler(-90, spawnRotation, 0), new Vector3(293, 539, 293));
@@ -45,15 +46,14 @@ public class PlayerManager : MonoBehaviour
     public List<Transform> networkPlayers;
 
     public Transform localPlayer;
-
     GameObject _temp;
     public Realtime _realtime;
+    public PlayerInfo[] allPlayers;
 
     private void Awake()
     {
         SingletonCheck();
         wait = new WaitForSeconds(20f);
-        cR_playerListCleanUp = StartCoroutine(CR_PlayerListCleanUp());
         _realtime = FindObjectOfType<Realtime>();
         prespawnManager = FindObjectOfType<PrespawnManager>();
         //GameManager.instance.PlayerCountDownCheck();
@@ -85,6 +85,8 @@ public class PlayerManager : MonoBehaviour
                 }
             }
         }
+
+        RefreshAllPlayers();
     }
 
     public int RequestOwner()
@@ -93,20 +95,46 @@ public class PlayerManager : MonoBehaviour
         foreach (Transform player in networkPlayers)
         {
             int _temp = player.GetComponent<NewCarController>()._player._id;
-            if (_temp<_lowestID)
+            if (_temp < _lowestID)
             {
                 _lowestID = _temp;
             }
         }
+
         return _lowestID;
+    }
+
+    public string PlayerName(int id)
+    {
+        string temp = "N/A";
+        if (id < allPlayers.Length)
+        {
+            foreach (PlayerInfo p in allPlayers)
+            {
+                if (p.id == id) temp = p.name;
+            }
+        }
+
+        return temp;
+    }
+
+    void RefreshAllPlayers()
+    {
+        allPlayers = new PlayerInfo[networkPlayers.Count + 1];
+        for (int i = 0; i < allPlayers.Length; i++)
+        {
+            allPlayers[i] =
+                i == 0
+                    ? new PlayerInfo(localPlayer.GetComponent<Player>(), true)
+                    : new PlayerInfo(networkPlayers[i].GetComponent<Player>(), false);
+        }
     }
 
     public void AddLocalPlayer(Transform _player)
     {
         localPlayer = _player;
-        UpdateExistingPlayers();
+        cR_playerListCleanUp = StartCoroutine(CR_PlayerListCleanUp());
         Truck truck = FindObjectOfType<Truck>();
-
         //PrespawnManager prespawnManager = FindObjectOfType<PrespawnManager>();
         if (truck == null)
         {
@@ -182,5 +210,26 @@ public class PlayerManager : MonoBehaviour
         //}
 
         localPlayer = null;
+    }
+}
+
+public struct PlayerInfo
+{
+    public int id;
+    public string name;
+    public bool isLocal;
+
+    public PlayerInfo(int id, string name, bool isLocal)
+    {
+        this.id = id;
+        this.name = name;
+        this.isLocal = isLocal;
+    }
+
+    public PlayerInfo(Player player, bool isLocal)
+    {
+        id = player._id;
+        name = player.name;
+        this.isLocal = isLocal;
     }
 }

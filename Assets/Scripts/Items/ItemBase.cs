@@ -23,7 +23,7 @@ public class ItemBase : ScriptableObject
 
     public Texture2D m_image => itemImage;
 
-    [SerializeField] private GameObject WeaponProjectile;
+    public GameObject WeaponProjectile;
     public GameObject GetProjectileForWeapon => WeaponProjectile;
 
     [SerializeField] private GameObject m_CosmeticModelToBeApplied;

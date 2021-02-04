@@ -50,6 +50,7 @@ public class Loot : RealtimeComponent<LootModel>
 
     private void CollectedByDidChange(LootModel model, int value)
     {
+//UI prompt
         CollectedByChanged();
     }
 
