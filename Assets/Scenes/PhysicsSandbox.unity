@@ -14605,6 +14605,8 @@ MonoBehaviour:
   ItemDescription: {fileID: 1057637284}
   damageIndicatorCanvasGroup: {fileID: 884174614}
   IronHogHPBar: {fileID: 2145144946}
+  _tempTruckHealth: 0
+  _lastTruckHealth: 0
 --- !u!114 &707250628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76790,6 +76792,11 @@ PrefabInstance:
         type: 3}
       propertyPath: center.y
       value: 139.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3256981861654351050, guid: c4243823ecb99bd4bbfff6f0ba948113,
+        type: 3}
+      propertyPath: MinXrayTruckOutlineDistance
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 3256981861654351051, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
