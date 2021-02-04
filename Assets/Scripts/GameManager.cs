@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI playerNameInputField;
 
     public Canvas _enterNameCanvas;
+    public GameObject HeatMeter;
+    public GameObject HeatText;
+
     public Camera _miniMapCamera;
     public string preferredCar;
     string _tempName;
@@ -132,6 +135,8 @@ public class GameManager : MonoBehaviour
         lootManager = FindObjectOfType<LootManager>();
         _enterNameCanvas.gameObject.SetActive(true);
         lootTruck = FindObjectOfType<Truck>();
+        //HeatMeter = GameObject.FindGameObjectWithTag("OverHeatMeter");
+        //HeatText = GameObject.FindGameObjectWithTag("OverHeatText");
         // Get the Realtime component on this game object
         _realtime = GetComponent<Realtime>();
 
@@ -254,6 +259,8 @@ public class GameManager : MonoBehaviour
             lootTruck = FindObjectOfType<Truck>();
         playerNameInputField = GameObject.FindGameObjectWithTag("enterNameField").GetComponent<TextMeshProUGUI>();
         _enterNameCanvas = GameObject.FindGameObjectWithTag("enterNameCanvas").GetComponent<Canvas>();
+        HeatMeter = GameObject.FindGameObjectWithTag("OverHeatMeter");
+        HeatText = GameObject.FindGameObjectWithTag("OverHeatText");
         _miniMapCamera = GameObject.FindGameObjectWithTag("miniMapCamera").GetComponent<Camera>();
 
         gameSceneManager = FindObjectOfType<GameSceneManager>();
@@ -288,6 +295,9 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<MiniMapCamera>()._master = _temp.transform;
         ResetBoolsForNewRound();
         _enterNameCanvas.gameObject.SetActive(false);
+        _temp.GetComponent<NewCarController>().OverheatMeterObj.SetActive(false);
+        _temp.GetComponent<NewCarController>().OverHeatNotice.SetActive(false);
+        //HeatText.SetActive(false);
 
         Invoke("KeepTrackOfWinConditions", 3);
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));

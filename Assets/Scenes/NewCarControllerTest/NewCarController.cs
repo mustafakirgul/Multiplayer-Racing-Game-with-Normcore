@@ -85,16 +85,28 @@ public class NewCarController : MonoBehaviour
     //Weapon Controls
     //This is the default weapon the truck fires
     [SerializeField]
-    private GameObject WeaponProjectile;
+    private GameObject PrimaryWeaponProjectile;
+    [SerializeField]
+    private GameObject SecondaryWeaponProjectile;
 
     private GameObject _bulletBuffer;
     public Transform _barrelTip;
-    public float fireRate = 1; //number of bullets fired per second //Weapon Change should affect this variable
+    public float primaryfireRate = 1;
+    public float secondaryfireRate = 1; //number of bullets fired per second //Weapon Change should affect this variable
     public bool readyToFire = false;
     public GameObject muzzleFlash;
     public float currentAmmo;
-    float fireTimer;
+    public float primaryFireTimer;
+    public float secondayFireTimer;
+    public float weaponType;
 
+    //For primary weapon w/ infinite ammo
+    public bool Overheat;
+    public float heatLevel;
+    public float maxHeatThreshold;
+    public float OverheatCoolTimer;
+
+    float savedPrimaryFireTimer;
     //Make default weapon as a readable weapon stats with firerate and 
     //Sobj
     private GameObject savedWeaponProjectile;
@@ -113,6 +125,10 @@ public class NewCarController : MonoBehaviour
 
     public TextMeshProUGUI speedDisplay, IDDisplay;
 
+    public Image OverheatMeter;
+    public GameObject OverheatMeterObj;
+    public GameObject OverHeatNotice;
+
     [Space]
     [Space]
     [Header("Health Params")]
@@ -125,7 +141,6 @@ public class NewCarController : MonoBehaviour
     bool isPlayerAlive = true;
     public float explosionForce = 2000000f;
     public float resetHeight;
-
 
     public float damageFeedbackDuration = .33f; //duration of camera shake
     private Coroutine cR_damageEffect;
@@ -153,15 +168,11 @@ public class NewCarController : MonoBehaviour
     public Light LHL;
 
     private bool lights;
-
-    //Reset Controls
-
-
     //QA
     [HideInInspector] public int _bombs;
 
     private WaitForEndOfFrame waitFrame, waitFrame2;
-    private WaitForSeconds wait, muzzleWait;
+    private WaitForSeconds primaryWait, secondaryWait, muzzleWait;
 
     [HideInInspector] public int _resets;
 
@@ -191,24 +202,31 @@ public class NewCarController : MonoBehaviour
             _realtimeTransform.enabled = true;
         }
 
-        if (WeaponProjectile != null)
-        {
-            //Note Fire Rate should either be projectile based on SOBJ item based
-            //Choose one not both
-            fireRate = WeaponProjectile.GetComponent<WeaponProjectileBase>().weaponFireRate;
-            fireTimer = 1f / fireRate;
-        }
-        else
-        {
-            fireTimer = 1f / fireRate;
-        }
+        SetWeaponFireRates();
 
         _player = GetComponent<Player>();
         waitFrame = new WaitForEndOfFrame();
         waitFrame2 = new WaitForEndOfFrame();
-        wait = new WaitForSeconds(fireTimer);
+        primaryWait = new WaitForSeconds(primaryFireTimer);
+        secondaryWait = new WaitForSeconds(secondayFireTimer);
         muzzleWait = new WaitForSeconds(.2f);
     }
+
+    void SetWeaponFireRates()
+    {
+        if (PrimaryWeaponProjectile != null)
+        {
+            primaryfireRate = PrimaryWeaponProjectile.GetComponent<WeaponProjectileBase>().weaponFireRate;
+            primaryFireTimer = 1f / primaryfireRate;
+        }
+
+        if (SecondaryWeaponProjectile != null)
+        {
+            secondaryfireRate = SecondaryWeaponProjectile.GetComponent<WeaponProjectileBase>().weaponFireRate;
+            secondayFireTimer = 1f / secondaryfireRate;
+        }
+    }
+
     void InitCamera()
     {
         followCamera = GameObject.FindObjectOfType<ChaseCam>();
@@ -218,10 +236,10 @@ public class NewCarController : MonoBehaviour
     //Use this to apply weapons for loot
     public void SetCurrentWeapon(GameObject PermanentLootWeaponProjectile, float PermaFireRatet, float PermaDmgMod)
     {
-        WeaponProjectile = PermanentLootWeaponProjectile;
-        fireRate = PermaFireRatet;
-        fireTimer = 1f / fireRate;
-        wait = new WaitForSeconds(fireTimer);
+        SecondaryWeaponProjectile = PermanentLootWeaponProjectile;
+        secondaryfireRate = PermaFireRatet;
+        secondayFireTimer = 1f / secondaryfireRate;
+        secondaryWait = new WaitForSeconds(secondayFireTimer);
         //tempTruckDamageModifier = PermaDmgMod;
         //Permanent Weapon starts off as 0
         currentAmmo = 20f;
@@ -229,19 +247,19 @@ public class NewCarController : MonoBehaviour
 
     private void SwitchWeaponsDuringGame(GameObject LootWeaponProjectile, float lootFireRate, float damageModifier)
     {
-        if (WeaponProjectile != null)
+        if (PrimaryWeaponProjectile != null)
         {
             //Cache data for existing weapon in use
-            savedWeaponProjectile = WeaponProjectile;
-            savedWeaponFireRate = fireRate;
+            savedWeaponProjectile = PrimaryWeaponProjectile;
+            savedWeaponFireRate = primaryfireRate;
             savedWeaponAmmo = currentAmmo;
             savedTempDamageRate = tempTruckDamageModifier;
         }
 
-        WeaponProjectile = LootWeaponProjectile;
-        fireRate = lootFireRate;
-        fireTimer = 1f / fireRate;
-        wait = new WaitForSeconds(fireTimer);
+        PrimaryWeaponProjectile = LootWeaponProjectile;
+        primaryfireRate = lootFireRate;
+        primaryFireTimer = 1f / primaryfireRate;
+        primaryWait = new WaitForSeconds(primaryFireTimer);
         tempTruckDamageModifier = damageModifier;
         currentAmmo = 100f;
     }
@@ -249,17 +267,16 @@ public class NewCarController : MonoBehaviour
     {
         //Run this when the ammo runs out on the temp weapon
         {
-            WeaponProjectile = savedWeaponProjectile;
-            fireRate = savedWeaponFireRate;
-            fireTimer = 1f / fireRate;
-            wait = new WaitForSeconds(fireTimer);
+            SecondaryWeaponProjectile = savedWeaponProjectile;
+            primaryfireRate = savedWeaponFireRate;
+            primaryFireTimer = 1f / primaryfireRate;
+            primaryWait = new WaitForSeconds(primaryFireTimer);
             currentAmmo = savedWeaponAmmo;
             ResetSavedWeapon();
         }
     }
     private void ResetSavedWeapon()
     {
-
         savedWeaponProjectile = null;
         savedWeaponAmmo = 0;
         savedWeaponFireRate = 0;
@@ -282,6 +299,8 @@ public class NewCarController : MonoBehaviour
             ownerID = _realtimeTransform.ownerIDInHierarchy;
             isNetworkInstance = false;
             uIManager = FindObjectOfType<UIManager>();
+
+            OverheatMeterObj.SetActive(true);
             if (uIManager != null)
             {
                 uIManager.EnableUI();
@@ -302,7 +321,6 @@ public class NewCarController : MonoBehaviour
                 wheels[i].originY = wheels[i].wheelT.localPosition.y;
             }
 
-
             currentX = carBody.localEulerAngles.x;
             currentZ = carBody.localEulerAngles.z;
 
@@ -316,7 +334,13 @@ public class NewCarController : MonoBehaviour
                 }
             }
 
-            StartCoroutine(FireCR());
+            StartCoroutine(FirePrimaryCR());
+
+            if (SecondaryWeaponProjectile)
+            {
+                StartCoroutine(FireSecondaryCR());
+            }
+
             InitCamera();
             if (!offlineTest)
             {
@@ -728,44 +752,81 @@ public class NewCarController : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.LeftControl) || Input.GetButton("Fire"))
             {
-                if (readyToFire && currentAmmo > 0)
+                switch (weaponType)
                 {
-                    readyToFire = false;
-                    currentAmmo--;
-                    currentAmmo = Mathf.Clamp(currentAmmo, 0, 999);
+                    case 0:
+                        if (readyToFire && !Overheat)
+                        {
+                            readyToFire = false;
 
-                    _bulletBuffer = Realtime.Instantiate(WeaponProjectile.name,
-                        position: _barrelTip.position,
-                        rotation: _barrelTip.rotation,
-                        ownedByClient: true,
-                        useInstance: _realtime);
+                            _bulletBuffer = Realtime.Instantiate(PrimaryWeaponProjectile.name,
+                                position: _barrelTip.position,
+                                rotation: _barrelTip.rotation,
+                                ownedByClient: true,
+                                useInstance: _realtime);
 
-                    WeaponProjectileBase weaponBase = _bulletBuffer.GetComponent<WeaponProjectileBase>();
+                            WeaponProjectileBase PrimaryWeaponBase = _bulletBuffer.GetComponent<WeaponProjectileBase>();
 
-                    weaponBase.isNetworkInstance = false;
-                    weaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
-                    weaponBase.truckDamageTempModifier = tempTruckDamageModifier;
-                    //_bulletBuffer.GetComponent<WeaponProjectileBase>().originOwnerID = ownerID;
+                            PrimaryWeaponBase.isNetworkInstance = false;
+                            PrimaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
+                            PrimaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
+                            //_bulletBuffer.GetComponent<WeaponProjectileBase>().originOwnerID = ownerID;
 
-                    StartCoroutine(FireCR());
+                            StartCoroutine(FirePrimaryCR());
+                        }
+                        break;
+                    case 1:
+                        if (readyToFire && currentAmmo > 0)
+                        {
+                            readyToFire = false;
+                            currentAmmo--;
+                            currentAmmo = Mathf.Clamp(currentAmmo, 0, 999);
+
+                            _bulletBuffer = Realtime.Instantiate(SecondaryWeaponProjectile.name,
+                                position: _barrelTip.position,
+                                rotation: _barrelTip.rotation,
+                                ownedByClient: true,
+                                useInstance: _realtime);
+
+                            WeaponProjectileBase SecondaryWeaponBase = _bulletBuffer.GetComponent<WeaponProjectileBase>();
+
+                            SecondaryWeaponBase.isNetworkInstance = false;
+                            SecondaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
+                            SecondaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
+                            //_bulletBuffer.GetComponent<WeaponProjectileBase>().originOwnerID = ownerID;
+
+                            StartCoroutine(FireSecondaryCR());
+                        }
+                        else if (currentAmmo <= 0)
+                        {
+                            if (savedWeaponProjectile != null)
+                            {
+                                SwitchBackToSavedWeapon();
+                            }
+                            else
+                            {
+                                //Do nothing, no ammo!
+                                Debug.Log("No ammo remains!");
+                            }
+                        }
+                        break;
                 }
-                else if (currentAmmo <= 0)
-                {
-                    if (savedWeaponProjectile != null)
-                    {
-                        SwitchBackToSavedWeapon();
-                    }
-                    else
-                    {
-                        //Do nothing, no ammo!
-                        Debug.Log("No ammo remains!");
-                    }
-                }
-
             }
+
+            if (readyToFire)
+            {
+                heatLevel -= 2f;
+                heatLevel = Mathf.Clamp(heatLevel, 0, maxHeatThreshold);
+            }
+
+            OverheatMeter.fillAmount = (heatLevel / maxHeatThreshold);
         }
 
-
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            weaponType++;
+            weaponType %= 2;
+        }
         //Need to add reset timer to avoid spamming
         if (Input.GetKeyDown(KeyCode.R) || Input.GetButton("Reset")) //reset
         {
@@ -898,12 +959,41 @@ public class NewCarController : MonoBehaviour
     }
 
     //Weapon Firing Codes
-    private IEnumerator FireCR()
+    private IEnumerator FirePrimaryCR()
+    {
+        _bombs++;
+        //Add Heat Value
+        heatLevel += 10f;
+        CheckHeatLevels();
+        muzzleFlash.SetActive(true);
+        StartCoroutine(MuzzleToggle());
+        yield return primaryWait;
+        readyToFire = true;
+    }
+
+    void CheckHeatLevels()
+    {
+        if (heatLevel >= 100 &&
+            !Overheat)
+        {
+            OverHeatNotice.gameObject.SetActive(true);
+            Overheat = true;
+            StartCoroutine(WeaponCoolDown());
+        }
+    }
+    IEnumerator WeaponCoolDown()
+    {
+        yield return new WaitForSeconds(OverheatCoolTimer);
+        OverHeatNotice.gameObject.SetActive(false);
+        heatLevel = 0;
+        Overheat = false;
+    }
+    private IEnumerator FireSecondaryCR()
     {
         _bombs++;
         muzzleFlash.SetActive(true);
         StartCoroutine(MuzzleToggle());
-        yield return wait;
+        yield return secondaryWait;
         readyToFire = true;
     }
 
