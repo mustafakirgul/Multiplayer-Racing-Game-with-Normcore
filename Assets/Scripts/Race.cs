@@ -5,6 +5,7 @@ public class Race : RealtimeComponent<RaceModel>
     public double m_fGameStartTime;
     public float m_fRaceDuration;
     public int m_iPhase;
+    public bool m_isOn;
 
 
     protected override void OnRealtimeModelReplaced(RaceModel previousModel, RaceModel currentModel)
@@ -13,13 +14,20 @@ public class Race : RealtimeComponent<RaceModel>
         {
             previousModel.gameStartTimeDidChange -= GameTimeChanged;
             previousModel.phaseDidChange -= PhaseChanged;
+            previousModel.isOnDidChange -= IsOnChanged;
         }
 
         if (currentModel != null)
         {
             currentModel.gameStartTimeDidChange += GameTimeChanged;
             currentModel.phaseDidChange += PhaseChanged;
+            currentModel.isOnDidChange += IsOnChanged;
         }
+    }
+
+    public void ChangeIsOn(bool state)
+    {
+        model.isOn = state;
     }
 
     public void ChangePhase(int phase)
@@ -29,7 +37,7 @@ public class Race : RealtimeComponent<RaceModel>
 
     private void PhaseChanged(RaceModel raceModel, int phase)
     {
-        m_iPhase = model.phase;
+        m_iPhase = phase;
         GameManager.instance.phaseManager.JumpToPhase(phase);
     }
 
@@ -40,6 +48,10 @@ public class Race : RealtimeComponent<RaceModel>
 
     private void GameTimeChanged(RaceModel raceModel, double value)
     {
-        m_fGameStartTime = model.gameStartTime;
+        m_fGameStartTime = value;
+    }
+
+    private void IsOnChanged(RaceModel raceModel, bool value)
+    {
     }
 }
