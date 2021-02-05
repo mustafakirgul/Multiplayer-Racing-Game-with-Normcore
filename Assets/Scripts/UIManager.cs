@@ -53,7 +53,7 @@ public class UIManager : MonoBehaviour
 
     //IronHog Health UI
     public GameObject IronHogHPBar;
-    public float _tempTruckHealth = 0f; 
+    public float _tempTruckHealth = 0f;
     public float _lastTruckHealth = 0f;
     Coroutine InitTruckHealthCR, UpdateTruckHealthCR;
 
@@ -94,7 +94,7 @@ public class UIManager : MonoBehaviour
     }
 
     //Class selection button should not start here
-    public void ConnectToRoom()
+    public void ConnectToRoom(string roomName)
     {
         Debug.LogWarning("Connecting to room.");
         for (int i = 0; i < BuildModelsAppearance.Count; i++)
@@ -102,7 +102,7 @@ public class UIManager : MonoBehaviour
             BuildModelsAppearance[i].SetActive(false);
         }
 
-        GameManager.instance.ConnectToRoom(SelectedBuildToView);
+        GameManager.instance.ConnectToRoom(SelectedBuildToView, roomName);
         _lootManager.DeploySelectedBuild();
         lastbuildSelected = SelectedBuildToView;
     }
@@ -198,7 +198,6 @@ public class UIManager : MonoBehaviour
     {
         for (int i = 0; i < _lootManager.playerLootPoolSave.PlayerLoot.Count; i++)
         {
-
             switch (_lootManager.playerLootPoolSave.PlayerLoot[i]._ItemType)
             {
                 case ItemType.Weapon:
@@ -263,7 +262,7 @@ public class UIManager : MonoBehaviour
                         Instantiate(WeaponUIButton, WeaponGarageSlotContainer.transform);
                     WeaponButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
                     //Set the new flag to true
-                    
+
                     WeaponButtonToAssign.transform.GetChild(1).gameObject.SetActive(true);
                     break;
                 case ItemType.Armour:

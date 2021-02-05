@@ -1,4 +1,5 @@
-﻿using Normal.Realtime;
+﻿using System;
+using Normal.Realtime;
 using TMPro;
 using System.Collections;
 using UnityEngine;
@@ -10,9 +11,7 @@ public class GameManager : MonoBehaviour
     [Range(0, 359)] public float direction; //y angle of the spawned player
     Vector3 spawnPoint;
 
-    [Space]
-    [Space]
-    [Header("UI and Camera")]
+    [Space] [Space] [Header("UI and Camera")]
     public TextMeshProUGUI playerNameInputField;
 
     public Canvas _enterNameCanvas;
@@ -32,14 +31,11 @@ public class GameManager : MonoBehaviour
     public bool readyToStart;
     public Truck lootTruck;
 
-    [SerializeField]
-    private Outline TruckOutline;
+    [SerializeField] private Outline TruckOutline;
 
     public float MinXrayTruckOutlineDistance;
 
-    [Space]
-    [Space]
-    [Header("Managers")]
+    [Space] [Space] [Header("Managers")]
     //Managers
     private PlayerManager playerManager;
 
@@ -52,7 +48,7 @@ public class GameManager : MonoBehaviour
     public WallLocalMarker[] Walls;
 
     public bool truckIsKilled;
-
+    public bool isHost;
     private void OnDrawGizmos()
     {
         float radians = direction * Mathf.Deg2Rad;
@@ -147,8 +143,6 @@ public class GameManager : MonoBehaviour
         //HeatText = GameObject.FindGameObjectWithTag("OverHeatText");
         // Get the Realtime component on this game object
         _realtime = GetComponent<Realtime>();
-
-        // Notify us when Realtime successfully connects to the room
         spawnPoint = new Vector3(
             UnityEngine.Random.Range(center.x - (size.x * .5f), center.x + (size.x * .5f)),
             UnityEngine.Random.Range(center.y - (size.y * .5f), center.y + (size.y * .5f)),
@@ -215,9 +209,11 @@ public class GameManager : MonoBehaviour
                     TruckOutline.enabled = false;
                 }
             }
+
             yield return new WaitForSeconds(2f);
         }
     }
+
     private void Update()
     {
         //Debug.LogWarning("Room Game Start Time:" + _race._model.gameStartTime);
@@ -250,7 +246,7 @@ public class GameManager : MonoBehaviour
         chaseCam.ResetCam();
     }
 
-    public void ConnectToRoom(int _selection)
+    public void ConnectToRoom(int _selection, string roomName)
     {
         if (_realtime.connected)
         {
@@ -275,10 +271,16 @@ public class GameManager : MonoBehaviour
         if (playerNameInputField.text.Length > 0)
         {
             Debug.Log(preferredCar);
-            _realtime.Connect("UGP_TEST5");
+            _realtime.Connect(roomName);
             _realtime.didConnectToRoom += DidConnectToRoom;
             _realtime.didDisconnectFromRoom += DidDisconnectFromRoom;
         }
+    }
+
+    private void OnDestroy()
+    {
+        _realtime.didConnectToRoom -= DidConnectToRoom;
+        _realtime.didDisconnectFromRoom -= DidDisconnectFromRoom;
     }
 
     public void FixAssociations()
@@ -320,6 +322,7 @@ public class GameManager : MonoBehaviour
         _temp.GetComponent<ItemDataProcessor>().ObtainLoadOutData(lootManager.ObatinCurrentBuild());
         FindObjectOfType<MiniMapCamera>()._master = _temp.transform;
         ResetBoolsForNewRound();
+        _race.ChangeIsOn(true);
         _enterNameCanvas.gameObject.SetActive(false);
         _temp.GetComponent<NewCarController>().OverheatMeterObj.SetActive(false);
         _temp.GetComponent<NewCarController>().OverHeatNotice.SetActive(false);

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8555948237095278224}
   - component: {fileID: 3118380813140263231}
   - component: {fileID: 8151199726537801043}
+  - component: {fileID: 3189785517879690421}
   m_Layer: 0
   m_Name: Lobbiest
   m_TagString: Untagged
@@ -53,6 +54,8 @@ MonoBehaviour:
   _components:
   - componentID: 1
     component: {fileID: 8151199726537801043}
+  - componentID: 2
+    component: {fileID: 3189785517879690421}
   _childViews: []
 --- !u!114 &8151199726537801043
 MonoBehaviour:
@@ -69,3 +72,22 @@ MonoBehaviour:
   roomName: 
   maxPlayers: 0
   isReady: 0
+  isHost: 0
+--- !u!114 &3189785517879690421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9032342020975689892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1029778088, guid: 30f4fd177e1fad742be136a8237ab587, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolate: 1
+  _syncPosition: 1
+  _syncRotation: 1
+  _syncScale: 0
+  _syncVelocity: 1
+  _maintainOwnershipWhileSleeping: 0

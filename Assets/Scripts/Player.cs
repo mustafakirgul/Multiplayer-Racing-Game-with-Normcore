@@ -55,17 +55,12 @@ public class Player : RealtimeComponent<PlayerModel>
 
     private void Update()
     {
-        if (model == null)
-            return;
-        //if (model.playerName != playerName)
-        //{
-        //    if (model.playerName.Length > 0)
-        //    {
-        //        playerName = model.playerName;
-        //        if (controller == null) return;
-        //        controller.IDDisplay.SetText(playerName);
-        //    }
-        //}
+        if (model == null) return;
+        if (model.playerName == playerName) return;
+        if (model.playerName.Length == 0) return;
+        playerName = model.playerName;
+        if (controller == null) return;
+        controller.IDDisplay.SetText(playerName);
     }
 
     public void UpdateTempDefenseModifier(float value)
