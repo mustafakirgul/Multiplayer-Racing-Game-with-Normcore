@@ -136,8 +136,6 @@ public class GameManager : MonoBehaviour
         _realtime = GetComponent<Realtime>();
 
         // Notify us when Realtime successfully connects to the room
-        _realtime.didConnectToRoom += DidConnectToRoom;
-        _realtime.didDisconnectFromRoom += DidDisconnectFromRoom;
         spawnPoint = new Vector3(
             UnityEngine.Random.Range(center.x - (size.x * .5f), center.x + (size.x * .5f)),
             UnityEngine.Random.Range(center.y - (size.y * .5f), center.y + (size.y * .5f)),
@@ -212,6 +210,8 @@ public class GameManager : MonoBehaviour
 
     private void DidDisconnectFromRoom(Realtime realtime)
     {
+        _realtime.didConnectToRoom -= DidConnectToRoom;
+        _realtime.didDisconnectFromRoom -= DidDisconnectFromRoom;
         chaseCam.ResetCam();
     }
 
@@ -241,10 +241,8 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log(preferredCar);
             _realtime.Connect("UGP_TEST5");
-
-            //Coroutines tend to mess up here due to connection/network related
-            //issues
-            //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 1));
+            _realtime.didConnectToRoom += DidConnectToRoom;
+            _realtime.didDisconnectFromRoom += DidDisconnectFromRoom;
         }
     }
 
