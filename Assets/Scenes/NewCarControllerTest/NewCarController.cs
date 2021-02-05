@@ -34,6 +34,7 @@ public class NewCarController : MonoBehaviour
     public float maxSteeringAngle;
     public float wheelTurnFactor;
     public Transform carBody;
+    public Transform carBodyAndWheels;
     public float maxZrotation, maxXRotation;
     public float zRotationLERPSpeed, xRotationLERPSpeed;
     public float rotationCooldownTime;
@@ -548,6 +549,7 @@ public class NewCarController : MonoBehaviour
 
             DragCheck();
             GroundCheck();
+            LerpFallCorrection();
             transform.position = CarRB.transform.position;
         }
 
@@ -910,6 +912,16 @@ public class NewCarController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation,
             (Quaternion.FromToRotation(transform.up, rotationAlignment.normal)
              * transform.rotation), Time.deltaTime * lerpRotationSpeed);
+    }
+
+    void LerpFallCorrection()
+    {
+        if (!isGrounded)
+        {
+            this.transform.rotation = Quaternion.Slerp(transform.rotation,
+            (Quaternion.FromToRotation(transform.up, Vector3.up)
+             * transform.rotation), Time.deltaTime * lerpRotationSpeed * 0.3f);
+        }
     }
 
     void DragCheck()
