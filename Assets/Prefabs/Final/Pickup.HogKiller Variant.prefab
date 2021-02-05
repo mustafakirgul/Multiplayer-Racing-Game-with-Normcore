@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6640661048226615623
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4927181841936426018, guid: a8db81f1e0337441e8fc87c7b1915c77,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927181841936426018, guid: a8db81f1e0337441e8fc87c7b1915c77,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927181841936426018, guid: a8db81f1e0337441e8fc87c7b1915c77,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927181841936426018, guid: a8db81f1e0337441e8fc87c7b1915c77,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927181841936426018, guid: a8db81f1e0337441e8fc87c7b1915c77,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927181841936426018, guid: a8db81f1e0337441e8fc87c7b1915c77,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927181841936426018, guid: a8db81f1e0337441e8fc87c7b1915c77,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927181841936426018, guid: a8db81f1e0337441e8fc87c7b1915c77,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927181841936426018, guid: a8db81f1e0337441e8fc87c7b1915c77,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927181841936426018, guid: a8db81f1e0337441e8fc87c7b1915c77,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927181841936426018, guid: a8db81f1e0337441e8fc87c7b1915c77,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5704668107060051608, guid: a8db81f1e0337441e8fc87c7b1915c77,
+        type: 3}
+      propertyPath: m_Name
+      value: Pickup.HogKiller Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065206421526404941, guid: a8db81f1e0337441e8fc87c7b1915c77,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3f469c7b8f727421ba63c421961f5a6f, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a8db81f1e0337441e8fc87c7b1915c77, type: 3}
