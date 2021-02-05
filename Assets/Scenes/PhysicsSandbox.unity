@@ -69829,11 +69829,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985336b66ce40e446adfe4d5e28a41a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverCheckDelay: 2
   lobbiests: []
   radialLoader: {fileID: 563781229}
-  playerNumber: {fileID: 0}
-  readyPlayerNumber: {fileID: 0}
+  playerNumber: {fileID: 345177966}
+  readyPlayerNumber: {fileID: 100267854}
 --- !u!1 &1846744685
 GameObject:
   m_ObjectHideFlags: 0
