@@ -53,6 +53,10 @@ public class Truck : RealtimeComponent<TruckModel>
     private RealtimeTransform rtTransform => GetComponent<RealtimeTransform>();
     public bool isInvincible = true;
 
+    //X-Ray silhouette
+    public Renderer TruckMesh;
+    public Outline TruckOutline;
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position + lootLaunchPoint, 1f);

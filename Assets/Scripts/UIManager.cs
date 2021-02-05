@@ -53,7 +53,8 @@ public class UIManager : MonoBehaviour
 
     //IronHog Health UI
     public GameObject IronHogHPBar;
-    float _tempTruckHealth = 0f, _lastTruckHealth;
+    public float _tempTruckHealth = 0f; 
+    public float _lastTruckHealth = 0f;
     Coroutine InitTruckHealthCR, UpdateTruckHealthCR;
 
     private void Awake()
@@ -160,14 +161,14 @@ public class UIManager : MonoBehaviour
         IronHogHPBar.SetActive(true);
         Image HealthBar = IronHogHPBar.gameObject.transform.GetChild(0).GetComponent<Image>();
 
-        while (HealthBar.fillAmount < 0.99f)
+        //while (HealthBar.fillAmount < 0.99f)
         {
-            _tempTruckHealth = Mathf.Lerp(_tempTruckHealth, _gameManager.lootTruck._maxHealth, Time.deltaTime * 1f);
+            //_tempTruckHealth = Mathf.Lerp(_tempTruckHealth, _gameManager.lootTruck._maxHealth, Time.deltaTime * 1f);
             HealthBar.fillAmount = _tempTruckHealth / _gameManager.lootTruck._maxHealth;
-            yield return null;
+            _lastTruckHealth = _gameManager.lootTruck._maxHealth;
+            UpdateTruckHealthCR = StartCoroutine(UpdateTruckHealthUI());
+            yield return new WaitForEndOfFrame();
         }
-
-        UpdateTruckHealthCR = StartCoroutine(UpdateTruckHealthUI());
     }
 
     private IEnumerator UpdateTruckHealthUI()

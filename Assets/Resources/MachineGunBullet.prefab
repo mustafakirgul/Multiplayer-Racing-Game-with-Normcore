@@ -55,6 +55,7 @@ MonoBehaviour:
   explosiveRange: 5
   weaponLifeTime: 5
   truckDamageFactor: 1
+  truckDamageTempModifier: 0
   weaponFireRate: 5
   projectile_Mesh: {fileID: 7059204094752828181}
   isNetworkInstance: 0

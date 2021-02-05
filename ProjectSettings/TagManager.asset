@@ -15,6 +15,8 @@ TagManager:
   - miniMapCamera
   - UIManager
   - Loot
+  - OverHeatMeter
+  - OverHeatText
   layers:
   - Default
   - TransparentFX

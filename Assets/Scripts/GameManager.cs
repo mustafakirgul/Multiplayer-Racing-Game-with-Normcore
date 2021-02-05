@@ -10,10 +10,15 @@ public class GameManager : MonoBehaviour
     [Range(0, 359)] public float direction; //y angle of the spawned player
     Vector3 spawnPoint;
 
-    [Space] [Space] [Header("UI and Camera")]
+    [Space]
+    [Space]
+    [Header("UI and Camera")]
     public TextMeshProUGUI playerNameInputField;
 
     public Canvas _enterNameCanvas;
+    public GameObject HeatMeter;
+    public GameObject HeatText;
+
     public Camera _miniMapCamera;
     public string preferredCar;
     string _tempName;
@@ -27,7 +32,14 @@ public class GameManager : MonoBehaviour
     public bool readyToStart;
     public Truck lootTruck;
 
-    [Space] [Space] [Header("Managers")]
+    [SerializeField]
+    private Outline TruckOutline;
+
+    public float MinXrayTruckOutlineDistance;
+
+    [Space]
+    [Space]
+    [Header("Managers")]
     //Managers
     private PlayerManager playerManager;
 
@@ -131,7 +143,8 @@ public class GameManager : MonoBehaviour
         uIManager = FindObjectOfType<UIManager>();
         lootManager = FindObjectOfType<LootManager>();
         _enterNameCanvas.gameObject.SetActive(true);
-        lootTruck = FindObjectOfType<Truck>();
+        //HeatMeter = GameObject.FindGameObjectWithTag("OverHeatMeter");
+        //HeatText = GameObject.FindGameObjectWithTag("OverHeatText");
         // Get the Realtime component on this game object
         _realtime = GetComponent<Realtime>();
 
@@ -183,6 +196,28 @@ public class GameManager : MonoBehaviour
             readyToStart = true;
         }
     }*/
+
+
+    private IEnumerator CheckTruckDistanceOutline()
+    {
+        while (true)
+        {
+            if (lootTruck != null &&
+                PlayerManager.instance.localPlayer != null)
+            {
+                if (Vector3.Distance(lootTruck.transform.position,
+                    PlayerManager.instance.localPlayer.transform.position) > MinXrayTruckOutlineDistance)
+                {
+                    TruckOutline.enabled = true;
+                }
+                else
+                {
+                    TruckOutline.enabled = false;
+                }
+            }
+            yield return new WaitForSeconds(2f);
+        }
+    }
     private void Update()
     {
         //Debug.LogWarning("Room Game Start Time:" + _race._model.gameStartTime);
@@ -248,10 +283,10 @@ public class GameManager : MonoBehaviour
 
     public void FixAssociations()
     {
-        if (lootTruck == null)
-            lootTruck = FindObjectOfType<Truck>();
         playerNameInputField = GameObject.FindGameObjectWithTag("enterNameField").GetComponent<TextMeshProUGUI>();
         _enterNameCanvas = GameObject.FindGameObjectWithTag("enterNameCanvas").GetComponent<Canvas>();
+        HeatMeter = GameObject.FindGameObjectWithTag("OverHeatMeter");
+        HeatText = GameObject.FindGameObjectWithTag("OverHeatText");
         _miniMapCamera = GameObject.FindGameObjectWithTag("miniMapCamera").GetComponent<Camera>();
 
         gameSceneManager = FindObjectOfType<GameSceneManager>();
@@ -286,7 +321,9 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<MiniMapCamera>()._master = _temp.transform;
         ResetBoolsForNewRound();
         _enterNameCanvas.gameObject.SetActive(false);
-
+        _temp.GetComponent<NewCarController>().OverheatMeterObj.SetActive(false);
+        _temp.GetComponent<NewCarController>().OverHeatNotice.SetActive(false);
+        //HeatText.SetActive(false);
         Invoke("KeepTrackOfWinConditions", 3);
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
         ResetWalls();
@@ -295,9 +332,16 @@ public class GameManager : MonoBehaviour
     private void KeepTrackOfWinConditions()
     {
         if (lootTruck == null)
+        {
             lootTruck = FindObjectOfType<Truck>();
+            TruckOutline = lootTruck.TruckOutline;
+            StartCoroutine(CheckTruckDistanceOutline());
+            //TruckOutline.enabled = false;
+        }
+
         playerManager.UpdateExistingPlayers();
         phaseManager.StartPhaseSystem();
+
         //TruckHealthCheckCR = StartCoroutine(LootTruckHealthCheck());
         //Debug.LogWarning("HealthCheckStartedAtTheBeginningOfTheGame");
     }
