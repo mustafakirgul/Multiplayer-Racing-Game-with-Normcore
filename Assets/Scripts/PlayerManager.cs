@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Normal.Realtime;
@@ -193,6 +194,7 @@ public class PlayerManager : MonoBehaviour
     }
 }
 
+[Serializable]
 public struct PlayerInfo
 {
     public int id;

@@ -103,16 +103,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1891476914856793641}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 8905840110132314981}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 479.99997, y: -120}
+  m_AnchoredPosition: {x: 0, y: -350}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2045493794284766527
@@ -229,7 +229,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: --
+  m_Text: '-'
 --- !u!1 &6665207017241399379
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,15 +257,15 @@ RectTransform:
   m_GameObject: {fileID: 6665207017241399379}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 8905840110132314981}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 6000, y: 10800}
+  m_AnchoredPosition: {x: 0, y: -20}
+  m_SizeDelta: {x: 3000, y: 5400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6096333551996160536
 CanvasRenderer:
@@ -295,8 +295,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 29187ed3bef16bb43a425d901355fb54, type: 3}
-    m_FontSize: 180
+    m_Font: {fileID: 12800000, guid: 424b8687567802e46ae2b7ea2c2328bf, type: 3}
+    m_FontSize: 90
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -725,6 +725,7 @@ MonoBehaviour:
   playerNumber: {fileID: 0}
   readyPlayerNumber: {fileID: 0}
   feedback: {fileID: 7600509260355906664}
+  maxPlayerNumber: {fileID: 0}
   roomNameCreate: {fileID: 8905840110977606453}
   roomNameJoin: {fileID: 8905840111308497468}
   numberOfPlayers: {fileID: 7156900776214372558}
@@ -1575,6 +1576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8243681508619849b912b10526d4008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loopDuration: 120
 --- !u!1 &8905840111190859001
 GameObject:
   m_ObjectHideFlags: 0
