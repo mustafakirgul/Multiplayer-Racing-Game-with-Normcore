@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
 
     public bool truckIsKilled;
     public bool isHost;
+
     private void OnDrawGizmos()
     {
         float radians = direction * Mathf.Deg2Rad;
@@ -279,8 +280,11 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        _realtime.didConnectToRoom -= DidConnectToRoom;
-        _realtime.didDisconnectFromRoom -= DidDisconnectFromRoom;
+        if (_realtime != null)
+        {
+            _realtime.didConnectToRoom -= DidConnectToRoom;
+            _realtime.didDisconnectFromRoom -= DidDisconnectFromRoom;
+        }
     }
 
     public void FixAssociations()

@@ -65,7 +65,7 @@ public class LobbyManager : MonoBehaviour
         feedbackLoaderRectTransform.localEulerAngles = tryingToConnect
             ? new Vector3(feedbackLoaderRectTransform.localEulerAngles.x,
                 feedbackLoaderRectTransform.localEulerAngles.y,
-                feedbackLoaderRectTransform.localEulerAngles.z - (Time.deltaTime * 13f))
+                feedbackLoaderRectTransform.localEulerAngles.z + (Time.deltaTime * 180f))
             : Vector3.zero;
     }
 
@@ -156,8 +156,11 @@ public class LobbyManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        _realtime.didConnectToRoom += DidConnectToLobby;
-        _realtime.didDisconnectFromRoom += DidDisconnectFromLobby;
+        if (_realtime != null)
+        {
+            _realtime.didConnectToRoom += DidConnectToLobby;
+            _realtime.didDisconnectFromRoom += DidDisconnectFromLobby;
+        }
     }
 
     public void DisconnectFromLobby()
