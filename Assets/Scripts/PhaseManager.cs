@@ -60,6 +60,8 @@ public class PhaseManager : MonoBehaviour
 
     private void StartTimer(float duration)
     {
+        if (!GameManager.instance.isHost)
+            duration -= 1f;
         Invoke("NextPhase", duration);
     }
 
