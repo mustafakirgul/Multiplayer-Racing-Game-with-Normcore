@@ -145,6 +145,8 @@ public class LobbyManager : MonoBehaviour
         {
             _realtime.Disconnect();
         }
+
+        tryingToConnect = false;
     }
 
     public void MarkPlayerReady()
@@ -182,29 +184,29 @@ public class LobbyManager : MonoBehaviour
     {
         yield return wait;
         var count = FindObjectsOfType<Lobbiest>().Length;
-        if (!isHost)
+        if (!isHost) //if not creating but just trying to join
         {
-            if (count < 2)
+            if (count == 1) // there is only you in the room
             {
                 feedback.text += "This room does not exist!!! Try creating one\n";
                 DisconnectFromLobby();
+                yield break;
             }
-            else
+
+            foreach (var l in lobbiests.Where(l => l.isHost))
             {
-                foreach (var l in lobbiests.Where(l => l.isHost))
-                {
-                    maxPlayers = l.maxPlayers;
-                }
+                maxPlayers = l.maxPlayers;
             }
         }
 
         _lobbiest.ChangeMaxPlayers(maxPlayers);
 
-        if (count > maxPlayers)
+        if (count > maxPlayers && maxPlayers > 0)
         {
             feedback.text += "Too Many Players!!! Max players for this room is limited to " + maxPlayers +
                              " but you are number " + count + "\n";
             DisconnectFromLobby();
+            yield break;
         }
         else
         {
@@ -213,6 +215,7 @@ public class LobbyManager : MonoBehaviour
             _lobbiest.ChangeIsHost(isHost);
             _lobbiest.ChangeRoomName(roomName);
             canvas.enabled = false;
+            //feedback.text = ""; //delete for production
         }
 
         cr_RoomChecker = null;
@@ -221,7 +224,6 @@ public class LobbyManager : MonoBehaviour
 
     void DidDisconnectFromLobby(Realtime realtime)
     {
-        feedback.text = "";
         isConnectedToALobby = false;
         lobbiests.Clear();
         _realtime.didConnectToRoom -= DidConnectToLobby;
