@@ -85,10 +85,11 @@ public class LobbyManager : MonoBehaviour
             radialLoader.fillAmount = (ready * 1f) / (count * 1f);
             if (count == ready)
             {
+                isConnectedToALobby = false;
                 if (isHost)
                     uIManager.ConnectToRoom(roomName);
                 else
-                    Invoke("ConnectToRoom", 2f);
+                    Invoke("ConnectToRoom", 1f);
             }
         }
         else
@@ -217,9 +218,10 @@ public class LobbyManager : MonoBehaviour
                 yield break;
             }
 
-            foreach (var l in lobbiests.Where(l => l.isHost))
+            for (int i = 0; i < lobbiests.Count; i++)
             {
-                maxPlayers = l.maxPlayers;
+                if (lobbiests[i].isHost)
+                    maxPlayers = lobbiests[i].maxPlayers;
             }
         }
 

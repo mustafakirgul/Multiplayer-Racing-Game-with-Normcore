@@ -21,6 +21,14 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
 
         if (currentModel != null)
         {
+            if (currentModel.isFreshModel)
+            {
+                roomName = currentModel.roomName;
+                maxPlayers = Convert.ToInt32(currentModel.maxPlayers);
+                isHost = currentModel.isHost;
+                GameManager.instance.isHost = isHost;
+            }
+
             currentModel.roomNameDidChange += RoomNameChanged;
             currentModel.maxPlayersDidChange += MaxPlayersChanged;
             currentModel.isReadyDidChange += IsReadyChanged;
@@ -28,11 +36,18 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
         }
     }
 
+    private void Update()
+    {
+        roomName = model.roomName;
+        maxPlayers = Convert.ToInt32(model.maxPlayers);
+        isHost = model.isHost;
+        GameManager.instance.isHost = isHost;
+        isReady = model.isReady;
+    }
 
-    private IEnumerator Start()
+    private void Start()
     {
         LobbyManager.instance.RegisterLobbiest(this);
-        yield return null;
     }
 
     private void OnDestroy()
@@ -62,22 +77,22 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
 
     private void IsHostChanged(LobbiestModel lobbiestModel, bool value)
     {
-        isHost = value;
+        isHost = lobbiestModel.isHost;
         GameManager.instance.isHost = isHost;
     }
 
     private void RoomNameChanged(LobbiestModel lobbiestModel, string value)
     {
-        roomName = value;
+        roomName = lobbiestModel.roomName;
     }
 
     private void MaxPlayersChanged(LobbiestModel lobbiestModel, float value)
     {
-        maxPlayers = Convert.ToInt32(value);
+        maxPlayers = Convert.ToInt32(lobbiestModel.maxPlayers);
     }
 
     private void IsReadyChanged(LobbiestModel lobbiestModel, bool value)
     {
-        isReady = value;
+        isReady = lobbiestModel.isReady;
     }
 }

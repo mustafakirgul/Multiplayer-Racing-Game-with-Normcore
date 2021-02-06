@@ -331,7 +331,7 @@ public class GameManager : MonoBehaviour
         _temp.GetComponent<NewCarController>().OverheatMeterObj.SetActive(false);
         _temp.GetComponent<NewCarController>().OverHeatNotice.SetActive(false);
         //HeatText.SetActive(false);
-        Invoke("KeepTrackOfWinConditions", 1f);
+        Invoke("KeepTrackOfWinConditions", 3f);
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
         ResetWalls();
     }
