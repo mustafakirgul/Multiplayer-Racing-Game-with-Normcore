@@ -24234,6 +24234,36 @@ PrefabInstance:
       propertyPath: maxPlayerNumber
       value: 
       objectReference: {fileID: 252786958}
+    - target: {fileID: 3882494734233919431, guid: 450d68942c8ac15439d52452cb108a0d,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3882494734233919431, guid: 450d68942c8ac15439d52452cb108a0d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3882494734233919431, guid: 450d68942c8ac15439d52452cb108a0d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3882494734233919431, guid: 450d68942c8ac15439d52452cb108a0d,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3882494734233919431, guid: 450d68942c8ac15439d52452cb108a0d,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 5400
+      objectReference: {fileID: 0}
+    - target: {fileID: 3882494734233919431, guid: 450d68942c8ac15439d52452cb108a0d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -20
+      objectReference: {fileID: 0}
     - target: {fileID: 4900110806168376560, guid: 450d68942c8ac15439d52452cb108a0d,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -24294,6 +24324,27 @@ PrefabInstance:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7227386388993659342, guid: 450d68942c8ac15439d52452cb108a0d,
+        type: 3}
+      propertyPath: m_Text
+      value: '-'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600509260355906664, guid: 450d68942c8ac15439d52452cb108a0d,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600509260355906664, guid: 450d68942c8ac15439d52452cb108a0d,
+        type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600509260355906664, guid: 450d68942c8ac15439d52452cb108a0d,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 424b8687567802e46ae2b7ea2c2328bf,
+        type: 3}
     - target: {fileID: 8636678182696460435, guid: 450d68942c8ac15439d52452cb108a0d,
         type: 3}
       propertyPath: m_FillAmount

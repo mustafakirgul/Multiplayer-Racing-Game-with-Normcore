@@ -89,7 +89,7 @@ public class LobbyManager : MonoBehaviour
                 if (isHost)
                     uIManager.ConnectToRoom(roomName);
                 else
-                    Invoke("ConnectToRoom", 1f);
+                    Invoke(nameof(ConnectToRoom), 1f);
             }
         }
         else
