@@ -50,7 +50,7 @@ public class Truck : RealtimeComponent<TruckModel>
     public float damageDisplayTime;
     private WaitForSeconds wait;
 
-    private RealtimeTransform rtTransform => GetComponent<RealtimeTransform>();
+    public RealtimeTransform rtTransform => GetComponent<RealtimeTransform>();
     public bool isInvincible = true;
 
     //X-Ray silhouette
@@ -232,16 +232,16 @@ public class Truck : RealtimeComponent<TruckModel>
         }
     }
 
-    private void LateUpdate()
-    {
-        if (realtimeView.isUnownedInHierarchy)
-        {
-            int _ownerID = PlayerManager.instance.RequestOwner();
-            realtimeView.SetOwnership(_ownerID);
-            rtTransform.SetOwnership(_ownerID);
-            SetOwner(_ownerID);
-        }
-    }
+    // private void LateUpdate()
+    // {
+    //     if (realtimeView.isUnownedInHierarchy)
+    //     {
+    //         int _ownerID = PlayerManager.instance.RequestOwner();
+    //         realtimeView.SetOwnership(_ownerID);
+    //         rtTransform.SetOwnership(_ownerID);
+    //         SetOwner(_ownerID);
+    //     }
+    // }
 
     public void AddExplosionForce(Vector3 _origin)
     {

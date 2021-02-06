@@ -168,20 +168,14 @@ public class GameManager : MonoBehaviour
     {
         if (lootTruck._health <= 0)
         {
-            if (!GameManager.instance.truckIsKilled)
+            if (!truckIsKilled)
             {
-                GameManager.instance.truckIsKilled = true;
-                GameManager.instance.readyToStart = true;
-                GameManager.instance.phaseManager.NextPhase();
+                truckIsKilled = true;
+                readyToStart = true;
+                phaseManager.NextPhase();
                 //Debug.LogWarning("IronHog has been killed!");
             }
         }
-    }
-
-    private void Start()
-    {
-        _race = GetComponent<Race>();
-        Walls = FindObjectsOfType<WallLocalMarker>();
     }
 
     /*public void PlayerCountDownCheck()
@@ -272,9 +266,9 @@ public class GameManager : MonoBehaviour
         if (playerNameInputField.text.Length > 0)
         {
             Debug.Log(preferredCar);
-            _realtime.Connect(roomName);
             _realtime.didConnectToRoom += DidConnectToRoom;
             _realtime.didDisconnectFromRoom += DidDisconnectFromRoom;
+            _realtime.Connect(roomName);
         }
     }
 
@@ -291,8 +285,6 @@ public class GameManager : MonoBehaviour
     {
         playerNameInputField = GameObject.FindGameObjectWithTag("enterNameField").GetComponent<TextMeshProUGUI>();
         _enterNameCanvas = GameObject.FindGameObjectWithTag("enterNameCanvas").GetComponent<Canvas>();
-        HeatMeter = GameObject.FindGameObjectWithTag("OverHeatMeter");
-        HeatText = GameObject.FindGameObjectWithTag("OverHeatText");
         _miniMapCamera = GameObject.FindGameObjectWithTag("miniMapCamera").GetComponent<Camera>();
 
         gameSceneManager = FindObjectOfType<GameSceneManager>();
@@ -328,24 +320,26 @@ public class GameManager : MonoBehaviour
         ResetBoolsForNewRound();
         _race.ChangeIsOn(true);
         _enterNameCanvas.gameObject.SetActive(false);
-        _temp.GetComponent<NewCarController>().OverheatMeterObj.SetActive(false);
-        _temp.GetComponent<NewCarController>().OverHeatNotice.SetActive(false);
         //HeatText.SetActive(false);
-        Invoke("KeepTrackOfWinConditions", 3f);
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
+        Walls = FindObjectsOfType<WallLocalMarker>();
         ResetWalls();
+        PlayerManager.instance.AddLocalPlayer(transform);
+        Invoke("KeepTrackOfWinConditions", 3f);
     }
 
     private void KeepTrackOfWinConditions()
     {
-        if (lootTruck == null)
+        lootTruck = FindObjectOfType<Truck>();
+        if (lootTruck != null)
         {
-            lootTruck = FindObjectOfType<Truck>();
             TruckOutline = lootTruck.TruckOutline;
             StartCoroutine(CheckTruckDistanceOutline());
             //TruckOutline.enabled = false;
         }
 
+        _race = GetComponent<Race>();
+        _race.ChangeIsOn(true);
         playerManager.UpdateExistingPlayers();
         phaseManager.StartPhaseSystem();
 

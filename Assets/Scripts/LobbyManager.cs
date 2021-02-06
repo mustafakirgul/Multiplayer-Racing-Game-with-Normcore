@@ -30,6 +30,8 @@ public class LobbyManager : MonoBehaviour
     private Canvas canvas;
     public InputField roomNameCreate, roomNameJoin, numberOfPlayers;
     private RectTransform feedbackLoaderRectTransform;
+    private Coroutine cr_ConnectToRoom;
+    private bool stayDisconnected = true;
 
     private void Awake()
     {
@@ -86,10 +88,12 @@ public class LobbyManager : MonoBehaviour
             if (count == ready)
             {
                 isConnectedToALobby = false;
-                if (isHost)
-                    uIManager.ConnectToRoom(roomName);
-                else
-                    Invoke(nameof(ConnectToRoom), 1f);
+                if (cr_ConnectToRoom != null)
+                    StopCoroutine(cr_ConnectToRoom);
+                float delay = 0f;
+                if (!isHost)
+                    delay = 1f;
+                cr_ConnectToRoom = StartCoroutine(CR_ConnectToRoom(delay));
             }
         }
         else
@@ -100,9 +104,11 @@ public class LobbyManager : MonoBehaviour
         readyPlayerNumber.text = ready.ToString();
     }
 
-    private void ConnectToRoom()
+    IEnumerator CR_ConnectToRoom(float delay)
     {
-        uIManager.ConnectToRoom(roomName);
+        yield return new WaitForSeconds(delay);
+        stayDisconnected = false;
+        _realtime.Disconnect();
     }
 
     public void ConnectToLobby(bool create) // if create is false it will only try to connect
@@ -152,15 +158,15 @@ public class LobbyManager : MonoBehaviour
 
         _realtime.didConnectToRoom += DidConnectToLobby;
         _realtime.didDisconnectFromRoom += DidDisconnectFromLobby;
-        _realtime.Connect(roomName + "_L088Y");
+        _realtime.Connect(roomName);
     }
 
     private void OnDestroy()
     {
         if (_realtime != null)
         {
-            _realtime.didConnectToRoom += DidConnectToLobby;
-            _realtime.didDisconnectFromRoom += DidDisconnectFromLobby;
+            _realtime.didConnectToRoom -= DidConnectToLobby;
+            _realtime.didDisconnectFromRoom -= DidDisconnectFromLobby;
         }
     }
 
@@ -201,6 +207,8 @@ public class LobbyManager : MonoBehaviour
             preventOwnershipTakeover: true,
             useInstance: _realtime);
         _lobbiest = _temp.GetComponent<Lobbiest>();
+        _lobbiest.ChangeIsHost(isHost);
+        _lobbiest.ChangeRoomName(roomName);
         if (cr_RoomChecker != null) StopCoroutine(cr_RoomChecker);
         cr_RoomChecker = StartCoroutine(CR_Checkroom());
     }
@@ -230,7 +238,7 @@ public class LobbyManager : MonoBehaviour
         if (count > maxPlayers && maxPlayers > 0)
         {
             feedback.text += "Too Many Players!!! Max players for this room is limited to " + maxPlayers +
-                             " but you are number " + count + "\n";
+                             " and you are number " + count + "\n";
             DisconnectFromLobby();
             yield break;
         }
@@ -238,8 +246,6 @@ public class LobbyManager : MonoBehaviour
         {
             feedback.text += "Connected to lobby of " + roomName + "\n";
             isConnectedToALobby = true;
-            _lobbiest.ChangeIsHost(isHost);
-            _lobbiest.ChangeRoomName(roomName);
             maxPlayerNumber.text = "/ " + maxPlayers;
             canvas.enabled = false;
             feedback.text = "";
@@ -255,5 +261,7 @@ public class LobbyManager : MonoBehaviour
         lobbiests.Clear();
         _realtime.didConnectToRoom -= DidConnectToLobby;
         _realtime.didDisconnectFromRoom -= DidDisconnectFromLobby;
+        if (stayDisconnected) return;
+        uIManager.ConnectToRoom(roomName);
     }
 }

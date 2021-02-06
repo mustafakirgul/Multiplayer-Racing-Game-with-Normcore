@@ -96,7 +96,7 @@ public class UIManager : MonoBehaviour
     //Class selection button should not start here
     public void ConnectToRoom(string roomName)
     {
-        Debug.LogWarning("Connecting to room.");
+        //Debug.LogWarning("Connecting to room.");
         for (int i = 0; i < BuildModelsAppearance.Count; i++)
         {
             BuildModelsAppearance[i].SetActive(false);

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Normal.Realtime;
-using UnityEngine.Analytics;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -123,16 +121,24 @@ public class PlayerManager : MonoBehaviour
     public void AddLocalPlayer(Transform _player)
     {
         localPlayer = _player;
-        if (cR_playerListCleanUp!=null) StopCoroutine(cR_playerListCleanUp);
+        if (cR_playerListCleanUp != null) StopCoroutine(cR_playerListCleanUp);
         cR_playerListCleanUp = StartCoroutine(CR_PlayerListCleanUp());
-        Truck truck = FindObjectOfType<Truck>();
-        //PrespawnManager prespawnManager = FindObjectOfType<PrespawnManager>();
-        if (truck == null)
+        //this is set as error so that it shows up in the debug file of build
+        Debug.LogError("Local player set as " + (GameManager.instance.isHost ? "host" : "guest"));
+        if (GameManager.instance.isHost)
         {
+            Truck truck = FindObjectOfType<Truck>();
+            if (truck != null)
+            {
+                truck.realtimeView.RequestOwnership();
+                truck.rtTransform.RequestOwnership();
+                Realtime.Destroy(truck.gameObject);
+            }
+
             _temp = Realtime.Instantiate("WeirdTruck",
                 position: spawnPoint,
                 rotation: Quaternion.Euler(0, spawnRotation, 0),
-                ownedByClient: false,
+                ownedByClient: true,
                 preventOwnershipTakeover: false,
                 destroyWhenOwnerOrLastClientLeaves: true,
                 useInstance: _realtime);
@@ -142,23 +148,6 @@ public class PlayerManager : MonoBehaviour
             //This is the first player who will spawn the truck
             prespawnManager.ReActivateSpawner();
             prespawnManager.SpawnPredeterminedItems();
-            prespawnManager.DeActivateSpawner();
-        }
-        else if (truck.GetComponent<RealtimeTransform>().isUnownedInHierarchy)
-        {
-            _temp = FindObjectOfType<Truck>().gameObject;
-            _temp.GetComponent<RealtimeView>().RequestOwnership();
-            _temp.GetComponent<RealtimeTransform>().RequestOwnership();
-            _temp.GetComponent<Truck>().SetOwner(localPlayer.GetComponent<Player>()._id);
-            _temp.transform.position = spawnPoint;
-            _temp.transform.rotation = Quaternion.Euler(0, spawnRotation, 0);
-            _temp.GetComponent<Truck>().StartHealth();
-
-            prespawnManager.DeActivateSpawner();
-        }
-        else
-        {
-            truck.StartHealth();
             prespawnManager.DeActivateSpawner();
         }
     }

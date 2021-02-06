@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using Normal.Realtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using Normal.Realtime;
 
 public class PhaseManager : MonoBehaviour
 {
@@ -20,14 +19,18 @@ public class PhaseManager : MonoBehaviour
     public void StartPhaseSystem()
     {
         //Debug.LogWarning("Phase system Start");
-        if (GameManager.instance.lootTruck.isOwnedLocallyInHierarchy)
-            JumpToPhase(0);
+        //if (GameManager.instance.isHost)
+        JumpToPhase(0);
+
+        //this is set as error so that it shows up in the debug file of build
+        Debug.LogError("Phase system started on " +
+                       (GameManager.instance.isHost ? "Host Computer" : "Non-Host Computer"));
     }
 
     public void NextPhase() //called locally by the local game manager, depending on conditions
     {
         //Debug.LogWarning("Previous Phase: " + phase);
-        if (!GameManager.instance.lootTruck.isOwnedLocallyInHierarchy) return;
+        if (!GameManager.instance.isHost) return;
         phase++;
         if (phase == phases.Count)
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Normal.Realtime;
+using UnityEngine;
 
 public class Lobbiest : RealtimeComponent<LobbiestModel>
 {
@@ -36,15 +37,6 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
         }
     }
 
-    private void Update()
-    {
-        roomName = model.roomName;
-        maxPlayers = Convert.ToInt32(model.maxPlayers);
-        isHost = model.isHost;
-        GameManager.instance.isHost = isHost;
-        isReady = model.isReady;
-    }
-
     private void Start()
     {
         LobbyManager.instance.RegisterLobbiest(this);
@@ -77,22 +69,23 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
 
     private void IsHostChanged(LobbiestModel lobbiestModel, bool value)
     {
-        isHost = lobbiestModel.isHost;
-        GameManager.instance.isHost = isHost;
+        Debug.LogWarning("IsHost changed to " + value);
+        isHost = value;
+        GameManager.instance.isHost = value;
     }
 
     private void RoomNameChanged(LobbiestModel lobbiestModel, string value)
     {
-        roomName = lobbiestModel.roomName;
+        roomName = value;
     }
 
     private void MaxPlayersChanged(LobbiestModel lobbiestModel, float value)
     {
-        maxPlayers = Convert.ToInt32(lobbiestModel.maxPlayers);
+        maxPlayers = Convert.ToInt32(value);
     }
 
     private void IsReadyChanged(LobbiestModel lobbiestModel, bool value)
     {
-        isReady = lobbiestModel.isReady;
+        isReady = value;
     }
 }

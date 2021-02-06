@@ -9,9 +9,7 @@ using UnityEngine.UI;
 
 public class NewCarController : MonoBehaviour
 {
-    [Space]
-    [Space]
-    [Header("Car Controller Main Settings")]
+    [Space] [Space] [Header("Car Controller Main Settings")]
     public Rigidbody CarRB;
 
     private float moveInput, turnInput;
@@ -41,9 +39,7 @@ public class NewCarController : MonoBehaviour
     float currentZ, currentX;
     float XTimer, ZTimer, XFactor, ZFactor;
 
-    [Space]
-    [Space]
-    [Header("Camera and Networking")]
+    [Space] [Space] [Header("Camera and Networking")]
     //Neworking Related Functionalities
     public Realtime _realtime;
 
@@ -59,9 +55,7 @@ public class NewCarController : MonoBehaviour
     bool CoroutineReset = false;
 
 
-    [Space]
-    [Space]
-    [Header("Loot Based Modifiers")]
+    [Space] [Space] [Header("Loot Based Modifiers")]
     //Does the car need to know about these or does the game manager needs to know about these?
     //Car simply keeps track of what it encounters and talks to game managers to obtain loot or powerups
     public float meleeDamageModifier;
@@ -87,8 +81,8 @@ public class NewCarController : MonoBehaviour
     //This is the default weapon the truck fires
     [SerializeField]
     private GameObject PrimaryWeaponProjectile;
-    [SerializeField]
-    private GameObject SecondaryWeaponProjectile;
+
+    [SerializeField] private GameObject SecondaryWeaponProjectile;
 
     private GameObject _bulletBuffer;
     public Transform _barrelTip;
@@ -108,6 +102,7 @@ public class NewCarController : MonoBehaviour
     public float OverheatCoolTimer;
 
     float savedPrimaryFireTimer;
+
     //Make default weapon as a readable weapon stats with firerate and 
     //Sobj
     private GameObject savedWeaponProjectile;
@@ -130,9 +125,7 @@ public class NewCarController : MonoBehaviour
     public GameObject OverheatMeterObj;
     public GameObject OverHeatNotice;
 
-    [Space]
-    [Space]
-    [Header("Health Params")]
+    [Space] [Space] [Header("Health Params")]
     //Health Controls
     public Player _player;
 
@@ -148,9 +141,7 @@ public class NewCarController : MonoBehaviour
     private WaitForEndOfFrame waitFrameDamageEffect;
     public CanvasGroup damageIndicatorCanvasGroup;
 
-    [Space]
-    [Space]
-    [Header("Boost Params")]
+    [Space] [Space] [Header("Boost Params")]
     //Boost Controls
     public Image boostRadialLoader;
 
@@ -160,15 +151,14 @@ public class NewCarController : MonoBehaviour
     public bool boosterReady;
     private float boosterCounter;
 
-    [Space]
-    [Space]
-    [Header("Light Controls")]
+    [Space] [Space] [Header("Light Controls")]
     //Light Controls
     public Light RHL;
 
     public Light LHL;
 
     private bool lights;
+
     //QA
     [HideInInspector] public int _bombs;
 
@@ -179,8 +169,7 @@ public class NewCarController : MonoBehaviour
 
     public SpriteRenderer _miniMapRenderer;
 
-    [Space]
-    [Header("Suspension and Wheel Settings")]
+    [Space] [Header("Suspension and Wheel Settings")]
     public bool identicalSuspension4AW;
 
     public float suspensionHeight; // these 2 only work if identical suspension for all wheels is true
@@ -264,6 +253,7 @@ public class NewCarController : MonoBehaviour
         tempTruckDamageModifier = damageModifier;
         currentAmmo = 100f;
     }
+
     private void SwitchBackToSavedWeapon()
     {
         //Run this when the ammo runs out on the temp weapon
@@ -276,6 +266,7 @@ public class NewCarController : MonoBehaviour
             ResetSavedWeapon();
         }
     }
+
     private void ResetSavedWeapon()
     {
         savedWeaponProjectile = null;
@@ -345,7 +336,6 @@ public class NewCarController : MonoBehaviour
             InitCamera();
             if (!offlineTest)
             {
-                PlayerManager.instance.AddLocalPlayer(transform);
                 healthAnimator = StartCoroutine(CR_HealthAnimator());
                 PlayerManager.instance.UpdateExistingPlayers();
             }
@@ -367,6 +357,8 @@ public class NewCarController : MonoBehaviour
             }
         }
 
+        OverHeatNotice.gameObject.SetActive(false);
+        OverheatMeterObj.SetActive(!isNetworkInstance);
         StartCoroutine(DelayNameSet(3f));
     }
 
@@ -558,6 +550,7 @@ public class NewCarController : MonoBehaviour
             UpdateHealth();
         }
     }
+
     public void ResetTempModifiers()
     {
         tempTruckDamageModifier = 0;
@@ -776,6 +769,7 @@ public class NewCarController : MonoBehaviour
 
                             StartCoroutine(FirePrimaryCR());
                         }
+
                         break;
                     case 1:
                         if (readyToFire && currentAmmo > 0)
@@ -790,7 +784,8 @@ public class NewCarController : MonoBehaviour
                                 ownedByClient: true,
                                 useInstance: _realtime);
 
-                            WeaponProjectileBase SecondaryWeaponBase = _bulletBuffer.GetComponent<WeaponProjectileBase>();
+                            WeaponProjectileBase SecondaryWeaponBase =
+                                _bulletBuffer.GetComponent<WeaponProjectileBase>();
 
                             SecondaryWeaponBase.isNetworkInstance = false;
                             SecondaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
@@ -811,6 +806,7 @@ public class NewCarController : MonoBehaviour
                                 Debug.Log("No ammo remains!");
                             }
                         }
+
                         break;
                 }
             }
@@ -829,6 +825,7 @@ public class NewCarController : MonoBehaviour
             weaponType++;
             weaponType %= 2;
         }
+
         //Need to add reset timer to avoid spamming
         if (Input.GetKeyDown(KeyCode.R) || Input.GetButton("Reset")) //reset
         {
@@ -919,8 +916,8 @@ public class NewCarController : MonoBehaviour
         if (!isGrounded)
         {
             this.transform.rotation = Quaternion.Slerp(transform.rotation,
-            (Quaternion.FromToRotation(transform.up, Vector3.up)
-             * transform.rotation), Time.deltaTime * lerpRotationSpeed * 0.3f);
+                (Quaternion.FromToRotation(transform.up, Vector3.up)
+                 * transform.rotation), Time.deltaTime * lerpRotationSpeed * 0.3f);
         }
     }
 
@@ -945,13 +942,15 @@ public class NewCarController : MonoBehaviour
             if (turnInput != 0 && moveInput == 0)
             {
                 //Debug.Log("Stationary Turning");
-                float StationaryRotation = (1 + HandlingModifier + tempSpeedModifier) * turnInput * turnSpd * Time.deltaTime;
+                float StationaryRotation =
+                    (1 + HandlingModifier + tempSpeedModifier) * turnInput * turnSpd * Time.deltaTime;
                 CarRB.AddForce(transform.forward * turningFwdSpeed, ForceMode.Acceleration);
                 transform.Rotate(0, StationaryRotation, 0, Space.World);
             }
             else
             {
-                float motionRotation = ((1 + HandlingModifier + tempSpeedModifier) * turnInput * turnSpd * Time.deltaTime *
+                float motionRotation = ((1 + HandlingModifier + tempSpeedModifier) * turnInput * turnSpd *
+                                        Time.deltaTime *
                                         Input.GetAxisRaw("Vertical"));
                 transform.Rotate(0, motionRotation, 0, Space.World);
             }
@@ -993,6 +992,7 @@ public class NewCarController : MonoBehaviour
             StartCoroutine(WeaponCoolDown());
         }
     }
+
     IEnumerator WeaponCoolDown()
     {
         yield return new WaitForSeconds(OverheatCoolTimer);
@@ -1000,6 +1000,7 @@ public class NewCarController : MonoBehaviour
         heatLevel = 0;
         Overheat = false;
     }
+
     private IEnumerator FireSecondaryCR()
     {
         _bombs++;
@@ -1043,10 +1044,11 @@ public class NewCarController : MonoBehaviour
             if (collision.gameObject.GetComponent<LootContainer>() != null)
             {
                 StartCoroutine(
-                collision.gameObject.GetComponent<LootContainer>().CR_Die());
+                    collision.gameObject.GetComponent<LootContainer>().CR_Die());
             }
         }
     }
+
     public void ApplyPowerUpToPlayer(TempItemSObj PowerUp)
     {
         switch (PowerUp.powerUpType)
@@ -1074,7 +1076,7 @@ public class NewCarController : MonoBehaviour
             case PowerUpType.SuperGun:
                 //Set super gun Projectile Here
                 SwitchWeaponsDuringGame
-                (PowerUp.projectileType, PowerUp.PrimaryModifierValue, PowerUp.ExtraWeaponModifierValue);
+                    (PowerUp.projectileType, PowerUp.PrimaryModifierValue, PowerUp.ExtraWeaponModifierValue);
                 break;
             case PowerUpType.TruckAttack:
                 tempTruckDamageModifier = PowerUp.PrimaryModifierValue;
