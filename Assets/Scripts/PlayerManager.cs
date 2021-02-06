@@ -72,6 +72,7 @@ public class PlayerManager : MonoBehaviour
     public void UpdateExistingPlayers()
     {
         carControllers = FindObjectsOfType<NewCarController>();
+        allPlayers = new PlayerInfo[carControllers.Length];
         foundTransforms = new Transform[carControllers.Length];
         networkPlayers = new List<Transform>();
         for (int i = 0; i < carControllers.Length; i++)
@@ -84,9 +85,10 @@ public class PlayerManager : MonoBehaviour
                     networkPlayers.Add(foundTransforms[i]);
                 }
             }
-        }
 
-        RefreshAllPlayers();
+            allPlayers[i] = new PlayerInfo(carControllers[i].GetComponent<Player>(),
+                carControllers[i].isNetworkInstance);
+        }
     }
 
     public int RequestOwner()
@@ -118,21 +120,10 @@ public class PlayerManager : MonoBehaviour
         return temp;
     }
 
-    void RefreshAllPlayers()
-    {
-        allPlayers = new PlayerInfo[networkPlayers.Count + 1];
-        for (int i = 0; i < allPlayers.Length; i++)
-        {
-            allPlayers[i] =
-                i == 0
-                    ? new PlayerInfo(localPlayer.GetComponent<Player>(), true)
-                    : new PlayerInfo(networkPlayers[i].GetComponent<Player>(), false);
-        }
-    }
-
     public void AddLocalPlayer(Transform _player)
     {
         localPlayer = _player;
+        if (cR_playerListCleanUp!=null) StopCoroutine(cR_playerListCleanUp);
         cR_playerListCleanUp = StartCoroutine(CR_PlayerListCleanUp());
         Truck truck = FindObjectOfType<Truck>();
         //PrespawnManager prespawnManager = FindObjectOfType<PrespawnManager>();

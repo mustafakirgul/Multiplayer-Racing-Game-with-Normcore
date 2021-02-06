@@ -24,17 +24,19 @@ public class LobbyManager : MonoBehaviour
 
     private WaitForSeconds wait => new WaitForSeconds(serverCheckDelay);
     public Image radialLoader, feedbackLoader;
-    public Text playerNumber, readyPlayerNumber, feedback;
+    public Text playerNumber, readyPlayerNumber, feedback, maxPlayerNumber;
     private string roomName;
     private UIManager uIManager;
     private Canvas canvas;
     public InputField roomNameCreate, roomNameJoin, numberOfPlayers;
+    private RectTransform feedbackLoaderRectTransform;
 
     private void Awake()
     {
         lobbiests = new List<Lobbiest>();
         uIManager = FindObjectOfType<UIManager>();
         canvas = GetComponent<Canvas>();
+        feedbackLoaderRectTransform = feedbackLoader.GetComponent<RectTransform>();
     }
 
     private void Start()
@@ -60,6 +62,11 @@ public class LobbyManager : MonoBehaviour
         }
 
         feedbackLoader.fillAmount = tryingToConnect ? Time.timeSinceLevelLoad % 1f : 0f;
+        feedbackLoaderRectTransform.localEulerAngles = tryingToConnect
+            ? new Vector3(feedbackLoaderRectTransform.localEulerAngles.x,
+                feedbackLoaderRectTransform.localEulerAngles.y,
+                feedbackLoaderRectTransform.localEulerAngles.z - (Time.deltaTime * 13f))
+            : Vector3.zero;
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
@@ -77,7 +84,12 @@ public class LobbyManager : MonoBehaviour
 
             radialLoader.fillAmount = (ready * 1f) / (count * 1f);
             if (count == ready)
-                uIManager.ConnectToRoom(roomName);
+            {
+                if (isHost)
+                    uIManager.ConnectToRoom(roomName);
+                else
+                    Invoke("ConnectToRoom", 2f);
+            }
         }
         else
         {
@@ -85,6 +97,11 @@ public class LobbyManager : MonoBehaviour
         }
 
         readyPlayerNumber.text = ready.ToString();
+    }
+
+    private void ConnectToRoom()
+    {
+        uIManager.ConnectToRoom(roomName);
     }
 
     public void ConnectToLobby(bool create) // if create is false it will only try to connect
@@ -96,6 +113,7 @@ public class LobbyManager : MonoBehaviour
             if (roomNameCreate.text.Length == 0)
             {
                 feedback.text += "Room name cannot be blank\n";
+                tryingToConnect = false;
                 return; //name cannot be blank
             }
 
@@ -105,12 +123,14 @@ public class LobbyManager : MonoBehaviour
             if (numberOfPlayers.text.Length != 1)
             {
                 feedback.text += "Maximum player number must be single digit\n";
+                tryingToConnect = false;
                 return; //not a one digit number
             }
 
             if (!int.TryParse(numberOfPlayers.text, out maxPlayers))
             {
                 feedback.text += "'" + numberOfPlayers.text + "' is not a number\n";
+                tryingToConnect = false;
                 return;
             }
 
@@ -121,6 +141,7 @@ public class LobbyManager : MonoBehaviour
             if (roomNameJoin.text.Length == 0)
             {
                 feedback.text += "Room name cannot be blank\n";
+                tryingToConnect = false;
                 return; //name cannot be blank
             }
 
@@ -214,8 +235,9 @@ public class LobbyManager : MonoBehaviour
             isConnectedToALobby = true;
             _lobbiest.ChangeIsHost(isHost);
             _lobbiest.ChangeRoomName(roomName);
+            maxPlayerNumber.text = "/ " + maxPlayers;
             canvas.enabled = false;
-            //feedback.text = ""; //delete for production
+            feedback.text = "";
         }
 
         cr_RoomChecker = null;
