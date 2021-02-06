@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Normal.Realtime;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviour
@@ -15,13 +17,14 @@ public class LobbyManager : MonoBehaviour
 
     private bool isConnectedToALobby;
     private bool tooManyPLayers;
+    private bool tryingToConnect;
 
-    //public float serverCheckDelay;
+    public float serverCheckDelay = 1f;
     public List<Lobbiest> lobbiests;
 
-    //private WaitForSeconds wait => new WaitForSeconds(serverCheckDelay);
-    public Image radialLoader;
-    public Text playerNumber, readyPlayerNumber;
+    private WaitForSeconds wait => new WaitForSeconds(serverCheckDelay);
+    public Image radialLoader, feedbackLoader;
+    public Text playerNumber, readyPlayerNumber, feedback;
     private string roomName;
     private UIManager uIManager;
     private Canvas canvas;
@@ -55,6 +58,8 @@ public class LobbyManager : MonoBehaviour
         {
             LobbyLogic();
         }
+
+        feedbackLoader.fillAmount = tryingToConnect ? Time.timeSinceLevelLoad % 1f : 0f;
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
@@ -85,42 +90,42 @@ public class LobbyManager : MonoBehaviour
     public void ConnectToLobby(bool create) // if create is false it will only try to connect
     {
         isHost = create;
+        tryingToConnect = true;
         if (create)
         {
-            isHost = true;
             if (roomNameCreate.text.Length == 0)
             {
-                Debug.LogWarning("Room name cannot be blank");
+                feedback.text += "Room name cannot be blank\n";
                 return; //name cannot be blank
             }
 
             roomName = roomNameCreate.text;
-            Debug.LogWarning("Trying to connect: " + roomName);
+            feedback.text += "Trying to connect: " + roomName + "\n";
 
             if (numberOfPlayers.text.Length != 1)
             {
-                Debug.LogWarning("There is more than 1 digit");
+                feedback.text += "Maximum player number must be single digit\n";
                 return; //not a one digit number
             }
 
             if (!int.TryParse(numberOfPlayers.text, out maxPlayers))
             {
-                Debug.LogWarning("Please enter a number for max number of players");
+                feedback.text += "'" + numberOfPlayers.text + "' is not a number\n";
                 return;
             }
 
-            Debug.LogWarning("Max Player number is: " + maxPlayers);
+            feedback.text += "Max Player number is set to " + maxPlayers + "\n";
         }
         else
         {
             if (roomNameJoin.text.Length == 0)
             {
-                Debug.LogWarning("Room name cannot be blank");
+                feedback.text += "Room name cannot be blank\n";
                 return; //name cannot be blank
             }
 
             roomName = roomNameJoin.text;
-            Debug.LogWarning("Trying to connect: " + roomName);
+            feedback.text += "Trying to connect to room " + roomName + "\n";
         }
 
         _realtime.didConnectToRoom += DidConnectToLobby;
@@ -169,14 +174,27 @@ public class LobbyManager : MonoBehaviour
             preventOwnershipTakeover: true,
             useInstance: _realtime);
         _lobbiest = _temp.GetComponent<Lobbiest>();
-        _lobbiest.ChangeRoomName(roomName);
-        _lobbiest.ChangeMaxPlayers(maxPlayers);
+        if (cr_RoomChecker != null) StopCoroutine(cr_RoomChecker);
+        cr_RoomChecker = StartCoroutine(CR_Checkroom());
+    }
+
+    private IEnumerator CR_Checkroom()
+    {
+        yield return wait;
         var count = FindObjectsOfType<Lobbiest>().Length;
         if (!isHost)
         {
-            foreach (var l in lobbiests.Where(l => l.isHost))
+            if (count < 2)
             {
-                maxPlayers = l.maxPlayers;
+                feedback.text += "This room does not exist!!! Try creating one\n";
+                DisconnectFromLobby();
+            }
+            else
+            {
+                foreach (var l in lobbiests.Where(l => l.isHost))
+                {
+                    maxPlayers = l.maxPlayers;
+                }
             }
         }
 
@@ -184,24 +202,29 @@ public class LobbyManager : MonoBehaviour
 
         if (count > maxPlayers)
         {
-            Debug.LogWarning("TooManyPlayers!!!");
+            feedback.text += "Too Many Players!!! Max players for this room is limited to " + maxPlayers +
+                             " but you are number " + count + "\n";
             DisconnectFromLobby();
         }
         else
         {
-            Debug.LogWarning("Connected to lobby.");
+            feedback.text += "Connected to lobby of " + roomName + "\n";
             isConnectedToALobby = true;
             _lobbiest.ChangeIsHost(isHost);
+            _lobbiest.ChangeRoomName(roomName);
             canvas.enabled = false;
         }
+
+        cr_RoomChecker = null;
+        tryingToConnect = false;
     }
 
     void DidDisconnectFromLobby(Realtime realtime)
     {
+        feedback.text = "";
         isConnectedToALobby = false;
         lobbiests.Clear();
         _realtime.didConnectToRoom -= DidConnectToLobby;
         _realtime.didDisconnectFromRoom -= DidDisconnectFromLobby;
-        Realtime.Destroy(_lobbiest.gameObject);
     }
 }
