@@ -5,10 +5,11 @@ using Normal.Realtime;
 
 public class PrespawnManager : MonoBehaviour
 {
-    [SerializeField]
-    List<GameObject> PrespawnedItems = new List<GameObject>();
+    [SerializeField] List<GameObject> PrespawnedItems = new List<GameObject>();
+
     // Start is called before the first frame update
     Realtime _realtime;
+
     void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
@@ -25,7 +26,7 @@ public class PrespawnManager : MonoBehaviour
 
     public void SpawnPredeterminedItems()
     {
-        foreach(GameObject PowerUp in PrespawnedItems)
+        foreach (GameObject PowerUp in PrespawnedItems)
         {
             SpawnItemInGameWorld(PowerUp.transform, PowerUp.GetComponent<Loot>().id);
         }
@@ -38,11 +39,13 @@ public class PrespawnManager : MonoBehaviour
                 position: lootLocation.position,
                 rotation: Quaternion.identity,
                 ownedByClient:
-                true,
+                false,
                 preventOwnershipTakeover:
                 true,
                 useInstance:
                 _realtime);
+            _temp.GetComponent<RealtimeView>().SetOwnership(_realtime.clientID);
+            _temp.GetComponent<RealtimeTransform>().SetOwnership(_realtime.clientID);
             _temp.GetComponent<LootContainer>().SetID(lootID);
         }
     }
