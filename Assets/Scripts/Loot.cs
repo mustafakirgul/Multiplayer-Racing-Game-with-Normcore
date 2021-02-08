@@ -22,19 +22,12 @@ public class Loot : RealtimeComponent<LootModel>
         {
             if (currentModel.isFreshModel)
             {
-                id = model.id;
-                collectedBy = model.collectedBy;
+                SetID(id);
             }
 
             currentModel.idDidChange += IdDidChange;
             currentModel.collectedByDidChange += CollectedByDidChange;
         }
-    }
-
-    private void Start()
-    {
-        if (id == 0) return;
-        SetID(id);
     }
 
     public void UpdateLoot()

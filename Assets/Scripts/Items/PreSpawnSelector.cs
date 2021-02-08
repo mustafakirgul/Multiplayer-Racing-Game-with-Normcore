@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +16,11 @@ public class PreSpawnSelector : MonoBehaviour
     private void OnValidate()
     {
         LootSelected = GetComponent<Loot>();
+        AssignIDToSpawner();
+    }
+
+    private void Start()
+    {
         AssignIDToSpawner();
     }
 

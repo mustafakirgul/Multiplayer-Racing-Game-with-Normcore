@@ -145,14 +145,10 @@ public class PlayerManager : MonoBehaviour
                 useInstance: _realtime);
             _temp.GetComponent<Truck>().StartHealth();
 
-            //Spawn PowerUps and one time things here
-            //This is the first player who will spawn the truck
-            if (GameManager.instance.isHost)
-            {
-                prespawnManager.ReActivateSpawner();
-                prespawnManager.SpawnPredeterminedItems();
-                prespawnManager.DeActivateSpawner();
-            }
+
+            prespawnManager.ReActivateSpawner();
+            prespawnManager.SpawnPredeterminedItems();
+            prespawnManager.DeActivateSpawner();
         }
     }
 

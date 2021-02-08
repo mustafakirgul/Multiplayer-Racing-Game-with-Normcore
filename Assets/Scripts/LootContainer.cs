@@ -36,7 +36,7 @@ public class LootContainer : MonoBehaviour
     {
         if (content == null) return;
         content.UpdateLoot();
-        if (selection == null && animate) return;
+        if (selection == null || !animate) return;
         selection.localEulerAngles = new Vector3(0, selection.localEulerAngles.y + (180 * Time.deltaTime), 0);
     }
 

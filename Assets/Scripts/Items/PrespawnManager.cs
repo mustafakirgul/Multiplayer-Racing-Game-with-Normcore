@@ -28,25 +28,29 @@ public class PrespawnManager : MonoBehaviour
     {
         foreach (GameObject PowerUp in PrespawnedItems)
         {
-            SpawnItemInGameWorld(PowerUp.transform, PowerUp.GetComponent<Loot>().id);
+            SpawnItemInGameWorld(PowerUp.transform.position,
+                PowerUp.GetComponent<Loot>().id);
         }
     }
 
-    private void SpawnItemInGameWorld(Transform lootLocation, int lootID)
+    private void SpawnItemInGameWorld(Vector3 lootLocation, int lootID)
     {
         {
             GameObject _temp = Realtime.Instantiate("PredeterminedDrop",
-                position: lootLocation.position,
+                position: lootLocation,
                 rotation: Quaternion.identity,
                 ownedByClient:
                 false,
                 preventOwnershipTakeover:
-                true,
+                false,
+                destroyWhenOwnerOrLastClientLeaves: true,
                 useInstance:
                 _realtime);
             _temp.GetComponent<RealtimeView>().SetOwnership(_realtime.clientID);
             _temp.GetComponent<RealtimeTransform>().SetOwnership(_realtime.clientID);
+
             _temp.GetComponent<LootContainer>().SetID(lootID);
+            _temp.transform.position = lootLocation;
         }
     }
 
