@@ -37,7 +37,7 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
         }
     }
 
-    public void Update()
+    public void UpdateLobbiest()
     {
         roomName = model.roomName;
         maxPlayers = Convert.ToInt32(model.maxPlayers);

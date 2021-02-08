@@ -37,7 +37,7 @@ public class Loot : RealtimeComponent<LootModel>
         SetID(id);
     }
 
-    public void Update()
+    public void UpdateLoot()
     {
         id = model.id;
         collectedBy = model.collectedBy;

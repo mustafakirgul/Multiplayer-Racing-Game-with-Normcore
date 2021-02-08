@@ -71,7 +71,7 @@ public class LobbyManager : MonoBehaviour
             : Vector3.zero;
 
         if (_lobbiest == null) return;
-        _lobbiest.Update();
+        _lobbiest.UpdateLobbiest();
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
