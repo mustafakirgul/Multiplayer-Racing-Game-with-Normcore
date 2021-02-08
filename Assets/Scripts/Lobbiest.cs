@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using Normal.Realtime;
 using UnityEngine;
 
@@ -12,6 +11,7 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
 
     protected override void OnRealtimeModelReplaced(LobbiestModel previousModel, LobbiestModel currentModel)
     {
+        base.OnRealtimeModelReplaced(previousModel, currentModel);
         if (previousModel != null)
         {
             previousModel.roomNameDidChange -= RoomNameChanged;
@@ -35,6 +35,15 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
             currentModel.isReadyDidChange += IsReadyChanged;
             currentModel.isHostDidChange += IsHostChanged;
         }
+    }
+
+    public void Update()
+    {
+        roomName = model.roomName;
+        maxPlayers = Convert.ToInt32(model.maxPlayers);
+        isHost = model.isHost;
+        GameManager.instance.isHost = isHost;
+        isReady = model.isReady;
     }
 
     private void Start()

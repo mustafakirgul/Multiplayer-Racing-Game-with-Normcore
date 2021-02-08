@@ -11,8 +11,7 @@ public class LootContainer : MonoBehaviour
     public float dieDelay = 1f;
     private RealtimeView _realtime => GetComponent<RealtimeView>();
 
-    [SerializeField]
-    private bool isNetworkInstance;
+    [SerializeField] private bool isNetworkInstance;
 
     private void OnDrawGizmos()
     {
@@ -32,6 +31,12 @@ public class LootContainer : MonoBehaviour
         {
             _realtime.RequestOwnership();
         }
+    }
+
+    private void Update()
+    {
+        if (content == null) return;
+        content.Update();
     }
 
     public int SetID(int _id)
@@ -57,8 +62,8 @@ public class LootContainer : MonoBehaviour
     {
         if (content.collectedBy == 0)
         {
-            GetComponent<BoxCollider>().enabled = false;
             GetComponent<Rigidbody>().isKinematic = true;
+            GetComponent<BoxCollider>().enabled = false;
             StartCoroutine(CR_Die());
             SetCollectedBy(_collectorID);
             return id; // return id of collected item

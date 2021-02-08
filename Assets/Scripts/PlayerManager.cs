@@ -147,9 +147,12 @@ public class PlayerManager : MonoBehaviour
 
             //Spawn PowerUps and one time things here
             //This is the first player who will spawn the truck
-            prespawnManager.ReActivateSpawner();
-            prespawnManager.SpawnPredeterminedItems();
-            prespawnManager.DeActivateSpawner();
+            if (GameManager.instance.isHost)
+            {
+                prespawnManager.ReActivateSpawner();
+                prespawnManager.SpawnPredeterminedItems();
+                prespawnManager.DeActivateSpawner();
+            }
         }
     }
 

@@ -10,7 +10,7 @@ public class Loot : RealtimeComponent<LootModel>
 
     protected override void OnRealtimeModelReplaced(LootModel previousModel, LootModel currentModel)
     {
-        //base.OnRealtimeModelReplaced(previousModel, currentModel); // do we need this?
+        base.OnRealtimeModelReplaced(previousModel, currentModel);
 
         if (previousModel != null)
         {
@@ -26,10 +26,16 @@ public class Loot : RealtimeComponent<LootModel>
         }
     }
 
-    private void Awake()
+    private void Start()
     {
         if (id == 0) return;
         SetID(id);
+    }
+
+    public void Update()
+    {
+        id = model.id;
+        collectedBy = model.collectedBy;
     }
 
     public void SetID(int _id)
@@ -50,7 +56,6 @@ public class Loot : RealtimeComponent<LootModel>
 
     private void CollectedByDidChange(LootModel model, int value)
     {
-//UI prompt
         CollectedByChanged();
     }
 

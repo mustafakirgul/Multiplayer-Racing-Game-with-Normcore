@@ -69,6 +69,9 @@ public class LobbyManager : MonoBehaviour
                 feedbackLoaderRectTransform.localEulerAngles.y,
                 feedbackLoaderRectTransform.localEulerAngles.z + (Time.deltaTime * 180f))
             : Vector3.zero;
+
+        if (_lobbiest == null) return;
+        _lobbiest.Update();
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
