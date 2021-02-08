@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +18,11 @@ public class PowerUpMeshGetter : MonoBehaviour
 
         StartCoroutine(waitToApplyMesh());
         //ApplyLootMesh(LootID.id);
+    }
+
+    private void Update()
+    {
+        transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y + (180 * Time.deltaTime), 0);
     }
 
     private IEnumerator waitToApplyMesh()

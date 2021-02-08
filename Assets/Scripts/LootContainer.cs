@@ -10,6 +10,8 @@ public class LootContainer : MonoBehaviour
     public int id, collectedBy;
     public float dieDelay = 1f;
     private RealtimeView _realtime => GetComponent<RealtimeView>();
+    private Transform selection;
+    private bool animate;
 
     [SerializeField] private bool isNetworkInstance;
 
@@ -27,16 +29,15 @@ public class LootContainer : MonoBehaviour
         isNetworkInstance = !_realtime.isOwnedLocallyInHierarchy;
         if (isNetworkInstance)
             GetComponent<Rigidbody>().isKinematic = true;
-        else
-        {
-            _realtime.RequestOwnership();
-        }
+        animate = GetComponent<PowerUpMeshGetter>() == null;
     }
 
     private void Update()
     {
         if (content == null) return;
         content.Update();
+        if (selection == null && animate) return;
+        selection.localEulerAngles = new Vector3(0, selection.localEulerAngles.y + (180 * Time.deltaTime), 0);
     }
 
     public int SetID(int _id)
@@ -49,6 +50,7 @@ public class LootContainer : MonoBehaviour
             pickup = transform.GetChild(1).gameObject;
         loot.SetActive(id > 0);
         pickup.SetActive(id < 0);
+        selection = loot.activeInHierarchy ? loot.transform : pickup.transform;
         return _id;
     }
 

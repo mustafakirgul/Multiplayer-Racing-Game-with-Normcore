@@ -20,7 +20,12 @@ public class Loot : RealtimeComponent<LootModel>
 
         if (currentModel != null)
         {
-            _container.SetID(currentModel.id);
+            if (currentModel.isFreshModel)
+            {
+                id = model.id;
+                collectedBy = model.collectedBy;
+            }
+
             currentModel.idDidChange += IdDidChange;
             currentModel.collectedByDidChange += CollectedByDidChange;
         }
