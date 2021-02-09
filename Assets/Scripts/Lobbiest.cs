@@ -24,37 +24,19 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
 
         if (currentModel != null)
         {
-            if (currentModel.isFreshModel && LobbyManager.instance.isHost)
+            if (currentModel.isFreshModel)
             {
-                currentModel.roomName = roomName;
-                currentModel.maxPlayers = maxPlayers;
-                currentModel.isHost = true;
+                roomName = currentModel.roomName;
+                maxPlayers = Convert.ToInt32(currentModel.maxPlayers);
+                isHost = currentModel.isHost;
                 Debug.LogError("This machine is the host!");
             }
 
             UpdateData();
-
             currentModel.roomNameDidChange += RoomNameChanged;
             currentModel.maxPlayersDidChange += MaxPlayersChanged;
             currentModel.isReadyDidChange += IsReadyChanged;
             currentModel.isHostDidChange += IsHostChanged;
-        }
-    }
-
-    IEnumerator UpdateLobbiest()
-    {
-        while (true)
-        {
-            if (_rtView.isOwnedLocallyInHierarchy)
-            {
-                model.isHost = LobbyManager.instance.isHost;
-            }
-            else
-            {
-                UpdateData();
-            }
-
-            yield return new WaitForEndOfFrame();
         }
     }
 
@@ -70,7 +52,6 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
     {
         _rtView = GetComponent<RealtimeView>();
         LobbyManager.instance.RegisterLobbiest(this);
-        StartCoroutine(UpdateLobbiest());
     }
 
     private void OnDestroy()
@@ -128,7 +109,7 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
     public void ChangeIsHost(bool value)
     {
         model.isHost = value;
-        Debug.LogError("Guest: " + value);
+        Debug.LogError("Guest: " + !value);
     }
 
     private void IsHostChanged(LobbiestModel lobbiestModel, bool value)
@@ -138,6 +119,6 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
 
     private void IsHostUpdate()
     {
-        isHost = model.isReady;
+        isHost = model.isHost;
     }
 }

@@ -113,7 +113,7 @@ public class LobbyManager : MonoBehaviour
         _realtime.Disconnect();
     }
 
-    public void ConnectToLobby(bool create) // if create is false it will only try to connect
+    public void ConnectToLobby(bool create) // if create is false it will only try to connect an existing room
     {
         isHost = create;
         GameManager.instance.isHost = isHost;
@@ -220,7 +220,7 @@ public class LobbyManager : MonoBehaviour
     private IEnumerator CR_Checkroom()
     {
         yield return wait;
-        var count = FindObjectsOfType<Lobbiest>().Length;
+        var count = lobbiests.Count;
         if (!isHost) //if not creating but just trying to join
         {
             if (count == 1) // there is only you in the room
