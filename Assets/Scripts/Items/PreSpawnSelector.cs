@@ -13,15 +13,25 @@ public class PreSpawnSelector : MonoBehaviour
 
     private Loot LootSelected;
 
+    public Vector3 PUSpawnReferencePoint;
+
     private void OnValidate()
     {
         LootSelected = GetComponent<Loot>();
         AssignIDToSpawner();
+        GetLocationDatainV3();
     }
 
     private void Start()
     {
         AssignIDToSpawner();
+    }
+
+    private void GetLocationDatainV3()
+    {
+        PUSpawnReferencePoint = new Vector3(this.transform.position.x,
+                                              this.transform.position.y,
+                                              this.transform.position.z);
     }
 
     private void AssignIDToSpawner()

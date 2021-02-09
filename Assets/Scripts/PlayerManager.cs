@@ -145,7 +145,7 @@ public class PlayerManager : MonoBehaviour
                 useInstance: _realtime);
             _temp.GetComponent<Truck>().StartHealth();
 
-
+            prespawnManager._realtime = _realtime;
             prespawnManager.ReActivateSpawner();
             prespawnManager.SpawnPredeterminedItems();
             prespawnManager.DeActivateSpawner();

@@ -7,12 +7,14 @@ public class PrespawnManager : MonoBehaviour
 {
     [SerializeField] List<GameObject> PrespawnedItems = new List<GameObject>();
 
+
+    [SerializeField] List<Vector3> SpawnCoordinates = new List<Vector3>(); 
     // Start is called before the first frame update
-    Realtime _realtime;
+    public Realtime _realtime;
 
     void Awake()
     {
-        _realtime = FindObjectOfType<Realtime>();
+        //_realtime = FindObjectOfType<Realtime>();
         ReferenceItemsToSpawn();
     }
 
@@ -28,7 +30,7 @@ public class PrespawnManager : MonoBehaviour
     {
         foreach (GameObject PowerUp in PrespawnedItems)
         {
-            SpawnItemInGameWorld(PowerUp.transform.position,
+            SpawnItemInGameWorld(PowerUp.GetComponent<PreSpawnSelector>().PUSpawnReferencePoint,
                 PowerUp.GetComponent<Loot>().id);
         }
     }
@@ -48,7 +50,6 @@ public class PrespawnManager : MonoBehaviour
                 _realtime);
             _temp.GetComponent<RealtimeView>().SetOwnership(_realtime.clientID);
             _temp.GetComponent<RealtimeTransform>().SetOwnership(_realtime.clientID);
-
             _temp.GetComponent<LootContainer>().SetID(lootID);
             _temp.transform.position = lootLocation;
         }
