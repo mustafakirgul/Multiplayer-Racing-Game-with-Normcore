@@ -232,7 +232,7 @@ public class LobbyManager : MonoBehaviour
 
             for (int i = 0; i < lobbiests.Count; i++)
             {
-                if (lobbiests[i].maxPlayers > maxPlayers)
+                if (lobbiests[i].isHost)
                     maxPlayers = lobbiests[i].maxPlayers;
             }
         }
