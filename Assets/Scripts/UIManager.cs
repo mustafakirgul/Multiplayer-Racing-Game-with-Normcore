@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public Image boostRadialLoader;
     public Image playerHealthRadialLoader;
     public Image CrossHairUI;
+    public RectTransform ScreenCanvas;
     public TextMeshProUGUI speedometer, playerName, timeRemaining;
     private GameObject uIPanel;
     public GameObject enterNamePanel;

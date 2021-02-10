@@ -50,8 +50,7 @@ public class TurretAutoAim : MonoBehaviour
         StartCoroutine(turretRadarSweep());
         CrossHairUI = GameManager.instance.uIManager.CrossHairUI;
         currentCam = GameManager.instance.uIManager.UIcamera;
-
-        parentCanvas = GameManager.instance.uIManager.CrossHairUI.GetComponentInParent<Canvas>().GetComponent<RectTransform>();
+        parentCanvas = GameManager.instance.uIManager.ScreenCanvas.GetComponent<RectTransform>();
     }
     void Update()
     {
@@ -62,19 +61,15 @@ public class TurretAutoAim : MonoBehaviour
             CycleSelectTarget();
             if (!isManualTargeting)
             {
-                if (!CrossHairUI.gameObject.activeInHierarchy)
-                {
-                    CrossHairUI.gameObject.SetActive(true);
-                }
                 StartCoroutine(ResetManualTargetingCR());
             }
         }
 
-        if (enemy != null)
+        if (enemy != null && CrossHairUI.gameObject.activeInHierarchy)
         {
             Vector3 Pos = Camera.main.WorldToViewportPoint(enemy.transform.position);
-            CrossHairUI.rectTransform.localPosition = new Vector3(Pos.x* parentCanvas.rect.width,
-                parentCanvas.rect.height * Pos.y, 0);
+            CrossHairUI.rectTransform.localPosition = new Vector3(Pos.x * parentCanvas.rect.width - parentCanvas.rect.width * 0.5f,
+                parentCanvas.rect.height * Pos.y - parentCanvas.rect.height * 0.5f, 0);
         }
     }
 
@@ -146,7 +141,7 @@ public class TurretAutoAim : MonoBehaviour
             Collider toREmove = targetList[targetIndex];
             enemy = targetList[targetIndex].gameObject;
 
-        
+
 
             //This ensures autotargeting stays on target as 
             //It selects the first elements in the target list
@@ -201,15 +196,22 @@ public class TurretAutoAim : MonoBehaviour
 
             if (angle < maxAngle && range < turretDetectionRange)
             {
+                if (!CrossHairUI.gameObject.activeInHierarchy)
+                {
+                    CrossHairUI.gameObject.SetActive(true);
+                }
                 return true;
             }
             else
             {
+
+                CrossHairUI.gameObject.SetActive(false);
                 return false;
             }
         }
         else
         {
+            CrossHairUI.gameObject.SetActive(false);
             return false;
         }
     }

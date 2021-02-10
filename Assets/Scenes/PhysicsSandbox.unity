@@ -15020,6 +15020,7 @@ MonoBehaviour:
   boostRadialLoader: {fileID: 1604318442}
   playerHealthRadialLoader: {fileID: 80460538}
   CrossHairUI: {fileID: 1249831495}
+  ScreenCanvas: {fileID: 239129303}
   speedometer: {fileID: 2014397572}
   playerName: {fileID: 1498207601}
   timeRemaining: {fileID: 648077963}

@@ -19,6 +19,15 @@ public class BulletProjectile : WeaponProjectileBase
     private void BulletBrain()
     {
         //Missile keeps going forward unless it finds a target
-        rb.velocity = this.transform.forward * (bulletSpeed + mf_carVelocity);
+        if (mf_carVelocity < 10)
+        {
+            mf_carVelocity = 10;
+            rb.velocity = this.transform.forward * (bulletSpeed + mf_carVelocity);
+        }
+        else
+        {
+
+            rb.velocity = this.transform.forward * (bulletSpeed + mf_carVelocity);
+        }
     }
 }

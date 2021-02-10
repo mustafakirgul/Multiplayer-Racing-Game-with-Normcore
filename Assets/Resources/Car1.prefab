@@ -1881,6 +1881,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4867629803211482477}
+  - component: {fileID: 3236053392007875713}
+  - component: {fileID: 6022472696859302080}
+  - component: {fileID: 3949754587551978861}
   m_Layer: 13
   m_Name: TurretMesh
   m_TagString: Untagged
@@ -1895,14 +1898,73 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1308856106591537232}
-  m_LocalRotation: {x: -0, y: -0.70710576, z: -0, w: 0.70710784}
-  m_LocalPosition: {x: 0, y: 0.325, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.6, z: 0}
   m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children:
   - {fileID: 571461930018483740}
+  - {fileID: 7999507694352759004}
   m_Father: {fileID: 1628546063795785020}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3236053392007875713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308856106591537232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d1c6d5b95e27a343b48a56da939e54c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
+  turretFOV: {fileID: 8164705114400847665}
+  turretRotationSpd: 200
+  maxAngle: 90
+  turretDetectionRange: 40
+  radarSweepTimer: 1
+  turretDetectionLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  targetList: []
+  targetsToIgnore:
+  - {fileID: 7324370658739478688}
+  - {fileID: 1132834545854288054}
+  isManualTargeting: 0
+  CrossHairUI: {fileID: 0}
+  currentCam: {fileID: 0}
+  parentCanvas: {fileID: 0}
+--- !u!135 &6022472696859302080
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308856106591537232}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 25
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &3949754587551978861
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308856106591537232}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1343090809967595930
 GameObject:
   m_ObjectHideFlags: 0
@@ -2000,13 +2062,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412923235415418090}
-  m_LocalRotation: {x: -0.043620378, y: -0, z: -0, w: 0.99904823}
-  m_LocalPosition: {x: 0, y: 0.678, z: 1.62}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1628546063795785020}
+  m_Father: {fileID: 4867629803211482477}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -95, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3037930448720154578
 GameObject:
   m_ObjectHideFlags: 0
@@ -2480,9 +2542,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1628546063795785020}
-  - component: {fileID: 3473657544276020105}
-  - component: {fileID: 5853530858005366248}
-  - component: {fileID: 3570004375949866492}
   m_Layer: 13
   m_Name: Turret
   m_TagString: Untagged
@@ -2502,65 +2561,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4867629803211482477}
-  - {fileID: 7999507694352759004}
   m_Father: {fileID: 1132834545462220960}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3473657544276020105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8164705114400847665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d1c6d5b95e27a343b48a56da939e54c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
-  turretFOV: {fileID: 1132834545462220961}
-  turretRotationSpd: 200
-  maxAngle: 90
-  turretDetectionRange: 40
-  radarSweepTimer: 3
-  turretTargets: []
-  turretDetectionLayer:
-    serializedVersion: 2
-    m_Bits: 4096
-  targetList: []
-  targetsToIgnore:
-  - {fileID: 7324370658739478688}
-  - {fileID: 1132834545854288054}
---- !u!135 &5853530858005366248
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8164705114400847665}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 25
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &3570004375949866492
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8164705114400847665}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &8682467516705160125
 GameObject:
   m_ObjectHideFlags: 0
@@ -2762,7 +2765,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9f947ba294d854e02b19bc0859348f8b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.93193674
+      value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9f947ba294d854e02b19bc0859348f8b,
         type: 3}
@@ -2777,7 +2780,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9f947ba294d854e02b19bc0859348f8b,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.70710576
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9f947ba294d854e02b19bc0859348f8b,
         type: 3}
@@ -2787,7 +2790,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9f947ba294d854e02b19bc0859348f8b,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071078
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9f947ba294d854e02b19bc0859348f8b,
         type: 3}
@@ -2802,7 +2805,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9f947ba294d854e02b19bc0859348f8b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90.00001
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9f947ba294d854e02b19bc0859348f8b,
         type: 3}
