@@ -1542,7 +1542,7 @@ GameObject:
   - component: {fileID: 1132834545854288053}
   - component: {fileID: 1132834545854288054}
   - component: {fileID: 1132834545854288050}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: CarPhysicsSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1925,13 +1925,13 @@ MonoBehaviour:
   maxAngle: 90
   turretDetectionRange: 40
   radarSweepTimer: 1
+  playerColliderID: 0
   turretDetectionLayer:
     serializedVersion: 2
     m_Bits: 4096
   targetList: []
   targetsToIgnore:
   - {fileID: 7324370658739478688}
-  - {fileID: 1132834545854288054}
   isManualTargeting: 0
   CrossHairUI: {fileID: 0}
   currentCam: {fileID: 0}

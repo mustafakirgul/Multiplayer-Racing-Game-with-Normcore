@@ -110,6 +110,9 @@ public class NewCarController : MonoBehaviour
     private float savedWeaponAmmo;
     private float savedTempDamageRate;
 
+    [SerializeField]
+    private TurretAutoAim turretAim;
+
     [Space]
     [Space]
     [Header("UI")]
@@ -200,6 +203,7 @@ public class NewCarController : MonoBehaviour
         primaryWait = new WaitForSeconds(primaryFireTimer);
         secondaryWait = new WaitForSeconds(secondayFireTimer);
         muzzleWait = new WaitForSeconds(.2f);
+        turretAim = GetComponentInChildren<TurretAutoAim>();
     }
 
     void SetWeaponFireRates()
@@ -824,6 +828,15 @@ public class NewCarController : MonoBehaviour
         {
             weaponType++;
             weaponType %= 2;
+        }
+
+        if ((Input.GetKeyDown(KeyCode.V)) && turretAim.targetList.Count > 1)
+        {
+            turretAim.CycleSelectTarget();
+            if (!turretAim.isManualTargeting)
+            {
+                StartCoroutine(turretAim.ResetManualTargetingCR());
+            }
         }
 
         //Need to add reset timer to avoid spamming

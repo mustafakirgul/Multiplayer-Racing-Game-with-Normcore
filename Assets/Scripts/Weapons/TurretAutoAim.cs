@@ -20,18 +20,23 @@ public class TurretAutoAim : MonoBehaviour
     private Quaternion targetRotation;
     private Quaternion LookAtRotation;
 
+    [SerializeField]
+    private float playerColliderID;
+
+    private NewCarController carConroller;
+
     private Collider[] turretTargets;
     [SerializeField]
     private LayerMask turretDetectionLayer;
 
-    [SerializeField]
-    private List<Collider> targetList;
+    public List<Collider> targetList;
 
     [SerializeField]
     private List<Collider> targetsToIgnore;
 
-    [SerializeField]
-    private bool isManualTargeting = false;
+    public bool isManualTargeting = false;
+
+    private UIManager m_uiManager;
 
     public Image CrossHairUI;
     public Camera currentCam;
@@ -47,33 +52,34 @@ public class TurretAutoAim : MonoBehaviour
     }
     private void Start()
     {
-        StartCoroutine(turretRadarSweep());
-        CrossHairUI = GameManager.instance.uIManager.CrossHairUI;
-        currentCam = GameManager.instance.uIManager.UIcamera;
-        parentCanvas = GameManager.instance.uIManager.ScreenCanvas.GetComponent<RectTransform>();
+        carConroller = GetComponentInParent<NewCarController>();
+
+        if (!carConroller.isNetworkInstance)
+        {
+            m_uiManager = FindObjectOfType<UIManager>();
+            CrossHairUI = m_uiManager.CrossHairUI;
+            currentCam = m_uiManager.UIcamera;
+            parentCanvas = m_uiManager.ScreenCanvas.GetComponent<RectTransform>();
+            StartCoroutine(turretRadarSweep());
+            playerColliderID = carConroller.ownerID;
+        }
     }
     void Update()
     {
-        RotateTurret();
-
-        if ((Input.GetKeyDown(KeyCode.V)) && targetList.Count > 1)
+        if (!carConroller.isNetworkInstance)
         {
-            CycleSelectTarget();
-            if (!isManualTargeting)
+            RotateTurret();
+
+            if (enemy != null)
             {
-                StartCoroutine(ResetManualTargetingCR());
+                Vector3 Pos = Camera.main.WorldToViewportPoint(enemy.transform.position);
+                CrossHairUI.rectTransform.localPosition = new Vector3(parentCanvas.rect.width * (Pos.x - 0.5f),
+                    parentCanvas.rect.height * (Pos.y - 0.5f), 0);
             }
-        }
-
-        if (enemy != null && CrossHairUI.gameObject.activeInHierarchy)
-        {
-            Vector3 Pos = Camera.main.WorldToViewportPoint(enemy.transform.position);
-            CrossHairUI.rectTransform.localPosition = new Vector3(Pos.x * parentCanvas.rect.width - parentCanvas.rect.width * 0.5f,
-                parentCanvas.rect.height * Pos.y - parentCanvas.rect.height * 0.5f, 0);
         }
     }
 
-    private IEnumerator ResetManualTargetingCR()
+    public IEnumerator ResetManualTargetingCR()
     {
         isManualTargeting = true;
         yield return new WaitForSeconds(3f);
@@ -99,19 +105,15 @@ public class TurretAutoAim : MonoBehaviour
 
         for (int i = 0; i < turretTargets.Length; i++)
         {
+            //An id check here would mean removing or ignoring colliders of the same id is not necessary
             if (!targetList.Contains(turretTargets[i]))
             {
                 targetList.Add(turretTargets[i]);
-            }
-        }
 
-        for (int i = 0; i < targetList.Count; i++)
-        {
-            for (int j = 0; j < targetsToIgnore.Count; j++)
-            {
-                if (targetList[i] == targetsToIgnore[j])
+                if (turretTargets[i].GetComponent<NewCarController>() != null)
                 {
-                    targetList.Remove(targetList[i]);
+                    if (turretTargets[i].GetComponent<NewCarController>().ownerID == playerColliderID)
+                    { targetList.Remove(turretTargets[i]); }
                 }
             }
         }
@@ -131,7 +133,7 @@ public class TurretAutoAim : MonoBehaviour
         }
     }
 
-    void CycleSelectTarget()
+    public void CycleSelectTarget()
     {
         if (targetList.Count != 0)
         {
