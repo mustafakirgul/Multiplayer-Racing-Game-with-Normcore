@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
+//Deprecated
 public class Bullet : RealtimeComponent<ProjectileModel>
 {
     public float startSpeed;

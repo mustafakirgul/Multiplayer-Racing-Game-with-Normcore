@@ -214,6 +214,7 @@ public class GameSceneManager : MonoBehaviour
         //Display only new weapons that are dropped, avoid duplicating them in the UI
         GameManager.instance.uIManager.AssignAdditionalLootFromGameToDisplay();
         //LootManager.instance.playerObtainedLoot
+        LobbyManager.instance.ConnectToLobby(GameManager.instance.isHost);
     }
 }
 

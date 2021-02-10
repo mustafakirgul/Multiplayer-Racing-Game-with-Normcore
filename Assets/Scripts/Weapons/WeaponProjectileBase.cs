@@ -10,7 +10,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     public float explosiveRange;
     public float weaponLifeTime;
     public float truckDamageFactor;
-
     public float truckDamageTempModifier;
 
     public float weaponFireRate;
@@ -161,7 +160,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     IEnumerator HitCR()
     {
         GetComponent<TrailRenderer>().emitting = false;
-        rb.isKinematic = true;
         GetComponent<Collider>().enabled = false;
         projectile_Mesh.SetActive(false);
         colliders = Physics.OverlapSphere(transform.position, explosiveRange);
@@ -200,6 +198,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             }
         }
 
+        rb.isKinematic = true;
         yield return wait1Sec;
         yield return wait1Sec;
         explosion.SetActive(false);
@@ -239,11 +238,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         {
             return;
         }
-        else if (rb != null)
-        {
-            rb.isKinematic = true;
-        }
-
+    
         //Only look at the root of the transform object
         if (other.gameObject.GetComponent<NewCarController>() != null)
         {

@@ -115,6 +115,13 @@ public class LobbyManager : MonoBehaviour
 
     public void ConnectToLobby(bool create) // if create is false it will only try to connect an existing room
     {
+        if (_realtime.connected)
+        {
+            _realtime.Disconnect();
+        }
+
+        radialLoader.fillAmount = 0;
+
         isHost = create;
         GameManager.instance.isHost = isHost;
         tryingToConnect = true;
