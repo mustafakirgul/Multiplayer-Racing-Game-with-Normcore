@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
 {
     public Image boostRadialLoader;
     public Image playerHealthRadialLoader;
+    public Image CrossHairUI;
     public TextMeshProUGUI speedometer, playerName, timeRemaining;
     private GameObject uIPanel;
     public GameObject enterNamePanel;
@@ -57,11 +58,14 @@ public class UIManager : MonoBehaviour
     public float _lastTruckHealth = 0f;
     Coroutine InitTruckHealthCR, UpdateTruckHealthCR;
 
+    public Camera UIcamera;
+
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
         _gameManager = FindObjectOfType<GameManager>();
         _lootManager = FindObjectOfType<LootManager>();
+        CrossHairUI.gameObject.SetActive(false);
         uIPanel = transform.GetChild(0).gameObject;
         EnableUI();
     }
