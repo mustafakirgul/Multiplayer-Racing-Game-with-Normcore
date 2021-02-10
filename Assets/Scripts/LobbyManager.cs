@@ -13,6 +13,7 @@ public class LobbyManager : MonoBehaviour
     public int maxPlayers = 8;
     private Lobbiest _lobbiest;
     private Realtime _realtime => FindObjectOfType<Realtime>();
+    private RealtimeView _rtView => GetComponent<RealtimeView>();
     private Coroutine cr_RoomChecker;
 
     private bool isConnectedToALobby;
@@ -69,9 +70,6 @@ public class LobbyManager : MonoBehaviour
                 feedbackLoaderRectTransform.localEulerAngles.y,
                 feedbackLoaderRectTransform.localEulerAngles.z + (Time.deltaTime * 180f))
             : Vector3.zero;
-
-        if (_lobbiest == null) return;
-        _lobbiest.UpdateLobbiest();
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
@@ -105,6 +103,7 @@ public class LobbyManager : MonoBehaviour
         }
 
         readyPlayerNumber.text = ready.ToString();
+        maxPlayerNumber.text = "/ " + maxPlayers;
     }
 
     IEnumerator CR_ConnectToRoom(float delay)
@@ -114,9 +113,10 @@ public class LobbyManager : MonoBehaviour
         _realtime.Disconnect();
     }
 
-    public void ConnectToLobby(bool create) // if create is false it will only try to connect
+    public void ConnectToLobby(bool create) // if create is false it will only try to connect an existing room
     {
         isHost = create;
+        GameManager.instance.isHost = isHost;
         tryingToConnect = true;
         if (create)
         {
@@ -208,6 +208,7 @@ public class LobbyManager : MonoBehaviour
             rotation: Quaternion.identity,
             ownedByClient: true,
             preventOwnershipTakeover: true,
+            destroyWhenOwnerOrLastClientLeaves: true,
             useInstance: _realtime);
         _lobbiest = _temp.GetComponent<Lobbiest>();
         _lobbiest.ChangeIsHost(isHost);
@@ -219,7 +220,7 @@ public class LobbyManager : MonoBehaviour
     private IEnumerator CR_Checkroom()
     {
         yield return wait;
-        var count = FindObjectsOfType<Lobbiest>().Length;
+        var count = lobbiests.Count;
         if (!isHost) //if not creating but just trying to join
         {
             if (count == 1) // there is only you in the room
@@ -249,7 +250,6 @@ public class LobbyManager : MonoBehaviour
         {
             feedback.text += "Connected to lobby of " + roomName + "\n";
             isConnectedToALobby = true;
-            maxPlayerNumber.text = "/ " + maxPlayers;
             canvas.enabled = false;
             feedback.text = "";
         }

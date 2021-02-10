@@ -22,16 +22,11 @@ public class PreSpawnSelector : MonoBehaviour
         GetLocationDatainV3();
     }
 
-    private void Start()
-    {
-        AssignIDToSpawner();
-    }
-
     private void GetLocationDatainV3()
     {
         PUSpawnReferencePoint = new Vector3(this.transform.position.x,
-                                              this.transform.position.y,
-                                              this.transform.position.z);
+            this.transform.position.y,
+            this.transform.position.z);
     }
 
     private void AssignIDToSpawner()

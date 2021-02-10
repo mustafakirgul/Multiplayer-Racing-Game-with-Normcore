@@ -286,14 +286,6 @@ public class Truck : RealtimeComponent<TruckModel>
         }
     }
 
-    public void SetOwner(int _id)
-    {
-        if (_id >= 0)
-        {
-            model.owner = _id;
-        }
-    }
-
     public void ResetExplosionPoint()
     {
         model.explosionPoint = Vector3.zero;

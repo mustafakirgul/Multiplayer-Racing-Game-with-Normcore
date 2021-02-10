@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Normal.Realtime;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
     public int maxPlayers;
     public bool isReady;
     public bool isHost;
+    private RealtimeView _rtView;
 
     protected override void OnRealtimeModelReplaced(LobbiestModel previousModel, LobbiestModel currentModel)
     {
@@ -27,9 +29,10 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
                 roomName = currentModel.roomName;
                 maxPlayers = Convert.ToInt32(currentModel.maxPlayers);
                 isHost = currentModel.isHost;
-                GameManager.instance.isHost = isHost;
+                Debug.LogError("This machine is the host!");
             }
 
+            UpdateData();
             currentModel.roomNameDidChange += RoomNameChanged;
             currentModel.maxPlayersDidChange += MaxPlayersChanged;
             currentModel.isReadyDidChange += IsReadyChanged;
@@ -37,17 +40,17 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
         }
     }
 
-    public void UpdateLobbiest()
+    void UpdateData()
     {
-        roomName = model.roomName;
-        maxPlayers = Convert.ToInt32(model.maxPlayers);
-        isHost = model.isHost;
-        GameManager.instance.isHost = isHost;
-        isReady = model.isReady;
+        RoomNameUpdate();
+        MaxPlayersUpdate();
+        IsReadyUpdate();
+        IsHostUpdate();
     }
 
     private void Start()
     {
+        _rtView = GetComponent<RealtimeView>();
         LobbyManager.instance.RegisterLobbiest(this);
     }
 
@@ -61,40 +64,61 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
         model.roomName = value;
     }
 
+    private void RoomNameChanged(LobbiestModel lobbiestModel, string value)
+    {
+        RoomNameUpdate();
+    }
+
+    private void RoomNameUpdate()
+    {
+        roomName = model.roomName;
+    }
+
     public void ChangeMaxPlayers(int value)
     {
         model.maxPlayers = value;
     }
+
+    private void MaxPlayersChanged(LobbiestModel lobbiestModel, float value)
+    {
+        MaxPlayersUpdate();
+    }
+
+    private void MaxPlayersUpdate()
+    {
+        maxPlayers = Convert.ToInt32(model.maxPlayers);
+    }
+
 
     public void ChangeIsReady(bool value)
     {
         model.isReady = value;
     }
 
+    private void IsReadyChanged(LobbiestModel lobbiestModel, bool value)
+    {
+        IsReadyUpdate();
+    }
+
+    private void IsReadyUpdate()
+    {
+        isReady = model.isReady;
+    }
+
+
     public void ChangeIsHost(bool value)
     {
         model.isHost = value;
+        Debug.LogError("Guest: " + !value);
     }
 
     private void IsHostChanged(LobbiestModel lobbiestModel, bool value)
     {
-        Debug.LogWarning("IsHost changed to " + value);
-        isHost = value;
-        GameManager.instance.isHost = value;
+        IsHostUpdate();
     }
 
-    private void RoomNameChanged(LobbiestModel lobbiestModel, string value)
+    private void IsHostUpdate()
     {
-        roomName = value;
-    }
-
-    private void MaxPlayersChanged(LobbiestModel lobbiestModel, float value)
-    {
-        maxPlayers = Convert.ToInt32(value);
-    }
-
-    private void IsReadyChanged(LobbiestModel lobbiestModel, bool value)
-    {
-        isReady = value;
+        isHost = model.isHost;
     }
 }
