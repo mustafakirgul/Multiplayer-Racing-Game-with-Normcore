@@ -210,7 +210,7 @@ public struct PlayerInfo
     public PlayerInfo(Player player, bool isLocal)
     {
         id = player._id;
-        name = player.name;
+        name = player.playerName;
         this.isLocal = isLocal;
     }
 }

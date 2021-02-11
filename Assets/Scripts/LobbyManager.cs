@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Normal.Realtime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
@@ -25,11 +26,12 @@ public class LobbyManager : MonoBehaviour
 
     private WaitForSeconds wait => new WaitForSeconds(serverCheckDelay);
     public Image radialLoader, feedbackLoader;
-    public Text playerNumber, readyPlayerNumber, feedback, maxPlayerNumber;
+    public Text playerNumber, readyPlayerNumber, feedback, maxPlayerNumber, garageGoFeedback;
     private string roomName;
     private UIManager uIManager;
     private Canvas canvas;
     public InputField roomNameCreate, roomNameJoin, numberOfPlayers;
+    public TMP_InputField playerNameInputField;
     private RectTransform feedbackLoaderRectTransform;
     private Coroutine cr_ConnectToRoom;
     private bool stayDisconnected = true;
@@ -193,6 +195,19 @@ public class LobbyManager : MonoBehaviour
     public void MarkPlayerReady()
     {
         if (_lobbiest == null) return;
+        int nameSize = playerNameInputField.text.Length;
+        if (nameSize < 1)
+        {
+            garageGoFeedback.text = "Name cannot be blank!\n";
+            return;
+        }
+
+        if (nameSize > 10)
+        {
+            garageGoFeedback.text = "Name size limit is 10 chars!\n";
+            return;
+        }
+
         _lobbiest.ChangeIsReady(true);
     }
 

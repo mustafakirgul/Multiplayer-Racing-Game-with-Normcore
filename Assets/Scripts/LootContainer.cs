@@ -11,7 +11,8 @@ public class LootContainer : MonoBehaviour
     public float dieDelay = 1f;
     private RealtimeView _realtime => GetComponent<RealtimeView>();
     private Transform selection;
-    private bool animate;
+    private bool customMesh;
+    private ParticleSystem collectionParticle;
 
     [SerializeField] private bool isNetworkInstance;
 
@@ -26,17 +27,18 @@ public class LootContainer : MonoBehaviour
 
     private void Start()
     {
+        collectionParticle = transform.GetChild(2).GetChild(0).GetComponent<ParticleSystem>();
         isNetworkInstance = !_realtime.isOwnedLocallyInHierarchy;
         if (isNetworkInstance)
             GetComponent<Rigidbody>().isKinematic = true;
-        animate = GetComponent<PowerUpMeshGetter>() == null;
+        customMesh = GetComponent<PowerUpMeshGetter>() != null;
     }
 
     private void Update()
     {
         if (content == null) return;
         content.UpdateLoot();
-        if (selection == null || !animate) return;
+        if (selection == null || !customMesh) return;
         selection.localEulerAngles = new Vector3(0, selection.localEulerAngles.y + (180 * Time.deltaTime), 0);
     }
 
@@ -48,8 +50,10 @@ public class LootContainer : MonoBehaviour
             loot = transform.GetChild(0).gameObject;
         if (pickup == null)
             pickup = transform.GetChild(1).gameObject;
+
         loot.SetActive(id > 0);
         pickup.SetActive(id < 0);
+
         selection = loot.activeInHierarchy ? loot.transform : pickup.transform;
         return _id;
     }
@@ -57,6 +61,11 @@ public class LootContainer : MonoBehaviour
     private int SetCollectedBy(int _collectedBy)
     {
         collectedBy = content.SetCollectedBy(_collectedBy);
+        string tempName = "POWERUP (" + LootManager.instance.playerLootPoolSave
+            .PlayerPowerUps[Mathf.Abs(content.id) - 1].name
+            .Remove(0, 2) + ") !";
+        GameManager.instance.uIManager.DisplayUIMessage(PlayerManager.instance.PlayerName(_collectedBy) +
+                                                        " has collected a " + (id > 0 ? "loot!" : tempName));
         return collectedBy;
     }
 
@@ -77,6 +86,7 @@ public class LootContainer : MonoBehaviour
 
     public IEnumerator CR_Die()
     {
+        collectionParticle.Play();
         yield return new WaitForSeconds(dieDelay);
         if (!isNetworkInstance) Realtime.Destroy(gameObject);
     }

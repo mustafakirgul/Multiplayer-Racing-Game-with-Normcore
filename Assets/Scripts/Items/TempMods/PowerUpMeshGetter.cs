@@ -11,18 +11,20 @@ public class PowerUpMeshGetter : MonoBehaviour
 
     LootContainer LootContainerID;
 
+    private Transform child;
+
     // Start is called before the first frame update
     void Start()
     {
         lootManager = FindObjectOfType<LootManager>();
-
         StartCoroutine(waitToApplyMesh());
         //ApplyLootMesh(LootID.id);
     }
 
     private void Update()
     {
-        transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y + (180 * Time.deltaTime), 0);
+        if (child == null) return;
+        child.localEulerAngles = new Vector3(0, child.localEulerAngles.y + (180 * Time.deltaTime), 0);
     }
 
     private IEnumerator waitToApplyMesh()
@@ -44,8 +46,8 @@ public class PowerUpMeshGetter : MonoBehaviour
         {
             //Debug.LogWarning("MeshtoApply: " + PUIndex);
             this.transform.GetChild(1).gameObject.SetActive(false);
-            Instantiate(lootManager.playerLootPoolSave.PlayerPowerUps[PUIndex].MeshAppearance,
-                this.gameObject.transform);
+            child = Instantiate(lootManager.playerLootPoolSave.PlayerPowerUps[PUIndex].MeshAppearance,
+                this.gameObject.transform).transform;
         }
         else
             Debug.LogWarning("No Mesh To Apply");

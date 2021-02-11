@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
+using JetBrains.Annotations;
 
 
 public class UIManager : MonoBehaviour
@@ -13,6 +14,10 @@ public class UIManager : MonoBehaviour
     public Image CrossHairUI;
     public RectTransform ScreenCanvas;
     public TextMeshProUGUI speedometer, playerName, timeRemaining;
+    public RectTransform uIMessagePanel;
+    public Text uIMessageTextBox;
+    public int maximumNumberOfMessageLines = 10;
+    private List<string> messages;
     private GameObject uIPanel;
     public GameObject enterNamePanel;
 
@@ -73,6 +78,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        messages = new List<string>();
         transform.SetParent(null);
         if (damageIndicatorCanvasGroup != null)
             damageIndicatorCanvasGroup.alpha = 0f;
@@ -320,5 +326,20 @@ public class UIManager : MonoBehaviour
     public void DisableUI()
     {
         uIPanel.SetActive(false);
+    }
+
+    public void DisplayUIMessage(string message)
+    {
+        messages.Add(message);
+        while (messages.Count > maximumNumberOfMessageLines)
+        {
+            messages.Remove(messages[0]);
+        }
+
+        uIMessageTextBox.text = "";
+        for (int i = 0; i < messages.Count; i++)
+        {
+            uIMessageTextBox.text += (messages[i] + "\n");
+        }
     }
 }

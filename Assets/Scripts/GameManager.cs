@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
 
     public bool truckIsKilled;
     public bool isHost;
+    public GameObject gameCreationMenu;
 
     private void OnDrawGizmos()
     {
@@ -150,6 +151,8 @@ public class GameManager : MonoBehaviour
             UnityEngine.Random.Range(center.z - (size.z * .5f), center.z + (size.z * .5f))
         );
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
+        if (gameCreationMenu == null) return;
+        gameCreationMenu.SetActive(true);
     }
 
     private void ResetBoolsForNewRound()
@@ -298,6 +301,10 @@ public class GameManager : MonoBehaviour
     {
         //isConnected = true;
         _tempName = preferredCar != "" ? preferredCar : "Car1";
+        if (playerNameInputField.text=="DeNNiSuZaY"&&_tempName=="Car14")
+        {
+            
+        }
         GameObject _temp = Realtime.Instantiate(_tempName,
             position: spawnPoint,
             rotation: Quaternion.Euler(0, direction, 0),
@@ -315,6 +322,7 @@ public class GameManager : MonoBehaviour
         }
 
         _temp.GetComponent<Player>().SetPlayerName(playerNameInputField.text);
+        
         _temp.GetComponent<ItemDataProcessor>().ObtainLoadOutData(lootManager.ObatinCurrentBuild());
         FindObjectOfType<MiniMapCamera>()._master = _temp.transform;
         ResetBoolsForNewRound();
@@ -423,6 +431,8 @@ public class GameManager : MonoBehaviour
         //Debug.LogWarning("HealthCheckStoppedAtTheEndOfTheGame");
         _race.ChangeGameTime(0);
     }
+
+    private bool dMode;
 }
 
 public struct GameWinConditions
