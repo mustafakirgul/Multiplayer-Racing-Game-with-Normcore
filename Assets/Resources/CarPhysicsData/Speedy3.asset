@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49cebd47308937749a71ef553ef1d589, type: 3}
   m_Name: Speedy3
   m_EditorClassIdentifier: 
-  m_FowardSpd: 0
-  m_ReverseSpd: 0
-  m_TurnSpd: 0
-  m_TurnFwdSpd: 0
-  m_BrakeForce: 0
-  m_Gravity: 0
-  m_maxPlayerHealth: 0
-  m_rbWeight: 0
+  m_FowardSpd: 150
+  m_ReverseSpd: 100
+  m_TurnSpd: 90
+  m_TurnFwdSpd: 10
+  m_BrakeForce: 0.2
+  m_Gravity: 30
+  m_maxPlayerHealth: 75
+  m_rbWeight: 140
+  m_boostTimer: 4
+  m_boostForce: 100

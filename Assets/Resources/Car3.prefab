@@ -985,11 +985,17 @@ MonoBehaviour:
   MinVelocityThreshold: 0.25
   BrakeForce: 0.5
   MaxSpeed: 300
+  m_carDataContainer:
+  - {fileID: 11400000, guid: 0fa949a104653cf499391cc9f73b7c9d, type: 2}
+  - {fileID: 11400000, guid: 1833334c5a19dc04d81143d0084c6190, type: 2}
+  - {fileID: 11400000, guid: 725e989238f2a8b4684ddf96287a7e0f, type: 2}
+  m_currentPhysicsSet: {fileID: 0}
   isGrounded: 0
   extraGravity: 80
   maxSteeringAngle: 45
   wheelTurnFactor: 100
   carBody: {fileID: 6115919908529274823}
+  carBodyAndWheels: {fileID: 0}
   maxZrotation: 12
   maxXRotation: 5
   zRotationLERPSpeed: 3
@@ -1029,6 +1035,7 @@ MonoBehaviour:
   heatLevel: 0
   maxHeatThreshold: 100
   OverheatCoolTimer: 4
+  turretAim: {fileID: 0}
   uIManager: {fileID: 0}
   _currentName: 
   speedDisplay: {fileID: 0}

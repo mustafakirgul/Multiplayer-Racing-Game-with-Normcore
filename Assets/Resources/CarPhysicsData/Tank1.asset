@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49cebd47308937749a71ef553ef1d589, type: 3}
   m_Name: Tank1
   m_EditorClassIdentifier: 
-  m_FowardSpd: 0
-  m_ReverseSpd: 0
-  m_TurnSpd: 0
-  m_TurnFwdSpd: 0
-  m_BrakeForce: 0
-  m_Gravity: 0
-  m_maxPlayerHealth: 0
-  m_rbWeight: 0
+  m_FowardSpd: 200
+  m_ReverseSpd: 100
+  m_TurnSpd: 100
+  m_TurnFwdSpd: 20
+  m_BrakeForce: 0.6
+  m_Gravity: 100
+  m_maxPlayerHealth: 100
+  m_rbWeight: 200
+  m_boostTimer: 5
+  m_boostForce: 100
