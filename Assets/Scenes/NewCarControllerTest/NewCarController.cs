@@ -24,6 +24,12 @@ public class NewCarController : MonoBehaviour
     public float BrakeForce;
     public float MaxSpeed;
 
+    [SerializeField]
+    private List<CarPhysicsParamsSObj> m_carDataContainer = new List<CarPhysicsParamsSObj>();
+    [SerializeField]
+    private CarPhysicsParamsSObj m_currentPhysicsSet = null;
+    private int dataParamsIndex = 0;
+
     [SerializeField] private bool isGrounded;
     public float extraGravity;
     int wheelCount;
@@ -204,6 +210,46 @@ public class NewCarController : MonoBehaviour
         secondaryWait = new WaitForSeconds(secondayFireTimer);
         muzzleWait = new WaitForSeconds(.2f);
         turretAim = GetComponentInChildren<TurretAutoAim>();
+        SyncPhysicsParamsData();
+    }
+
+    //For tuning physics and car physics params
+    void SyncPhysicsParamsData()
+    {
+        m_currentPhysicsSet =
+        m_carDataContainer[dataParamsIndex];
+
+        fwdSpeed = m_currentPhysicsSet.f_FowardSpd;
+        reverseSpd = m_currentPhysicsSet.f_ReverseSpd;
+        turnSpd = m_currentPhysicsSet.f_TurnSpd;
+        turningFwdSpeed = m_currentPhysicsSet.f_TurnFwdSpd;
+        BrakeForce = m_currentPhysicsSet.f_BrakeForce;
+        extraGravity = m_currentPhysicsSet.f_Gravity;
+        _player.maxPlayerHealth = m_currentPhysicsSet.f_maxPlayerHealth;
+        CarRB.mass = m_currentPhysicsSet.f_rbWeight;
+        boostCooldownTime = m_currentPhysicsSet.f_boostTimer;
+        dashForce = m_currentPhysicsSet.f_boostForce;
+
+    }
+
+    void CycleSyncPhysicsParamsData()
+    {
+        dataParamsIndex++;
+        dataParamsIndex %= m_carDataContainer.Count;
+
+        m_currentPhysicsSet =
+        m_carDataContainer[dataParamsIndex];
+
+        fwdSpeed = m_currentPhysicsSet.f_FowardSpd;
+        reverseSpd = m_currentPhysicsSet.f_ReverseSpd;
+        turnSpd = m_currentPhysicsSet.f_TurnSpd;
+        turningFwdSpeed = m_currentPhysicsSet.f_TurnFwdSpd;
+        BrakeForce = m_currentPhysicsSet.f_BrakeForce;
+        extraGravity = m_currentPhysicsSet.f_Gravity;
+        _player.maxPlayerHealth = m_currentPhysicsSet.f_maxPlayerHealth;
+        CarRB.mass = m_currentPhysicsSet.f_rbWeight;
+        boostCooldownTime = m_currentPhysicsSet.f_boostTimer;
+        dashForce = m_currentPhysicsSet.f_boostForce;
     }
 
     void SetWeaponFireRates()
@@ -828,6 +874,11 @@ public class NewCarController : MonoBehaviour
         {
             weaponType++;
             weaponType %= 2;
+        }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            CycleSyncPhysicsParamsData();
         }
 
         if ((Input.GetKeyDown(KeyCode.V)) && turretAim.targetList.Count > 1)

@@ -985,6 +985,11 @@ MonoBehaviour:
   MinVelocityThreshold: 0.25
   BrakeForce: 0.5
   MaxSpeed: 300
+  m_carDataContainer:
+  - {fileID: 11400000, guid: 456f746ba42ea8e4d80bdff273be769e, type: 2}
+  - {fileID: 11400000, guid: dabbbe9bd89d6a940907efb3245dd787, type: 2}
+  - {fileID: 11400000, guid: 0349aa5b7e44cf54385a48edd59ba600, type: 2}
+  m_currentPhysicsSet: {fileID: 0}
   isGrounded: 0
   extraGravity: 80
   maxSteeringAngle: 45
@@ -1031,6 +1036,7 @@ MonoBehaviour:
   heatLevel: 0
   maxHeatThreshold: 100
   OverheatCoolTimer: 5
+  turretAim: {fileID: 0}
   uIManager: {fileID: 0}
   _currentName: 
   speedDisplay: {fileID: 0}
@@ -2063,7 +2069,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412923235415418090}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4867629803211482477}
