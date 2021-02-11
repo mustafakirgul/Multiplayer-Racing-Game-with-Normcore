@@ -119,6 +119,24 @@ public class PlayerManager : MonoBehaviour
         return temp;
     }
 
+    public Player ReturnPlayer(int id)
+    {
+        if (id < allPlayers.Length)
+        {
+            foreach (PlayerInfo p in allPlayers)
+            {
+                if (p.id == id) return p.player;
+            }
+        }
+
+        return null;
+    }
+
+    public Player ReturnLocalPlayer()
+    {
+        return localPlayer.GetComponent<Player>();
+    }
+
     public void AddLocalPlayer(Transform _player)
     {
         localPlayer = _player;
@@ -199,16 +217,11 @@ public struct PlayerInfo
     public int id;
     public string name;
     public bool isLocal;
-
-    public PlayerInfo(int id, string name, bool isLocal)
-    {
-        this.id = id;
-        this.name = name;
-        this.isLocal = isLocal;
-    }
+    public Player player;
 
     public PlayerInfo(Player player, bool isLocal)
     {
+        this.player = player;
         id = player._id;
         name = player.playerName;
         this.isLocal = isLocal;
