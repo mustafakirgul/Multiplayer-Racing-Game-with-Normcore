@@ -3,7 +3,42 @@ guid: 9f947ba294d854e02b19bc0859348f8b
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.Tubular.Base
+    second: {fileID: 2100000, guid: 89c4bb29f8c4f43ed858e3cc5cc6e319, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.Tubular.Part01
+    second: {fileID: 2100000, guid: ba1857c8fdafb44c7b73e8d50b7b9df0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.Tubular.Part02
+    second: {fileID: 2100000, guid: cb98d18a389a840abb6e27e3aab7def4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.Tubular.Part03
+    second: {fileID: 2100000, guid: f1b0740ef353549fea43690d99fad7bd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.Tubular.Part04
+    second: {fileID: 2100000, guid: 79c630e6c3893430fbb417ae4a9cde7f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.Tubular.Part05
+    second: {fileID: 2100000, guid: 04fe4942d5b4d430991384521a085e6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.Tubular.Tube
+    second: {fileID: 2100000, guid: d10ad43e86d6c4a10b1b5de3d0fd3e32, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

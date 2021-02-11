@@ -3,7 +3,37 @@ guid: 7a76b94ad3c2d41ca8da9e8af2eda28c
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.MineLauncher.Base
+    second: {fileID: 2100000, guid: 08203eb1c8bd2471d936420d74b99f91, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.MineLauncher.Body
+    second: {fileID: 2100000, guid: a683e2c982f7b4cbbb790a3ef00fa756, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.MineLauncher.Part01
+    second: {fileID: 2100000, guid: 617d78bfde75f454fbda9f778363b688, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.MineLauncher.Part02
+    second: {fileID: 2100000, guid: 963634a7691d54bcb86f780c32e116a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.MineLauncher.Part03
+    second: {fileID: 2100000, guid: 5e5a7a0fc57924408bd76f5d90af1ade, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.MineLauncher.Part05
+    second: {fileID: 2100000, guid: dec914110460046e89380dbd924f26c6, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
