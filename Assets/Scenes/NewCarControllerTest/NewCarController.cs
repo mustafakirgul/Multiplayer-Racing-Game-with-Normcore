@@ -886,7 +886,6 @@ public class NewCarController : MonoBehaviour
             if (!turretAim.isManualTargeting)
             {
                 StartCoroutine(turretAim.ResetManualTargetingCR());
-                turretAim.currentLerpTime = 0f;
             }
             turretAim.CycleSelectTarget();
         }

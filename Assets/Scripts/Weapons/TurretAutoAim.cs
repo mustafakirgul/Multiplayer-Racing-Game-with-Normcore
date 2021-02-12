@@ -8,6 +8,8 @@ public class TurretAutoAim : MonoBehaviour
 {
     [SerializeField]
     private GameObject enemy, lastEnemy;
+    [SerializeField]
+    private Collider currentTarget;
     public GameObject turretFOV;
     public float turretRotationSpd;
 
@@ -112,10 +114,6 @@ public class TurretAutoAim : MonoBehaviour
 
                 //lerp!
                 float perc = currentLerpTime / lerpTime;
-                //transform.position = Vector3.Lerp(startPos, endPos, perc);
-                //CrossHairUI.rectTransform.localPosition =
-                //    new Vector3(Mathf.Lerp(LastPosCalculated.x, PosCalculated.x, perc),
-                //                Mathf.Lerp(LastPosCalculated.y, PosCalculated.y, perc), 0);
 
                 CrossHairUI.rectTransform.localPosition =
                     Vector3.Lerp(LastPosCalculated, PosCalculated, perc);
@@ -136,8 +134,11 @@ public class TurretAutoAim : MonoBehaviour
         {
             ObtainTargets();
             RemoveTargets();
-            if (!isManualTargeting)
+            if (!isManualTargeting
+                && currentTarget == null)
+            {
                 AutoSelectTarget();
+            }
             yield return new WaitForSeconds(radarSweepTimer);
         }
     }
@@ -165,15 +166,21 @@ public class TurretAutoAim : MonoBehaviour
 
     void RemoveTargets()
     {
-        if (turretTargets.Length != targetList.Count)
+        for (int i = 0; i < targetList.Count; i++)
         {
-            for (int i = 0; i < targetList.Count; i++)
+            if (!turretTargets.Contains(targetList[i]))
             {
-                if (!turretTargets.Contains(targetList[i]))
-                {
-                    targetList.Remove(targetList[i]);
-                }
+                targetList.Remove(targetList[i]);
             }
+        }
+
+        //if the sphere cast does not conain the current target
+        //remove it and replace it with null
+        //This will reinitiatlize auto targeting
+        if (!turretTargets.Contains(currentTarget))
+        {
+            targetList.Remove(currentTarget);
+            currentTarget = null;
         }
     }
 
@@ -181,22 +188,29 @@ public class TurretAutoAim : MonoBehaviour
     {
         if (targetList.Count != 0)
         {
-            currentLerpTime = 0;
-
-            if(targetIndex < targetList.Count)
+            if (targetIndex < targetList.Count)
             {
-                lastEnemy = targetList[targetIndex].gameObject;
+                Collider crossHairTargReference = targetList[targetIndex];
+                lastEnemy = crossHairTargReference.gameObject;
             }
+
             targetIndex++;
             targetIndex %= targetList.Count;
-            Debug.Log("Selecting Target " + targetIndex);
-            Collider toREmove = targetList[targetIndex];
+            //Debug.Log("Selecting Target " + targetIndex);
+            //Collider toREmove = targetList[targetIndex];
+
             enemy = targetList[targetIndex].gameObject;
 
             //This ensures autotargeting stays on target as 
             //It selects the first elements in the target list
-            //targetList.Remove(toREmove);
-            //targetList.Insert(0, toREmove);
+            //This will make the players gun stay on target and not switch
+            //Automatically to an enemy
+
+            if (enemy.GetComponent<Collider>() != null)
+                currentTarget = enemy.GetComponent<Collider>();
+
+            if (lastEnemy != enemy)
+            { currentLerpTime = 0; }
         }
         else
         {

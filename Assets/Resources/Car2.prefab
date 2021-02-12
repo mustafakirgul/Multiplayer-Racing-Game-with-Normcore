@@ -2884,12 +2884,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 0}
+  lastEnemy: {fileID: 0}
   turretFOV: {fileID: 3097889036451887839}
   turretRotationSpd: 200
   maxAngle: 90
   turretDetectionRange: 40
   radarSweepTimer: 1
   playerColliderID: 0
+  turretTargets: []
   turretDetectionLayer:
     serializedVersion: 2
     m_Bits: 4096
@@ -2900,6 +2902,7 @@ MonoBehaviour:
   CrossHairUI: {fileID: 0}
   currentCam: {fileID: 0}
   parentCanvas: {fileID: 0}
+  currentLerpTime: 0
 --- !u!135 &587485156788294958
 SphereCollider:
   m_ObjectHideFlags: 0
