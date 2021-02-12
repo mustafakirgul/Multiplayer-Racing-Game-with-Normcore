@@ -4096,7 +4096,7 @@ PrefabInstance:
     - target: {fileID: 2635713673487937260, guid: 805cea4fbcb18694fbd291354e82a00a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2635713673487937262, guid: 805cea4fbcb18694fbd291354e82a00a,
         type: 3}
@@ -23269,6 +23269,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8307812025250130496, guid: ac2aeac6068a54e48b6dcc21eb870898,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -59
+      objectReference: {fileID: 0}
+    - target: {fileID: -5073372218430527952, guid: ac2aeac6068a54e48b6dcc21eb870898,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -59
+      objectReference: {fileID: 0}
     - target: {fileID: -4727573479751990496, guid: ac2aeac6068a54e48b6dcc21eb870898,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -23278,6 +23288,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -4414000082296225943, guid: ac2aeac6068a54e48b6dcc21eb870898,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -59
       objectReference: {fileID: 0}
     - target: {fileID: 122608338434328296, guid: ac2aeac6068a54e48b6dcc21eb870898,
         type: 3}
@@ -23293,6 +23308,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ac2aeac6068a54e48b6dcc21eb870898,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2293488253347385514, guid: ac2aeac6068a54e48b6dcc21eb870898,
         type: 3}
@@ -32592,7 +32612,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 7492d6e5302414d2099bc65bc17d643f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7492d6e5302414d2099bc65bc17d643f, type: 3}
@@ -78006,7 +78026,7 @@ PrefabInstance:
     - target: {fileID: 2635713673487937260, guid: 805cea4fbcb18694fbd291354e82a00a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2635713673487937262, guid: 805cea4fbcb18694fbd291354e82a00a,
         type: 3}
