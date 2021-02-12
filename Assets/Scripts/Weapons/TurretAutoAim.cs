@@ -80,6 +80,7 @@ public class TurretAutoAim : MonoBehaviour
     private IEnumerator DelayRadarAtStart()
     {
         yield return new WaitForSeconds(2f);
+        CycleSelectTarget();
         StartCoroutine(turretRadarSweep());
     }
     void Update()
