@@ -6,8 +6,11 @@ using UnityEngine.UI;
 
 public class TurretAutoAim : MonoBehaviour
 {
+    //For lerping crosshair mostly
     [SerializeField]
     private GameObject enemy, lastEnemy;
+
+    //For keeping track of currently focused target and to reinitialize autotargeting
     [SerializeField]
     private Collider currentTarget;
     public GameObject turretFOV;
@@ -21,7 +24,6 @@ public class TurretAutoAim : MonoBehaviour
 
     private Quaternion targetRotation;
     private Quaternion LookAtRotation;
-    private Vector3 lastCrossHairPos;
 
     [SerializeField]
     private float playerColliderID;
@@ -64,7 +66,6 @@ public class TurretAutoAim : MonoBehaviour
 
         if (!carController.isNetworkInstance)
         {
-            lastCrossHairPos = Vector3.zero;
             m_uiManager = FindObjectOfType<UIManager>();
             CrossHairUI = m_uiManager.CrossHairUI;
             currentCam = m_uiManager.UIcamera;
@@ -134,6 +135,11 @@ public class TurretAutoAim : MonoBehaviour
         {
             ObtainTargets();
             RemoveTargets();
+
+            //If there are no current targets in range
+            //and the player isn't actively trying to target
+            //a valid target, initialize autotargeting
+
             if (!isManualTargeting
                 && currentTarget == null)
             {
@@ -204,7 +210,7 @@ public class TurretAutoAim : MonoBehaviour
             //This ensures autotargeting stays on target as 
             //It selects the first elements in the target list
             //This will make the players gun stay on target and not switch
-            //Automatically to an enemy
+            //Automatically to another enemy if already locked on
 
             if (enemy.GetComponent<Collider>() != null)
                 currentTarget = enemy.GetComponent<Collider>();
@@ -258,6 +264,8 @@ public class TurretAutoAim : MonoBehaviour
             Vector3 targetDir = enemy.transform.position - transform.position;
             float angle = Vector3.Angle(targetDir, turret.transform.forward);
 
+            //If an enemy target is visible and in range of the 
+            //cone of detection then set crosshair active to true
             if (angle < maxAngle && range < turretDetectionRange)
             {
                 if (!CrossHairUI.gameObject.activeInHierarchy)
