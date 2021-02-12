@@ -53,6 +53,8 @@ public class TurretAutoAim : MonoBehaviour
     float lerpTime = 1f;
     public float currentLerpTime;
 
+    private bool isRotating = false;
+
     // Update is called once per frame
     private void OnDrawGizmos()
     {
@@ -78,6 +80,7 @@ public class TurretAutoAim : MonoBehaviour
     private IEnumerator DelayRadarAtStart()
     {
         yield return new WaitForSeconds(2f);
+        CycleSelectTarget();
         StartCoroutine(turretRadarSweep());
     }
     void Update()
@@ -116,8 +119,14 @@ public class TurretAutoAim : MonoBehaviour
                 //lerp!
                 float perc = currentLerpTime / lerpTime;
 
-                CrossHairUI.rectTransform.localPosition =
+                CrossHairUI.rectTransform.anchoredPosition =
                     Vector3.Lerp(LastPosCalculated, PosCalculated, perc);
+
+                if (isRotating)
+                {
+                    float turningSpd = Mathf.Lerp(1, 5, perc);
+                    CrossHairUI.rectTransform.eulerAngles += (new Vector3(0, 0, turningSpd));
+                }
             }
         }
     }
@@ -125,10 +134,11 @@ public class TurretAutoAim : MonoBehaviour
     public IEnumerator ResetManualTargetingCR()
     {
         isManualTargeting = true;
+        isRotating = true;
         yield return new WaitForSeconds(3f);
+        isRotating = false;
         isManualTargeting = false;
     }
-
     private IEnumerator turretRadarSweep()
     {
         while (true)
@@ -192,6 +202,7 @@ public class TurretAutoAim : MonoBehaviour
 
     public void CycleSelectTarget()
     {
+        //Rotate CrossHair code here
         if (targetList.Count != 0)
         {
             if (targetIndex < targetList.Count)
@@ -223,6 +234,11 @@ public class TurretAutoAim : MonoBehaviour
             Debug.Log("No Targets in Range");
             return;
         }
+    }
+
+    void RotateCrossHair(float perc)
+    {
+
     }
     void AutoSelectTarget()
     {
