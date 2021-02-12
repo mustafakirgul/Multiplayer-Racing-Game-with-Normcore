@@ -1,13 +1,10 @@
-﻿using System;
-using Normal.Realtime;
+﻿using Normal.Realtime;
 using UnityEngine;
 
 public class Loot : RealtimeComponent<LootModel>
 {
     [Space(10)] public int id;
     public int collectedBy;
-    private LootContainer _container => transform.GetComponent<LootContainer>();
-
     protected override void OnRealtimeModelReplaced(LootModel previousModel, LootModel currentModel)
     {
         base.OnRealtimeModelReplaced(previousModel, currentModel);
@@ -34,8 +31,8 @@ public class Loot : RealtimeComponent<LootModel>
 
     private void UpdateLoot()
     {
-        id = model.id;
-        collectedBy = model.collectedBy;
+        IDChanged();
+        CollectedByChanged();
     }
 
     public void SetID(int _id)

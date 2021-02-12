@@ -107,5 +107,6 @@ public class Player : RealtimeComponent<PlayerModel>
     {
         playerName = model.playerName;
         controller.IDDisplay.SetText(playerName);
+        controller._currentName = model.playerName;
     }
 }

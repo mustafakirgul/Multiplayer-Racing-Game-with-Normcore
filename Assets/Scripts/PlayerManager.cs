@@ -144,7 +144,7 @@ public class PlayerManager : MonoBehaviour
         if (cR_playerListCleanUp != null) StopCoroutine(cR_playerListCleanUp);
         cR_playerListCleanUp = StartCoroutine(CR_PlayerListCleanUp());
         //this is set as error so that it shows up in the debug file of build
-        Debug.LogError("Local player set as " + (GameManager.instance.isHost ? "host" : "guest"));
+        Debug.LogWarning("Local player set as " + (GameManager.instance.isHost ? "host" : "guest"));
         if (GameManager.instance.isHost)
         {
             Truck truck = FindObjectOfType<Truck>();

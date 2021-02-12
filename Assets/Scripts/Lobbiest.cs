@@ -29,7 +29,7 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
                 roomName = currentModel.roomName;
                 maxPlayers = Convert.ToInt32(currentModel.maxPlayers);
                 isHost = currentModel.isHost;
-                Debug.LogError("This machine is the host!");
+                Debug.LogWarning("This machine is the host!");
             }
 
             UpdateData();
@@ -109,7 +109,7 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
     public void ChangeIsHost(bool value)
     {
         model.isHost = value;
-        Debug.LogError("Guest: " + !value);
+        Debug.LogWarning("Guest: " + !value);
     }
 
     private void IsHostChanged(LobbiestModel lobbiestModel, bool value)

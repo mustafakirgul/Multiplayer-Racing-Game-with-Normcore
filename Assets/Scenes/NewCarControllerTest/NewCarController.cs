@@ -334,7 +334,6 @@ public class NewCarController : MonoBehaviour
 
         if (!isNetworkInstance)
         {
-            isNetworkInstance = false;
             uIManager = FindObjectOfType<UIManager>();
 
             OverheatMeterObj.SetActive(true);
@@ -343,6 +342,7 @@ public class NewCarController : MonoBehaviour
                 uIManager.EnableUI();
                 speedDisplay = uIManager.speedometer;
                 healthRadialLoader = uIManager.playerHealthRadialLoader;
+                IDDisplay.gameObject.SetActive(false);
                 IDDisplay = uIManager.playerName;
                 boostRadialLoader = uIManager.boostRadialLoader;
                 damageIndicatorCanvasGroup = uIManager.damageIndicatorCanvasGroup;
@@ -403,11 +403,11 @@ public class NewCarController : MonoBehaviour
 
         OverHeatNotice.gameObject.SetActive(false);
         OverheatMeterObj.SetActive(!isNetworkInstance);
-        StartCoroutine(DelayNameSet(3f));
     }
 
     public void DamageFeedback()
     {
+        if (isNetworkInstance) return;
         if (cR_damageEffect != null)
         {
             StopCoroutine(cR_damageEffect);
@@ -428,20 +428,6 @@ public class NewCarController : MonoBehaviour
 
         damageIndicatorCanvasGroup.alpha = 0f;
     }
-
-    private IEnumerator DelayNameSet(float WaitTime)
-    {
-        yield return new WaitForSeconds(WaitTime);
-        //Debug.LogWarning("NameChangeCRInside");
-        if (_currentName != _player.playerName)
-        {
-            //Debug.LogWarning("NameChangeCRIFInside");
-            _currentName = _player.playerName;
-            IDDisplay.gameObject.SetActive(true);
-            IDDisplay.SetText(_player.playerName);
-        }
-    }
-
     void OnValidate()
     {
         if (wheels != null)
@@ -1076,33 +1062,23 @@ public class NewCarController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (!isNetworkInstance)
+        if (isNetworkInstance) return;
+
+        LootContainer lootbox = collision.gameObject.GetComponent<LootContainer>();
+
+        if (lootbox != null)
         {
-            LootContainer lootbox = collision.gameObject.GetComponent<LootContainer>();
+            int LootRoll = lootbox.GetCollected(ownerID);
 
-            if (lootbox != null)
+            if (LootRoll > 0)
             {
-                int LootRoll = lootbox.GetCollected(ownerID);
-
-                if (LootRoll > 0)
-                {
-                    lootManager.numberOfLootRolls++;
-                }
-                else
-                {
-                    //Player got powerup here
-                    //Use a decode or script obj to determine what   each temp powerup should be
-                    ApplyPowerUpToPlayer(lootManager.DecodePowerUp(LootRoll));
-                }
+                lootManager.numberOfLootRolls++;
             }
-        }
-        else
-        {
-            //Just destroy the object
-            if (collision.gameObject.GetComponent<LootContainer>() != null)
+            else
             {
-                StartCoroutine(
-                    collision.gameObject.GetComponent<LootContainer>().CR_Die());
+                //Player got powerup here
+                //Use a decode or script obj to determine what   each temp powerup should be
+                ApplyPowerUpToPlayer(lootManager.DecodePowerUp(LootRoll));
             }
         }
     }

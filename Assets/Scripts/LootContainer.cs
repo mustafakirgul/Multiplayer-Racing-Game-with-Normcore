@@ -68,21 +68,33 @@ public class LootContainer : MonoBehaviour
 
     public int GetCollected(int _collectorID)
     {
-        if (content.collectedBy < 0)
+        if (cr_Die == null && content.collectedBy < 0)
         {
             GetComponent<Rigidbody>().isKinematic = true;
             GetComponent<BoxCollider>().enabled = false;
-            if (cr_Die == null)
-            {
-                cr_Die = StartCoroutine(CR_Die());
-                SetCollectedBy(_collectorID);
-            }
-
+            SetCollectedBy(_collectorID);
+            cr_Die = StartCoroutine(CR_Die());
             return id; // return id of collected item
         }
 
         return
             0; //return 0 meaning the item was already collected by someone and pending to be destroyed from the game world
+    }
+
+    private void OnDestroy()
+    {
+        if (isNetworkInstance)
+        {
+            if (mainCamera != null)
+                collectionParticle.transform.LookAt(mainCamera.transform);
+            collectionParticle.Play();
+            string tempName = "POWERUP (" + LootManager.instance.playerLootPoolSave
+                .PlayerPowerUps[Mathf.Abs(content.id) - 1].name
+                .Remove(0, 2) + ") !";
+            GameManager.instance.uIManager.DisplayUIMessage(PlayerManager.instance.PlayerName(collectedBy)
+                                                            +
+                                                            " has collected a " + (id > 0 ? "loot!" : tempName));
+        }
     }
 
     public IEnumerator CR_Die()
@@ -92,18 +104,6 @@ public class LootContainer : MonoBehaviour
             mr.enabled = false;
         }
 
-        collectionParticle.transform.LookAt(mainCamera.transform);
-
-        collectionParticle.Play();
-        string tempName = "POWERUP (" + LootManager.instance.playerLootPoolSave
-            .PlayerPowerUps[Mathf.Abs(content.id) - 1].name
-            .Remove(0, 2) + ") !";
-        GameManager.instance.uIManager.DisplayUIMessage(
-            (PlayerManager.instance.ReturnPlayer(collectedBy) == PlayerManager.instance.ReturnLocalPlayer()
-                ? "You have"
-                : PlayerManager.instance.PlayerName(collectedBy) +
-                  " has") +
-            " collected a " + (id > 0 ? "loot!" : tempName));
         yield return new WaitForSeconds(dieDelay);
         if (!isNetworkInstance) Realtime.Destroy(gameObject);
     }
