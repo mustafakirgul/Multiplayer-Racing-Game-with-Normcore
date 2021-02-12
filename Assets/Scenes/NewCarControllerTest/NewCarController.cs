@@ -883,11 +883,12 @@ public class NewCarController : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.V)) && turretAim.targetList.Count > 1)
         {
-            turretAim.CycleSelectTarget();
             if (!turretAim.isManualTargeting)
             {
                 StartCoroutine(turretAim.ResetManualTargetingCR());
+                turretAim.currentLerpTime = 0f;
             }
+            turretAim.CycleSelectTarget();
         }
 
         //Need to add reset timer to avoid spamming
@@ -927,7 +928,7 @@ public class NewCarController : MonoBehaviour
             followCamera.ToggleRearView(rearCamera);
         }
 
-        if (Input.GetKeyUp(KeyCode.U))
+        if (Input.GetKeyUp(KeyCode.I))
         {
             if (resetReverseView)
             {

@@ -2583,7 +2583,6 @@ MonoBehaviour:
   targetList: []
   targetsToIgnore:
   - {fileID: 7324370658739478688}
-  - {fileID: 1132834545854288054}
   isManualTargeting: 0
   CrossHairUI: {fileID: 0}
   currentCam: {fileID: 0}
