@@ -26,7 +26,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     WaitForSeconds wait1Sec;
     Collider[] colliders;
     public bool isNetworkInstance = true;
-    public int originOwnerID = -1;
     RealtimeView _realtimeView;
     RealtimeTransform _realtimeTransform;
     bool isExploded = false;
@@ -95,9 +94,8 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
         //Check to owner of the projectile
         //Obtain reference to scripts
-        originOwnerID = _realtimeTransform.ownerIDSelf;
-        _realtimeView.SetOwnership(originOwnerID);
-        _realtimeTransform.SetOwnership(originOwnerID);
+        _realtimeView.SetOwnership(PlayerManager.localPlayerID);
+        _realtimeTransform.SetOwnership(PlayerManager.localPlayerID);
 
         if (_realtimeView.isOwnedLocallyInHierarchy)
         {
@@ -238,21 +236,19 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         {
             return;
         }
-    
+
         //Only look at the root of the transform object
         if (other.gameObject.GetComponent<NewCarController>() != null)
         {
-            if (other.gameObject.GetComponent<NewCarController>().ownerID == originOwnerID)
+            if (other.gameObject.GetComponent<NewCarController>().ownerID == PlayerManager.localPlayerID)
             {
                 Debug.Log("Self hit");
                 return;
             }
-            else
-            {
-                Debug.Log("HIT: " + other.GetComponent<NewCarController>().ownerID);
-                model.exploded = true;
-                Hit();
-            }
+
+            Debug.Log("HIT: " + other.GetComponent<NewCarController>().ownerID);
+            model.exploded = true;
+            Hit();
         }
         else
         {

@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  collectedBy: 0
+  collectedBy: -1
 --- !u!114 &5009331288887253395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,7 +153,7 @@ MonoBehaviour:
   loot: {fileID: 1481062947956623992}
   pickup: {fileID: 4252290464746809472}
   id: 0
-  collectedBy: 0
+  collectedBy: -1
   dieDelay: 0.2
   isNetworkInstance: 0
 --- !u!114 &2652169859653945631

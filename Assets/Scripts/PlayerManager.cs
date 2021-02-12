@@ -45,6 +45,7 @@ public class PlayerManager : MonoBehaviour
     public List<Transform> networkPlayers;
 
     public Transform localPlayer;
+    public static int localPlayerID;
     GameObject _temp;
     public Realtime _realtime;
     public PlayerInfo[] allPlayers;

@@ -13,8 +13,7 @@ public class MissileProjectile : WeaponProjectileBase
 
     public Collider[] MissileTargets;
 
-    [SerializeField]
-    private Transform LockedTarget;
+    [SerializeField] private Transform LockedTarget;
     // Start is called before the first frame update
 
     protected override void Start()
@@ -62,7 +61,8 @@ public class MissileProjectile : WeaponProjectileBase
             //Don't do this, just get the target in front
             var targetRotation = Quaternion.LookRotation(LockedTarget.position - transform.localPosition);
 
-            rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, targetRotation, missileRotationSpeed * Time.deltaTime));
+            rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, targetRotation,
+                missileRotationSpeed * Time.deltaTime));
         }
     }
 
@@ -96,7 +96,7 @@ public class MissileProjectile : WeaponProjectileBase
                 if (MissileTargets[i].transform.root.GetComponent<NewCarController>())
                 {
                     if (MissileTargets[i].transform.root.GetComponent<NewCarController>().ownerID
-                        != originOwnerID)
+                        != PlayerManager.localPlayerID)
                     {
                         LockedTarget = MissileTargets[i].transform;
                         return;
@@ -115,6 +115,6 @@ public class MissileProjectile : WeaponProjectileBase
         if (!isNetworkInstance)
         {
             base.OnTriggerEnter(other);
-        }        
+        }
     }
 }

@@ -16,51 +16,46 @@ public class Player : RealtimeComponent<PlayerModel>
 
     protected override void OnRealtimeModelReplaced(PlayerModel previousModel, PlayerModel currentModel)
     {
+        base.OnRealtimeModelReplaced(previousModel, currentModel);
         if (previousModel != null)
         {
             // Unregister from events
             previousModel.playerNameDidChange -= PlayerNameChanged;
             previousModel.healthDidChange -= PlayerHealthChanged;
             previousModel.forcesDidChange -= PlayerForcesChanged;
+            previousModel.idDidChange -= IDChanged;
         }
 
         if (currentModel != null)
         {
+            if (currentModel.isFreshModel)
+            {
+                currentModel.health = maxPlayerHealth;
+                currentModel.id = realtimeView.ownerIDInHierarchy;
+            }
+
+            UpdatePlayer();
             currentModel.playerNameDidChange += PlayerNameChanged;
             currentModel.healthDidChange += PlayerHealthChanged;
             currentModel.forcesDidChange += PlayerForcesChanged;
+            currentModel.idDidChange += IDChanged;
         }
     }
 
-    private void Start()
+    private void Awake()
     {
-        ResetHealth();
-        if (controller == null && !GetComponent<NewCarController>().isNetworkInstance)
-        {
-            controller = GetComponent<NewCarController>();
-            if (!controller.offlineTest)
-            {
-                playerName = model.playerName;
-                _id = realtimeView.ownerIDInHierarchy;
-            }
-        }
-
-        if (model.playerName.Length > 0)
-        {
-            playerName = model.playerName;
-            if (controller == null) return;
-            controller.IDDisplay.SetText(playerName);
-        }
+        controller = GetComponent<NewCarController>();
     }
 
-    private void Update()
+    private void UpdatePlayer()
     {
-        if (model == null) return;
-        if (model.playerName == playerName) return;
-        if (model.playerName.Length == 0) return;
         playerName = model.playerName;
-        if (controller == null) return;
-        controller.IDDisplay.SetText(playerName);
+        _id = model.id;
+        controller.ownerID = _id;
+        if (realtimeView.isOwnedLocallyInHierarchy)
+            PlayerManager.localPlayerID = _id;
+        explosionForce = model.forces;
+        playerHealth = model.health;
     }
 
     public void UpdateTempDefenseModifier(float value)
@@ -71,11 +66,6 @@ public class Player : RealtimeComponent<PlayerModel>
     public void SetPlayerName(string _name)
     {
         model.playerName = _name;
-    }
-
-    public void ResetHealth()
-    {
-        model.health = maxPlayerHealth;
     }
 
     public void ChangeExplosionForce(Vector3 _origin)
@@ -103,6 +93,11 @@ public class Player : RealtimeComponent<PlayerModel>
         playerHealth = model.health;
     }
 
+    private void IDChanged(PlayerModel playerModel, int value)
+    {
+        _id = model.id;
+    }
+
     private void PlayerForcesChanged(PlayerModel playerModel, Vector3 value)
     {
         explosionForce = model.forces;
@@ -111,5 +106,6 @@ public class Player : RealtimeComponent<PlayerModel>
     private void PlayerNameChanged(PlayerModel playerModel, string value)
     {
         playerName = model.playerName;
+        controller.IDDisplay.SetText(playerName);
     }
 }

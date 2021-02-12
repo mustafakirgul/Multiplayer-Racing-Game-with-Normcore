@@ -48,8 +48,6 @@ public class PrespawnManager : MonoBehaviour
                 destroyWhenOwnerOrLastClientLeaves: true,
                 useInstance:
                 _realtime);
-            _temp.GetComponent<RealtimeView>().SetOwnership(_realtime.clientID);
-            _temp.GetComponent<RealtimeTransform>().SetOwnership(_realtime.clientID);
             _temp.GetComponent<LootContainer>().SetID(lootID);
             _temp.transform.position = lootLocation;
         }

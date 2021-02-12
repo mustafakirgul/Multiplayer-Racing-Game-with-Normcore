@@ -23,6 +23,7 @@ public class Loot : RealtimeComponent<LootModel>
             if (currentModel.isFreshModel)
             {
                 SetID(id);
+                currentModel.collectedBy = collectedBy;
             }
 
             UpdateLoot();
@@ -31,7 +32,7 @@ public class Loot : RealtimeComponent<LootModel>
         }
     }
 
-    public void UpdateLoot()
+    private void UpdateLoot()
     {
         id = model.id;
         collectedBy = model.collectedBy;
@@ -39,21 +40,17 @@ public class Loot : RealtimeComponent<LootModel>
 
     public void SetID(int _id)
     {
-        if (model != null)
-            model.id = _id;
+        model.id = _id;
     }
 
     public int SetCollectedBy(int _collectedBy)
     {
-        if (_collectedBy > 0 && model.collectedBy == 0)
-        {
-            model.collectedBy = _collectedBy;
-        }
+        model.collectedBy = _collectedBy;
 
         return model.collectedBy;
     }
 
-    private void CollectedByDidChange(LootModel model, int value)
+    private void CollectedByDidChange(LootModel lootModel, int value)
     {
         CollectedByChanged();
     }
@@ -63,7 +60,7 @@ public class Loot : RealtimeComponent<LootModel>
         collectedBy = model.collectedBy;
     }
 
-    private void IdDidChange(LootModel model, int value)
+    private void IdDidChange(LootModel lootModel, int value)
     {
         IDChanged();
     }

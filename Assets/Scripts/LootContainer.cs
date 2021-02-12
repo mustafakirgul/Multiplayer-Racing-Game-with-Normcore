@@ -16,6 +16,7 @@ public class LootContainer : MonoBehaviour
 
     [SerializeField] private bool isNetworkInstance;
     private Coroutine cr_Die;
+    private Camera mainCamera;
 
     private void OnDrawGizmos()
     {
@@ -28,6 +29,7 @@ public class LootContainer : MonoBehaviour
 
     private void Start()
     {
+        mainCamera = Camera.main;
         collectionParticle = transform.GetChild(2).GetChild(0).GetComponent<ParticleSystem>();
         isNetworkInstance = !_realtime.isOwnedLocallyInHierarchy;
         if (isNetworkInstance)
@@ -66,12 +68,16 @@ public class LootContainer : MonoBehaviour
 
     public int GetCollected(int _collectorID)
     {
-        if (content.collectedBy == 0)
+        if (content.collectedBy < 0)
         {
             GetComponent<Rigidbody>().isKinematic = true;
             GetComponent<BoxCollider>().enabled = false;
-            if (cr_Die == null) cr_Die = StartCoroutine(CR_Die());
-            SetCollectedBy(_collectorID);
+            if (cr_Die == null)
+            {
+                cr_Die = StartCoroutine(CR_Die());
+                SetCollectedBy(_collectorID);
+            }
+
             return id; // return id of collected item
         }
 
@@ -81,16 +87,23 @@ public class LootContainer : MonoBehaviour
 
     public IEnumerator CR_Die()
     {
+        foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+        {
+            mr.enabled = false;
+        }
+
+        collectionParticle.transform.LookAt(mainCamera.transform);
+
         collectionParticle.Play();
         string tempName = "POWERUP (" + LootManager.instance.playerLootPoolSave
             .PlayerPowerUps[Mathf.Abs(content.id) - 1].name
             .Remove(0, 2) + ") !";
         GameManager.instance.uIManager.DisplayUIMessage(
-            PlayerManager.instance.ReturnPlayer(collectedBy) == PlayerManager.instance.ReturnLocalPlayer()
+            (PlayerManager.instance.ReturnPlayer(collectedBy) == PlayerManager.instance.ReturnLocalPlayer()
                 ? "You have"
                 : PlayerManager.instance.PlayerName(collectedBy) +
-                  " has" +
-                  " has collected a " + (id > 0 ? "loot!" : tempName));
+                  " has") +
+            " collected a " + (id > 0 ? "loot!" : tempName));
         yield return new WaitForSeconds(dieDelay);
         if (!isNetworkInstance) Realtime.Destroy(gameObject);
     }

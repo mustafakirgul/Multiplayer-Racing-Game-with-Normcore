@@ -24,10 +24,8 @@ public class NewCarController : MonoBehaviour
     public float BrakeForce;
     public float MaxSpeed;
 
-    [SerializeField]
-    private List<CarPhysicsParamsSObj> m_carDataContainer = new List<CarPhysicsParamsSObj>();
-    [SerializeField]
-    private CarPhysicsParamsSObj m_currentPhysicsSet = null;
+    [SerializeField] private List<CarPhysicsParamsSObj> m_carDataContainer = new List<CarPhysicsParamsSObj>();
+    [SerializeField] private CarPhysicsParamsSObj m_currentPhysicsSet = null;
     private int dataParamsIndex = 0;
 
     [SerializeField] private bool isGrounded;
@@ -116,8 +114,7 @@ public class NewCarController : MonoBehaviour
     private float savedWeaponAmmo;
     private float savedTempDamageRate;
 
-    [SerializeField]
-    private TurretAutoAim turretAim;
+    [SerializeField] private TurretAutoAim turretAim;
 
     [Space]
     [Space]
@@ -217,7 +214,7 @@ public class NewCarController : MonoBehaviour
     void SyncPhysicsParamsData()
     {
         m_currentPhysicsSet =
-        m_carDataContainer[dataParamsIndex];
+            m_carDataContainer[dataParamsIndex];
 
         fwdSpeed = m_currentPhysicsSet.f_FowardSpd;
         reverseSpd = m_currentPhysicsSet.f_ReverseSpd;
@@ -229,7 +226,6 @@ public class NewCarController : MonoBehaviour
         CarRB.mass = m_currentPhysicsSet.f_rbWeight;
         boostCooldownTime = m_currentPhysicsSet.f_boostTimer;
         dashForce = m_currentPhysicsSet.f_boostForce;
-
     }
 
     void CycleSyncPhysicsParamsData()
@@ -238,7 +234,7 @@ public class NewCarController : MonoBehaviour
         dataParamsIndex %= m_carDataContainer.Count;
 
         m_currentPhysicsSet =
-        m_carDataContainer[dataParamsIndex];
+            m_carDataContainer[dataParamsIndex];
 
         fwdSpeed = m_currentPhysicsSet.f_FowardSpd;
         reverseSpd = m_currentPhysicsSet.f_ReverseSpd;
@@ -338,7 +334,6 @@ public class NewCarController : MonoBehaviour
 
         if (!isNetworkInstance)
         {
-            ownerID = _realtimeTransform.ownerIDInHierarchy;
             isNetworkInstance = false;
             uIManager = FindObjectOfType<UIManager>();
 
@@ -402,7 +397,6 @@ public class NewCarController : MonoBehaviour
             if (!offlineTest)
             {
                 _currentName = _player.playerName;
-                ownerID = _realtimeTransform.ownerIDInHierarchy;
                 ResetPlayerHealth();
             }
         }
@@ -634,7 +628,6 @@ public class NewCarController : MonoBehaviour
 
     private void ResetPlayerHealth()
     {
-        _player.ResetHealth();
         UpdateHealth();
         //Spawn in player animation
         CarRB.position = new Vector3(transform.position.x, transform.position.y + resetHeight, transform.position.z);
@@ -887,6 +880,7 @@ public class NewCarController : MonoBehaviour
             {
                 StartCoroutine(turretAim.ResetManualTargetingCR());
             }
+
             turretAim.CycleSelectTarget();
         }
 
