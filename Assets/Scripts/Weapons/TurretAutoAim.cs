@@ -41,6 +41,7 @@ public class TurretAutoAim : MonoBehaviour
     private List<Collider> targetsToIgnore = new List<Collider>();
 
     public bool isManualTargeting = false;
+    public bool isRotating = false;
 
     private UIManager m_uiManager;
 
@@ -50,10 +51,9 @@ public class TurretAutoAim : MonoBehaviour
     [SerializeField]
     RectTransform parentCanvas;
 
-    float lerpTime = 1f;
+    public float lerpTime = 1f;
     public float currentLerpTime;
 
-    private bool isRotating = false;
 
     // Update is called once per frame
     private void OnDrawGizmos()
@@ -122,22 +122,41 @@ public class TurretAutoAim : MonoBehaviour
                 CrossHairUI.rectTransform.anchoredPosition =
                     Vector3.Lerp(LastPosCalculated, PosCalculated, perc);
 
+
                 if (isRotating)
                 {
+                    CrossHairUI.rectTransform.localScale = (Vector3.one * 4f);
                     float turningSpd = Mathf.Lerp(1, 5, perc);
                     CrossHairUI.rectTransform.eulerAngles += (new Vector3(0, 0, turningSpd));
+                    CrossHairUI.rectTransform.localScale = Vector3.Lerp(new Vector3(CrossHairUI.rectTransform.localScale.x,
+                        CrossHairUI.rectTransform.localScale.y, CrossHairUI.rectTransform.localScale.z), Vector3.one, perc);
                 }
             }
         }
     }
 
-    public IEnumerator ResetManualTargetingCR()
+    public void ResetManualTargeting()
     {
         isManualTargeting = true;
-        isRotating = true;
+        StartCoroutine(ResetManualTargetingCR());
+    }
+
+    private IEnumerator ResetManualTargetingCR()
+    {
         yield return new WaitForSeconds(3f);
-        isRotating = false;
         isManualTargeting = false;
+    }
+
+    public void CrossHairAnimation()
+    {
+        isRotating = true;
+        StartCoroutine(CrossHairAnimationCR());
+    }
+
+    private IEnumerator CrossHairAnimationCR()
+    {
+        yield return new WaitForSeconds(lerpTime);
+        isRotating = false;
     }
     private IEnumerator turretRadarSweep()
     {
@@ -235,11 +254,6 @@ public class TurretAutoAim : MonoBehaviour
             return;
         }
     }
-
-    void RotateCrossHair(float perc)
-    {
-
-    }
     void AutoSelectTarget()
     {
         if (targetList.Count == 0)
@@ -250,6 +264,14 @@ public class TurretAutoAim : MonoBehaviour
         else
         {
             enemy = targetList[0].gameObject;
+            currentTarget = enemy.GetComponent<Collider>();
+            lastEnemy = enemy;
+
+            if (!isRotating)
+            {
+                currentLerpTime = 0;
+                CrossHairAnimation();
+            }
         }
     }
 
@@ -275,7 +297,6 @@ public class TurretAutoAim : MonoBehaviour
     {
         if (enemy != null)
         {
-
             float range = Vector3.Distance(transform.position, enemy.transform.position);
             Vector3 targetDir = enemy.transform.position - transform.position;
             float angle = Vector3.Angle(targetDir, turret.transform.forward);
@@ -294,6 +315,7 @@ public class TurretAutoAim : MonoBehaviour
             {
 
                 CrossHairUI.gameObject.SetActive(false);
+
                 return false;
             }
         }

@@ -2012,9 +2012,11 @@ MonoBehaviour:
   - {fileID: 7324370658739478688}
   - {fileID: 6022472696859302080}
   isManualTargeting: 0
+  isRotating: 0
   CrossHairUI: {fileID: 0}
   currentCam: {fileID: 0}
   parentCanvas: {fileID: 0}
+  lerpTime: 2
   currentLerpTime: 0
 --- !u!135 &6022472696859302080
 SphereCollider:
