@@ -8,11 +8,6 @@ public class BombProjectile : WeaponProjectileBase
 
     public float BombEjectionSpeed;
 
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     public override void Fire(Transform _barrelTip, float _tipVelocity)
     {
         StartCoroutine(DelayActivation(1f));

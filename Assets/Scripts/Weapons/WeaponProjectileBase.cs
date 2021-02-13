@@ -34,6 +34,8 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     protected override void OnRealtimeModelReplaced(ProjectileModel previousModel, ProjectileModel currentModel)
     {
+        base.OnRealtimeModelReplaced(previousModel, currentModel);
+
         if (previousModel != null)
         {
             previousModel.explodedDidChange -= UpdateExplosionState;
@@ -41,28 +43,30 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
         if (currentModel != null)
         {
+            if (currentModel.isFreshModel)
+            {
+                currentModel.exploded = isExploded;
+            }
+
+            UpdateModel();
+            
             currentModel.explodedDidChange += UpdateExplosionState;
         }
     }
 
     private void UpdateExplosionState(ProjectileModel projectileModel, bool value)
     {
-        //Checks for explosion of networked projectiles
-        //Once state changes sync with server to make projectile explodes
-        if (isExploded != projectileModel.exploded) // there is a change
+        if (explosion != null)
         {
-            if (projectileModel.exploded) // explosion
-            {
-                //No matter if local or server instance, when the projectile explosion state
-                //is updated and if there is an explosion animation, activate it
-                if (explosion != null)
-                {
-                    explosion.SetActive(true);
-                }
-
-                isExploded = projectileModel.exploded;
-            }
+            explosion.SetActive(true);
         }
+
+        IsExplodedChanged();
+    }
+
+    private void IsExplodedChanged()
+    {
+        isExploded = model.exploded;
     }
 
     private void Awake()
@@ -104,8 +108,9 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         }
     }
 
-    protected virtual void Update()
+    protected void UpdateModel()
     {
+        isExploded = model.exploded;
         if (!isNetworkInstance)
         {
             _realtimeView.RequestOwnership();

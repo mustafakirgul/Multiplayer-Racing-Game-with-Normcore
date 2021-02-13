@@ -6,10 +6,8 @@ public class BulletProjectile : WeaponProjectileBase
 {
     public float bulletSpeed;
 
-    protected override void Update()
+    public void Update()
     {
-        base.Update();
-
         if (rb != null && !isNetworkInstance)
         {
             BulletBrain();
@@ -26,7 +24,6 @@ public class BulletProjectile : WeaponProjectileBase
         }
         else
         {
-
             rb.velocity = this.transform.forward * (bulletSpeed + mf_carVelocity);
         }
     }

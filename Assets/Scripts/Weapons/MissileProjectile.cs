@@ -27,10 +27,8 @@ public class MissileProjectile : WeaponProjectileBase
     }
 
     // Update is called once per frame
-    protected override void Update()
+    public void Update()
     {
-        base.Update();
-
         if (rb != null && !isNetworkInstance)
         {
             MissileBrain();
