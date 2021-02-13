@@ -42,7 +42,7 @@ public class PrespawnManager : MonoBehaviour
                 position: lootLocation,
                 rotation: Quaternion.identity,
                 ownedByClient:
-                false,
+                true,
                 preventOwnershipTakeover:
                 false,
                 destroyWhenOwnerOrLastClientLeaves: true,

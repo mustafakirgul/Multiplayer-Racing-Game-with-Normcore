@@ -60,50 +60,42 @@ public class LootContainer : MonoBehaviour
         return _id;
     }
 
-    private int SetCollectedBy(int _collectedBy)
+    private void SetCollectedBy(int _collectedBy)
     {
-        collectedBy = content.SetCollectedBy(_collectedBy);
-        return collectedBy;
+        collectedBy = _collectedBy;
+        content.SetCollectedBy(_collectedBy);
     }
 
-    public int GetCollected(int _collectorID)
+    public void GetCollected(int _collectorID)
     {
         if (cr_Die == null && content.collectedBy < 0)
         {
-            GetComponent<Rigidbody>().isKinematic = true;
-            GetComponent<BoxCollider>().enabled = false;
             SetCollectedBy(_collectorID);
             cr_Die = StartCoroutine(CR_Die());
-            return id; // return id of collected item
         }
-
-        return
-            0; //return 0 meaning the item was already collected by someone and pending to be destroyed from the game world
     }
 
-    private void OnDestroy()
+    public void DisplayCollectionMessage()
     {
-        if (isNetworkInstance)
+        GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<BoxCollider>().enabled = false;
+        if (mainCamera != null)
+            collectionParticle.transform.LookAt(mainCamera.transform);
+        collectionParticle.Play();
+        string tempName = "POWERUP (" + LootManager.instance.playerLootPoolSave
+            .PlayerPowerUps[Mathf.Abs(content.id) - 1].name
+            .Remove(0, 2) + ") !";
+        GameManager.instance.uIManager.DisplayUIMessage(PlayerManager.instance.PlayerName(collectedBy)
+                                                        +
+                                                        " has collected a " + (id > 0 ? "loot!" : tempName));
+        foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
         {
-            if (mainCamera != null)
-                collectionParticle.transform.LookAt(mainCamera.transform);
-            collectionParticle.Play();
-            string tempName = "POWERUP (" + LootManager.instance.playerLootPoolSave
-                .PlayerPowerUps[Mathf.Abs(content.id) - 1].name
-                .Remove(0, 2) + ") !";
-            GameManager.instance.uIManager.DisplayUIMessage(PlayerManager.instance.PlayerName(collectedBy)
-                                                            +
-                                                            " has collected a " + (id > 0 ? "loot!" : tempName));
+            mr.enabled = false;
         }
     }
 
     public IEnumerator CR_Die()
     {
-        foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
-        {
-            mr.enabled = false;
-        }
-
         yield return new WaitForSeconds(dieDelay);
         if (!isNetworkInstance) Realtime.Destroy(gameObject);
     }

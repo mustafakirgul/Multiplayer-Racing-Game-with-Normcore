@@ -51,10 +51,10 @@ Rigidbody:
   m_Mass: 30
   m_Drag: 0
   m_AngularDrag: 0
-  m_UseGravity: 0
-  m_IsKinematic: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 3
 --- !u!65 &5552552766299149125
 BoxCollider:
@@ -64,7 +64,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2693471331447668595}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 5, y: 4, z: 5}
@@ -123,7 +123,7 @@ MonoBehaviour:
   pickup: {fileID: 4252290464746809472}
   id: 0
   collectedBy: -1
-  dieDelay: 0.2
+  dieDelay: 0.5
   isNetworkInstance: 0
 --- !u!114 &2652169859653945631
 MonoBehaviour:

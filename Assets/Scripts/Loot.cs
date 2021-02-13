@@ -5,6 +5,7 @@ public class Loot : RealtimeComponent<LootModel>
 {
     [Space(10)] public int id;
     public int collectedBy;
+
     protected override void OnRealtimeModelReplaced(LootModel previousModel, LootModel currentModel)
     {
         base.OnRealtimeModelReplaced(previousModel, currentModel);
@@ -40,11 +41,10 @@ public class Loot : RealtimeComponent<LootModel>
         model.id = _id;
     }
 
-    public int SetCollectedBy(int _collectedBy)
+    public void SetCollectedBy(int _collectedBy)
     {
         model.collectedBy = _collectedBy;
-
-        return model.collectedBy;
+        GetComponent<LootContainer>().DisplayCollectionMessage();
     }
 
     private void CollectedByDidChange(LootModel lootModel, int value)
