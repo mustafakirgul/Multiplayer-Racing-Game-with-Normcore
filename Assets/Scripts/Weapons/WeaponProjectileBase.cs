@@ -47,9 +47,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             {
                 currentModel.exploded = isExploded;
             }
-
-            UpdateModel();
-            
             currentModel.explodedDidChange += UpdateExplosionState;
         }
     }
@@ -62,6 +59,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         }
 
         IsExplodedChanged();
+        UpdateModel();
     }
 
     private void IsExplodedChanged()
