@@ -3,7 +3,12 @@ guid: 1be20659cb2f444b4a7abfd666d13fc0
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Exhaust.lvl3
+    second: {fileID: 2100000, guid: 405ed14a1cc7e4fa39fc8652b909098b, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
