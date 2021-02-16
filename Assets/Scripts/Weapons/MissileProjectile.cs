@@ -99,10 +99,6 @@ public class MissileProjectile : WeaponProjectileBase
                         LockedTarget = MissileTargets[i].transform;
                         return;
                     }
-                    else
-                    {
-                        continue;
-                    }
                 }
             }
         }

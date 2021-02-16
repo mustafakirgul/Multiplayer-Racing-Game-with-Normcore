@@ -9,7 +9,8 @@ using Random = System.Random;
 public class Truck : RealtimeComponent<TruckModel>
 {
     public TruckWheel[] _wheels;
-    public float _torque; //per powered wheel
+    public float maxTorque; //per powered wheel
+
     [Range(0f, 1f)] public float _torqueFactor;
     [Range(-20f, 20f)] public float _steeringAngle;
     public float maxSteeringAngle;
@@ -35,7 +36,7 @@ public class Truck : RealtimeComponent<TruckModel>
     private List<WayPoint> m_wayPoints;
 
     [SerializeField] private Transform currentWPT;
-    [SerializeField] private float steerRefreshTimer = 1 / 60;
+    [SerializeField] private float steerRefreshTimer = 1f / 60f;
     [SerializeField] private int currentWPindex = 0;
     public float waypointSwitchThreshold;
     private bool damageFeedback;
@@ -56,6 +57,10 @@ public class Truck : RealtimeComponent<TruckModel>
     //X-Ray silhouette
     public Renderer TruckMesh;
     public Outline TruckOutline;
+
+    //Torque adjustment relative to elevation trend of the ground
+    [SerializeField]
+    private float angle, elevationTorqueFactor, elevationConstant, currentTorquePerWheel, torqueBoostAngleLimit;
 
     private void OnDrawGizmos()
     {
@@ -142,11 +147,19 @@ public class Truck : RealtimeComponent<TruckModel>
                 }
 
                 CalculateRoute();
+                CalculateTorque();
                 yield return waitASecond;
             }
 
             yield return waitASecond;
         }
+    }
+
+    private void CalculateTorque()
+    {
+        angle = -Mathf.Clamp(Vector3.Angle(Vector3.up, transform.forward) - elevationConstant, -torqueBoostAngleLimit,
+            torqueBoostAngleLimit);
+        elevationTorqueFactor = 1f + Mathf.Clamp01(angle / torqueBoostAngleLimit);
     }
 
     void SetWayPoint(int wayPointIndex)
@@ -190,7 +203,6 @@ public class Truck : RealtimeComponent<TruckModel>
         //Debug.Log("truck health is: " + _health);
 
         isNetworkInstance = !_rTTransform.isOwnedLocallyInHierarchy;
-
 #if (UNITY_EDITOR)
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -202,6 +214,7 @@ public class Truck : RealtimeComponent<TruckModel>
             ResetTransform();
         }
 
+        currentTorquePerWheel = maxTorque * _torqueFactor * elevationTorqueFactor;
         if (_length > 0)
         {
             for (int i = 0; i < _length; i++)
@@ -209,18 +222,18 @@ public class Truck : RealtimeComponent<TruckModel>
                 if (_handBrake)
                 {
                     _wheels[i].collider.motorTorque = 0f;
-                    _wheels[i].collider.brakeTorque = _torque;
+                    _wheels[i].collider.brakeTorque = maxTorque;
                 }
                 else if (_wheels[i].isPowered)
                 {
                     _wheels[i].collider.brakeTorque = 0f;
-                    _wheels[i].collider.motorTorque = _torque * _torqueFactor;
+                    _wheels[i].collider.motorTorque = currentTorquePerWheel;
                 }
 
-                if (_wheels[i].model.GetComponent<RealtimeTransform>().ownerIDSelf !=
-                    GetComponent<RealtimeTransform>().ownerIDSelf)
+                if (_wheels[i].model.GetComponent<RealtimeTransform>().ownerIDInHierarchy !=
+                    GetComponent<RealtimeTransform>().ownerIDInHierarchy)
                     _wheels[i].model.GetComponent<RealtimeTransform>()
-                        .SetOwnership(GetComponent<RealtimeTransform>().ownerIDSelf);
+                        .SetOwnership(GetComponent<RealtimeTransform>().ownerIDInHierarchy);
 
 
                 _wheels[i].collider.GetWorldPose(out _position, out _rotation);
@@ -231,17 +244,6 @@ public class Truck : RealtimeComponent<TruckModel>
             }
         }
     }
-
-    // private void LateUpdate()
-    // {
-    //     if (realtimeView.isUnownedInHierarchy)
-    //     {
-    //         int _ownerID = PlayerManager.instance.RequestOwner();
-    //         realtimeView.SetOwnership(_ownerID);
-    //         rtTransform.SetOwnership(_ownerID);
-    //         SetOwner(_ownerID);
-    //     }
-    // }
 
     public void AddExplosionForce(Vector3 _origin)
     {
@@ -347,7 +349,7 @@ public class Truck : RealtimeComponent<TruckModel>
                 useInstance:
                 _realtime);
             int PUCount =
-            (LootManager.instance.playerLootPoolSave.PlayerPowerUps.Count - 1);
+                (LootManager.instance.playerLootPoolSave.PlayerPowerUps.Count - 1);
             _temp.GetComponent<LootContainer>().SetID(UnityEngine.Random.Range(-PUCount, 666));
             Vector3 _tempDir = UnityEngine.Random.onUnitSphere;
             _tempDir = new Vector3(_tempDir.x, Mathf.Abs(_tempDir.y), _tempDir.z) * throwForce;

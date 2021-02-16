@@ -184,6 +184,7 @@ public class NewCarController : MonoBehaviour
     private Coroutine healthAnimator;
     private float _tempHealth;
 
+    public ParticleSystem[] boostParticles;
 
     private void Awake()
     {
@@ -643,6 +644,7 @@ public class NewCarController : MonoBehaviour
 
             CancelResidualVelocity();
             MaxSpeedCheck();
+
             if (isGrounded)
             {
                 CarRB.AddForce(transform.forward * moveInput, ForceMode.Acceleration);
@@ -898,6 +900,16 @@ public class NewCarController : MonoBehaviour
             if (boosterReady && isGrounded)
             {
                 boosterReady = false;
+                for (int i = 0; i < boostParticles.Length; i++)
+                {
+                    boostParticles[i].Play();
+                    foreach (var particle in boostParticles[i].transform.GetComponentsInChildren<ParticleSystem>())
+                    {
+                        particle.Play();
+                    }
+                }
+
+                StartCoroutine(StopBoostEffect());
                 CarRB.AddForce(transform.forward * (dashForce), ForceMode.VelocityChange);
             }
         }
@@ -940,6 +952,19 @@ public class NewCarController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             _player.HealPlayer(5f);
+        }
+    }
+
+    IEnumerator StopBoostEffect()
+    {
+        yield return new WaitForSeconds(.5f);
+        for (int i = 0; i < boostParticles.Length; i++)
+        {
+            boostParticles[i].Stop();
+            foreach (var particle in boostParticles[i].transform.GetComponentsInChildren<ParticleSystem>())
+            {
+                particle.Stop();
+            }
         }
     }
 
