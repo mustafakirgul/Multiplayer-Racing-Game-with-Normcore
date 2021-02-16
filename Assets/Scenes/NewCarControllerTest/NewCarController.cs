@@ -633,6 +633,7 @@ public class NewCarController : MonoBehaviour
     private void ResetPlayerHealth()
     {
         UpdateHealth();
+        _player.ResetHealth();
         //Spawn in player animation
         CarRB.position = new Vector3(transform.position.x, transform.position.y + resetHeight, transform.position.z);
         Vector3 _rotation = CarRB.rotation.eulerAngles;
@@ -957,7 +958,7 @@ public class NewCarController : MonoBehaviour
             followCamera.ToggleRearView(rearCamera);
         }
 
-        if (Input.GetKeyUp(KeyCode.I))
+        if (Input.GetKeyUp(KeyCode.U))
         {
             if (resetReverseView)
             {

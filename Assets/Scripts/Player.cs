@@ -47,6 +47,11 @@ public class Player : RealtimeComponent<PlayerModel>
         controller = GetComponent<NewCarController>();
     }
 
+    public void ResetHealth()
+    {
+        model.health = maxPlayerHealth;
+    }
+
     private void UpdatePlayer()
     {
         playerName = model.playerName;
