@@ -3,7 +3,12 @@ guid: e3a1be92ac08cbb41b27244f86e8cb3d
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Speedy.Wheel
+    second: {fileID: 2100000, guid: fff85a595a2f440ad82cabc8ae9de794, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

@@ -3,7 +3,42 @@ guid: 69944f8345d0143508b5330eca1b32c8
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Speedy.Body
+    second: {fileID: 2100000, guid: 5e7f2d78aefb048dea53f0ae5a0b4310, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Speedy.Cover
+    second: {fileID: 2100000, guid: 3d0dbc29c77214261b20757682d17a26, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Speedy.Decor01
+    second: {fileID: 2100000, guid: e5b67537c2677463183e1e5d02997f77, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Speedy.Detail02
+    second: {fileID: 2100000, guid: 01cd8bb353e524723ad93df0aeb0b8e6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Speedy.Detail03
+    second: {fileID: 2100000, guid: 32310e8cc4d0041e9a85aec4851720b9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Speedy.Front
+    second: {fileID: 2100000, guid: c304e473969fb4147904f9e198288e44, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Speedy.Side
+    second: {fileID: 2100000, guid: 98bedc1d21ef64f309fba721dfb6c64e, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
