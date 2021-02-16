@@ -9,7 +9,9 @@ using UnityEngine.UI;
 
 public class NewCarController : MonoBehaviour
 {
-    [Space] [Space] [Header("Car Controller Main Settings")]
+    [Space]
+    [Space]
+    [Header("Car Controller Main Settings")]
     public Rigidbody CarRB;
 
     private float moveInput, turnInput;
@@ -43,7 +45,9 @@ public class NewCarController : MonoBehaviour
     float currentZ, currentX;
     float XTimer, ZTimer, XFactor, ZFactor;
 
-    [Space] [Space] [Header("Camera and Networking")]
+    [Space]
+    [Space]
+    [Header("Camera and Networking")]
     //Neworking Related Functionalities
     public Realtime _realtime;
 
@@ -59,7 +63,9 @@ public class NewCarController : MonoBehaviour
     bool CoroutineReset = false;
 
 
-    [Space] [Space] [Header("Loot Based Modifiers")]
+    [Space]
+    [Space]
+    [Header("Loot Based Modifiers")]
     //Does the car need to know about these or does the game manager needs to know about these?
     //Car simply keeps track of what it encounters and talks to game managers to obtain loot or powerups
     public float meleeDamageModifier;
@@ -130,8 +136,11 @@ public class NewCarController : MonoBehaviour
     public Image OverheatMeter;
     public GameObject OverheatMeterObj;
     public GameObject OverHeatNotice;
+    public GameObject WeaponSwitcherUI;
 
-    [Space] [Space] [Header("Health Params")]
+    [Space]
+    [Space]
+    [Header("Health Params")]
     //Health Controls
     public Player _player;
 
@@ -147,7 +156,10 @@ public class NewCarController : MonoBehaviour
     private WaitForEndOfFrame waitFrameDamageEffect;
     public CanvasGroup damageIndicatorCanvasGroup;
 
-    [Space] [Space] [Header("Boost Params")]
+
+    [Space]
+    [Space]
+    [Header("Boost Params")]
     //Boost Controls
     public Image boostRadialLoader;
 
@@ -157,7 +169,9 @@ public class NewCarController : MonoBehaviour
     public bool boosterReady;
     private float boosterCounter;
 
-    [Space] [Space] [Header("Light Controls")]
+    [Space]
+    [Space]
+    [Header("Light Controls")]
     //Light Controls
     public Light RHL;
 
@@ -175,7 +189,8 @@ public class NewCarController : MonoBehaviour
 
     public SpriteRenderer _miniMapRenderer;
 
-    [Space] [Header("Suspension and Wheel Settings")]
+    [Space]
+    [Header("Suspension and Wheel Settings")]
     public bool identicalSuspension4AW;
 
     public float suspensionHeight; // these 2 only work if identical suspension for all wheels is true
@@ -402,6 +417,7 @@ public class NewCarController : MonoBehaviour
             }
         }
 
+        WeaponSwitcherUI.SetActive(false);
         OverHeatNotice.gameObject.SetActive(false);
         OverheatMeterObj.SetActive(!isNetworkInstance);
     }
@@ -690,6 +706,15 @@ public class NewCarController : MonoBehaviour
         return projectileVelocity;
     }
 
+    private IEnumerator CheckSwitchUI()
+    {
+        while(!readyToFire)
+        {
+            yield return new WaitForSeconds(1f);
+        }
+        //yield return new WaitForSeconds(1f);
+        WeaponSwitcherUI.SetActive(false);
+    }
     private void TurnTheWheels()
     {
         for (int i = 0; i < wheelCount; i++)
@@ -728,6 +753,7 @@ public class NewCarController : MonoBehaviour
                 wheels[i].wheelT.Rotate(Vector3.right * Time.deltaTime * LocalVelocity() * wheelTurnFactor);
             }
         }
+
     }
 
     void DetectInput()
@@ -858,6 +884,9 @@ public class NewCarController : MonoBehaviour
             {
                 weaponType++;
                 weaponType %= 2;
+                WeaponSwitcherUI.gameObject.SetActive(true);
+                StartCoroutine(CheckSwitchUI());
+                //Maintain check to see deactivate switch UI once weapon is ready
             }
         }
 
@@ -1057,6 +1086,10 @@ public class NewCarController : MonoBehaviour
         muzzleFlash.SetActive(true);
         StartCoroutine(MuzzleToggle());
         yield return primaryWait;
+        //if (WeaponSwitcherUI.activeInHierarchy)
+        {
+            WeaponSwitcherUI.SetActive(false);
+        }
         readyToFire = true;
     }
 
@@ -1085,6 +1118,10 @@ public class NewCarController : MonoBehaviour
         muzzleFlash.SetActive(true);
         StartCoroutine(MuzzleToggle());
         yield return secondaryWait;
+        //if (WeaponSwitcherUI.activeInHierarchy)
+        {
+            WeaponSwitcherUI.SetActive(false);
+        }
         readyToFire = true;
     }
 
