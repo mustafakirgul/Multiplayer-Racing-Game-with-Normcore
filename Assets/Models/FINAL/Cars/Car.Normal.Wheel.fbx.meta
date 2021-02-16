@@ -3,7 +3,12 @@ guid: 9ee2c30c7d15b8346935be098d1a3f0c
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Normal.Wheel
+    second: {fileID: 2100000, guid: 30c5934ffcbf04046b3a8fd91a452f36, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f90e164aa0397b843b41e261efa9d7b3
+guid: 4b9b6e3d03f384fdc9a5730a90adbdff
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
@@ -7,8 +7,53 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Tank.Wheel
-    second: {fileID: 2100000, guid: c3d941276c07f41339c6a2660a572bf4, type: 2}
+      name: Tanky.Body
+    second: {fileID: 2100000, guid: 6dbe6a95427914a2899c555ac4777525, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tanky.Cover
+    second: {fileID: 2100000, guid: b0f0a479c2e0d48e2bacc4a5df52a284, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tanky.Front
+    second: {fileID: 2100000, guid: 05c8596f4509b4fcd920384c9d24b14a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tanky.Lights
+    second: {fileID: 2100000, guid: e3a71c0e3a67d41a68472dd79ee18023, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tanky.Lights.001
+    second: {fileID: 2100000, guid: a54da9f0e918d438198054344c4e7d77, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tanky.Side
+    second: {fileID: 2100000, guid: 849cd993a20d4475aacdd64a0cacbd5c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tanky.Side.01
+    second: {fileID: 2100000, guid: 74ba403091bc24cd98ebe94cc2f93d57, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tanky.Window01
+    second: {fileID: 2100000, guid: 7c9c4878f26ac4e2f91b81c6b8ff4487, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tanky.Window02
+    second: {fileID: 2100000, guid: 7992b2dde084b48e8875bc06c236a3db, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tanky.WindowFront
+    second: {fileID: 2100000, guid: e91afad3e051946e98ae7ada11d999e7, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
