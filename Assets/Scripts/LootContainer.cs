@@ -74,7 +74,6 @@ public class LootContainer : MonoBehaviour
             cr_Die = StartCoroutine(CR_Die());
         }
     }
-
     public void DisplayCollectionMessage()
     {
         GetComponent<Rigidbody>().isKinematic = true;
@@ -82,9 +81,20 @@ public class LootContainer : MonoBehaviour
         if (mainCamera != null)
             collectionParticle.transform.LookAt(mainCamera.transform);
         collectionParticle.Play();
-        string tempName = "POWERUP (" + LootManager.instance.playerLootPoolSave
-            .PlayerPowerUps[Mathf.Abs(content.id) - 1].name
-            .Remove(0, 2) + ") !";
+        //Logic for power up vs. loot added
+        string tempName;
+
+        if (content.id < 0)
+        {
+            tempName = "POWERUP (" + LootManager.instance.playerLootPoolSave
+                .PlayerPowerUps[Mathf.Abs(content.id) - 1].name
+                .Remove(0, 2) + ") !";
+        }
+        else
+        {
+            tempName = "Loot Obained!! ";
+        }
+
         GameManager.instance.uIManager.DisplayUIMessage(PlayerManager.instance.PlayerName(collectedBy)
                                                         +
                                                         " has collected a " + (id > 0 ? "loot!" : tempName));

@@ -30,8 +30,11 @@ public class Loot : RealtimeComponent<LootModel>
         }
     }
 
-    private void UpdateLoot()
+    public void UpdateLoot()
     {
+        //Local Instance of collection not updating collection ID correctly for some reason
+        //Only happening to host not connected players
+
         IDChanged();
         CollectedByChanged();
     }
@@ -44,7 +47,9 @@ public class Loot : RealtimeComponent<LootModel>
     public void SetCollectedBy(int _collectedBy)
     {
         model.collectedBy = _collectedBy;
-        GetComponent<LootContainer>().DisplayCollectionMessage();
+
+        LootContainer lootContainer = GetComponent<LootContainer>();
+        lootContainer.DisplayCollectionMessage();
     }
 
     private void CollectedByDidChange(LootModel lootModel, int value)

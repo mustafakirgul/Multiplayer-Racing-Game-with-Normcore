@@ -1142,12 +1142,16 @@ public class NewCarController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (isNetworkInstance) return;
-
         LootContainer lootbox = collision.gameObject.GetComponent<LootContainer>();
 
         if (lootbox != null)
         {
+            if (isNetworkInstance)
+            {
+                StartCoroutine(lootbox.CR_Die());
+                return;
+            }
+
             int LootRoll = lootbox.id;
             lootbox.transform.GetComponent<RealtimeView>().RequestOwnership();
             lootbox.GetCollected(PlayerManager.localPlayerID);
