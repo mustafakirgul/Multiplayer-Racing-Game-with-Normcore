@@ -11678,7 +11678,7 @@ PrefabInstance:
         type: 3}
       propertyPath: chaseCam
       value: 
-      objectReference: {fileID: 9072222076646841845}
+      objectReference: {fileID: 0}
     - target: {fileID: 3256981861654351050, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
       propertyPath: uIManager
@@ -15083,12 +15083,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 9072222076646841844}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 432ac6c10d7776b4d8c0884917372acf, type: 3}
+  m_Script: {fileID: 11500000, guid: fa54805a8e052d348a659d60d9b24340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  distance: 13
-  height: 2.5
-  rotationDamping: 3
-  heightDamping: 3
-  bToggleRearView: 0
+  state: 2
+  musics:
+  - state: 0
+    music: {fileID: 8300000, guid: aa152a5ff7c2e624e8d284c6af878166, type: 3}
+  - state: 1
+    music: {fileID: 8300000, guid: 631b740e22200814b98d7224bee30815, type: 3}
