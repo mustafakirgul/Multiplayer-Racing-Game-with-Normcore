@@ -35,7 +35,7 @@ public class LobbyManager : MonoBehaviour
     private RectTransform feedbackLoaderRectTransform;
     private Coroutine cr_ConnectToRoom;
     private bool stayDisconnected = true;
-
+    private JukeBox jukebox => FindObjectOfType<JukeBox>();
     private void Awake()
     {
         lobbiests = new List<Lobbiest>();
@@ -237,6 +237,7 @@ public class LobbyManager : MonoBehaviour
         _lobbiest.ChangeRoomName(roomName);
         if (cr_RoomChecker != null) StopCoroutine(cr_RoomChecker);
         cr_RoomChecker = StartCoroutine(CR_Checkroom());
+        jukebox.SwitchState(State.menu);
     }
 
     private IEnumerator CR_Checkroom()
