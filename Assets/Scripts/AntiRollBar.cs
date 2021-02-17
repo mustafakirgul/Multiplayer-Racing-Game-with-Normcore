@@ -18,20 +18,22 @@ public class AntiRollBar : MonoBehaviour
         bool groundedL = WheelL.GetGroundHit(out hit);
 
         if (groundedL)
-            travelL = (-WheelL.transform.InverseTransformPoint(hit.point).y - WheelL.radius) / WheelL.suspensionDistance;
+            travelL = (-WheelL.transform.InverseTransformPoint(hit.point).y - WheelL.radius) /
+                      WheelL.suspensionDistance;
 
         bool groundedR = WheelR.GetGroundHit(out hit);
 
         if (groundedR)
-            travelR = (-WheelR.transform.InverseTransformPoint(hit.point).y - WheelR.radius) / WheelR.suspensionDistance;
+            travelR = (-WheelR.transform.InverseTransformPoint(hit.point).y - WheelR.radius) /
+                      WheelR.suspensionDistance;
 
         float antiRollForce = (travelL - travelR) * AntiRoll;
 
         if (groundedL)
             carBody.AddForceAtPosition(WheelL.transform.up * -antiRollForce,
-                   WheelL.transform.position);
+                WheelL.transform.position);
         if (groundedR)
             carBody.AddForceAtPosition(WheelR.transform.up * antiRollForce,
-                   WheelR.transform.position);
+                WheelR.transform.position);
     }
 }

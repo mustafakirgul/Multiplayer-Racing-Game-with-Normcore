@@ -11,6 +11,7 @@ public class BuildLoadOutSObj : ScriptableObject
 
     public ItemBase Weapon;
     public ItemBase Armour;
+
     public ItemBase Engine;
     //Other data that needs to be added to the build once things start
 }

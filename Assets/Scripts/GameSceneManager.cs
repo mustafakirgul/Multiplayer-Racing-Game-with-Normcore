@@ -110,7 +110,7 @@ public class GameSceneManager : MonoBehaviour
             //Disable all start splashes
             DisableSplashes(GameStartSplashes);
             //Fade to Game Scene
-            StartCoroutine(FadeToBlackOutSquare(false, 2));
+            //StartCoroutine(FadeToBlackOutSquare(false, 2));
         }
     }
 
@@ -167,7 +167,7 @@ public class GameSceneManager : MonoBehaviour
         //else
         //{
         //    //load next scene
-        //    StartCoroutine(FadeToBlackOutSquare(true, fadeOutTime));
+            //StartCoroutine(FadeToBlackOutSquare(true, fadeOutTime));
         //    StartCoroutine(DelaySceneTransiton(fadeOutTime, GameStartSplashes));
         //}
     }
@@ -214,7 +214,6 @@ public class GameSceneManager : MonoBehaviour
         //Display only new weapons that are dropped, avoid duplicating them in the UI
         GameManager.instance.uIManager.AssignAdditionalLootFromGameToDisplay();
         //LootManager.instance.playerObtainedLoot
-        GameManager.instance.ClearEvents();
         LobbyManager.instance.ConnectToLobby(GameManager.instance.isHost);
     }
 }

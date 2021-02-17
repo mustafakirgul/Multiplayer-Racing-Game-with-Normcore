@@ -5,6 +5,7 @@ using UnityEngine;
 public class UIItemDataContainer : MonoBehaviour
 {
     public int _buttonItemID;
+
     //Button 
     public void InjectButtonBuildDataToBuild()
     {
@@ -16,11 +17,11 @@ public class UIItemDataContainer : MonoBehaviour
             case ItemType.Weapon:
 
                 lootManager.selected_buildLoadOutToView.Weapon
-                = lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID];
+                    = lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID];
 
                 //UI Image visualizaions
                 uiManager.SelectedWeapon.texture =
-                lootManager.selected_buildLoadOutToView.Weapon.m_image;
+                    lootManager.selected_buildLoadOutToView.Weapon.m_image;
                 //UI Text for Item
                 uiManager.ItemDescription.text =
                     lootManager.selected_buildLoadOutToView.Weapon.m_text;
@@ -30,10 +31,10 @@ public class UIItemDataContainer : MonoBehaviour
                 break;
             case ItemType.Armour:
                 lootManager.selected_buildLoadOutToView.Armour
-                = lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID];
+                    = lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID];
                 //UI Image visualizaions
                 uiManager.SelectedArmour.texture =
-                lootManager.selected_buildLoadOutToView.Armour.m_image;
+                    lootManager.selected_buildLoadOutToView.Armour.m_image;
                 //UI Text for Item
                 uiManager.ItemDescription.text =
                     lootManager.selected_buildLoadOutToView.Armour.m_text;
@@ -43,10 +44,10 @@ public class UIItemDataContainer : MonoBehaviour
                 break;
             case ItemType.Engine:
                 lootManager.selected_buildLoadOutToView.Engine
-                = lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID];
+                    = lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID];
                 //UI Image visualizaions
                 uiManager.SelectedEngine.texture =
-                lootManager.selected_buildLoadOutToView.Engine.m_image;
+                    lootManager.selected_buildLoadOutToView.Engine.m_image;
                 //UI Text for Item
                 uiManager.ItemDescription.text =
                     lootManager.selected_buildLoadOutToView.Engine.m_text;

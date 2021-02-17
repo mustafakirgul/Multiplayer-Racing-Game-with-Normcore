@@ -7,11 +7,12 @@ public class Sun_Script : MonoBehaviour
 
     private void Awake()
     {
-        transform.position = new Vector3(0,distanceFromMapCenter,0);
+        transform.position = new Vector3(0, distanceFromMapCenter, 0);
     }
+
     private void FixedUpdate()
     {
-        transform.RotateAround(Vector3.zero,Vector3.forward,rotationSpeed*Time.deltaTime);
+        transform.RotateAround(Vector3.zero, Vector3.forward, rotationSpeed * Time.deltaTime);
         transform.LookAt(Vector3.zero);
     }
 }

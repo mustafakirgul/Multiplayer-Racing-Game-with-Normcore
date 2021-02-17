@@ -47,6 +47,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             {
                 currentModel.exploded = false;
             }
+
             currentModel.explodedDidChange += UpdateExplosionState;
         }
     }

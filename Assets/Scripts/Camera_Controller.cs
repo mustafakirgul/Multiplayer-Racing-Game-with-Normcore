@@ -35,7 +35,7 @@ public class Camera_Controller : MonoBehaviour
                 _temp,
                 ref velocity,
                 smoothTime * Time.deltaTime
-                );
+            );
 
             Debug.DrawLine(transform.position, _temp, Color.blue);
             Debug.DrawLine(target.transform.position, _temp, Color.blue);
@@ -45,12 +45,12 @@ public class Camera_Controller : MonoBehaviour
             Debug.DrawLine(transform.position, _temp, Color.green);
 
             transform.rotation = Quaternion.Lerp(
-                                    transform.rotation,
-                                    Quaternion.LookRotation(
-                                        (_temp - transform.position).normalized
-                                    ),
-                                    lookAtLERPSpeed * Time.deltaTime
-                                );
+                transform.rotation,
+                Quaternion.LookRotation(
+                    (_temp - transform.position).normalized
+                ),
+                lookAtLERPSpeed * Time.deltaTime
+            );
         }
     }
 }

@@ -1,27 +1,27 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemType { None, Weapon, Armour, Engine, Other }
+public enum ItemType
+{
+    None,
+    Weapon,
+    Armour,
+    Engine,
+    Other
+}
+
 public class ItemDataProcessor : MonoBehaviour
 {
-    [SerializeField]
-    private Player m_playerHealth;
-    [SerializeField]
-    private NewCarController m_playerCarController;
+    [SerializeField] private Player m_playerHealth;
+    [SerializeField] private NewCarController m_playerCarController;
 
-    [SerializeField]
-    private float mf_ItemMeleeAttack;
-    [SerializeField]
-    private float mf_ItemArmour;
-    [SerializeField]
-    private float mf_ItemSpeed;
-    [SerializeField]
-    private float mf_ItemOther;
-    [SerializeField]
-    private float mf_maxItemCount;
+    [SerializeField] private float mf_ItemMeleeAttack;
+    [SerializeField] private float mf_ItemArmour;
+    [SerializeField] private float mf_ItemSpeed;
+    [SerializeField] private float mf_ItemOther;
+    [SerializeField] private float mf_maxItemCount;
 
-    [SerializeField]
-    public BuildLoadOutSObj current_buildLoadOut;
+    [SerializeField] public BuildLoadOutSObj current_buildLoadOut;
 
     private void Awake()
     {
@@ -57,6 +57,7 @@ public class ItemDataProcessor : MonoBehaviour
                 break;
         }
     }
+
     public void ProcessLoadOutData(ItemBase ItemPickUp)
     {
         switch (ItemPickUp._ItemType)
@@ -68,11 +69,11 @@ public class ItemDataProcessor : MonoBehaviour
                 m_playerCarController.meleeDamageModifier = mf_ItemMeleeAttack;
                 //TO DO need to add weapon projectile for ranged weapons etc.
                 m_playerCarController.SetCurrentWeapon(
-                    ItemPickUp.GetProjectileForWeapon, 
+                    ItemPickUp.GetProjectileForWeapon,
                     ItemPickUp.m_fireRate,
                     //Temp Truck Damage Modifier
                     ItemPickUp.m_Attack
-                    );
+                );
                 break;
             case ItemType.Armour:
                 mf_ItemArmour = ItemPickUp.m_Defense;

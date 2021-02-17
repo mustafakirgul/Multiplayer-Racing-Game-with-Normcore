@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Following : MonoBehaviour {
-
+public class Following : MonoBehaviour
+{
     public Transform planet;
 
     public Transform followArrow;
@@ -74,11 +74,12 @@ public class Following : MonoBehaviour {
         // Use the smooth methods to follow variables in which ever manner you wish!
         fromY = LeanSmooth.spring(fromY, followArrow.localPosition.y, ref velocityY, 1.1f);
         fromVec3 = LeanSmooth.spring(fromVec3, dude5Title.localPosition, ref velocityVec3, 1.1f);
-        fromColor = LeanSmooth.spring(fromColor, dude1.GetComponent<Renderer>().material.color, ref velocityColor, 1.1f);
+        fromColor = LeanSmooth.spring(fromColor, dude1.GetComponent<Renderer>().material.color, ref velocityColor,
+            1.1f);
         Debug.Log("Smoothed y:" + fromY + " vec3:" + fromVec3 + " color:" + fromColor);
     }
 
-	private void moveArrow()
+    private void moveArrow()
     {
         LeanTween.moveLocalY(followArrow.gameObject, Random.Range(-100f, 100f), 0f);
 

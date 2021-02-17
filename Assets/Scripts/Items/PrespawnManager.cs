@@ -8,7 +8,8 @@ public class PrespawnManager : MonoBehaviour
     [SerializeField] List<GameObject> PrespawnedItems = new List<GameObject>();
 
 
-    [SerializeField] List<Vector3> SpawnCoordinates = new List<Vector3>(); 
+    [SerializeField] List<Vector3> SpawnCoordinates = new List<Vector3>();
+
     // Start is called before the first frame update
     public Realtime _realtime;
 

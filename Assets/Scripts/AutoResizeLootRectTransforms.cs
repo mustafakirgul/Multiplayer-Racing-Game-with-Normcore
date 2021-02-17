@@ -6,6 +6,7 @@ public class AutoResizeLootRectTransforms : MonoBehaviour
 {
     // Start is called before the first frame update
     float numberOfChildLootObjs;
+
     public void ResizeLootScrollBar()
     {
         RectTransform rt = GetComponent<RectTransform>();

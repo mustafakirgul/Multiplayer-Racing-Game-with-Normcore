@@ -1,11 +1,12 @@
-Shader "Custom/2dUnlitWithFade" {
-	Properties 
+Shader "Custom/2dUnlitWithFade"
+{
+    Properties
     {
-        _Color ("Color Tint", Color) = (1,1,1,1)    
+        _Color ("Color Tint", Color) = (1,1,1,1)
         _MainTex ("Base (RGB) Alpha (A)", 2D) = "white"
     }
 
-    Category 
+    Category
     {
         Lighting Off
         ZWrite Off
@@ -13,16 +14,19 @@ Shader "Custom/2dUnlitWithFade" {
         Cull back
         Blend SrcAlpha OneMinusSrcAlpha
         //AlphaTest Greater 0.001  // uncomment if you have problems like the sprites or 3d text have white quads instead of alpha pixels.
-        Tags {Queue=Transparent}
-
-        SubShader 
+        Tags
         {
-            Pass 
+            Queue=Transparent
+        }
+
+        SubShader
+        {
+            Pass
             {
-                SetTexture [_MainTex] 
+                SetTexture [_MainTex]
                 {
-                 	ConstantColor [_Color]
-                	Combine Texture * constant
+                ConstantColor [_Color]
+                Combine Texture * constant
                 }
             }
         }

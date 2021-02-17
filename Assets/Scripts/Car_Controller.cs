@@ -12,8 +12,7 @@ public class Car_Controller : MonoBehaviour
     public float downForceHeight; // when downforce needs to be applied
     public BasicWheel[] wheels;
     public float maxSteering;
-    [Space]
-    public GameObject leftHeadLight;
+    [Space] public GameObject leftHeadLight;
     public GameObject rightHeadLight;
     float vertical, horizontal, velocity, trueVelocity, sidewaysVelocity, powerPerWheel;
     bool isBreaking, lights, applyDownforce, inReverse;
@@ -33,8 +32,10 @@ public class Car_Controller : MonoBehaviour
                 poweredWheelCount++;
             }
         }
+
         powerPerWheel = forwardThrust / poweredWheelCount;
     }
+
     private void OnDrawGizmos()
     {
         for (int i = 0; i < wheels.Length; i++)
@@ -46,6 +47,7 @@ public class Car_Controller : MonoBehaviour
             }
         }
     }
+
     private void Update()
     {
         vertical = Input.GetAxisRaw("Vertical");
@@ -62,7 +64,7 @@ public class Car_Controller : MonoBehaviour
         else
             Debug.DrawLine(transform.position, transform.position - transform.up * downForceHeight, Color.yellow);
 
-        if (Input.GetKeyDown(KeyCode.R))//reset
+        if (Input.GetKeyDown(KeyCode.R)) //reset
         {
             //transform.position = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
             Vector3 _rotation = transform.rotation.eulerAngles;
@@ -71,10 +73,11 @@ public class Car_Controller : MonoBehaviour
             Rb.angularVelocity = Vector3.zero;
         }
 
-        if (Input.GetKeyDown(KeyCode.E))//lights
+        if (Input.GetKeyDown(KeyCode.E)) //lights
         {
             ToggleLights();
         }
+
         for (int i = 0; i < wheels.Length; i++)
         {
             if (wheels[i]._isSteeringWheel)
@@ -83,7 +86,8 @@ public class Car_Controller : MonoBehaviour
                 wheels[i]._transform.Rotate(wheels[i]._transform.right, forwardThrust * vertical);
             else
                 wheels[i]._transform.Rotate(wheels[i]._transform.right, trueVelocity / wheels[i]._circumference * 360f);
-            wheels[i]._isGrounded = Physics.Raycast(wheels[i]._transform.position, -wheels[i]._transform.up, out hit, wheels[i]._radius);
+            wheels[i]._isGrounded = Physics.Raycast(wheels[i]._transform.position, -wheels[i]._transform.up, out hit,
+                wheels[i]._radius);
         }
     }
 
@@ -121,18 +125,21 @@ public class Car_Controller : MonoBehaviour
                 }
             }
         }
-        if (velocity > 0.1f)// reverse steering while driving backwards
+
+        if (velocity > 0.1f) // reverse steering while driving backwards
         {
             if (inReverse)
                 Rb.AddRelativeTorque(transform.up * -horizontal * rotationPower * Time.deltaTime);
             else
                 Rb.AddRelativeTorque(transform.up * horizontal * rotationPower * Time.deltaTime);
         }
+
         if (applyDownforce)
         {
             Rb.AddForce(-Vector3.up * downForce);
         }
     }
+
     [Serializable]
     public class BasicWheel
     {
@@ -140,8 +147,7 @@ public class Car_Controller : MonoBehaviour
         public float _radius;
         public bool _isPowered;
         public bool _isSteeringWheel;
-        [HideInInspector]
-        public float _circumference;
+        [HideInInspector] public float _circumference;
         public bool _isGrounded;
 
         public BasicWheel(Transform transform, float radius)

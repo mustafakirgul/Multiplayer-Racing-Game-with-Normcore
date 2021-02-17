@@ -241,7 +241,7 @@ public class GameManager : MonoBehaviour
         chaseCam.ResetCam();
     }
 
-    public void ConnectToRoom(int _selection, string roomName)
+    public void ConnectToRoom(int _selection)
     {
         if (_realtime.connected)
         {
@@ -268,25 +268,10 @@ public class GameManager : MonoBehaviour
             Debug.Log(preferredCar);
             _realtime.didConnectToRoom += DidConnectToRoom;
             _realtime.didDisconnectFromRoom += DidDisconnectFromRoom;
-            _realtime.Connect(roomName);
-            _roomName = roomName;
+            _roomName = LobbyManager.instance.RoomName();
+            _realtime.Connect(_roomName);
             Debug.LogWarning("Room name set to: " + _roomName);
         }
-    }
-
-    private void OnDestroy()
-    {
-        if (_realtime != null)
-        {
-            _realtime.didConnectToRoom -= DidConnectToRoom;
-            _realtime.didDisconnectFromRoom -= DidDisconnectFromRoom;
-        }
-    }
-
-    public void ClearEvents()
-    {
-        _realtime.didConnectToRoom -= DidConnectToRoom;
-        _realtime.didDisconnectFromRoom -= DidDisconnectFromRoom;
     }
 
     public void FixAssociations()

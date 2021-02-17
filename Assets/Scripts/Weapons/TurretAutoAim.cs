@@ -7,12 +7,10 @@ using UnityEngine.UI;
 public class TurretAutoAim : MonoBehaviour
 {
     //For lerping crosshair mostly
-    [SerializeField]
-    private GameObject enemy, lastEnemy;
+    [SerializeField] private GameObject enemy, lastEnemy;
 
     //For keeping track of currently focused target and to reinitialize autotargeting
-    [SerializeField]
-    private Collider currentTarget;
+    [SerializeField] private Collider currentTarget;
     public GameObject turretFOV;
     public float turretRotationSpd;
 
@@ -25,20 +23,16 @@ public class TurretAutoAim : MonoBehaviour
     private Quaternion targetRotation;
     private Quaternion LookAtRotation;
 
-    [SerializeField]
-    private float playerColliderID;
+    [SerializeField] private float playerColliderID;
 
     private NewCarController carController;
 
-    [SerializeField]
-    private Collider[] turretTargets;
-    [SerializeField]
-    private LayerMask turretDetectionLayer;
+    [SerializeField] private Collider[] turretTargets;
+    [SerializeField] private LayerMask turretDetectionLayer;
 
     public List<Collider> targetList = new List<Collider>();
 
-    [SerializeField]
-    private List<Collider> targetsToIgnore = new List<Collider>();
+    [SerializeField] private List<Collider> targetsToIgnore = new List<Collider>();
 
     public bool isManualTargeting = false;
     public bool isRotating = false;
@@ -48,8 +42,7 @@ public class TurretAutoAim : MonoBehaviour
     public Image CrossHairUI;
     public Camera currentCam;
 
-    [SerializeField]
-    RectTransform parentCanvas;
+    [SerializeField] RectTransform parentCanvas;
 
     public float lerpTime = 1f;
     public float currentLerpTime;
@@ -61,6 +54,7 @@ public class TurretAutoAim : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(transform.position, turretDetectionRange);
     }
+
     private void Start()
     {
         targetList.Clear();
@@ -74,6 +68,7 @@ public class TurretAutoAim : MonoBehaviour
             parentCanvas = m_uiManager.ScreenCanvas.GetComponent<RectTransform>();
             StartCoroutine(DelayRadarAtStart());
         }
+
         playerColliderID = carController.ownerID;
     }
 
@@ -83,6 +78,7 @@ public class TurretAutoAim : MonoBehaviour
         CycleSelectTarget();
         StartCoroutine(turretRadarSweep());
     }
+
     void Update()
     {
         if (!carController.isNetworkInstance)
@@ -128,8 +124,11 @@ public class TurretAutoAim : MonoBehaviour
                     CrossHairUI.rectTransform.localScale = (Vector3.one * 4f);
                     float turningSpd = Mathf.Lerp(1, 5, perc);
                     CrossHairUI.rectTransform.eulerAngles += (new Vector3(0, 0, turningSpd));
-                    CrossHairUI.rectTransform.localScale = Vector3.Lerp(new Vector3(CrossHairUI.rectTransform.localScale.x,
-                        CrossHairUI.rectTransform.localScale.y, CrossHairUI.rectTransform.localScale.z), Vector3.one, perc);
+                    CrossHairUI.rectTransform.localScale = Vector3.Lerp(new Vector3(
+                            CrossHairUI.rectTransform.localScale.x,
+                            CrossHairUI.rectTransform.localScale.y, CrossHairUI.rectTransform.localScale.z),
+                        Vector3.one,
+                        perc);
                 }
             }
         }
@@ -158,6 +157,7 @@ public class TurretAutoAim : MonoBehaviour
         yield return new WaitForSeconds(lerpTime);
         isRotating = false;
     }
+
     private IEnumerator turretRadarSweep()
     {
         while (true)
@@ -174,6 +174,7 @@ public class TurretAutoAim : MonoBehaviour
             {
                 AutoSelectTarget();
             }
+
             yield return new WaitForSeconds(radarSweepTimer);
         }
     }
@@ -193,7 +194,9 @@ public class TurretAutoAim : MonoBehaviour
                 if (turretTargets[i].GetComponent<NewCarController>() != null)
                 {
                     if (turretTargets[i].GetComponent<NewCarController>().ownerID == playerColliderID)
-                    { targetList.Remove(turretTargets[i]); }
+                    {
+                        targetList.Remove(turretTargets[i]);
+                    }
                 }
             }
         }
@@ -246,7 +249,9 @@ public class TurretAutoAim : MonoBehaviour
                 currentTarget = enemy.GetComponent<Collider>();
 
             if (lastEnemy != enemy)
-            { currentLerpTime = 0; }
+            {
+                currentLerpTime = 0;
+            }
         }
         else
         {
@@ -254,6 +259,7 @@ public class TurretAutoAim : MonoBehaviour
             return;
         }
     }
+
     void AutoSelectTarget()
     {
         if (targetList.Count == 0)
@@ -282,14 +288,14 @@ public class TurretAutoAim : MonoBehaviour
             Vector3 direction = enemy.transform.position - transform.position;
             targetRotation = Quaternion.LookRotation(direction);
             LookAtRotation = Quaternion.RotateTowards(transform.rotation, targetRotation,
-                            Time.deltaTime * turretRotationSpd);
+                Time.deltaTime * turretRotationSpd);
             transform.rotation = LookAtRotation;
         }
         else
         {
             targetRotation = Quaternion.Euler(0, 0, 0);
             transform.localRotation = Quaternion.RotateTowards(transform.localRotation,
-                    targetRotation, Time.deltaTime * turretRotationSpd);
+                targetRotation, Time.deltaTime * turretRotationSpd);
         }
     }
 
@@ -309,11 +315,11 @@ public class TurretAutoAim : MonoBehaviour
                 {
                     CrossHairUI.gameObject.SetActive(true);
                 }
+
                 return true;
             }
             else
             {
-
                 CrossHairUI.gameObject.SetActive(false);
 
                 return false;

@@ -31,10 +31,9 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
                 isHost = currentModel.isHost;
                 Debug.LogWarning("Garage Ready Set to " + currentModel.isReady + " for this player");
                 isReady = currentModel.isReady;
-                LobbyManager.instance.RegisterLobbiest(this);
             }
 
-            //UpdateData();
+            UpdateData();
             currentModel.roomNameDidChange += RoomNameChanged;
             currentModel.maxPlayersDidChange += MaxPlayersChanged;
             currentModel.isReadyDidChange += IsReadyChanged;
@@ -53,6 +52,7 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
     private void Start()
     {
         _rtView = GetComponent<RealtimeView>();
+        LobbyManager.instance.RegisterLobbiest(this);
     }
 
     private void OnDestroy()

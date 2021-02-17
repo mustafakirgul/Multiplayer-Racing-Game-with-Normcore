@@ -24,7 +24,7 @@ public class PhaseManager : MonoBehaviour
 
         //this is set as error so that it shows up in the debug file of build
         Debug.LogWarning("Phase system started on " +
-                       (GameManager.instance.isHost ? "Host Computer" : "Non-Host Computer"));
+                         (GameManager.instance.isHost ? "Host Computer" : "Non-Host Computer"));
     }
 
     public void NextPhase() //called locally by the local game manager, depending on conditions

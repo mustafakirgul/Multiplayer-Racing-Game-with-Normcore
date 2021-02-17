@@ -37,12 +37,10 @@ namespace SatorImaging.TerrainToolkit
             terrain = sel.GetComponent<Terrain>();
             if (!terrain)
             {
-                EditorUtility.DisplayDialog(typeof(TerrainFbxExporter).Namespace, "Selected object is NOT Terrain.", "OK");
+                EditorUtility.DisplayDialog(typeof(TerrainFbxExporter).Namespace, "Selected object is NOT Terrain.",
+                    "OK");
                 return;
             }
-
-
-
 
 
             float scale_factor = 1f;
@@ -56,12 +54,6 @@ namespace SatorImaging.TerrainToolkit
             {
                 return;
             }
-
-
-
-
-
-
 
 
             using (var sw = new StreamWriter(fbx_path))
@@ -141,7 +133,9 @@ Objects:  {
             Property: ""Show"", ""bool"", """",1
             Property: ""NegativePercentShapeSupport"", ""bool"", """",1
             Property: ""DefaultAttributeIndex"", ""int"", """",0
-            Property: ""Lcl Translation"", ""Lcl Translation"", ""A""," + ((double)-terrain.transform.position.x) + "," + ((double)terrain.transform.position.y) + "," + ((double)terrain.transform.position.z) + @"
+            Property: ""Lcl Translation"", ""Lcl Translation"", ""A""," + ((double) -terrain.transform.position.x) +
+                          "," + ((double) terrain.transform.position.y) + "," +
+                          ((double) terrain.transform.position.z) + @"
             Property: ""Lcl Rotation"", ""Lcl Rotation"", ""A"",0,0,0
             Property: ""Lcl Scaling"", ""Lcl Scaling"", ""A"",1,1,1
             Property: ""Visibility"", ""Visibility"", ""A"",1
@@ -161,17 +155,10 @@ Objects:  {
 ");
 
 
-
-
-
                 sw.Write(sb.ToString());
                 sb.Length = 0; // clear
 
                 ShowProgressBar("Exporting Vertices");
-
-
-
-
 
 
                 // VERTEX LOOP //////////////////////////////////////////////////
@@ -184,7 +171,8 @@ Objects:  {
                 //Debug.LogFormat("TerrainData.Heightmap Width x Height: {0} x {1}", terrain.terrainData.heightmapWidth, terrain.terrainData.heightmapHeight);
                 //Debug.LogFormat("TerrainData.Heightmap Resolution: {0}", terrain.terrainData.heightmapResolution);
 
-                float scale_x = scale_factor * (terrain.terrainData.size.x / (terrain.terrainData.heightmapResolution - 1));
+                float scale_x = scale_factor *
+                                (terrain.terrainData.size.x / (terrain.terrainData.heightmapResolution - 1));
                 //float scale_x = scale_factor * terrain.terrainData.size.x;
                 //scale_x *= terrain.terrainData.size.x;
 
@@ -192,7 +180,8 @@ Objects:  {
                 float scale_y = scale_factor * terrain.terrainData.size.y;
                 scale_y = scale_factor;
 
-                float scale_z = scale_factor * (terrain.terrainData.size.z / (terrain.terrainData.heightmapResolution - 1));
+                float scale_z = scale_factor *
+                                (terrain.terrainData.size.z / (terrain.terrainData.heightmapResolution - 1));
                 //float scale_z = scale_factor * terrain.terrainData.size.z;
                 //scale_z *= terrain.terrainData.size.z;
 
@@ -201,20 +190,13 @@ Objects:  {
                 {
                     for (var x = 0; x < terrain.terrainData.heightmapResolution; x++)
                     {
-
                         pos_y = terrain.terrainData.GetHeight(x, z);
 
-                        sb.Append(Convert.ToString((double)(-x * scale_x)).Replace(',', '.') + ',');
-                        sb.Append(Convert.ToString((double)(pos_y * scale_y)).Replace(',', '.') + ',');
-                        sb.Append(Convert.ToString((double)(z * scale_z)).Replace(',', '.') + ',');
-
-
+                        sb.Append(Convert.ToString((double) (-x * scale_x)).Replace(',', '.') + ',');
+                        sb.Append(Convert.ToString((double) (pos_y * scale_y)).Replace(',', '.') + ',');
+                        sb.Append(Convert.ToString((double) (z * scale_z)).Replace(',', '.') + ',');
                     }
                 }
-
-
-
-
 
 
                 sw.WriteLine(sb.ToString());
@@ -223,15 +205,10 @@ Objects:  {
                 ShowProgressBar("Exporting Polygons");
 
 
-
-
-
-
-
-
                 // POLYGON LOOP //////////////////////////////////////////////////
                 sb.Append("        PolygonVertexIndex: ");
-                int num_polygons = (terrain.terrainData.heightmapResolution - 1) * (terrain.terrainData.heightmapResolution);
+                int num_polygons = (terrain.terrainData.heightmapResolution - 1) *
+                                   (terrain.terrainData.heightmapResolution);
                 int index_offset = terrain.terrainData.heightmapResolution;
                 int skip_index = terrain.terrainData.heightmapResolution;
 
@@ -247,16 +224,10 @@ Objects:  {
                 }
 
 
-
-
                 sw.WriteLine(sb.ToString());
                 sb.Length = 0; // clear
 
                 ShowProgressBar("Exporting Edges");
-
-
-
-
 
 
                 // EDGE LOOP //////////////////////////////////////////////////
@@ -264,18 +235,9 @@ Objects:  {
                 //sw.WriteLine ("");
 
 
-
-
-
-
-
                 sw.WriteLine("        GeometryVersion: 124");
 
                 ShowProgressBar("Exporting Normals");
-
-
-
-
 
 
                 // NORMALS ///////////////////////////////////////////////////
@@ -295,29 +257,21 @@ Objects:  {
                 {
                     for (var x = 0; x < terrain.terrainData.heightmapResolution; x++)
                     {
-
                         //norm = terrain.terrainData.GetInterpolatedNormal((x % (terrain.terrainData.heightmapWidth - 1)) * local_pos_x, z * local_pos_z);
                         norm = terrain.terrainData.GetInterpolatedNormal(x * local_pos_x, z * local_pos_z);
 
                         sb.Append(-norm.x + "," + norm.y + "," + norm.z + ",");
-
                     }
                 }
+
                 sb.Append(@"
         }");
-
-
-
 
 
                 sw.WriteLine(sb.ToString());
                 sb.Length = 0; // clear
 
                 ShowProgressBar("Exporting UVs");
-
-
-
-
 
 
                 // UV ////////////////////////////////////////////////////////
@@ -336,14 +290,11 @@ Objects:  {
                 {
                     for (var x = 0; x < terrain.terrainData.heightmapResolution; x++)
                     {
-
                         sb.Append((x * local_pos_x) + "," + (z * local_pos_z) + ",");
-
                     }
                 }
+
                 sb.AppendLine("");
-
-
 
 
                 // UV INDEX ////////////////////////////////////////////////////////
@@ -360,25 +311,15 @@ Objects:  {
                     // v0, v1, v2, v3 will be... 0,1,2,-4
                     sb.Append(i + "," + (i + 1) + "," + (i + 1 + index_offset) + "," + (i + 0 + index_offset) + ",");
                 }
+
                 sb.Append(@"
         }");
-
-
-
-
-
 
 
                 sw.WriteLine(sb.ToString());
                 sb.Length = 0; // clear
 
                 ShowProgressBar("Building FBX Scene");
-
-
-
-
-
-
 
 
                 sb.Append(@"
@@ -410,15 +351,6 @@ Objects:  {
         }
         NodeAttributeName: ""Geometry::" + mesh_name + @"_ncl1_1""
     }");
-
-
-
-
-
-
-
-
-
 
 
                 sb.Append(@"
@@ -492,11 +424,6 @@ Objects:  {
 ");
 
 
-
-
-
-
-
                 // CONNECTION //////////////////////////////////////////////////
                 sb.Append(@"
 ; Object connections
@@ -565,13 +492,8 @@ Version5:  {
 }");
 
 
-
-
-
                 sw.WriteLine(sb.ToString());
                 sb.Length = 0; // clear
-
-
 
 
                 EditorUtility.ClearProgressBar();
@@ -579,14 +501,10 @@ Version5:  {
                 sw.Dispose();
 
 
-
                 Debug.Log(".fbx Exported successfully.");
                 AssetDatabase.Refresh();
-
             }
-
         }
-
 
 
         static void ShowProgressBar(string info)
@@ -594,10 +512,6 @@ Version5:  {
             progress += 1f / (6f);
 
             EditorUtility.DisplayProgressBar(typeof(TerrainFbxExporter).Namespace, info, progress);
-
         }
-
-
-
     }
 }

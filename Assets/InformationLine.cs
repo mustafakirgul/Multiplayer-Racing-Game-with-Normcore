@@ -5,8 +5,7 @@ using Vectrosity;
 public class InformationLine : MonoBehaviour
 {
     public Transform target;
-    [Range(0, 10)]
-    public float lineThickness;
+    [Range(0, 10)] public float lineThickness;
 
     public Camera UICamera;
 
@@ -14,14 +13,16 @@ public class InformationLine : MonoBehaviour
 
     void Start()
     {
-        var points = new List<Vector2>() { UICamera.WorldToScreenPoint(transform.position), UICamera.WorldToScreenPoint(target.position) };
+        var points = new List<Vector2>()
+            {UICamera.WorldToScreenPoint(transform.position), UICamera.WorldToScreenPoint(target.position)};
         myLine = new VectorLine("Line", points, lineThickness);
-        points = new List<Vector2>() { UICamera.WorldToScreenPoint(target.position) };
+        points = new List<Vector2>() {UICamera.WorldToScreenPoint(target.position)};
         myLine.color = Color.yellow;
         myLine.Draw();
         VectorLine.SetCanvasCamera(UICamera);
         VectorLine.canvas.planeDistance = 1f;
     }
+
     void Update()
     {
         myLine.points2[0] = UICamera.WorldToScreenPoint(transform.position);
@@ -30,4 +31,3 @@ public class InformationLine : MonoBehaviour
         myLine.Draw();
     }
 }
-

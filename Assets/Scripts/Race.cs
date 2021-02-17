@@ -19,6 +19,12 @@ public class Race : RealtimeComponent<RaceModel>
 
         if (currentModel != null)
         {
+            if (currentModel.isFreshModel)
+            {
+                m_iPhase = currentModel.phase;
+                m_isOn = currentModel.isOn;
+            }
+
             currentModel.gameStartTimeDidChange += GameTimeChanged;
             currentModel.phaseDidChange += PhaseChanged;
             currentModel.isOnDidChange += IsOnChanged;

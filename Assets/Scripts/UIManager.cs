@@ -105,7 +105,7 @@ public class UIManager : MonoBehaviour
     }
 
     //Class selection button should not start here
-    public void ConnectToRoom(string roomName)
+    public void ConnectToRoom()
     {
         //Debug.LogWarning("Connecting to room.");
         for (int i = 0; i < BuildModelsAppearance.Count; i++)
@@ -113,7 +113,7 @@ public class UIManager : MonoBehaviour
             BuildModelsAppearance[i].SetActive(false);
         }
 
-        GameManager.instance.ConnectToRoom(SelectedBuildToView, roomName);
+        GameManager.instance.ConnectToRoom(SelectedBuildToView);
         _lootManager.DeploySelectedBuild();
         lastbuildSelected = SelectedBuildToView;
     }

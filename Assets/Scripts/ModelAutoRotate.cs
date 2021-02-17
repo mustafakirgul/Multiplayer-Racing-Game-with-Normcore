@@ -14,8 +14,8 @@ public class ModelAutoRotate : MonoBehaviour
 
     private void Update()
     {
-        if(isRotating)
-        this.transform.Rotate(Vector3.up, Time.deltaTime * autoRotatioSpd, Space.Self);
+        if (isRotating)
+            this.transform.Rotate(Vector3.up, Time.deltaTime * autoRotatioSpd, Space.Self);
     }
 
     private void OnDisable()

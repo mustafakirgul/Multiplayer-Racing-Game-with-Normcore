@@ -4,6 +4,7 @@ public class MiniMapSprite : MonoBehaviour
 {
     Transform _parent;
     Vector3 _origin;
+
     void Awake()
     {
         _parent = transform.parent;

@@ -2,19 +2,23 @@
 
 using UnityEngine;
 
-namespace Normal.Realtime.Examples {
-    public class CubePlayer : MonoBehaviour {
+namespace Normal.Realtime.Examples
+{
+    public class CubePlayer : MonoBehaviour
+    {
         public float speed = 5.0f;
 
-        private RealtimeView      _realtimeView;
+        private RealtimeView _realtimeView;
         private RealtimeTransform _realtimeTransform;
 
-        private void Awake() {
-            _realtimeView      = GetComponent<RealtimeView>();
+        private void Awake()
+        {
+            _realtimeView = GetComponent<RealtimeView>();
             _realtimeTransform = GetComponent<RealtimeTransform>();
         }
 
-        private void Update() {
+        private void Update()
+        {
             // If this CubePlayer prefab is not owned by this client, bail.
             if (!_realtimeView.isOwnedLocallyInHierarchy)
                 return;

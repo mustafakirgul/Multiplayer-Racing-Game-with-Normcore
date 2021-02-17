@@ -154,7 +154,7 @@ MonoBehaviour:
   pickup: {fileID: 5819517114918929768}
   id: 0
   collectedBy: -1
-  dieDelay: 0.5
+  dieDelay: 0.1
   isNetworkInstance: 0
 --- !u!114 &2652169859653945631
 MonoBehaviour:

@@ -2,19 +2,23 @@
 
 using UnityEngine;
 
-namespace Normal.Realtime.Examples {
-    public class VoiceMouthMove : MonoBehaviour {
+namespace Normal.Realtime.Examples
+{
+    public class VoiceMouthMove : MonoBehaviour
+    {
         public Transform mouth;
 
         private RealtimeAvatarVoice _voice;
         private float _mouthSize;
 
-        void Awake() {
+        void Awake()
+        {
             // Get a reference to the RealtimeAvatarVoice component
             _voice = GetComponent<RealtimeAvatarVoice>();
         }
 
-        void Update() {
+        void Update()
+        {
             // Use the current voice volume (a value between 0 - 1) to calculate the target mouth size (between 0.1 and 1.0)
             float targetMouthSize = Mathf.Lerp(0.1f, 1.0f, _voice.voiceVolume);
 

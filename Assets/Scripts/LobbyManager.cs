@@ -36,6 +36,7 @@ public class LobbyManager : MonoBehaviour
     private Coroutine cr_ConnectToRoom;
     private bool stayDisconnected = true;
     private JukeBox jukebox => FindObjectOfType<JukeBox>();
+    private bool freshLobby = true;
 
     private void Awake()
     {
@@ -98,7 +99,7 @@ public class LobbyManager : MonoBehaviour
                 if (!isHost)
                     delay = 1f;
                 Debug.LogWarning("Count: " + count + " | Ready: " + ready);
-                cr_ConnectToRoom = StartCoroutine(CR_ConnectToRoom(delay));
+                cr_ConnectToRoom = StartCoroutine(CR_ConnectToRace(delay));
             }
         }
         else
@@ -110,7 +111,7 @@ public class LobbyManager : MonoBehaviour
         maxPlayerNumber.text = "/ " + maxPlayers;
     }
 
-    IEnumerator CR_ConnectToRoom(float delay)
+    IEnumerator CR_ConnectToRace(float delay)
     {
         yield return new WaitForSeconds(delay);
         _realtime.Disconnect();
@@ -166,22 +167,13 @@ public class LobbyManager : MonoBehaviour
             }
 
             roomName = roomNameJoin.text;
-            _lobbiest.ChangeRoomName(roomName);
             feedback.text += "Trying to connect to room " + roomName + "\n";
         }
 
         _realtime.didConnectToRoom += DidConnectToLobby;
         _realtime.didDisconnectFromRoom += DidDisconnectFromLobby;
+        GameManager.instance._roomName = roomName;
         _realtime.Connect(roomName);
-    }
-
-    private void OnDestroy()
-    {
-        if (_realtime != null)
-        {
-            _realtime.didConnectToRoom -= DidConnectToLobby;
-            _realtime.didDisconnectFromRoom -= DidDisconnectFromLobby;
-        }
     }
 
     public void DisconnectFromLobby()
@@ -212,6 +204,11 @@ public class LobbyManager : MonoBehaviour
 
         stayDisconnected = false;
         _lobbiest.ChangeIsReady(true);
+    }
+
+    public string RoomName()
+    {
+        return _lobbiest.roomName;
     }
 
     public void RegisterLobbiest(Lobbiest lobbiest)
@@ -246,49 +243,52 @@ public class LobbyManager : MonoBehaviour
     private IEnumerator CR_Checkroom()
     {
         yield return wait;
-        var count = lobbiests.Count;
-        if (!isHost) //if not creating but just trying to join
-        {
-            if (count == 1) // there is only you in the room
-            {
-                feedback.text += "This room does not exist!!! Try creating one\n";
-                DisconnectFromLobby();
-                yield break;
-            }
-
-            for (int i = 0; i < lobbiests.Count; i++)
-            {
-                if (lobbiests[i].isHost)
-                    maxPlayers = lobbiests[i].maxPlayers;
-            }
-        }
-        else
-        {
-            if (GameManager.instance._race.m_isOn)
-            {
-                feedback.text += "The race on this room has already started. Please create another room.";
-                DisconnectFromLobby();
-                yield break;
-            }
-        }
-
         _lobbiest.ChangeMaxPlayers(maxPlayers);
-
-        if (count > maxPlayers && maxPlayers > 0)
+        var count = lobbiests.Count;
+        if (freshLobby)
         {
-            feedback.text += "Too Many Players!!! Max players for this room is limited to " + maxPlayers +
-                             " and you are number " + count + "\n";
-            DisconnectFromLobby();
-            yield break;
-        }
-        else
-        {
-            feedback.text += "Connected to lobby of " + roomName + "\n";
-            isConnectedToALobby = true;
-            canvas.enabled = false;
-            feedback.text = "";
+            freshLobby = false;
+            if (!isHost) //if not creating but just trying to join
+            {
+                if (count == 1) // there is only you in the room
+                {
+                    feedback.text += "This room does not exist!!! Try creating one\n";
+                    stayDisconnected = true;
+                    DisconnectFromLobby();
+                    yield break;
+                }
+
+                for (int i = 0; i < lobbiests.Count; i++)
+                {
+                    if (lobbiests[i].isHost)
+                        maxPlayers = lobbiests[i].maxPlayers;
+                }
+            }
+            else
+            {
+                if (GameManager.instance._race.m_isOn)
+                {
+                    feedback.text += "The race on this room has already started. Please create another room.";
+                    stayDisconnected = true;
+                    DisconnectFromLobby();
+                    yield break;
+                }
+            }
+
+            if (count > maxPlayers && maxPlayers > 0)
+            {
+                feedback.text += "Too Many Players!!! Max players for this room is limited to " + maxPlayers +
+                                 " and you are number " + count + "\n";
+                stayDisconnected = true;
+                DisconnectFromLobby();
+                yield break;
+            }
         }
 
+        feedback.text += "Connected to lobby of " + roomName + "\n";
+        canvas.enabled = false;
+        stayDisconnected = true;
+        feedback.text = "";
         cr_RoomChecker = null;
         yield return new WaitForSeconds(2f);
         isConnectedToALobby = true;
@@ -302,6 +302,6 @@ public class LobbyManager : MonoBehaviour
         _realtime.didConnectToRoom -= DidConnectToLobby;
         _realtime.didDisconnectFromRoom -= DidDisconnectFromLobby;
         if (stayDisconnected) return;
-        uIManager.ConnectToRoom(roomName);
+        uIManager.ConnectToRoom();
     }
 }

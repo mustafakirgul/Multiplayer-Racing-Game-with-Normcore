@@ -3,8 +3,7 @@
 public class PodiumController : MonoBehaviour
 {
     public float defaultRotationSpeed = 1;
-    [SerializeField]
-    private bool isRotating;
+    [SerializeField] private bool isRotating;
     Transform child => transform.GetChild(0);
     float rotation;
 

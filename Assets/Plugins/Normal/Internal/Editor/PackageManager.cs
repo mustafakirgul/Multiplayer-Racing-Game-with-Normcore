@@ -6,23 +6,28 @@ using UnityEditor.PackageManager;
 using UnityEngine;
 using Normal.Internal.SimpleJson;
 
-namespace Normal {
+namespace Normal
+{
     [InitializeOnLoad]
-    public class PackageManager {
-        private const  string __registryURL = "https://normcore-registry.normcore.io";
-        private const  string __bundleID = "com.normalvr.normcore";
-        private static bool   __debugLogging = false;
+    public class PackageManager
+    {
+        private const string __registryURL = "https://normcore-registry.normcore.io";
+        private const string __bundleID = "com.normalvr.normcore";
+        private static bool __debugLogging = false;
 
         private static ListRequest __listRequest;
-        private static AddRequest  __addRequest;
+        private static AddRequest __addRequest;
 
-        static PackageManager() {
+        static PackageManager()
+        {
             // Check if the package is already to the project
             CheckIfPackageExists();
         }
 
-        private static void CheckIfPackageExists() {
-            if (__listRequest != null) {
+        private static void CheckIfPackageExists()
+        {
+            if (__listRequest != null)
+            {
                 Debug.LogError("Normcore Package Manager: List request already running. Ignoring.");
                 return;
             }
@@ -32,58 +37,68 @@ namespace Normal {
             EditorApplication.update += CheckListRequestProgress;
         }
 
-        private static void CheckListRequestProgress() {
-            if (__listRequest == null) {
+        private static void CheckListRequestProgress()
+        {
+            if (__listRequest == null)
+            {
                 EditorApplication.update -= CheckListRequestProgress;
                 return;
             }
 
-            if (__listRequest.IsCompleted) {
-                if (__listRequest.Status == StatusCode.Success) {
+            if (__listRequest.IsCompleted)
+            {
+                if (__listRequest.Status == StatusCode.Success)
+                {
                     bool normcoreFound = __listRequest.Result.Any(p => p.name == __bundleID);
                     if (__debugLogging) Debug.Log("Normcore Package Manager: Normcore found: " + normcoreFound);
-                    
+
                     if (!normcoreFound)
                         TryAddNormcore();
                 }
-                
+
                 __listRequest = null;
             }
         }
 
-        private static void TryAddNormcore() {
+        private static void TryAddNormcore()
+        {
             if (AddScopedRegistryIfNeeded())
                 AddPackage();
         }
 
-        private static bool AddScopedRegistryIfNeeded() {
+        private static bool AddScopedRegistryIfNeeded()
+        {
             // Load packages.json
             string packageManifestPath = Application.dataPath.Replace("/Assets", "/Packages/manifest.json");
             string packageManifestJSON = File.ReadAllText(packageManifestPath);
-            
+
             // Deserialize
             SimpleJson.TryDeserializeObject(packageManifestJSON, out object packageManifestObject);
             JsonObject packageManifest = packageManifestObject as JsonObject;
-            if (packageManifest == null) {
-                Debug.LogError("Normcore Package Manager: Failed to read project package manifest. Unable to add Normcore.");
+            if (packageManifest == null)
+            {
+                Debug.LogError(
+                    "Normcore Package Manager: Failed to read project package manifest. Unable to add Normcore.");
                 return false;
             }
 
-            
+
             // Create scoped registries array if needed
             packageManifest.TryGetValue("scopedRegistries", out object scopedRegistriesObject);
             JsonArray scopedRegistries = scopedRegistriesObject as JsonArray;
             if (scopedRegistries == null)
                 packageManifest["scopedRegistries"] = scopedRegistries = new JsonArray();
-            
+
             // Check for Normal registry
-            bool normalRegistryFound = scopedRegistries.Any(registryObject => {
+            bool normalRegistryFound = scopedRegistries.Any(registryObject =>
+            {
                 JsonObject registry = registryObject as JsonObject;
                 if (registry == null) return false;
 
                 return registry.TryGetValue("url", out object registryURL) && (registryURL as string) == __registryURL;
             });
-            if (normalRegistryFound) {
+            if (normalRegistryFound)
+            {
                 if (__debugLogging) Debug.Log("Normcore Package Manager: Found Normal registry");
                 return true;
             }
@@ -91,8 +106,8 @@ namespace Normal {
             // Add Normal registry
             JsonObject normalRegistry = new JsonObject();
             normalRegistry["name"] = "Normal";
-            normalRegistry["url"]  = __registryURL;
-            normalRegistry["scopes"] = new JsonArray { "com.normalvr", "io.normcore" };
+            normalRegistry["url"] = __registryURL;
+            normalRegistry["scopes"] = new JsonArray {"com.normalvr", "io.normcore"};
             scopedRegistries.Add(normalRegistry);
 
             // Serialize and save
@@ -103,8 +118,10 @@ namespace Normal {
             return true;
         }
 
-        private static void AddPackage() {
-            if (__addRequest != null) {
+        private static void AddPackage()
+        {
+            if (__addRequest != null)
+            {
                 Debug.LogError("Normcore Package Manager: Add request already running. Ignoring.");
                 return;
             }
@@ -114,18 +131,24 @@ namespace Normal {
             EditorApplication.update += CheckAddRequestProgress;
         }
 
-        private static void CheckAddRequestProgress() {
-            if (__addRequest == null) {
+        private static void CheckAddRequestProgress()
+        {
+            if (__addRequest == null)
+            {
                 EditorApplication.update -= CheckListRequestProgress;
                 return;
             }
 
-            if (__addRequest.IsCompleted) {
-                if (__addRequest.Status == StatusCode.Success) {
+            if (__addRequest.IsCompleted)
+            {
+                if (__addRequest.Status == StatusCode.Success)
+                {
                     if (__debugLogging) Debug.Log("Normcore Package Manager: Success!");
-                } else if (__addRequest.Status >= StatusCode.Failure)
-                   Debug.LogError("Normcore Package Manager: Failed to add normcore package: " + __addRequest.Error.message);
-                
+                }
+                else if (__addRequest.Status >= StatusCode.Failure)
+                    Debug.LogError("Normcore Package Manager: Failed to add normcore package: " +
+                                   __addRequest.Error.message);
+
                 __addRequest = null;
             }
         }

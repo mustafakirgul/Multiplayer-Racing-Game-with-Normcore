@@ -10,6 +10,7 @@ public class Display : MonoBehaviour
     {
         mainCam = Camera.main.transform;
     }
+
     void Update()
     {
         transform.LookAt(mainCam);
