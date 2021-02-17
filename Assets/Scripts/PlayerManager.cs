@@ -165,10 +165,15 @@ public class PlayerManager : MonoBehaviour
             _temp.GetComponent<Truck>().StartHealth();
 
             prespawnManager._realtime = _realtime;
-            prespawnManager.ReActivateSpawner();
-            prespawnManager.SpawnPredeterminedItems();
-            prespawnManager.DeActivateSpawner();
+            SpawnItems();
         }
+    }
+
+    public void SpawnItems()
+    {
+        prespawnManager.ReActivateSpawner();
+        prespawnManager.SpawnPredeterminedItems();
+        prespawnManager.DeActivateSpawner();
     }
 
     public void AddNetworkPlayer(Transform _player)
