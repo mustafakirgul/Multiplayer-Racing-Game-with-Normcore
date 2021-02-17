@@ -26,8 +26,6 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
         {
             if (currentModel.isFreshModel)
             {
-                if (currentModel.roomName.Length == 0)
-                    currentModel.roomName = GameManager.instance._roomName;
                 roomName = currentModel.roomName;
                 maxPlayers = Convert.ToInt32(currentModel.maxPlayers);
                 isHost = currentModel.isHost;

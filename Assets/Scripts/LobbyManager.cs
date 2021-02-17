@@ -166,6 +166,7 @@ public class LobbyManager : MonoBehaviour
             }
 
             roomName = roomNameJoin.text;
+            _lobbiest.ChangeRoomName(roomName);
             feedback.text += "Trying to connect to room " + roomName + "\n";
         }
 
