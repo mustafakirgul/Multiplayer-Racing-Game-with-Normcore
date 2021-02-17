@@ -38,7 +38,6 @@ public class NewCarController : MonoBehaviour
     public float maxSteeringAngle;
     public float wheelTurnFactor;
     public Transform carBody;
-    public Transform carBodyAndWheels;
     public float maxZrotation, maxXRotation;
     public float zRotationLERPSpeed, xRotationLERPSpeed;
     public float rotationCooldownTime;
@@ -969,6 +968,15 @@ public class NewCarController : MonoBehaviour
                 {
                     StartCoroutine(DelayCameraLerpReset());
                 }
+            }
+        }
+
+        if (GameManager.instance.isHost)
+        {
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                //PlayerManager
+                PlayerManager.instance.SpawnItems();
             }
         }
 
