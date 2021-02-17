@@ -26,13 +26,17 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
         {
             if (currentModel.isFreshModel)
             {
+                if (currentModel.roomName.Length == 0)
+                    currentModel.roomName = GameManager.instance._roomName;
                 roomName = currentModel.roomName;
                 maxPlayers = Convert.ToInt32(currentModel.maxPlayers);
                 isHost = currentModel.isHost;
-                Debug.LogWarning("This machine is the host!");
+                Debug.LogWarning("Garage Ready Set to " + currentModel.isReady + " for this player");
+                isReady = currentModel.isReady;
+                LobbyManager.instance.RegisterLobbiest(this);
             }
 
-            UpdateData();
+            //UpdateData();
             currentModel.roomNameDidChange += RoomNameChanged;
             currentModel.maxPlayersDidChange += MaxPlayersChanged;
             currentModel.isReadyDidChange += IsReadyChanged;
@@ -51,7 +55,6 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
     private void Start()
     {
         _rtView = GetComponent<RealtimeView>();
-        LobbyManager.instance.RegisterLobbiest(this);
     }
 
     private void OnDestroy()
@@ -109,7 +112,7 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
     public void ChangeIsHost(bool value)
     {
         model.isHost = value;
-        Debug.LogWarning("Guest: " + !value);
+        //Debug.LogWarning("Guest: " + !value);
     }
 
     private void IsHostChanged(LobbiestModel lobbiestModel, bool value)

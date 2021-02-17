@@ -850,8 +850,8 @@ MonoBehaviour:
   currentTorquePerWheel: 0
   torqueBoostAngleLimit: 25
   _owner: 0
-  _health: 300
-  _maxHealth: 300
+  _health: 5
+  _maxHealth: 5
   _explosionForce: {x: 0, y: 0, z: 0}
 --- !u!114 &7175390289188852947
 MonoBehaviour:

@@ -97,6 +97,7 @@ public class LobbyManager : MonoBehaviour
                 float delay = 0f;
                 if (!isHost)
                     delay = 1f;
+                Debug.LogWarning("Count: " + count + " | Ready: " + ready);
                 cr_ConnectToRoom = StartCoroutine(CR_ConnectToRoom(delay));
             }
         }
@@ -112,7 +113,6 @@ public class LobbyManager : MonoBehaviour
     IEnumerator CR_ConnectToRoom(float delay)
     {
         yield return new WaitForSeconds(delay);
-        stayDisconnected = false;
         _realtime.Disconnect();
     }
 
@@ -209,6 +209,7 @@ public class LobbyManager : MonoBehaviour
             return;
         }
 
+        stayDisconnected = false;
         _lobbiest.ChangeIsReady(true);
     }
 
@@ -288,6 +289,8 @@ public class LobbyManager : MonoBehaviour
         }
 
         cr_RoomChecker = null;
+        yield return new WaitForSeconds(2f);
+        isConnectedToALobby = true;
         tryingToConnect = false;
     }
 

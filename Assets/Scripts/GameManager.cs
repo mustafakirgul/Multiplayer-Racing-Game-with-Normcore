@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     public bool isHost;
     public GameObject gameCreationMenu;
     private JukeBox jukebox => FindObjectOfType<JukeBox>();
+    public string _roomName;
 
     private void OnDrawGizmos()
     {
@@ -268,6 +269,8 @@ public class GameManager : MonoBehaviour
             _realtime.didConnectToRoom += DidConnectToRoom;
             _realtime.didDisconnectFromRoom += DidDisconnectFromRoom;
             _realtime.Connect(roomName);
+            _roomName = roomName;
+            Debug.LogWarning("Room name set to: " + _roomName);
         }
     }
 
@@ -278,6 +281,12 @@ public class GameManager : MonoBehaviour
             _realtime.didConnectToRoom -= DidConnectToRoom;
             _realtime.didDisconnectFromRoom -= DidDisconnectFromRoom;
         }
+    }
+
+    public void ClearEvents()
+    {
+        _realtime.didConnectToRoom -= DidConnectToRoom;
+        _realtime.didDisconnectFromRoom -= DidDisconnectFromRoom;
     }
 
     public void FixAssociations()

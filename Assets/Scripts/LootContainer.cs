@@ -44,7 +44,7 @@ public class LootContainer : MonoBehaviour
         selection.localEulerAngles = new Vector3(0, selection.localEulerAngles.y + (180 * Time.deltaTime), 0);
     }
 
-    public int SetID(int _id)
+    public void SetID(int _id)
     {
         content.SetID(_id);
         id = _id;
@@ -57,7 +57,6 @@ public class LootContainer : MonoBehaviour
         pickup.SetActive(id < 0);
 
         selection = loot.activeInHierarchy ? loot.transform : pickup.transform;
-        return _id;
     }
 
     private void SetCollectedBy(int _collectedBy)
@@ -71,13 +70,19 @@ public class LootContainer : MonoBehaviour
         if (cr_Die == null && content.collectedBy < 0)
         {
             SetCollectedBy(_collectorID);
+            GetComponent<Rigidbody>().isKinematic = true;
+            GetComponent<BoxCollider>().enabled = false;
+            // foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+            // {
+            //     mr.enabled = false;
+            // }
+
             cr_Die = StartCoroutine(CR_Die());
         }
     }
+
     public void DisplayCollectionMessage()
     {
-        GetComponent<Rigidbody>().isKinematic = true;
-        GetComponent<BoxCollider>().enabled = false;
         if (mainCamera != null)
             collectionParticle.transform.LookAt(mainCamera.transform);
         collectionParticle.Play();
@@ -92,16 +97,12 @@ public class LootContainer : MonoBehaviour
         }
         else
         {
-            tempName = "Loot Obained!! ";
+            tempName = "Loot Obtained!! ";
         }
 
         GameManager.instance.uIManager.DisplayUIMessage(PlayerManager.instance.PlayerName(collectedBy)
                                                         +
                                                         " has collected a " + (id > 0 ? "loot!" : tempName));
-        foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
-        {
-            mr.enabled = false;
-        }
     }
 
     public IEnumerator CR_Die()

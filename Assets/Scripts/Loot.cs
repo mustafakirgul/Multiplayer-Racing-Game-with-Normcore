@@ -21,10 +21,9 @@ public class Loot : RealtimeComponent<LootModel>
             if (currentModel.isFreshModel)
             {
                 SetID(id);
-                currentModel.collectedBy = -1;
             }
 
-            UpdateLoot();
+            //UpdateLoot();
             currentModel.idDidChange += IdDidChange;
             currentModel.collectedByDidChange += CollectedByDidChange;
         }

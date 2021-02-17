@@ -121,6 +121,8 @@ MonoBehaviour:
   pickup: {fileID: 3459244372373093625}
   id: 0
   collectedBy: 0
+  dieDelay: 1
+  isNetworkInstance: 0
 --- !u!114 &3444402313626213734
 MonoBehaviour:
   m_ObjectHideFlags: 0
