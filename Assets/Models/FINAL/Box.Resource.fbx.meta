@@ -3,7 +3,52 @@ guid: d5c5e3ee634944c128f96d09dce800c2
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ResourceBox.Base
+    second: {fileID: 2100000, guid: d61b9ca42d64a42fbac1cf110dce7db5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ResourceBox.Belt
+    second: {fileID: 2100000, guid: 4948d1a52c3494ad38d9f87de41f1d44, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ResourceBox.Bolt
+    second: {fileID: 2100000, guid: efff8ecb0b05e4d6a828f240f6438763, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ResourceBox.Bolt.001
+    second: {fileID: 2100000, guid: f339c60727dd84dd58f1e7e883493a43, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ResourceBox.Bolt.002
+    second: {fileID: 2100000, guid: 01af3393128514e96a9cb315dffc5d04, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ResourceBox.Bolt.003
+    second: {fileID: 2100000, guid: 7bbf700c210ca4406964cee7c72ce04b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ResourceBox.Bolt.004
+    second: {fileID: 2100000, guid: d049dc90da8574909a43446392a79f36, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ResourceBox.Buckle
+    second: {fileID: 2100000, guid: 827df5ae1c46046abb5c25b8b30d3ba2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ResourceBox.Top
+    second: {fileID: 2100000, guid: 1edb05464e0c74aaaac7b27dedcb298b, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
