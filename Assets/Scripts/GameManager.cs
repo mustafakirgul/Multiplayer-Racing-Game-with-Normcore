@@ -327,6 +327,7 @@ public class GameManager : MonoBehaviour
         PlayerManager.instance.AddLocalPlayer(transform);
         Invoke("KeepTrackOfWinConditions", 3f);
         jukebox.SwitchState(State.game);
+        _race.ChangeIsOn(true);
     }
 
     private void KeepTrackOfWinConditions()

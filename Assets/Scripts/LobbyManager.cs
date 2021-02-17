@@ -36,6 +36,7 @@ public class LobbyManager : MonoBehaviour
     private Coroutine cr_ConnectToRoom;
     private bool stayDisconnected = true;
     private JukeBox jukebox => FindObjectOfType<JukeBox>();
+
     private void Awake()
     {
         lobbiests = new List<Lobbiest>();
@@ -257,6 +258,15 @@ public class LobbyManager : MonoBehaviour
             {
                 if (lobbiests[i].isHost)
                     maxPlayers = lobbiests[i].maxPlayers;
+            }
+        }
+        else
+        {
+            if (GameManager.instance._race.m_isOn)
+            {
+                feedback.text += "The race on this room has already started. Please create another room.";
+                DisconnectFromLobby();
+                yield break;
             }
         }
 

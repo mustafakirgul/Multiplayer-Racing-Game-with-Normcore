@@ -53,5 +53,6 @@ public class Race : RealtimeComponent<RaceModel>
 
     private void IsOnChanged(RaceModel raceModel, bool value)
     {
+        m_isOn = value;
     }
 }
