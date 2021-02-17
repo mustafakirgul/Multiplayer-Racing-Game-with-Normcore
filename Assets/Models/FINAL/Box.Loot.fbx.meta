@@ -3,7 +3,37 @@ guid: f77bd67cf1d5e42f484fd92e34d879d4
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: LootBox.Base
+    second: {fileID: 2100000, guid: 13a313558973143c6ad02fea87cb6822, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lootbox.Pipe01
+    second: {fileID: 2100000, guid: 80a88f5b91d6b44fa8b744f6691ebdcc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lootbox.Pipe02
+    second: {fileID: 2100000, guid: 15ce762b909c449638a676705c5522bb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lootbox.Pipe03
+    second: {fileID: 2100000, guid: 02dd3d070f2074e0896240f625fb3079, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lootbox.Pipe04
+    second: {fileID: 2100000, guid: e6920ae89ce714698a15c4b217548c1a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lootbox.Pipe05
+    second: {fileID: 2100000, guid: 251b3c84c767644a1ad0ee046cc2f484, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

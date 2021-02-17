@@ -55,10 +55,11 @@ MonoBehaviour:
   explosiveRange: 5
   weaponLifeTime: 5
   truckDamageFactor: 1
+  truckDamageTempModifier: 0
   weaponFireRate: 1
-  projectile_Mesh: {fileID: 9067687940032826172}
+  projectile_Mesh: {fileID: 919132149155446097, guid: b27cb68bd0f2a4a04a9d0ea797c0c62f,
+    type: 3}
   isNetworkInstance: 0
-  originOwnerID: -1
   missileSpeed: 75
   missileRotationSpeed: 150
   missileDectectionRange: 100
@@ -29023,12 +29024,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16f4974690f52484c9855e333f0bcf67, type: 3}
---- !u!1 &9067687940032826172 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 16f4974690f52484c9855e333f0bcf67,
-    type: 3}
-  m_PrefabInstance: {fileID: 8149140321969452653}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8547047656121192838 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 16f4974690f52484c9855e333f0bcf67,

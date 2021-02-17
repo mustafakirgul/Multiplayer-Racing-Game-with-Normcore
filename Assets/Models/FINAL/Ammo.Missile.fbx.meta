@@ -3,7 +3,32 @@ guid: b27cb68bd0f2a4a04a9d0ea797c0c62f
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Missile.Base
+    second: {fileID: 2100000, guid: 710efd6a46d2749c18b7c292154f24f1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Missile.Prong01
+    second: {fileID: 2100000, guid: 2af90e36e75154d4fb73f558b254446d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Missile.Prong02
+    second: {fileID: 2100000, guid: 6cb507eeb73094aa6865ed9b7f959b4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Missile.Prong03
+    second: {fileID: 2100000, guid: 3b4cb1a1ec3ea4a90befc4c21cf2ced8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Missile.Prong04
+    second: {fileID: 2100000, guid: dcb4e3a256e1348f982d3714e00ee4a0, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
