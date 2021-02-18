@@ -108,8 +108,8 @@ MonoBehaviour:
   truckDamageTempModifier: 0
   weaponFireRate: 0.5
   projectile_Mesh: {fileID: 5022667795432290325}
+  ProjectileToDisplay: {fileID: 2800000, guid: f1f804726bda97940832457ddd70782d, type: 3}
   isNetworkInstance: 0
-  originOwnerID: -1
   ColliderToArm: {fileID: 6189135154252535727}
   BombEjectionSpeed: 0
 --- !u!114 &-2444969834895540377
