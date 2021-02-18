@@ -313,10 +313,10 @@ public class NewCarController : MonoBehaviour
 
         SecondaryWeaponProjectile = LootWeaponProjectile;
         secondaryfireRate = lootFireRate;
-        secondayFireTimer = 1f / primaryfireRate;
-        secondaryWait = new WaitForSeconds(primaryFireTimer);
+        secondayFireTimer = 1f / secondaryfireRate;
+        secondaryWait = new WaitForSeconds(secondayFireTimer);
         tempTruckDamageModifier = damageModifier;
-        temptAmmo = 100f;
+        temptAmmo = 10f;
         currentAmmo = temptAmmo;
         WeaponProjectileBase LootWeaponBase = LootWeaponProjectile.GetComponent<WeaponProjectileBase>();
         if (LootWeaponBase != null)
@@ -324,8 +324,11 @@ public class NewCarController : MonoBehaviour
             uIManager.SwitchProjectileDisplayInfo(LootWeaponBase.ProjectileToDisplay, (int)currentAmmo);
         }
 
-        weaponType++;
-        weaponType %= 2;
+        if (weaponType == 0)
+        {
+            weaponType++;
+            weaponType %= 2;
+        }
     }
 
     private void SwitchBackToSavedWeapon()
@@ -333,8 +336,8 @@ public class NewCarController : MonoBehaviour
         //Run this when the ammo runs out on the temp weapon
         SecondaryWeaponProjectile = savedWeaponProjectile;
         secondaryfireRate = savedWeaponFireRate;
-        secondayFireTimer = 1f / primaryfireRate;
-        secondaryWait = new WaitForSeconds(primaryFireTimer);
+        secondayFireTimer = 1f / secondaryfireRate;
+        secondaryWait = new WaitForSeconds(secondayFireTimer);
         currentAmmo = savedWeaponAmmo;
 
         WeaponProjectileBase savedWeaponBase = savedWeaponProjectile.GetComponent<WeaponProjectileBase>();
@@ -365,6 +368,7 @@ public class NewCarController : MonoBehaviour
             _miniMapRenderer.enabled = false;
             isNetworkInstance = false;
         }
+
 
         if (!isNetworkInstance)
         {
@@ -418,6 +422,9 @@ public class NewCarController : MonoBehaviour
                 healthAnimator = StartCoroutine(CR_HealthAnimator());
                 PlayerManager.instance.UpdateExistingPlayers();
             }
+
+            WeaponProjectileBase PrimaryWeaponBase = PrimaryWeaponProjectile.GetComponent<WeaponProjectileBase>();
+            uIManager.SwitchProjectileDisplayInfo(PrimaryWeaponBase.ProjectileToDisplay, 999);
         }
         else
         {
