@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Normal.Realtime;
 
 public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
@@ -17,6 +18,8 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     protected float mf_carVelocity;
 
     public GameObject projectile_Mesh;
+
+    public Texture2D ProjectileToDisplay;
 
     //TODO: damage types?
     //TODO: weapon upgrades?
