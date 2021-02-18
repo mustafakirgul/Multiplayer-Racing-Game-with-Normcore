@@ -19,7 +19,7 @@ MonoBehaviour:
   f_amount: 0
   f_fireRate: 0.333
   itemText: Mine Weapon Projectile
-  itemImage: {fileID: 2800000, guid: da85081d2780f451eb083a69b552b0c5, type: 3}
+  itemImage: {fileID: 2800000, guid: b0389cd7c8491477d8981dc67934fa01, type: 3}
   WeaponProjectile: {fileID: 3112086905854782875, guid: faaa7fc8be60d0744a8fa08762d869e4,
     type: 3}
   m_CosmeticModelToBeApplied: {fileID: 0}

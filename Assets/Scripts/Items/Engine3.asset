@@ -17,6 +17,8 @@ MonoBehaviour:
   f_defense: 0
   f_speed: 0.2
   f_amount: 0
+  f_fireRate: 0
   itemText: Engine 3 Text (50% increase in handling)
-  itemImage: {fileID: 2800000, guid: 8c73d50718d4d4afcad2325c2bb54676, type: 3}
+  itemImage: {fileID: 2800000, guid: 3542a9a1d17ad45d79be80d9febb8e9c, type: 3}
+  WeaponProjectile: {fileID: 0}
   m_CosmeticModelToBeApplied: {fileID: 0}
