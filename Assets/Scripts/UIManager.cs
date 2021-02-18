@@ -113,6 +113,11 @@ public class UIManager : MonoBehaviour
         CurrentWeaponAmmoCount.text = currentAmmoCount.ToString();
     }
 
+    public void UpdateAmmoCount(int currentAmmoCount)
+    {
+        CurrentWeaponAmmoCount.text = currentAmmoCount.ToString();
+    }
+
     //Class selection button should not start here
     public void ConnectToRoom()
     {

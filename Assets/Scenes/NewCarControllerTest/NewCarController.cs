@@ -100,6 +100,11 @@ public class NewCarController : MonoBehaviour
     public bool readyToFire = false;
     public GameObject muzzleFlash;
     public float currentAmmo;
+
+    private float primaryAmmo;
+    private float secondaryAmmo;
+    private float temptAmmo;
+
     public float primaryFireTimer;
     public float secondayFireTimer;
     public float weaponType;
@@ -293,7 +298,6 @@ public class NewCarController : MonoBehaviour
         secondaryWait = new WaitForSeconds(secondayFireTimer);
         //tempTruckDamageModifier = PermaDmgMod;
         //Permanent Weapon starts off as 0
-        currentAmmo = 20f;
     }
 
     private void SwitchWeaponsDuringGame(GameObject LootWeaponProjectile, float lootFireRate, float damageModifier)
@@ -301,32 +305,36 @@ public class NewCarController : MonoBehaviour
         if (PrimaryWeaponProjectile != null)
         {
             //Cache data for existing weapon in use
-            savedWeaponProjectile = PrimaryWeaponProjectile;
-            savedWeaponFireRate = primaryfireRate;
+            savedWeaponProjectile = SecondaryWeaponProjectile;
+            savedWeaponFireRate = secondaryfireRate;
             savedWeaponAmmo = currentAmmo;
             savedTempDamageRate = tempTruckDamageModifier;
         }
 
-        PrimaryWeaponProjectile = LootWeaponProjectile;
-        primaryfireRate = lootFireRate;
-        primaryFireTimer = 1f / primaryfireRate;
-        primaryWait = new WaitForSeconds(primaryFireTimer);
+        SecondaryWeaponProjectile = LootWeaponProjectile;
+        secondaryfireRate = lootFireRate;
+        secondayFireTimer = 1f / primaryfireRate;
+        secondaryWait = new WaitForSeconds(primaryFireTimer);
         tempTruckDamageModifier = damageModifier;
-        currentAmmo = 100f;
+        temptAmmo = 100f;
+        currentAmmo = temptAmmo;
         WeaponProjectileBase LootWeaponBase = LootWeaponProjectile.GetComponent<WeaponProjectileBase>();
         if (LootWeaponBase != null)
         {
             uIManager.SwitchProjectileDisplayInfo(LootWeaponBase.ProjectileToDisplay, (int)currentAmmo);
         }
+
+        weaponType++;
+        weaponType %= 2;
     }
 
     private void SwitchBackToSavedWeapon()
     {
         //Run this when the ammo runs out on the temp weapon
         SecondaryWeaponProjectile = savedWeaponProjectile;
-        primaryfireRate = savedWeaponFireRate;
-        primaryFireTimer = 1f / primaryfireRate;
-        primaryWait = new WaitForSeconds(primaryFireTimer);
+        secondaryfireRate = savedWeaponFireRate;
+        secondayFireTimer = 1f / primaryfireRate;
+        secondaryWait = new WaitForSeconds(primaryFireTimer);
         currentAmmo = savedWeaponAmmo;
 
         WeaponProjectileBase savedWeaponBase = savedWeaponProjectile.GetComponent<WeaponProjectileBase>();
@@ -601,6 +609,11 @@ public class NewCarController : MonoBehaviour
             GroundCheck();
             LerpFallCorrection();
             transform.position = CarRB.transform.position;
+
+            if (weaponType == 1)
+            {
+                uIManager.UpdateAmmoCount((int)currentAmmo);
+            }
         }
 
         if (!Mathf.Approximately(m_fplayerLastHealth, _player.playerHealth))
@@ -836,7 +849,6 @@ public class NewCarController : MonoBehaviour
                             PrimaryWeaponBase.isNetworkInstance = false;
                             PrimaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             PrimaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
-                            uIManager.SwitchProjectileDisplayInfo(PrimaryWeaponBase.ProjectileToDisplay, 999);
                             //_bulletBuffer.GetComponent<WeaponProjectileBase>().originOwnerID = ownerID;
 
                             StartCoroutine(FirePrimaryCR());
@@ -861,7 +873,6 @@ public class NewCarController : MonoBehaviour
                             SecondaryWeaponBase.isNetworkInstance = false;
                             SecondaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             SecondaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
-                            uIManager.SwitchProjectileDisplayInfo(SecondaryWeaponBase.ProjectileToDisplay, (int)currentAmmo);
                             //_bulletBuffer.GetComponent<WeaponProjectileBase>().originOwnerID = ownerID;
 
                             StartCoroutine(FireSecondaryCR());
@@ -967,21 +978,21 @@ public class NewCarController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("Lights")) //lights
+        if (Input.GetKeyDown(KeyCode.U) || Input.GetButtonDown("Lights")) //lights
         {
             lights = !lights;
             RHL.enabled = lights;
             LHL.enabled = lights;
         }
 
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             resetReverseView = true;
             followCamera.bToggleRearView = true;
             followCamera.ToggleRearView(rearCamera);
         }
 
-        if (Input.GetKeyUp(KeyCode.U))
+        if (Input.GetKeyUp(KeyCode.R))
         {
             if (resetReverseView)
             {
