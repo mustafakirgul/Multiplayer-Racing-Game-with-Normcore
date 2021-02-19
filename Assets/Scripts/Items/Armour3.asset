@@ -17,6 +17,8 @@ MonoBehaviour:
   f_defense: 0.25
   f_speed: 0
   f_amount: 0
+  f_fireRate: 0
   itemText: 'Armour 3 Text: stops 66% of incoming damage'
-  itemImage: {fileID: 2800000, guid: ee4dc4706d49c41a4920d697958c42f8, type: 3}
+  itemImage: {fileID: 2800000, guid: 72e8934bff11c47ca9ffdf56a33993a0, type: 3}
+  WeaponProjectile: {fileID: 0}
   m_CosmeticModelToBeApplied: {fileID: 0}

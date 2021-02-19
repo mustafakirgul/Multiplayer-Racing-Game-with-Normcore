@@ -9,7 +9,9 @@ using UnityEngine.UI;
 
 public class NewCarController : MonoBehaviour
 {
-    [Space] [Space] [Header("Car Controller Main Settings")]
+    [Space]
+    [Space]
+    [Header("Car Controller Main Settings")]
     public Rigidbody CarRB;
 
     private float moveInput, turnInput;
@@ -42,7 +44,9 @@ public class NewCarController : MonoBehaviour
     float currentZ, currentX;
     float XTimer, ZTimer, XFactor, ZFactor;
 
-    [Space] [Space] [Header("Camera and Networking")]
+    [Space]
+    [Space]
+    [Header("Camera and Networking")]
     //Neworking Related Functionalities
     public Realtime _realtime;
 
@@ -58,7 +62,9 @@ public class NewCarController : MonoBehaviour
     bool CoroutineReset = false;
 
 
-    [Space] [Space] [Header("Loot Based Modifiers")]
+    [Space]
+    [Space]
+    [Header("Loot Based Modifiers")]
     //Does the car need to know about these or does the game manager needs to know about these?
     //Car simply keeps track of what it encounters and talks to game managers to obtain loot or powerups
     public float meleeDamageModifier;
@@ -94,6 +100,11 @@ public class NewCarController : MonoBehaviour
     public bool readyToFire = false;
     public GameObject muzzleFlash;
     public float currentAmmo;
+
+    private float primaryAmmo;
+    private float secondaryAmmo;
+    private float temptAmmo;
+
     public float primaryFireTimer;
     public float secondayFireTimer;
     public float weaponType;
@@ -131,7 +142,9 @@ public class NewCarController : MonoBehaviour
     public GameObject OverHeatNotice;
     public GameObject WeaponSwitcherUI;
 
-    [Space] [Space] [Header("Health Params")]
+    [Space]
+    [Space]
+    [Header("Health Params")]
     //Health Controls
     public Player _player;
 
@@ -148,7 +161,9 @@ public class NewCarController : MonoBehaviour
     public CanvasGroup damageIndicatorCanvasGroup;
 
 
-    [Space] [Space] [Header("Boost Params")]
+    [Space]
+    [Space]
+    [Header("Boost Params")]
     //Boost Controls
     public Image boostRadialLoader;
 
@@ -158,7 +173,9 @@ public class NewCarController : MonoBehaviour
     public bool boosterReady;
     private float boosterCounter;
 
-    [Space] [Space] [Header("Light Controls")]
+    [Space]
+    [Space]
+    [Header("Light Controls")]
     //Light Controls
     public Light RHL;
 
@@ -176,7 +193,8 @@ public class NewCarController : MonoBehaviour
 
     public SpriteRenderer _miniMapRenderer;
 
-    [Space] [Header("Suspension and Wheel Settings")]
+    [Space]
+    [Header("Suspension and Wheel Settings")]
     public bool identicalSuspension4AW;
 
     public float suspensionHeight; // these 2 only work if identical suspension for all wheels is true
@@ -280,7 +298,6 @@ public class NewCarController : MonoBehaviour
         secondaryWait = new WaitForSeconds(secondayFireTimer);
         //tempTruckDamageModifier = PermaDmgMod;
         //Permanent Weapon starts off as 0
-        currentAmmo = 20f;
     }
 
     private void SwitchWeaponsDuringGame(GameObject LootWeaponProjectile, float lootFireRate, float damageModifier)
@@ -288,31 +305,49 @@ public class NewCarController : MonoBehaviour
         if (PrimaryWeaponProjectile != null)
         {
             //Cache data for existing weapon in use
-            savedWeaponProjectile = PrimaryWeaponProjectile;
-            savedWeaponFireRate = primaryfireRate;
+            savedWeaponProjectile = SecondaryWeaponProjectile;
+            savedWeaponFireRate = secondaryfireRate;
             savedWeaponAmmo = currentAmmo;
             savedTempDamageRate = tempTruckDamageModifier;
         }
 
-        PrimaryWeaponProjectile = LootWeaponProjectile;
-        primaryfireRate = lootFireRate;
-        primaryFireTimer = 1f / primaryfireRate;
-        primaryWait = new WaitForSeconds(primaryFireTimer);
+        SecondaryWeaponProjectile = LootWeaponProjectile;
+        secondaryfireRate = lootFireRate;
+        secondayFireTimer = 1f / secondaryfireRate;
+        secondaryWait = new WaitForSeconds(secondayFireTimer);
         tempTruckDamageModifier = damageModifier;
-        currentAmmo = 100f;
+        temptAmmo = 10f;
+        currentAmmo = temptAmmo;
+        WeaponProjectileBase LootWeaponBase = LootWeaponProjectile.GetComponent<WeaponProjectileBase>();
+        if (LootWeaponBase != null)
+        {
+            uIManager.SwitchProjectileDisplayInfo(LootWeaponBase.ProjectileToDisplay, (int)currentAmmo);
+        }
+
+        if (weaponType == 0)
+        {
+            weaponType++;
+            weaponType %= 2;
+        }
     }
 
     private void SwitchBackToSavedWeapon()
     {
         //Run this when the ammo runs out on the temp weapon
+        SecondaryWeaponProjectile = savedWeaponProjectile;
+        secondaryfireRate = savedWeaponFireRate;
+        secondayFireTimer = 1f / secondaryfireRate;
+        secondaryWait = new WaitForSeconds(secondayFireTimer);
+        currentAmmo = savedWeaponAmmo;
+
+        WeaponProjectileBase savedWeaponBase = savedWeaponProjectile.GetComponent<WeaponProjectileBase>();
+
+        if (savedWeaponBase != null)
         {
-            SecondaryWeaponProjectile = savedWeaponProjectile;
-            primaryfireRate = savedWeaponFireRate;
-            primaryFireTimer = 1f / primaryfireRate;
-            primaryWait = new WaitForSeconds(primaryFireTimer);
-            currentAmmo = savedWeaponAmmo;
-            ResetSavedWeapon();
+            uIManager.SwitchProjectileDisplayInfo(savedWeaponBase.ProjectileToDisplay, (int)currentAmmo);
         }
+
+        ResetSavedWeapon();
     }
 
     private void ResetSavedWeapon()
@@ -333,6 +368,7 @@ public class NewCarController : MonoBehaviour
             _miniMapRenderer.enabled = false;
             isNetworkInstance = false;
         }
+
 
         if (!isNetworkInstance)
         {
@@ -386,6 +422,9 @@ public class NewCarController : MonoBehaviour
                 healthAnimator = StartCoroutine(CR_HealthAnimator());
                 PlayerManager.instance.UpdateExistingPlayers();
             }
+
+            WeaponProjectileBase PrimaryWeaponBase = PrimaryWeaponProjectile.GetComponent<WeaponProjectileBase>();
+            uIManager.SwitchProjectileDisplayInfo(PrimaryWeaponBase.ProjectileToDisplay, 999);
         }
         else
         {
@@ -577,6 +616,11 @@ public class NewCarController : MonoBehaviour
             GroundCheck();
             LerpFallCorrection();
             transform.position = CarRB.transform.position;
+
+            if (weaponType == 1)
+            {
+                uIManager.UpdateAmmoCount((int)currentAmmo);
+            }
         }
 
         if (!Mathf.Approximately(m_fplayerLastHealth, _player.playerHealth))
@@ -796,6 +840,7 @@ public class NewCarController : MonoBehaviour
                 switch (weaponType)
                 {
                     case 0:
+
                         if (readyToFire && !Overheat)
                         {
                             readyToFire = false;
@@ -815,7 +860,6 @@ public class NewCarController : MonoBehaviour
 
                             StartCoroutine(FirePrimaryCR());
                         }
-
                         break;
                     case 1:
                         if (readyToFire && currentAmmo > 0)
@@ -852,7 +896,6 @@ public class NewCarController : MonoBehaviour
                                 Debug.Log("No ammo remains!");
                             }
                         }
-
                         break;
                 }
             }
@@ -874,7 +917,18 @@ public class NewCarController : MonoBehaviour
                 weaponType %= 2;
                 WeaponSwitcherUI.gameObject.SetActive(true);
                 StartCoroutine(CheckSwitchUI());
-                //Maintain check to see deactivate switch UI once weapon is ready
+
+                switch (weaponType)
+                {
+                    case 0:
+                        WeaponProjectileBase PrimaryWeaponBase = PrimaryWeaponProjectile.GetComponent<WeaponProjectileBase>();
+                        uIManager.SwitchProjectileDisplayInfo(PrimaryWeaponBase.ProjectileToDisplay, 999);
+                        break;
+                    case 1:
+                        WeaponProjectileBase SecondaryWeaponBase = SecondaryWeaponProjectile.GetComponent<WeaponProjectileBase>();
+                        uIManager.SwitchProjectileDisplayInfo(SecondaryWeaponBase.ProjectileToDisplay, (int)currentAmmo);
+                        break;
+                }
             }
         }
 
@@ -931,21 +985,21 @@ public class NewCarController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("Lights")) //lights
+        if (Input.GetKeyDown(KeyCode.U) || Input.GetButtonDown("Lights")) //lights
         {
             lights = !lights;
             RHL.enabled = lights;
             LHL.enabled = lights;
         }
 
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             resetReverseView = true;
             followCamera.bToggleRearView = true;
             followCamera.ToggleRearView(rearCamera);
         }
 
-        if (Input.GetKeyUp(KeyCode.U))
+        if (Input.GetKeyUp(KeyCode.R))
         {
             if (resetReverseView)
             {

@@ -53,6 +53,9 @@ public class UIManager : MonoBehaviour
     public RawImage SelectedEngine;
     public RawImage SelectedArmour;
 
+    public RawImage CurrentWeaponProjectile;
+    public TextMeshProUGUI CurrentWeaponAmmoCount;
+
     //May be extend to include perk selection
     public TextMeshProUGUI ItemDescription;
 
@@ -102,6 +105,17 @@ public class UIManager : MonoBehaviour
         SelectedBuildToView = _buildIndex;
         //Add loadout image visualizations
         AssignLoadOutLootItemVisualImage(_lootManager.selected_buildLoadOutToView);
+    }
+
+    public void SwitchProjectileDisplayInfo(Texture2D spriteToChange, int currentAmmoCount)
+    {
+        CurrentWeaponProjectile.texture = spriteToChange;
+        CurrentWeaponAmmoCount.text = currentAmmoCount.ToString();
+    }
+
+    public void UpdateAmmoCount(int currentAmmoCount)
+    {
+        CurrentWeaponAmmoCount.text = currentAmmoCount.ToString();
     }
 
     //Class selection button should not start here
