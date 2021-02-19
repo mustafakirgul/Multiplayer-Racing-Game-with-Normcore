@@ -142,7 +142,6 @@ public class UIManager : MonoBehaviour
     }
     private IEnumerator FadeCrossHair()
     {
-
         while (HitMarker.color.a > 0)
         {
             Color fadeColor = HitMarker.color;
@@ -280,8 +279,6 @@ public class UIManager : MonoBehaviour
                     //Toggle New flags for new weapons
                     EnabledTagIfNew(i, EngineButtonToAssign);
                     break;
-                default:
-                    break;
             }
         }
 
@@ -309,17 +306,19 @@ public class UIManager : MonoBehaviour
 
     public void AssignAdditionalLootFromGameToDisplay()
     {
+        int lootIndexToStartAt = _lootManager.playerLootPoolSave.PlayerLoot.Count;
         for (int i = 0; i < _lootManager.playerLootPoolSave.PlayerLootToAdd.Count; i++)
         {
             bool isNew = true;
             _lootManager.playerLootPoolSave.PlayerNewLabelLootFlags.Add(isNew);
+            _lootManager.playerLootPoolSave.PlayerLoot.Add(_lootManager.playerLootPoolSave.PlayerLootToAdd[i]);
 
             switch (_lootManager.playerLootPoolSave.PlayerLootToAdd[i]._ItemType)
             {
                 case ItemType.Weapon:
                     GameObject WeaponButtonToAssign =
                         Instantiate(WeaponUIButton, WeaponGarageSlotContainer.transform);
-                    WeaponButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
+                    WeaponButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = (i + lootIndexToStartAt);
                     //Set the new flag to true
 
                     WeaponButtonToAssign.transform.GetChild(1).gameObject.SetActive(true);
@@ -327,14 +326,14 @@ public class UIManager : MonoBehaviour
                 case ItemType.Armour:
                     GameObject ArmourButtonToAssign =
                         Instantiate(ArmourUIButton, ArmourGarageSlotContainer.transform);
-                    ArmourButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
+                    ArmourButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = (i + lootIndexToStartAt);
                     //Set the new flag to true
                     ArmourButtonToAssign.transform.GetChild(1).gameObject.SetActive(true);
                     break;
                 case ItemType.Engine:
                     GameObject EngineButtonToAssign =
                         Instantiate(EngineUIButton, EngineGarageSlotContainer.transform);
-                    EngineButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = i;
+                    EngineButtonToAssign.GetComponent<UIItemDataContainer>()._buttonItemID = (i + lootIndexToStartAt);
                     //Set the new flag to true
                     EngineButtonToAssign.transform.GetChild(1).gameObject.SetActive(true);
                     break;

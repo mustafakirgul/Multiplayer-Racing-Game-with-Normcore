@@ -128,7 +128,6 @@ public class LootManager : MonoBehaviour
 
                 ItemBase itemToAdd =
                     playerLootPoolSave.m_RollPool[Random.Range(0, playerLootPoolSave.m_RollPool.Count)];
-                playerLootPoolSave.PlayerLoot.Add(itemToAdd);
                 playerLootPoolSave.PlayerLootToAdd.Add(itemToAdd);
             }
         }
