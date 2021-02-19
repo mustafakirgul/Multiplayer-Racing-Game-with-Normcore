@@ -10,8 +10,11 @@ public class GameSceneManager : MonoBehaviour
     public GameObject blackSquareBox;
     public float m_fAutoTransitionDelay;
     public int m_fFadeTime;
-
     public bool m_bisAutomatedSplashes;
+
+    public bool isDebugBuild;
+    public int buildFadeTime;
+    public int buildSplashTime;
 
     [SerializeField] private int m_iSplashIndex = 0;
 
@@ -56,6 +59,38 @@ public class GameSceneManager : MonoBehaviour
         StartSplashSequence();
     }
 
+    public void OnValidate()
+    {
+        if (isDebugBuild)
+        {
+            m_fFadeTime = 0;
+
+            for (int i = 0; i < GameStartSplashes.Length; i++)
+            {
+                GameStartSplashes[i].duration = 0;
+            }
+
+            for (int i = 0; i < GameEndSplashes.Length; i++)
+            {
+                GameEndSplashes[i].duration = 0;
+            }
+        }
+        else
+        {
+            m_fFadeTime = buildFadeTime;
+
+            for (int i = 0; i < GameStartSplashes.Length; i++)
+            {
+                GameStartSplashes[i].duration = buildSplashTime;
+            }
+
+            for (int i = 0; i < GameEndSplashes.Length; i++)
+            {
+                GameEndSplashes[i].duration = buildSplashTime;
+            }
+        }
+    }
+
     public void EnableSplashes(Splash[] splashesToEnable)
     {
         for (int i = 0; i < splashesToEnable.Length; i++)
@@ -94,6 +129,7 @@ public class GameSceneManager : MonoBehaviour
         }
         else
         {
+
         }
     }
 
@@ -167,7 +203,7 @@ public class GameSceneManager : MonoBehaviour
         //else
         //{
         //    //load next scene
-            //StartCoroutine(FadeToBlackOutSquare(true, fadeOutTime));
+        //StartCoroutine(FadeToBlackOutSquare(true, fadeOutTime));
         //    StartCoroutine(DelaySceneTransiton(fadeOutTime, GameStartSplashes));
         //}
     }

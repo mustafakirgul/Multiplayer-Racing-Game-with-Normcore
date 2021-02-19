@@ -47,6 +47,9 @@ public class TurretAutoAim : MonoBehaviour
     public float lerpTime = 1f;
     public float currentLerpTime;
 
+    [SerializeField]
+    private Collider truck;
+
 
     // Update is called once per frame
     private void OnDrawGizmos()
@@ -191,6 +194,11 @@ public class TurretAutoAim : MonoBehaviour
             {
                 targetList.Add(turretTargets[i]);
 
+                if (turretTargets[i].GetComponent<Truck>())
+                {
+                    truck = turretTargets[i].GetComponent<Truck>().gameObject.GetComponent<Collider>();
+                }
+
                 if (turretTargets[i].GetComponent<NewCarController>() != null)
                 {
                     if (turretTargets[i].GetComponent<NewCarController>().ownerID == playerColliderID)
@@ -208,6 +216,11 @@ public class TurretAutoAim : MonoBehaviour
         {
             if (!turretTargets.Contains(targetList[i]))
             {
+                if(targetList[i] == truck)
+                {
+                    truck = null;
+                }
+
                 targetList.Remove(targetList[i]);
             }
         }
@@ -269,7 +282,14 @@ public class TurretAutoAim : MonoBehaviour
         }
         else
         {
-            enemy = targetList[0].gameObject;
+            if (truck != null)
+            {
+                enemy = truck.gameObject;
+            }
+            else {
+                
+                enemy = targetList[0].gameObject;
+            }
             currentTarget = enemy.GetComponent<Collider>();
             lastEnemy = enemy;
 

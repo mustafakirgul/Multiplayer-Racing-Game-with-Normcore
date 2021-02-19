@@ -937,7 +937,7 @@ public class NewCarController : MonoBehaviour
             CycleSyncPhysicsParamsData();
         }
 
-        if ((Input.GetKeyDown(KeyCode.V)) && turretAim.targetList.Count > 1)
+        if ((Input.GetKeyDown(KeyCode.V) || Input.GetMouseButtonDown(1) && turretAim.targetList.Count > 1))
         {
             if (!turretAim.isManualTargeting)
             {
@@ -953,7 +953,7 @@ public class NewCarController : MonoBehaviour
         }
 
         //Need to add reset timer to avoid spamming
-        if (Input.GetKeyDown(KeyCode.R) || Input.GetButton("Reset")) //reset
+        if (Input.GetKeyDown(KeyCode.R)) //reset
         {
             if (Quaternion.Angle(Quaternion.identity, transform.rotation) > 45f)
             {

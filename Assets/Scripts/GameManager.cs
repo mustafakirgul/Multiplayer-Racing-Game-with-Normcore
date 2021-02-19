@@ -53,6 +53,8 @@ public class GameManager : MonoBehaviour
     private JukeBox jukebox => FindObjectOfType<JukeBox>();
     public string _roomName;
 
+    public bool isDebugBuild;
+    public float debugTruckHealth;
     private void OnDrawGizmos()
     {
         float radians = direction * Mathf.Deg2Rad;

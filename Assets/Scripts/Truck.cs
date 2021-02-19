@@ -300,8 +300,16 @@ public class Truck : RealtimeComponent<TruckModel>
 
     public void StartHealth()
     {
-        model.health = _maxHealth;
-        currentWPindex = 0;
+        if (GameManager.instance.isDebugBuild)
+        {
+            model.health = GameManager.instance.debugTruckHealth;
+            currentWPindex = 0;
+        }
+        else
+        {
+            model.health = _maxHealth;
+            currentWPindex = 0;
+        }
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
