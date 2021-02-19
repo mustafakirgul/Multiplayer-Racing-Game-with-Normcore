@@ -17,6 +17,7 @@ public class LootContainer : MonoBehaviour
     [SerializeField] private bool isNetworkInstance;
     private Coroutine cr_Die;
     private Camera mainCamera;
+    public LootCollectionFeedback lCF => FindObjectOfType<LootCollectionFeedback>();
 
     private void OnDrawGizmos()
     {
@@ -88,21 +89,20 @@ public class LootContainer : MonoBehaviour
         collectionParticle.Play();
         //Logic for power up vs. loot added
         string tempName;
-
+        Texture2D tempImage;
         if (content.id < 0)
         {
-            tempName = "POWERUP (" + LootManager.instance.playerLootPoolSave
+            tempName = LootManager.instance.playerLootPoolSave
                 .PlayerPowerUps[Mathf.Abs(content.id) - 1].name
-                .Remove(0, 2) + ") !";
+                .Remove(0, 2);
         }
         else
         {
             tempName = "Loot Obtained!! ";
         }
 
-        GameManager.instance.uIManager.DisplayUIMessage(PlayerManager.instance.PlayerName(collectedBy)
-                                                        +
-                                                        " has collected a " + (id > 0 ? "loot!" : tempName));
+        GameManager.instance.uIManager.DisplayUIMessage(tempName);
+        lCF.PlayAnimation(tempName, content.id);
     }
 
     public IEnumerator CR_Die()

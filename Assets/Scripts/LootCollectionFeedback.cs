@@ -1,16 +1,37 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class LootCollectionFeedback : MonoBehaviour
 {
-    private Text text;
-    private Image image;
-    private Animator[] animators;
+    [SerializeField] private Text text;
+    [SerializeField] private RawImage image;
+    [SerializeField] private Animator[] animators;
+    private bool isPlaying;
+    public Texture2D[] images;
 
-    private void Start()
+    private void Awake()
     {
         text = GetComponentInChildren<Text>();
-        image = GetComponentInChildren<Image>();
+        image = GetComponentInChildren<RawImage>();
         animators = GetComponentsInChildren<Animator>();
+    }
+
+    public void PlayAnimation(string _text, int _id)
+    {
+        if (isPlaying) return;
+        text.text = _text;
+        image.texture = images[_id < 0 ? 0 : 1];
+        isPlaying = true;
+        for (int i = 0; i < animators.Length; i++)
+        {
+            animators[i].ResetTrigger("play");
+            animators[i].SetTrigger("play");
+        }
+    }
+
+    public void PlayingEnded()
+    {
+        isPlaying = false;
     }
 }

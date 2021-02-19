@@ -15,7 +15,7 @@ MonoBehaviour:
   m_FowardSpd: 200
   m_ReverseSpd: 100
   m_TurnSpd: 110
-  m_TurnFwdSpd: 30
+  m_TurnFwdSpd: 0
   m_BrakeForce: 0.4
   m_Gravity: 75
   m_maxPlayerHealth: 20
