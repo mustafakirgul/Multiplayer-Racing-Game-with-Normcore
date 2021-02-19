@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49cebd47308937749a71ef553ef1d589, type: 3}
   m_Name: Speedypp
   m_EditorClassIdentifier: 
-  m_FowardSpd: 270
+  m_FowardSpd: 190
   m_ReverseSpd: 120
-  m_TurnSpd: 150
-  m_TurnFwdSpd: 40
+  m_TurnSpd: 130
+  m_TurnFwdSpd: 30
   m_BrakeForce: 0.2
   m_Gravity: 40
   m_maxPlayerHealth: 20

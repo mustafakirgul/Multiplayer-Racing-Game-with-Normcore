@@ -18,7 +18,7 @@ MonoBehaviour:
   m_TurnFwdSpd: 0
   m_BrakeForce: 0.4
   m_Gravity: 75
-  m_maxPlayerHealth: 20
+  m_maxPlayerHealth: 25
   m_rbWeight: 150
   m_boostTimer: 6
-  m_boostForce: 150
+  m_boostForce: 100
