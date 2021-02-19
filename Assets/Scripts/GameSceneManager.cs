@@ -110,7 +110,7 @@ public class GameSceneManager : MonoBehaviour
             //Disable all start splashes
             DisableSplashes(GameStartSplashes);
             //Fade to Game Scene
-            //StartCoroutine(FadeToBlackOutSquare(false, 2));
+            StartCoroutine(FadeToBlackOutSquare(false, 2));
         }
     }
 

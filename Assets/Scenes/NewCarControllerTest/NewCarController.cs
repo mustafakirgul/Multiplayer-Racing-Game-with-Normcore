@@ -985,21 +985,21 @@ public class NewCarController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.U) || Input.GetButtonDown("Lights")) //lights
+        if (Input.GetKeyDown(KeyCode.U))  //|| Input.GetButtonDown("Lights")) //lights
         {
             lights = !lights;
             RHL.enabled = lights;
             LHL.enabled = lights;
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             resetReverseView = true;
             followCamera.bToggleRearView = true;
             followCamera.ToggleRearView(rearCamera);
         }
 
-        if (Input.GetKeyUp(KeyCode.R))
+        if (Input.GetKeyUp(KeyCode.E))
         {
             if (resetReverseView)
             {

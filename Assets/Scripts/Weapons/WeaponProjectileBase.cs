@@ -186,12 +186,14 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                             Player _player = colliders[i].gameObject.GetComponent<Player>();
                             _player.ChangeExplosionForce(_origin);
                             _player.DamagePlayer(damage);
+                            GameManager.instance.uIManager.ConfirmHitDamage();
                         }
                         else if (colliders[i].gameObject.GetComponent<Truck>() != null)
                         {
                             Truck _tempTruck = colliders[i].gameObject.GetComponent<Truck>();
                             _tempTruck.AddExplosionForce(_origin);
                             _tempTruck.DamagePlayer(damage * (truckDamageFactor + truckDamageTempModifier));
+                            GameManager.instance.uIManager.ConfirmHitDamage();
                         }
                         else if (colliders[i].gameObject.GetComponent<Rigidbody>() != null)
                         {

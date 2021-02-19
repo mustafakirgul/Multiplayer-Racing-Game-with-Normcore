@@ -69,6 +69,8 @@ public class UIManager : MonoBehaviour
 
     public Camera UIcamera;
 
+    public Image HitMarker;
+
     private void Awake()
     {
         _realtime = FindObjectOfType<Realtime>();
@@ -88,6 +90,7 @@ public class UIManager : MonoBehaviour
         _gameManager.FixAssociations();
         AssignLootToDisplayAtStart();
         AssignLoadOutLootItemVisualImage(_lootManager.selected_buildLoadOutToView);
+        MakeHitMarkerDissappear();
     }
 
     //Need to create logic here to select specific models to showcase
@@ -118,7 +121,38 @@ public class UIManager : MonoBehaviour
         CurrentWeaponAmmoCount.text = currentAmmoCount.ToString();
     }
 
-    //Class selection button should not start here
+    public void ConfirmHitDamage()
+    {
+        MakeHitMarkerAppear();
+        StartCoroutine(FadeCrossHair());
+    }
+
+    private void MakeHitMarkerAppear()
+    {
+        Color fadeColor = HitMarker.color;
+        fadeColor = new Color(fadeColor.r, fadeColor.g, fadeColor.b, 1);
+        HitMarker.color = fadeColor;
+    }
+
+    private void MakeHitMarkerDissappear()
+    {
+        Color fadeColor = HitMarker.color;
+        fadeColor = new Color(fadeColor.r, fadeColor.g, fadeColor.b, 0);
+        HitMarker.color = fadeColor;
+    }
+    private IEnumerator FadeCrossHair()
+    {
+
+        while (HitMarker.color.a > 0)
+        {
+            Color fadeColor = HitMarker.color;
+            float fadeAmt = fadeColor.a - (Time.deltaTime / 2f);
+
+            fadeColor = new Color(fadeColor.r, fadeColor.g, fadeColor.b, fadeAmt);
+            HitMarker.color = fadeColor;
+            yield return null;
+        }
+    }
     public void ConnectToRoom()
     {
         //Debug.LogWarning("Connecting to room.");
