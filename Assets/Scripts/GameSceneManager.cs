@@ -23,6 +23,9 @@ public class GameSceneManager : MonoBehaviour
 
     bool transitionStarted;
 
+    [SerializeField]
+    private GameObject BlackFadeBox;
+
     #region Singleton Logic
 
     public static GameSceneManager instance = null;
@@ -63,6 +66,8 @@ public class GameSceneManager : MonoBehaviour
     {
         if (isDebugBuild)
         {
+            BlackFadeBox.SetActive(false);
+
             m_fFadeTime = 0;
 
             for (int i = 0; i < GameStartSplashes.Length; i++)
@@ -77,6 +82,8 @@ public class GameSceneManager : MonoBehaviour
         }
         else
         {
+            BlackFadeBox.SetActive(true);
+
             m_fFadeTime = buildFadeTime;
 
             for (int i = 0; i < GameStartSplashes.Length; i++)
