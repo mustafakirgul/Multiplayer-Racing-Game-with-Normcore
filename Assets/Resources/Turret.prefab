@@ -664,12 +664,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 0}
+  lastEnemy: {fileID: 0}
+  currentTarget: {fileID: 0}
   turretFOV: {fileID: 1012599387705414471}
   turretRotationSpd: 200
   maxAngle: 90
-  turretDetectionRange: 40
+  turretDetectionRange: 75
   radarSweepTimer: 1
   playerColliderID: 0
+  turretTargets: []
   turretDetectionLayer:
     serializedVersion: 2
     m_Bits: 4096
@@ -677,9 +680,13 @@ MonoBehaviour:
   targetsToIgnore:
   - {fileID: 0}
   isManualTargeting: 0
+  isRotating: 0
   CrossHairUI: {fileID: 0}
   currentCam: {fileID: 0}
   parentCanvas: {fileID: 0}
+  lerpTime: 1
+  currentLerpTime: 0
+  truck: {fileID: 0}
 --- !u!135 &3231256652956138678
 SphereCollider:
   m_ObjectHideFlags: 0

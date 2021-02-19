@@ -140,6 +140,7 @@ public class UIManager : MonoBehaviour
         fadeColor = new Color(fadeColor.r, fadeColor.g, fadeColor.b, 0);
         HitMarker.color = fadeColor;
     }
+
     private IEnumerator FadeCrossHair()
     {
         while (HitMarker.color.a > 0)
@@ -152,6 +153,7 @@ public class UIManager : MonoBehaviour
             yield return null;
         }
     }
+
     public void ConnectToRoom()
     {
         //Debug.LogWarning("Connecting to room.");
@@ -388,5 +390,11 @@ public class UIManager : MonoBehaviour
         {
             uIMessageTextBox.text += (messages[i] + "\n");
         }
+    }
+
+    public void ClearMessageCache()
+    {
+        messages.Clear();
+        uIMessageTextBox.text = "";
     }
 }

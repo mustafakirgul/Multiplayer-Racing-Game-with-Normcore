@@ -23,8 +23,7 @@ public class GameSceneManager : MonoBehaviour
 
     bool transitionStarted;
 
-    [SerializeField]
-    private GameObject BlackFadeBox;
+    [SerializeField] private GameObject BlackFadeBox;
 
     #region Singleton Logic
 
@@ -58,12 +57,15 @@ public class GameSceneManager : MonoBehaviour
         EnableSplashes(GameStartSplashes);
         //Check if this scene is automatically loaded
         //CheckForEndSequenceTransition();
+        BlackFadeBox = transform.GetChild(0).gameObject;
 
         StartSplashSequence();
     }
 
     public void OnValidate()
     {
+        if (BlackFadeBox == null)
+            BlackFadeBox = transform.GetChild(0).gameObject;
         if (isDebugBuild)
         {
             BlackFadeBox.SetActive(false);
@@ -136,7 +138,6 @@ public class GameSceneManager : MonoBehaviour
         }
         else
         {
-
         }
     }
 
@@ -254,6 +255,7 @@ public class GameSceneManager : MonoBehaviour
         //Display only new weapons that are dropped, avoid duplicating them in the UI
         GameManager.instance.uIManager.AssignAdditionalLootFromGameToDisplay();
         LobbyManager.instance.ConnectToLobby(GameManager.instance.isHost);
+        GameManager.instance.uIManager.ClearMessageCache();
     }
 }
 
