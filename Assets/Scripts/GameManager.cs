@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
 
     public bool isDebugBuild;
     public float debugTruckHealth;
+    public string playerName;
+
     private void OnDrawGizmos()
     {
         float radians = direction * Mathf.Deg2Rad;
@@ -309,7 +311,8 @@ public class GameManager : MonoBehaviour
             _temp.GetComponent<NewCarController>()._realtime = _realtime;
         }
 
-        _temp.GetComponent<Player>().SetPlayerName(playerNameInputField.text);
+        playerName = playerNameInputField.text;
+        _temp.GetComponent<Player>().SetPlayerName(playerName);
 
         _temp.GetComponent<ItemDataProcessor>().ObtainLoadOutData(lootManager.ObatinCurrentBuild());
         FindObjectOfType<MiniMapCamera>()._master = _temp.transform;

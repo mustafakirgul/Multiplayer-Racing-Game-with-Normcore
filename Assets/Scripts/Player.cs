@@ -30,11 +30,19 @@ public class Player : RealtimeComponent<PlayerModel>
         {
             if (currentModel.isFreshModel)
             {
+                currentModel.playerName = GameManager.instance.playerName;
+                playerHealth = maxPlayerHealth;
                 currentModel.health = maxPlayerHealth;
-                currentModel.id = realtimeView.ownerIDInHierarchy;
+                _id = realtimeView.ownerIDInHierarchy;
+                currentModel.id = _id;
+                controller.ownerID = _id;
+                if (realtimeView.isOwnedLocallyInHierarchy)
+                {
+                    PlayerManager.instance.localPlayerID = _id;
+                    Debug.LogWarning("PlayerID set to: " + _id);
+                }
             }
 
-            UpdatePlayer();
             currentModel.playerNameDidChange += PlayerNameChanged;
             currentModel.healthDidChange += PlayerHealthChanged;
             currentModel.forcesDidChange += PlayerForcesChanged;
@@ -50,17 +58,6 @@ public class Player : RealtimeComponent<PlayerModel>
     public void ResetHealth()
     {
         model.health = maxPlayerHealth;
-    }
-
-    private void UpdatePlayer()
-    {
-        playerName = model.playerName;
-        _id = model.id;
-        controller.ownerID = _id;
-        if (realtimeView.isOwnedLocallyInHierarchy)
-            PlayerManager.instance.localPlayerID = _id;
-        explosionForce = model.forces;
-        playerHealth = model.health;
     }
 
     public void UpdateTempDefenseModifier(float value)
@@ -95,12 +92,18 @@ public class Player : RealtimeComponent<PlayerModel>
 
     private void PlayerHealthChanged(PlayerModel playerModel, float value)
     {
-        playerHealth = model.health;
+        playerHealth = value;
     }
 
     private void IDChanged(PlayerModel playerModel, int value)
     {
-        _id = model.id;
+        _id = value;
+        controller.ownerID = _id;
+        if (realtimeView.isOwnedLocallyInHierarchy)
+        {
+            PlayerManager.instance.localPlayerID = _id;
+            Debug.LogWarning("PlayerID set to: " + _id);
+        }
     }
 
     private void PlayerForcesChanged(PlayerModel playerModel, Vector3 value)
