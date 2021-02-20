@@ -118,11 +118,11 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     protected void UpdateModel()
     {
         isExploded = model.exploded;
-        if (!isNetworkInstance)
+        /*if (!isNetworkInstance)
         {
             _realtimeView.RequestOwnership();
             _realtimeTransform.RequestOwnership();
-        }
+        }*/
     }
 
     public virtual void Fire(Transform _barrelTip, float _tipVelocity)

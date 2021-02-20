@@ -837,6 +837,7 @@ public class NewCarController : MonoBehaviour
                                 position: _barrelTip.position,
                                 rotation: _barrelTip.rotation,
                                 ownedByClient: true,
+                                preventOwnershipTakeover: true,
                                 useInstance: _realtime);
 
                             WeaponProjectileBase PrimaryWeaponBase = _bulletBuffer.GetComponent<WeaponProjectileBase>();
@@ -844,7 +845,7 @@ public class NewCarController : MonoBehaviour
                             PrimaryWeaponBase.isNetworkInstance = false;
                             PrimaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             PrimaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
-                            PrimaryWeaponBase.GetComponent<WeaponProjectileBase>().ProjectileID = ownerID;
+                            PrimaryWeaponBase.GetComponent<WeaponProjectileBase>().ProjectileID = _realtime.clientID;
 
                             StartCoroutine(FirePrimaryCR());
                         }
@@ -861,6 +862,7 @@ public class NewCarController : MonoBehaviour
                                 position: _barrelTip.position,
                                 rotation: _barrelTip.rotation,
                                 ownedByClient: true,
+                                preventOwnershipTakeover: true,
                                 useInstance: _realtime);
 
                             WeaponProjectileBase SecondaryWeaponBase =
@@ -869,7 +871,7 @@ public class NewCarController : MonoBehaviour
                             SecondaryWeaponBase.isNetworkInstance = false;
                             SecondaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             SecondaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
-                            SecondaryWeaponBase.GetComponent<WeaponProjectileBase>().ProjectileID = ownerID;
+                            SecondaryWeaponBase.GetComponent<WeaponProjectileBase>().ProjectileID = _realtime.clientID;
 
                             StartCoroutine(FireSecondaryCR());
                         }
