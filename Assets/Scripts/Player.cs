@@ -36,7 +36,7 @@ public class Player : RealtimeComponent<PlayerModel>
                 controller.ownerID = realtimeView.ownerIDInHierarchy;
                 PlayerManager.instance.localPlayerID = realtimeView.ownerIDInHierarchy;
                 Debug.LogWarning("PlayerID set to: " + realtimeView.ownerIDInHierarchy);
-                
+                ResetHealth();
             }
 
             currentModel.playerNameDidChange += PlayerNameChanged;
@@ -49,6 +49,7 @@ public class Player : RealtimeComponent<PlayerModel>
     private void Awake()
     {
         controller = GetComponent<NewCarController>();
+        playerHealth = maxPlayerHealth;
     }
 
     public void ResetHealth()

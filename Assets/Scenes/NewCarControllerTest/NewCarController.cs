@@ -845,7 +845,8 @@ public class NewCarController : MonoBehaviour
                             PrimaryWeaponBase.isNetworkInstance = false;
                             PrimaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             PrimaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
-                            PrimaryWeaponBase.GetComponent<WeaponProjectileBase>().ProjectileID = _realtime.clientID;
+                            PrimaryWeaponBase.GetComponent<WeaponProjectileBase>().ProjectileID =
+                                PlayerManager.instance.localPlayerID;
 
                             StartCoroutine(FirePrimaryCR());
                         }
@@ -871,7 +872,8 @@ public class NewCarController : MonoBehaviour
                             SecondaryWeaponBase.isNetworkInstance = false;
                             SecondaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             SecondaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
-                            SecondaryWeaponBase.GetComponent<WeaponProjectileBase>().ProjectileID = _realtime.clientID;
+                            SecondaryWeaponBase.GetComponent<WeaponProjectileBase>().ProjectileID =
+                                PlayerManager.instance.localPlayerID;
 
                             StartCoroutine(FireSecondaryCR());
                         }
