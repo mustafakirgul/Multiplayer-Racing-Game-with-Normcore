@@ -175,7 +175,7 @@ public class TurretAutoAim : MonoBehaviour
             if (!isManualTargeting
                 && currentTarget == null)
             {
-                AutoSelectTarget();
+                //AutoSelectTarget();
             }
 
             yield return new WaitForSeconds(radarSweepTimer);

@@ -10,8 +10,8 @@ public class BombProjectile : WeaponProjectileBase
 
     public override void Fire(Transform _barrelTip, float _tipVelocity)
     {
+        ColliderToArm.enabled = false;
         StartCoroutine(DelayActivation(1f));
-
         base.Fire(_barrelTip, mf_carVelocity);
         rb.AddForce(
             -transform.forward * (startSpeed + mf_carVelocity) * BombEjectionSpeed,
@@ -20,7 +20,6 @@ public class BombProjectile : WeaponProjectileBase
 
     private IEnumerator DelayActivation(float waitTime)
     {
-        ColliderToArm.enabled = false;
         GetComponent<Rigidbody>().isKinematic = true;
         yield return new WaitForSeconds(waitTime);
         ColliderToArm.enabled = true;
