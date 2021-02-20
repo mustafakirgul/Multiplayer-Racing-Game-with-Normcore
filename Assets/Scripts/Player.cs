@@ -31,16 +31,12 @@ public class Player : RealtimeComponent<PlayerModel>
             if (currentModel.isFreshModel)
             {
                 currentModel.playerName = GameManager.instance.playerName;
-                playerHealth = maxPlayerHealth;
                 currentModel.health = maxPlayerHealth;
-                _id = realtimeView.ownerIDInHierarchy;
-                currentModel.id = _id;
-                controller.ownerID = _id;
-                if (realtimeView.isOwnedLocallyInHierarchy)
-                {
-                    PlayerManager.instance.localPlayerID = _id;
-                    Debug.LogWarning("PlayerID set to: " + _id);
-                }
+                currentModel.id = realtimeView.ownerIDInHierarchy;
+                controller.ownerID = realtimeView.ownerIDInHierarchy;
+                PlayerManager.instance.localPlayerID = realtimeView.ownerIDInHierarchy;
+                Debug.LogWarning("PlayerID set to: " + realtimeView.ownerIDInHierarchy);
+                
             }
 
             currentModel.playerNameDidChange += PlayerNameChanged;
