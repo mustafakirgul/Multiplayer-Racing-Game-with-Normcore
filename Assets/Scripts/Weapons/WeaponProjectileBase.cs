@@ -52,7 +52,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         {
             if (currentModel.isFreshModel)
             {
-                currentModel.exploded = false;
+                isExploded = currentModel.exploded;
             }
 
             UpdateModel();
@@ -101,12 +101,12 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         //Set cosmetic explosion to false
         explosion = transform.GetChild(0).gameObject;
         explosion.SetActive(false);
-        model.exploded = false;
+//
 
         //Check to owner of the projectile
         //Obtain reference to scripts
-        _realtimeView.SetOwnership(PlayerManager.instance.localPlayerID);
-        _realtimeTransform.SetOwnership(PlayerManager.instance.localPlayerID);
+        // _realtimeView.RequestOwnership();
+        // _realtimeTransform.RequestOwnership();
 
         if (_realtimeView.isOwnedLocallyInHierarchy)
         {
