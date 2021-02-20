@@ -272,7 +272,7 @@ public class NewCarController : MonoBehaviour
 
     void InitCamera()
     {
-        followCamera = GameObject.FindObjectOfType<ChaseCam>();
+        followCamera = FindObjectOfType<ChaseCam>();
         followCamera.InitCamera(CameraContainer);
     }
 
@@ -417,6 +417,7 @@ public class NewCarController : MonoBehaviour
         {
             _miniMapRenderer.color = Color.red;
             CarRB.gameObject.SetActive(false);
+            IDDisplay.gameObject.SetActive(true);
             if (!PlayerManager.instance.networkPlayers.Contains(transform))
             {
                 PlayerManager.instance.AddNetworkPlayer(transform);
@@ -1182,13 +1183,13 @@ public class NewCarController : MonoBehaviour
         {
             if (isNetworkInstance)
             {
-                StartCoroutine(lootbox.CR_Die());
+                StartCoroutine(lootbox.CR_NetworkInstanceDie());
                 return;
             }
 
             int LootRoll = lootbox.id;
-            lootbox.transform.GetComponent<RealtimeView>().RequestOwnership();
-            lootbox.GetCollected(PlayerManager.localPlayerID);
+            lootbox.transform.GetComponent<RealtimeView>().SetOwnership(PlayerManager.instance.localPlayerID);
+            lootbox.GetCollected(PlayerManager.instance.localPlayerID);
             if (LootRoll > 0)
             {
                 lootManager.numberOfLootRolls++;

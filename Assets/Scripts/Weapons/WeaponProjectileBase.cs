@@ -38,6 +38,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     UIManager UIManager;
 
     public int ProjectileID;
+
     protected override void OnRealtimeModelReplaced(ProjectileModel previousModel, ProjectileModel currentModel)
     {
         base.OnRealtimeModelReplaced(previousModel, currentModel);
@@ -54,6 +55,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                 currentModel.exploded = false;
             }
 
+            UpdateModel();
             currentModel.explodedDidChange += UpdateExplosionState;
         }
     }
@@ -66,7 +68,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         }
 
         IsExplodedChanged();
-        UpdateModel();
     }
 
     private void IsExplodedChanged()
@@ -104,8 +105,8 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
         //Check to owner of the projectile
         //Obtain reference to scripts
-        _realtimeView.SetOwnership(PlayerManager.localPlayerID);
-        _realtimeTransform.SetOwnership(PlayerManager.localPlayerID);
+        _realtimeView.SetOwnership(PlayerManager.instance.localPlayerID);
+        _realtimeTransform.SetOwnership(PlayerManager.instance.localPlayerID);
 
         if (_realtimeView.isOwnedLocallyInHierarchy)
         {
@@ -153,6 +154,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             StartCoroutine(HitCR());
         }
     }
+
     IEnumerator HitCR()
     {
         GetComponent<TrailRenderer>().emitting = false;
@@ -176,7 +178,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                         {
                             Player _player = colliders[i].gameObject.GetComponent<Player>();
 
-                            if (ProjectileID != PlayerManager.localPlayerID)
+                            if (ProjectileID != PlayerManager.instance.localPlayerID)
                             {
                                 _player.ChangeExplosionForce(_origin);
                                 _player.DamagePlayer(damage);
@@ -188,8 +190,8 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                             Truck _tempTruck = colliders[i].gameObject.GetComponent<Truck>();
                             _tempTruck.AddExplosionForce(_origin);
                             _tempTruck.DamagePlayer(damage * (truckDamageFactor + truckDamageTempModifier));
-                            if(ProjectileID == PlayerManager.localPlayerID)
-                            UIManager.ConfirmHitDamage();
+                            if (ProjectileID == PlayerManager.instance.localPlayerID)
+                                UIManager.ConfirmHitDamage();
                         }
                         else if (colliders[i].gameObject.GetComponent<Rigidbody>() != null)
                         {
@@ -245,7 +247,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         //Only look at the root of the transform object
         if (other.gameObject.GetComponent<NewCarController>() != null)
         {
-            if (other.gameObject.GetComponent<NewCarController>().ownerID == PlayerManager.localPlayerID)
+            if (other.gameObject.GetComponent<NewCarController>().ownerID == PlayerManager.instance.localPlayerID)
             {
                 Debug.Log("Self hit");
                 return;

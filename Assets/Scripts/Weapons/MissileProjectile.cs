@@ -94,7 +94,7 @@ public class MissileProjectile : WeaponProjectileBase
                 if (MissileTargets[i].transform.root.GetComponent<NewCarController>())
                 {
                     if (MissileTargets[i].transform.root.GetComponent<NewCarController>().ownerID
-                        != PlayerManager.localPlayerID)
+                        != PlayerManager.instance.localPlayerID)
                     {
                         LockedTarget = MissileTargets[i].transform;
                         return;

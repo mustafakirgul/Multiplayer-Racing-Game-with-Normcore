@@ -58,7 +58,7 @@ public class Player : RealtimeComponent<PlayerModel>
         _id = model.id;
         controller.ownerID = _id;
         if (realtimeView.isOwnedLocallyInHierarchy)
-            PlayerManager.localPlayerID = _id;
+            PlayerManager.instance.localPlayerID = _id;
         explosionForce = model.forces;
         playerHealth = model.health;
     }

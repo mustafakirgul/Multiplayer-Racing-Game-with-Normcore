@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: -568422520, guid: 30f4fd177e1fad742be136a8237ab587, type: 3}
   m_Name: NormcoreProjectSettings
   m_EditorClassIdentifier: 
-  _logLevel: 1
+  _logLevel: 0

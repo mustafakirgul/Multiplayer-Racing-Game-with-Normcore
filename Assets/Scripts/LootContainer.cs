@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Normal.Realtime;
 using UnityEngine;
 
@@ -73,11 +74,6 @@ public class LootContainer : MonoBehaviour
             SetCollectedBy(_collectorID);
             GetComponent<Rigidbody>().isKinematic = true;
             GetComponent<BoxCollider>().enabled = false;
-            // foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
-            // {
-            //     mr.enabled = false;
-            // }
-
             cr_Die = StartCoroutine(CR_Die());
         }
     }
@@ -103,6 +99,15 @@ public class LootContainer : MonoBehaviour
 
         GameManager.instance.uIManager.DisplayUIMessage(tempName);
         lCF.PlayAnimation(tempName, content.id);
+    }
+
+    public IEnumerator CR_NetworkInstanceDie()
+    {
+         foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+         {
+             mr.enabled = false;
+         }
+        yield return null;
     }
 
     public IEnumerator CR_Die()
