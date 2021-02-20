@@ -843,7 +843,7 @@ public class NewCarController : MonoBehaviour
                             PrimaryWeaponBase.isNetworkInstance = false;
                             PrimaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             PrimaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
-                            //_bulletBuffer.GetComponent<WeaponProjectileBase>().originOwnerID = ownerID;
+                            PrimaryWeaponBase.GetComponent<WeaponProjectileBase>().ProjectileID = ownerID;
 
                             StartCoroutine(FirePrimaryCR());
                         }
@@ -868,7 +868,7 @@ public class NewCarController : MonoBehaviour
                             SecondaryWeaponBase.isNetworkInstance = false;
                             SecondaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             SecondaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
-                            //_bulletBuffer.GetComponent<WeaponProjectileBase>().originOwnerID = ownerID;
+                            SecondaryWeaponBase.GetComponent<WeaponProjectileBase>().ProjectileID = ownerID;
 
                             StartCoroutine(FireSecondaryCR());
                         }
@@ -929,7 +929,7 @@ public class NewCarController : MonoBehaviour
             CycleSyncPhysicsParamsData();
         }
 
-        if ((Input.GetKeyDown(KeyCode.V) || Input.GetMouseButtonDown(1) && turretAim.targetList.Count > 1))
+        if ((Input.GetKeyDown(KeyCode.V) || Input.GetMouseButtonDown(1) && turretAim.targetList.Count > 0))
         {
             if (!turretAim.isManualTargeting)
             {

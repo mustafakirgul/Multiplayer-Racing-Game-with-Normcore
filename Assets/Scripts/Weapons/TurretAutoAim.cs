@@ -172,11 +172,11 @@ public class TurretAutoAim : MonoBehaviour
             //and the player isn't actively trying to target
             //a valid target, initialize autotargeting
 
-            if (!isManualTargeting
-                && currentTarget == null)
-            {
-                //AutoSelectTarget();
-            }
+            //if (!isManualTargeting
+            //    && currentTarget == null)
+            //{
+            //    //AutoSelectTarget();
+            //}
 
             yield return new WaitForSeconds(radarSweepTimer);
         }

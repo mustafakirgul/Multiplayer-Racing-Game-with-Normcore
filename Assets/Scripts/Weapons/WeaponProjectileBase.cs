@@ -35,6 +35,9 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     List<GameObject> damagedPlayers;
     private Coroutine hitCoroutine, hitNoDamageCoroutine;
 
+    UIManager UIManager;
+
+    public int ProjectileID;
     protected override void OnRealtimeModelReplaced(ProjectileModel previousModel, ProjectileModel currentModel)
     {
         base.OnRealtimeModelReplaced(previousModel, currentModel);
@@ -77,6 +80,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         _realtimeView = GetComponent<RealtimeView>();
         _realtimeTransform = GetComponent<RealtimeTransform>();
         rb = GetComponent<Rigidbody>();
+        UIManager = FindObjectOfType<UIManager>();
     }
 
     void KillTimer()
@@ -117,17 +121,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         {
             _realtimeView.RequestOwnership();
             _realtimeTransform.RequestOwnership();
-            if (model.exploded && hitCoroutine == null)
-            {
-                hitCoroutine = StartCoroutine(HitCR());
-            }
-        }
-        else
-        {
-            if (model.exploded && hitNoDamageCoroutine == null)
-            {
-                hitNoDamageCoroutine = StartCoroutine(HitNoDmg());
-            }
         }
     }
 
@@ -160,8 +153,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             StartCoroutine(HitCR());
         }
     }
-
-
     IEnumerator HitCR()
     {
         GetComponent<TrailRenderer>().emitting = false;
@@ -184,16 +175,21 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                         if (colliders[i].gameObject.GetComponent<Player>() != null)
                         {
                             Player _player = colliders[i].gameObject.GetComponent<Player>();
-                            _player.ChangeExplosionForce(_origin);
-                            _player.DamagePlayer(damage);
-                            GameManager.instance.uIManager.ConfirmHitDamage();
+
+                            if (ProjectileID != PlayerManager.localPlayerID)
+                            {
+                                _player.ChangeExplosionForce(_origin);
+                                _player.DamagePlayer(damage);
+                                UIManager.ConfirmHitDamage();
+                            }
                         }
                         else if (colliders[i].gameObject.GetComponent<Truck>() != null)
                         {
                             Truck _tempTruck = colliders[i].gameObject.GetComponent<Truck>();
                             _tempTruck.AddExplosionForce(_origin);
                             _tempTruck.DamagePlayer(damage * (truckDamageFactor + truckDamageTempModifier));
-                            GameManager.instance.uIManager.ConfirmHitDamage();
+                            if(ProjectileID == PlayerManager.localPlayerID)
+                            UIManager.ConfirmHitDamage();
                         }
                         else if (colliders[i].gameObject.GetComponent<Rigidbody>() != null)
                         {
