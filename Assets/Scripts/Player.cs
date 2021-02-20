@@ -50,6 +50,14 @@ public class Player : RealtimeComponent<PlayerModel>
         }
     }
 
+    private void Update()
+    {
+        if (model == null) return;
+        _id = model.id;
+        playerName = model.playerName;
+        playerHealth = model.health;
+    }
+
     public void ResetHealth()
     {
         model.health = maxPlayerHealth;

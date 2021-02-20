@@ -118,6 +118,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     protected void UpdateModel()
     {
         isExploded = model.exploded;
+        ProjectileID = realtimeView.ownerIDInHierarchy;
         /*if (!isNetworkInstance)
         {
             _realtimeView.RequestOwnership();
