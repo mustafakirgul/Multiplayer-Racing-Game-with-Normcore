@@ -310,7 +310,6 @@ public class GameManager : MonoBehaviour
         {
             _temp.GetComponent<NewCarController>()._realtime = _realtime;
         }
-
         playerName = playerNameInputField.text;
         _temp.GetComponent<Player>().SetPlayerName(playerName);
 

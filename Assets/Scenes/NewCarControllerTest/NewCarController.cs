@@ -569,6 +569,7 @@ public class NewCarController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ownerID = _realtimeView.ownerIDInHierarchy;
         if (!isNetworkInstance)
         {
             if (!offlineTest)
