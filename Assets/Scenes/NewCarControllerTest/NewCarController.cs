@@ -360,7 +360,6 @@ public class NewCarController : MonoBehaviour
         if (!isNetworkInstance)
         {
             uIManager = FindObjectOfType<UIManager>();
-
             OverheatMeterObj.SetActive(true);
             if (uIManager != null)
             {
@@ -847,7 +846,7 @@ public class NewCarController : MonoBehaviour
                             PrimaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             PrimaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
                             PrimaryWeaponBase.GetComponent<WeaponProjectileBase>().ProjectileID =
-                                PlayerManager.instance.localPlayerID;
+                                ownerID;
 
                             StartCoroutine(FirePrimaryCR());
                         }
@@ -874,7 +873,7 @@ public class NewCarController : MonoBehaviour
                             SecondaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             SecondaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
                             SecondaryWeaponBase.GetComponent<WeaponProjectileBase>().ProjectileID =
-                                PlayerManager.instance.localPlayerID;
+                                ownerID;
 
                             StartCoroutine(FireSecondaryCR());
                         }

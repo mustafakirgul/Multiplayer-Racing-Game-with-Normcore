@@ -116,12 +116,16 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             Invoke(nameof(KillTimer), weaponLifeTime);
             isNetworkInstance = false;
         }
+        else
+        {
+            ProjectileID = _realtimeView.ownerIDInHierarchy;
+        }
     }
 
     protected void UpdateModel()
     {
         isExploded = model.exploded;
-        if (!isNetworkInstance)
+        if (!_realtimeView.isOwnedLocallyInHierarchy)
         {
             if (model.exploded && hitCoroutine == null)
             {
@@ -194,10 +198,10 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                             {
                                 _player.ChangeExplosionForce(_origin);
                                 _player.DamagePlayer(damage);
-                            }
-                            if (!isNetworkInstance)
-                            {
-                                UIManager.ConfirmHitDamage();
+                                if (_realtimeView.isOwnedLocallyInHierarchy)
+                                {
+                                    UIManager.ConfirmHitDamage();
+                                }
                             }
                         }
                         else if (colliders[i].gameObject.GetComponent<Truck>() != null)
@@ -205,7 +209,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                             Truck _tempTruck = colliders[i].gameObject.GetComponent<Truck>();
                             _tempTruck.AddExplosionForce(_origin);
                             _tempTruck.DamagePlayer(damage * (truckDamageFactor + truckDamageTempModifier));
-                            if (ProjectileID == PlayerManager.instance.localPlayerID)
+                            if (_realtimeView.isOwnedLocallyInHierarchy)
                                 UIManager.ConfirmHitDamage();
                         }
                         else if (colliders[i].gameObject.GetComponent<Rigidbody>() != null)
