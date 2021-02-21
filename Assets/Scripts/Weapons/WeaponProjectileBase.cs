@@ -33,7 +33,10 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     RealtimeTransform _realtimeTransform;
     bool isExploded = false;
     List<GameObject> damagedPlayers;
-    private Coroutine hitCoroutine, hitNoDamageCoroutine;
+
+
+    private Coroutine hitCoroutine = null;
+    private Coroutine hitNoDamageCoroutine = null;
 
     UIManager UIManager;
 
@@ -101,7 +104,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         //Set cosmetic explosion to false
         explosion = transform.GetChild(0).gameObject;
         explosion.SetActive(false);
-//
+        //
 
         //Check to owner of the projectile
         //Obtain reference to scripts
@@ -118,12 +121,20 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     protected void UpdateModel()
     {
         isExploded = model.exploded;
-        ProjectileID = realtimeView.ownerIDInHierarchy;
-        /*if (!isNetworkInstance)
+        if (!isNetworkInstance)
         {
-            _realtimeView.RequestOwnership();
-            _realtimeTransform.RequestOwnership();
-        }*/
+            if (model.exploded && hitCoroutine == null)
+            {
+                hitCoroutine = StartCoroutine(HitCR());
+            }
+        }
+        else
+        {
+            if (model.exploded && hitNoDamageCoroutine == null)
+            {
+                hitNoDamageCoroutine = StartCoroutine(HitNoDmg());
+            }
+        }
     }
 
     public virtual void Fire(Transform _barrelTip, float _tipVelocity)
@@ -150,7 +161,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     void Hit()
     {
-        if (hitCoroutine != null)
+        //if (hitCoroutine != null)
         {
             StartCoroutine(HitCR());
         }
@@ -179,10 +190,13 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                         {
                             Player _player = colliders[i].gameObject.GetComponent<Player>();
 
-                            if (ProjectileID != PlayerManager.instance.localPlayerID)
+                            if (ProjectileID != _player._id)
                             {
                                 _player.ChangeExplosionForce(_origin);
                                 _player.DamagePlayer(damage);
+                            }
+                            if (!isNetworkInstance)
+                            {
                                 UIManager.ConfirmHitDamage();
                             }
                         }
@@ -248,15 +262,17 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         //Only look at the root of the transform object
         if (other.gameObject.GetComponent<NewCarController>() != null)
         {
-            if (other.gameObject.GetComponent<NewCarController>().ownerID == PlayerManager.instance.localPlayerID)
+            if (other.gameObject.GetComponent<NewCarController>().ownerID == ProjectileID)
             {
                 Debug.Log("Self hit");
                 return;
             }
-
-            Debug.Log("HIT: " + other.GetComponent<NewCarController>().ownerID);
-            model.exploded = true;
-            Hit();
+            else
+            {
+                Debug.Log("HIT: " + other.GetComponent<NewCarController>().ownerID);
+                model.exploded = true;
+                Hit();
+            }
         }
         else
         {
