@@ -29,7 +29,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     WaitForSeconds wait1Sec;
     Collider[] colliders;
     public bool isNetworkInstance = true;
-    RealtimeView _realtimeView;
+    public RealtimeView _realtimeView;
     RealtimeTransform _realtimeTransform;
     bool isExploded = false;
     List<GameObject> damagedPlayers;
@@ -40,7 +40,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     UIManager UIManager;
 
-    public int ProjectileID;
+    //public int ProjectileID;
 
     protected override void OnRealtimeModelReplaced(ProjectileModel previousModel, ProjectileModel currentModel)
     {
@@ -116,10 +116,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             Invoke(nameof(KillTimer), weaponLifeTime);
             isNetworkInstance = false;
         }
-        else
-        {
-            ProjectileID = _realtimeView.ownerIDInHierarchy;
-        }
     }
 
     protected void UpdateModel()
@@ -194,7 +190,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                         {
                             Player _player = colliders[i].gameObject.GetComponent<Player>();
 
-                            if (ProjectileID != _player._id)
+                            if (_realtimeView.ownerIDInHierarchy != _player._id)
                             {
                                 _player.ChangeExplosionForce(_origin);
                                 _player.DamagePlayer(damage);
@@ -266,17 +262,17 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         //Only look at the root of the transform object
         if (other.gameObject.GetComponent<NewCarController>() != null)
         {
-            if (other.gameObject.GetComponent<NewCarController>().ownerID == ProjectileID)
+            if (other.gameObject.GetComponent<RealtimeView>().ownerIDInHierarchy == _realtimeView.ownerIDInHierarchy)
             {
                 Debug.Log("Self hit");
                 return;
             }
-            else
-            {
-                Debug.Log("HIT: " + other.GetComponent<NewCarController>().ownerID);
-                model.exploded = true;
-                Hit();
-            }
+
+            Debug.Log("HIT: " +
+                      PlayerManager.instance.PlayerName(other.GetComponent<RealtimeView>().ownerIDInHierarchy) +
+                      " | ID: " + other.GetComponent<RealtimeView>().ownerIDInHierarchy);
+            model.exploded = true;
+            Hit();
         }
         else
         {

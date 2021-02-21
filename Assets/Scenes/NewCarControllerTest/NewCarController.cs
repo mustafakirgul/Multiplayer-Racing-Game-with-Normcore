@@ -48,7 +48,6 @@ public class NewCarController : MonoBehaviour
 
     private RealtimeView _realtimeView;
     private RealtimeTransform _realtimeTransform;
-    public int ownerID;
     private ChaseCam followCamera;
     public Transform CameraContainer, fowardCamera, rearCamera;
     public bool isNetworkInstance = false;
@@ -568,7 +567,6 @@ public class NewCarController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ownerID = _realtimeView.ownerIDInHierarchy;
         if (!isNetworkInstance)
         {
             if (!offlineTest)
@@ -845,8 +843,6 @@ public class NewCarController : MonoBehaviour
                             PrimaryWeaponBase.isNetworkInstance = false;
                             PrimaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             PrimaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
-                            PrimaryWeaponBase.GetComponent<WeaponProjectileBase>().ProjectileID =
-                                ownerID;
 
                             StartCoroutine(FirePrimaryCR());
                         }
@@ -872,8 +868,6 @@ public class NewCarController : MonoBehaviour
                             SecondaryWeaponBase.isNetworkInstance = false;
                             SecondaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             SecondaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
-                            SecondaryWeaponBase.GetComponent<WeaponProjectileBase>().ProjectileID =
-                                ownerID;
 
                             StartCoroutine(FireSecondaryCR());
                         }
@@ -1192,8 +1186,8 @@ public class NewCarController : MonoBehaviour
             }
 
             int LootRoll = lootbox.id;
-            lootbox.transform.GetComponent<RealtimeView>().SetOwnership(PlayerManager.instance.localPlayerID);
-            lootbox.GetCollected(PlayerManager.instance.localPlayerID);
+            lootbox.transform.GetComponent<RealtimeView>().SetOwnership(_realtimeView.ownerIDInHierarchy);
+            lootbox.GetCollected(_realtimeView.ownerIDInHierarchy);
             if (LootRoll > 0)
             {
                 lootManager.numberOfLootRolls++;

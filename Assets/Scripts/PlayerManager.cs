@@ -45,7 +45,6 @@ public class PlayerManager : MonoBehaviour
     public List<Transform> networkPlayers;
 
     public Transform localPlayer;
-    public int localPlayerID;
     GameObject _temp;
     public Realtime _realtime;
     public PlayerInfo[] allPlayers;
@@ -56,7 +55,6 @@ public class PlayerManager : MonoBehaviour
         wait = new WaitForSeconds(20f);
         _realtime = FindObjectOfType<Realtime>();
         prespawnManager = FindObjectOfType<PrespawnManager>();
-        //GameManager.instance.PlayerCountDownCheck();
     }
 
     IEnumerator CR_PlayerListCleanUp()
@@ -90,22 +88,6 @@ public class PlayerManager : MonoBehaviour
                 carControllers[i].isNetworkInstance);
         }
     }
-
-    public int RequestOwner()
-    {
-        int _lowestID = _realtime.clientID;
-        foreach (Transform player in networkPlayers)
-        {
-            int _temp = player.GetComponent<NewCarController>()._player._id;
-            if (_temp < _lowestID)
-            {
-                _lowestID = _temp;
-            }
-        }
-
-        return _lowestID;
-    }
-
     public string PlayerName(int id)
     {
         string temp = "N/A";
@@ -228,7 +210,7 @@ public struct PlayerInfo
     public PlayerInfo(Player player, bool isLocal)
     {
         this.player = player;
-        id = player._id;
+        id = player.GetComponent<RealtimeView>().ownerIDInHierarchy;
         name = player.playerName;
         this.isLocal = isLocal;
     }

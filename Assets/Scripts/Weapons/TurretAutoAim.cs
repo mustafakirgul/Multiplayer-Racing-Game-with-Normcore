@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Normal.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,8 +23,6 @@ public class TurretAutoAim : MonoBehaviour
 
     private Quaternion targetRotation;
     private Quaternion LookAtRotation;
-
-    [SerializeField] private float playerColliderID;
 
     private NewCarController carController;
 
@@ -71,8 +70,6 @@ public class TurretAutoAim : MonoBehaviour
             parentCanvas = m_uiManager.ScreenCanvas.GetComponent<RectTransform>();
             StartCoroutine(DelayRadarAtStart());
         }
-
-        playerColliderID = carController.ownerID;
     }
 
     private IEnumerator DelayRadarAtStart()
@@ -201,7 +198,7 @@ public class TurretAutoAim : MonoBehaviour
 
                 if (turretTargets[i].GetComponent<NewCarController>() != null)
                 {
-                    if (turretTargets[i].GetComponent<NewCarController>().ownerID == playerColliderID)
+                    if (turretTargets[i].GetComponent<RealtimeView>().ownerIDInHierarchy == GameManager.instance.GetComponent<RealtimeView>().ownerIDInHierarchy)
                     {
                         targetList.Remove(turretTargets[i]);
                     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Normal.Realtime;
 using UnityEngine;
 
 public class MissileProjectile : WeaponProjectileBase
@@ -93,8 +94,8 @@ public class MissileProjectile : WeaponProjectileBase
 
                 if (MissileTargets[i].transform.root.GetComponent<NewCarController>())
                 {
-                    if (MissileTargets[i].transform.root.GetComponent<NewCarController>().ownerID
-                        != PlayerManager.instance.localPlayerID)
+                    if (MissileTargets[i].transform.root.GetComponent<RealtimeView>().ownerIDInHierarchy
+                        != _realtimeView.ownerIDInHierarchy)
                     {
                         LockedTarget = MissileTargets[i].transform;
                         return;

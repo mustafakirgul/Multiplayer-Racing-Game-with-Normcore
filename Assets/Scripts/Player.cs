@@ -23,7 +23,6 @@ public class Player : RealtimeComponent<PlayerModel>
             previousModel.playerNameDidChange -= PlayerNameChanged;
             previousModel.healthDidChange -= PlayerHealthChanged;
             previousModel.forcesDidChange -= PlayerForcesChanged;
-            previousModel.idDidChange -= IDChanged;
         }
 
         if (currentModel != null)
@@ -32,28 +31,26 @@ public class Player : RealtimeComponent<PlayerModel>
             {
                 currentModel.playerName = GameManager.instance.playerName;
                 currentModel.health = maxPlayerHealth;
-                _id = realtimeView.ownerIDInHierarchy;
                 playerName = GameManager.instance.playerName;
                 playerHealth = maxPlayerHealth;
-                currentModel.id = realtimeView.ownerIDInHierarchy;
                 controller = GetComponent<NewCarController>();
-                controller.ownerID = realtimeView.ownerIDInHierarchy;
-                PlayerManager.instance.localPlayerID = realtimeView.ownerIDInHierarchy;
-                Debug.LogWarning("PlayerID set to: " + realtimeView.ownerIDInHierarchy);
                 ResetHealth();
             }
 
             currentModel.playerNameDidChange += PlayerNameChanged;
             currentModel.healthDidChange += PlayerHealthChanged;
             currentModel.forcesDidChange += PlayerForcesChanged;
-            currentModel.idDidChange += IDChanged;
         }
+    }
+
+    private void Start()
+    {
+        _id = realtimeView.ownerIDInHierarchy;
     }
 
     private void Update()
     {
         if (model == null) return;
-        _id = model.id;
         playerName = model.playerName;
         playerHealth = model.health;
     }
@@ -96,17 +93,6 @@ public class Player : RealtimeComponent<PlayerModel>
     private void PlayerHealthChanged(PlayerModel playerModel, float value)
     {
         playerHealth = value;
-    }
-
-    private void IDChanged(PlayerModel playerModel, int value)
-    {
-        _id = value;
-        controller.ownerID = _id;
-        if (realtimeView.isOwnedLocallyInHierarchy)
-        {
-            PlayerManager.instance.localPlayerID = _id;
-            Debug.LogWarning("PlayerID set to: " + _id);
-        }
     }
 
     private void PlayerForcesChanged(PlayerModel playerModel, Vector3 value)
