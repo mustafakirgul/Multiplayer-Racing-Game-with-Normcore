@@ -23,13 +23,12 @@ public class Loot : RealtimeComponent<LootModel>
                 SetID(id);
             }
 
-            //UpdateLoot();
             currentModel.idDidChange += IdDidChange;
             currentModel.collectedByDidChange += CollectedByDidChange;
         }
     }
 
-    public void UpdateLoot()
+    public void Update()
     {
         //Local Instance of collection not updating collection ID correctly for some reason
         //Only happening to host not connected players

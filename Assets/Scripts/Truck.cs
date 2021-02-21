@@ -95,6 +95,8 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void Start()
     {
+        isNetworkInstance = !_rTTransform.isOwnedLocallyInHierarchy;
+        if (isNetworkInstance) return;
         StartHealth();
         InitializWaypointAI();
         waitASecond = new WaitForSeconds(steerRefreshTimer);
@@ -104,6 +106,14 @@ public class Truck : RealtimeComponent<TruckModel>
         {
             damageFeedback = true;
             damageSphere.SetActive(false);
+        }
+
+        for (int i = 0; i < _wheels.Length; i++)
+        {
+            if (_wheels[i].model.GetComponent<RealtimeTransform>().ownerIDInHierarchy !=
+                GetComponent<RealtimeTransform>().ownerIDInHierarchy)
+                _wheels[i].model.GetComponent<RealtimeTransform>()
+                    .SetOwnership(GetComponent<RealtimeTransform>().ownerIDInHierarchy);
         }
     }
 
@@ -200,15 +210,22 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void Update()
     {
-        //Debug.Log("truck health is: " + _health);
-
-        isNetworkInstance = !_rTTransform.isOwnedLocallyInHierarchy;
-#if (UNITY_EDITOR)
+        if (isNetworkInstance) return;
         if (Input.GetKeyDown(KeyCode.P))
         {
             ResetTransform();
         }
-#endif
+
+        if (Input.GetKeyDown(KeyCode.K)) // Kill Ironhog
+        {
+            model.health = 0f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.L)) // Drop Loot
+        {
+            DropLoot();
+        }
+
         if (transform.position.y < -300)
         {
             ResetTransform();
@@ -229,11 +246,6 @@ public class Truck : RealtimeComponent<TruckModel>
                     _wheels[i].collider.brakeTorque = 0f;
                     _wheels[i].collider.motorTorque = currentTorquePerWheel;
                 }
-
-                if (_wheels[i].model.GetComponent<RealtimeTransform>().ownerIDInHierarchy !=
-                    GetComponent<RealtimeTransform>().ownerIDInHierarchy)
-                    _wheels[i].model.GetComponent<RealtimeTransform>()
-                        .SetOwnership(GetComponent<RealtimeTransform>().ownerIDInHierarchy);
 
 
                 _wheels[i].collider.GetWorldPose(out _position, out _rotation);
@@ -263,7 +275,6 @@ public class Truck : RealtimeComponent<TruckModel>
 
     #region MODEL INTERACTIONS
 
-    public int _owner;
     public float _health;
     public float _maxHealth;
     public Vector3 _explosionForce;
@@ -273,7 +284,6 @@ public class Truck : RealtimeComponent<TruckModel>
         if (previousModel != null)
         {
             // Unregister from events
-            previousModel.ownerDidChange -= OwnerChanged;
             previousModel.healthDidChange -= HealthChanged;
             previousModel.explosionPointDidChange -= ForcesChanged;
         }
@@ -282,7 +292,6 @@ public class Truck : RealtimeComponent<TruckModel>
         {
             if (currentModel.isFreshModel)
                 StartHealth();
-            currentModel.ownerDidChange += OwnerChanged;
             currentModel.healthDidChange += HealthChanged;
             currentModel.explosionPointDidChange += ForcesChanged;
         }
@@ -347,23 +356,28 @@ public class Truck : RealtimeComponent<TruckModel>
     {
         if (UnityEngine.Random.Range(0f, 1f) < lootChance) //random chance of loot drop
         {
-            GameObject _temp = Realtime.Instantiate("Loot",
-                position: transform.position + lootLaunchPoint,
-                rotation: Quaternion.identity,
-                ownedByClient:
-                true,
-                preventOwnershipTakeover:
-                true,
-                useInstance:
-                _realtime);
-            int PUCount =
-                (LootManager.instance.playerLootPoolSave.PlayerPowerUps.Count - 1);
-            _temp.GetComponent<LootContainer>().SetID(UnityEngine.Random.Range(-PUCount, 666));
-            Vector3 _tempDir = UnityEngine.Random.onUnitSphere;
-            _tempDir = new Vector3(_tempDir.x, Mathf.Abs(_tempDir.y), _tempDir.z) * throwForce;
-            Debug.DrawLine(lootLaunchPoint, lootLaunchPoint + _tempDir, Color.blue, 3f);
-            _temp.GetComponent<Rigidbody>().AddForce(_tempDir, ForceMode.Impulse);
+            DropLoot();
         }
+    }
+
+    private void DropLoot()
+    {
+        GameObject _temp = Realtime.Instantiate("Loot",
+            position: transform.position + lootLaunchPoint,
+            rotation: Quaternion.identity,
+            ownedByClient:
+            true,
+            preventOwnershipTakeover:
+            true,
+            useInstance:
+            _realtime);
+        int PUCount =
+            (LootManager.instance.playerLootPoolSave.PlayerPowerUps.Count - 1);
+        _temp.GetComponent<LootContainer>().SetID(UnityEngine.Random.Range(-PUCount, 666));
+        Vector3 _tempDir = UnityEngine.Random.onUnitSphere;
+        _tempDir = new Vector3(_tempDir.x, Mathf.Abs(_tempDir.y), _tempDir.z) * throwForce;
+        Debug.DrawLine(lootLaunchPoint, lootLaunchPoint + _tempDir, Color.blue, 3f);
+        _temp.GetComponent<Rigidbody>().AddForce(_tempDir, ForceMode.Impulse);
     }
 
     void HealthChanged(TruckModel model, float value)
@@ -374,11 +388,6 @@ public class Truck : RealtimeComponent<TruckModel>
     void ForcesChanged(TruckModel model, Vector3 value)
     {
         _explosionForce = value;
-    }
-
-    void OwnerChanged(TruckModel model, int value)
-    {
-        _owner = value;
     }
 
     #endregion
