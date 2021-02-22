@@ -66,7 +66,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     private void UpdateExplosionState(ProjectileModel projectileModel, bool value)
     {
-        if (explosion != null)
+        if (explosion != null && value)
         {
             explosion.SetActive(true);
         }
@@ -162,11 +162,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     void Hit()
     {
         if (hitCoroutine != null) return;
-        if (explosion != null)
-        {
-            explosion.SetActive(true);
-        }
-
         hitCoroutine = StartCoroutine(HitCR());
     }
 
@@ -222,6 +217,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             }
         }
 
+        explosion.SetActive(true);
         rb.isKinematic = true;
         yield return wait1Sec;
         //yield return wait1Sec;
