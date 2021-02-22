@@ -83,7 +83,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     private void Awake()
     {
         colliders = new Collider[0];
-        _realtimeView = GetComponent<RealtimeView>();
+        _realtimeView = realtimeView;
         _realtimeTransform = GetComponent<RealtimeTransform>();
         rb = GetComponent<Rigidbody>();
         UIManager = FindObjectOfType<UIManager>();
@@ -255,11 +255,12 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         //If this is a networked projectile, let the local physic caculation
         //take place and report on the explosion state of the collision
         //Must immediately apply physics the moment projectile hits something
-        if (_realtimeView.ownerIDInHierarchy !=
+        if (other.gameObject.GetComponent<RealtimeView>() == null) return;
+        if (realtimeView.ownerIDInHierarchy !=
             other.gameObject.GetComponent<RealtimeView>().ownerIDInHierarchy) return;
         if (other.gameObject.GetComponent<NewCarController>() == null)
         {
-            if (other.gameObject.GetComponent<BombProjectile>() == null)
+            if (GetComponent<BombProjectile>() == null)
             {
                 if (other.gameObject.GetComponent<Truck>())
                 {
@@ -269,14 +270,14 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                 else
                 {
                     model.exploded = true;
-                    HitNoDmg();
+                    Hit();
                 }
             }
         }
         else
         {
-            if (other.gameObject.GetComponent<BombProjectile>() != null)
-                _realtimeView.SetOwnership(other.GetComponent<RealtimeView>().ownerIDInHierarchy);
+            if (GetComponent<BombProjectile>() != null)
+                _realtimeView.SetOwnership(other.gameObject.GetComponent<RealtimeView>().ownerIDInHierarchy);
             Debug.Log("HIT: " +
                       PlayerManager.instance.PlayerName(other.GetComponent<RealtimeView>().ownerIDInHierarchy) +
                       " | ID: " + other.GetComponent<RealtimeView>().ownerIDInHierarchy);
