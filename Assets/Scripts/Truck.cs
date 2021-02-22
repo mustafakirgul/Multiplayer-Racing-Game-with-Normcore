@@ -94,7 +94,11 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void Start()
     {
-        if (realtimeView.isOwnedRemotelyInHierarchy) return;
+        if (realtimeView.isOwnedRemotelyInHierarchy)
+        {
+            damageSphere.SetActive(false);
+            return;
+        }
         StartHealth();
         InitializWaypointAI();
         waitASecond = new WaitForSeconds(steerRefreshTimer);

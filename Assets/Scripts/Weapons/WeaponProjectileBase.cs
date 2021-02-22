@@ -15,6 +15,8 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     public float weaponFireRate;
 
+    public float barrelFireAngle;
+
     protected float mf_carVelocity;
 
     public GameObject projectile_Mesh;
@@ -253,7 +255,20 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         //take place and report on the explosion state of the collision
         //Must immediately apply physics the moment projectile hits something
         if (other.gameObject.GetComponent<NewCarController>() == null ||
-            other.gameObject.GetComponent<RealtimeView>().isOwnedRemotelyInHierarchy) return;
+            other.gameObject.GetComponent<RealtimeView>().isOwnedRemotelyInHierarchy)
+        {
+            if (other.gameObject.GetComponent<Truck>())
+            {
+                model.exploded = true;
+                Hit();
+            }
+            else
+            {
+                model.exploded = true;
+                HitNoDmg();
+                return;
+            }
+        }   
 
         //Only look at the root of the transform object
         if (other.gameObject.GetComponent<NewCarController>() != null)

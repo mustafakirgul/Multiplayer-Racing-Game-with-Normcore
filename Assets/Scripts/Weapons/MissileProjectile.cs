@@ -10,7 +10,7 @@ public class MissileProjectile : WeaponProjectileBase
     public float missileDectectionRange;
     public float missileRadarRefresh;
 
-    public LayerMask MissileDetectionLayer;
+    LayerMask LayersToTarget;
 
     public Collider[] MissileTargets;
 
@@ -24,6 +24,8 @@ public class MissileProjectile : WeaponProjectileBase
         {
             MissileTargets = new Collider[0];
             StartCoroutine(DetectTarget());
+
+            LayersToTarget = (1 << LayerMask.NameToLayer("WeaponTargets") | 1 << LayerMask.NameToLayer("Truck"));
         }
     }
 
@@ -73,7 +75,7 @@ public class MissileProjectile : WeaponProjectileBase
 
     private void MissileDetection()
     {
-        MissileTargets = Physics.OverlapSphere(transform.position, missileDectectionRange, MissileDetectionLayer);
+        MissileTargets = Physics.OverlapSphere(transform.position, missileDectectionRange, LayersToTarget);
 
         if (MissileTargets.Length == 0)
         {

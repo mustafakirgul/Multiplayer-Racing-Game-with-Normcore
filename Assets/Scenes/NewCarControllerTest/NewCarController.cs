@@ -903,10 +903,12 @@ public class NewCarController : MonoBehaviour
                         WeaponProjectileBase PrimaryWeaponBase =
                             PrimaryWeaponProjectile.GetComponent<WeaponProjectileBase>();
                         uIManager.SwitchProjectileDisplayInfo(PrimaryWeaponBase.ProjectileToDisplay, 999);
+                        _barrelTip.transform.localRotation = Quaternion.Euler(0, 0, 0);
                         break;
                     case 1:
                         WeaponProjectileBase SecondaryWeaponBase =
                             SecondaryWeaponProjectile.GetComponent<WeaponProjectileBase>();
+                        _barrelTip.transform.localRotation = Quaternion.Euler(0 - SecondaryWeaponBase.barrelFireAngle, 0, 0);
                         uIManager.SwitchProjectileDisplayInfo(SecondaryWeaponBase.ProjectileToDisplay,
                             (int) currentAmmo);
                         break;

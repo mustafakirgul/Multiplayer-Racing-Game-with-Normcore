@@ -57,17 +57,15 @@ MonoBehaviour:
   truckDamageFactor: 1
   truckDamageTempModifier: 0
   weaponFireRate: 1
+  barrelFireAngle: 10
   projectile_Mesh: {fileID: 919132149155446097, guid: b27cb68bd0f2a4a04a9d0ea797c0c62f,
     type: 3}
   ProjectileToDisplay: {fileID: 2800000, guid: 7d182f108841b4db99c078cc0317bb8f, type: 3}
-  isNetworkInstance: 0
-  missileSpeed: 75
+  _realtimeView: {fileID: 0}
+  missileSpeed: 125
   missileRotationSpeed: 150
   missileDectectionRange: 100
   missileRadarRefresh: 0.15
-  MissileDetectionLayer:
-    serializedVersion: 2
-    m_Bits: 4096
   MissileTargets: []
   LockedTarget: {fileID: 0}
 --- !u!114 &-2444969834895540377

@@ -1209,11 +1209,10 @@ MonoBehaviour:
   xRotationLERPSpeed: 3
   rotationCooldownTime: 4
   _realtime: {fileID: 0}
-  ownerID: 0
+  _realtimeView: {fileID: 0}
   CameraContainer: {fileID: 1946598630858441357}
   fowardCamera: {fileID: 8575587571685806368}
   rearCamera: {fileID: 2242678404415448609}
-  isNetworkInstance: 1
   offlineTest: 0
   meleeDamageModifier: 0
   verticalSpdModifier: 0
@@ -1401,7 +1400,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4a862244b395344e932212b96901892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 0
   playerName: 
   playerHealth: 0
   maxPlayerHealth: 200
@@ -2178,7 +2176,6 @@ MonoBehaviour:
   maxAngle: 90
   turretDetectionRange: 40
   radarSweepTimer: 1
-  playerColliderID: 0
   turretTargets: []
   turretDetectionLayer:
     serializedVersion: 2
@@ -2194,6 +2191,7 @@ MonoBehaviour:
   parentCanvas: {fileID: 0}
   lerpTime: 2
   currentLerpTime: 0
+  truck: {fileID: 0}
 --- !u!135 &6022472696859302080
 SphereCollider:
   m_ObjectHideFlags: 0
