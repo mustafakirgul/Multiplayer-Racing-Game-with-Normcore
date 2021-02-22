@@ -106,9 +106,10 @@ MonoBehaviour:
   truckDamageFactor: 1
   truckDamageTempModifier: 0
   weaponFireRate: 0.5
+  barrelFireAngle: 0
   projectile_Mesh: {fileID: 4332054682276169056}
   ProjectileToDisplay: {fileID: 2800000, guid: ec1a7cc9797404c29a0095e9f51971d6, type: 3}
-  isNetworkInstance: 0
+  _realtimeView: {fileID: 0}
   ColliderToArm: {fileID: 6189135154252535727}
   BombEjectionSpeed: 0
 --- !u!114 &-2444969834895540377
@@ -284,7 +285,7 @@ BoxCollider:
   m_GameObject: {fileID: 3112086905854782875}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 20.058287, y: 20.763857, z: 19.950714}
   m_Center: {x: -0.026892424, y: 5.3819203, z: 0.026893616}

@@ -164,7 +164,7 @@ public class LobbyManager : MonoBehaviour
                 return; //name cannot be blank
             }
 
-            roomName = roomNameJoin.text;
+            roomName = roomNameJoin.text.ToLower();
             feedback.text += "Trying to connect to room " + roomName + "\n";
         }
 

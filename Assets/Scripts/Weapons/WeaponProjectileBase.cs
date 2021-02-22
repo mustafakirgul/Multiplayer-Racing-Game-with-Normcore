@@ -182,7 +182,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                     {
                         damagedPlayers.Add((colliders[i].gameObject));
                         Vector3 _origin = colliders[i].transform.position - transform.position;
-                        //Debug.Log("In Explosion Range:" + colliders[i]);
+                        Debug.Log("In Explosion Range:" + colliders[i]);
 
                         if (colliders[i].gameObject.GetComponent<Player>() != null)
                         {
@@ -268,6 +268,8 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                 HitNoDmg();
                 return;
             }
+
+            return;
         }
 
         //Only look at the root of the transform object
