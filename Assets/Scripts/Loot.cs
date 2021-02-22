@@ -51,7 +51,6 @@ public class Loot : RealtimeComponent<LootModel>
     public void SetCollectedBy(int _collectedBy)
     {
         model.collectedBy = _collectedBy;
-        lootContainer.DisplayCollectionMessage();
     }
 
     private void CollectedByDidChange(LootModel lootModel, int value)
@@ -62,7 +61,8 @@ public class Loot : RealtimeComponent<LootModel>
     private void CollectedByChanged()
     {
         collectedBy = model.collectedBy;
-        lootContainer.DisplayCollectionMessage();
+        if (realtimeView.isOwnedLocallyInHierarchy) return;
+        StartCoroutine(lootContainer.CR_MeshDie());
     }
 
     private void IdDidChange(LootModel lootModel, int value)

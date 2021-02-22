@@ -67,12 +67,14 @@ public class LootContainer : MonoBehaviour
 
     public void GetCollected(int _collectorID)
     {
-        if (cr_Die == null && content.collectedBy < 0)
+        if (cr_Die == null)
         {
             SetCollectedBy(_collectorID);
             GetComponent<Rigidbody>().isKinematic = true;
             GetComponent<BoxCollider>().enabled = false;
             cr_Die = StartCoroutine(CR_Die());
+            //if (_collectorID == _realtime.ownerIDInHierarchy)
+            DisplayCollectionMessage();
         }
     }
 
@@ -82,16 +84,10 @@ public class LootContainer : MonoBehaviour
         string tempName;
         Texture2D tempImage;
         if (content.id < 0)
-        {
             tempName = LootManager.instance.playerLootPoolSave
                 .PlayerPowerUps[Mathf.Abs(content.id) - 1].name
                 .Remove(0, 2);
-        }
-        else
-        {
-            tempName = "Loot Obtained!! ";
-        }
-
+        else tempName = "Loot Obtained!! ";
         GameManager.instance.uIManager.DisplayUIMessage(tempName);
         lCF.PlayAnimation(tempName, content.id);
     }

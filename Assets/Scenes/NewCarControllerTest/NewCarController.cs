@@ -1166,25 +1166,27 @@ public class NewCarController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
+        if (_realtimeView.isOwnedRemotelyInHierarchy) return;
         LootContainer lootbox = collision.gameObject.GetComponent<LootContainer>();
 
         if (lootbox != null)
         {
             StartCoroutine(lootbox.CR_MeshDie());
-
-            if (_realtimeView.isOwnedRemotelyInHierarchy) return;
             int LootRoll = lootbox.id;
-            lootbox.transform.GetComponent<RealtimeView>().RequestOwnership();
-            lootbox.GetCollected(_realtimeView.ownerIDInHierarchy);
-            if (LootRoll > 0)
+            if (lootbox.collectedBy < 0)
             {
-                lootManager.numberOfLootRolls++;
-            }
-            else if (LootRoll < 0)
-            {
-                //Player got powerup here
-                //Use a decode or script obj to determine what   each temp powerup should be
-                ApplyPowerUpToPlayer(lootManager.DecodePowerUp(LootRoll));
+                lootbox.transform.GetComponent<RealtimeView>().RequestOwnership();
+                lootbox.GetCollected(_realtimeView.ownerIDInHierarchy);
+                if (LootRoll > 0)
+                {
+                    lootManager.numberOfLootRolls++;
+                }
+                else if (LootRoll < 0)
+                {
+                    //Player got powerup here
+                    //Use a decode or script obj to determine what   each temp powerup should be
+                    ApplyPowerUpToPlayer(lootManager.DecodePowerUp(LootRoll));
+                }
             }
         }
     }

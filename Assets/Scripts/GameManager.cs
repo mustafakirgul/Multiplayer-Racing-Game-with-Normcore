@@ -310,6 +310,7 @@ public class GameManager : MonoBehaviour
         {
             _temp.GetComponent<NewCarController>()._realtime = _realtime;
         }
+
         playerName = playerNameInputField.text;
         _temp.GetComponent<Player>().SetPlayerName(playerName);
 
@@ -321,7 +322,7 @@ public class GameManager : MonoBehaviour
         //HeatText.SetActive(false);
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
         Walls = FindObjectsOfType<WallLocalMarker>();
-        ResetWalls();
+        if (isHost) ResetWalls();
         PlayerManager.instance.AddLocalPlayer(transform);
         Invoke("KeepTrackOfWinConditions", 3f);
         jukebox.SwitchState(State.game);

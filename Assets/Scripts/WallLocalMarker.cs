@@ -65,24 +65,8 @@ public class WallLocalMarker : MonoBehaviour
         if (_realtime == null) _realtime = FindObjectOfType<Realtime>();
         if (rtView == null) rtView = GetComponent<RealtimeView>();
         if (rtTransform == null) rtTransform = GetComponent<RealtimeTransform>();
-        if (rtView.isOwnedRemotelyInHierarchy) return;
-        if (rtView.isUnownedSelf)
-        {
-            rtView.RequestOwnership();
-            rtTransform.RequestOwnership();
-        }
-
-        if (networkedWall != null)
-        {
-            networkedWall.GetComponent<RealtimeView>().RequestOwnership();
-            networkedWall.GetComponent<RealtimeTransform>().RequestOwnership();
-
-            if (networkedWall.GetComponent<RealtimeView>().isOwnedLocallyInHierarchy)
-            {
-                Realtime.Destroy(networkedWall);
-                Debug.LogWarning("Existing wall removed!");
-            }
-        }
+        rtView.RequestOwnership();
+        rtTransform.RequestOwnership();
 
         networkedWall = Realtime.Instantiate(wall.transform.name,
             position: transform.position,
@@ -94,11 +78,5 @@ public class WallLocalMarker : MonoBehaviour
         Debug.LogWarning("Networked Wall Instantiated");
         childRtView = networkedWall.GetComponent<RealtimeView>();
         childRtTransform = networkedWall.GetComponent<RealtimeTransform>();
-
-        if (childRtView.isUnownedSelf)
-        {
-            childRtView.SetOwnership(_realtime.clientID);
-            childRtTransform.SetOwnership(_realtime.clientID);
-        }
     }
 }

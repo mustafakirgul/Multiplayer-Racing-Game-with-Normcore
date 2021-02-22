@@ -46,8 +46,7 @@ public class TurretAutoAim : MonoBehaviour
     public float lerpTime = 1f;
     public float currentLerpTime;
 
-    [SerializeField]
-    private Collider truck;
+    [SerializeField] private Collider truck;
 
 
     // Update is called once per frame
@@ -198,7 +197,8 @@ public class TurretAutoAim : MonoBehaviour
 
                 if (turretTargets[i].GetComponent<NewCarController>() != null)
                 {
-                    if (turretTargets[i].GetComponent<RealtimeView>().ownerIDInHierarchy == GameManager.instance.GetComponent<RealtimeView>().ownerIDInHierarchy)
+                    if (turretTargets[i].GetComponent<RealtimeView>().ownerIDInHierarchy ==
+                        carController._realtimeView.ownerIDInHierarchy)
                     {
                         targetList.Remove(turretTargets[i]);
                     }
@@ -213,7 +213,7 @@ public class TurretAutoAim : MonoBehaviour
         {
             if (!turretTargets.Contains(targetList[i]))
             {
-                if(targetList[i] == truck)
+                if (targetList[i] == truck)
                 {
                     truck = null;
                 }
@@ -283,10 +283,11 @@ public class TurretAutoAim : MonoBehaviour
             {
                 enemy = truck.gameObject;
             }
-            else {
-                
+            else
+            {
                 enemy = targetList[0].gameObject;
             }
+
             currentTarget = enemy.GetComponent<Collider>();
             lastEnemy = enemy;
 
