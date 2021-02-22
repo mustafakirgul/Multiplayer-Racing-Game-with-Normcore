@@ -641,8 +641,8 @@ public class NewCarController : MonoBehaviour
 
     private void ResetPlayerHealth()
     {
-        UpdateHealth();
         _player.ResetHealth();
+        UpdateHealth();
         //Spawn in player animation
         CarRB.position = new Vector3(transform.position.x, transform.position.y + resetHeight, transform.position.z);
         Vector3 _rotation = CarRB.rotation.eulerAngles;

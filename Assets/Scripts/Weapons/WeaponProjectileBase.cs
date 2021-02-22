@@ -252,15 +252,17 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         //If this is a networked projectile, let the local physic caculation
         //take place and report on the explosion state of the collision
         //Must immediately apply physics the moment projectile hits something
-        if (_realtimeView.isOwnedRemotelyInHierarchy) return;
+        if (other.gameObject.GetComponent<NewCarController>() == null ||
+            other.gameObject.GetComponent<RealtimeView>().isOwnedRemotelyInHierarchy) return;
+
         //Only look at the root of the transform object
         if (other.gameObject.GetComponent<NewCarController>() != null)
         {
-            if (other.gameObject.GetComponent<RealtimeView>().ownerIDInHierarchy == _realtimeView.ownerIDInHierarchy)
-            {
-                Debug.Log("Self hit");
-                return;
-            }
+            // if (other.gameObject.GetComponent<RealtimeView>().ownerIDInHierarchy == _realtimeView.ownerIDInHierarchy)
+            // {
+            //     Debug.Log("Self hit");
+            //     return;
+            // }
 
             Debug.Log("HIT: " +
                       PlayerManager.instance.PlayerName(other.GetComponent<RealtimeView>().ownerIDInHierarchy) +

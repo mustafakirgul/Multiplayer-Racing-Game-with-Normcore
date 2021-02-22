@@ -154,8 +154,6 @@ public class LobbyManager : MonoBehaviour
                 tryingToConnect = false;
                 return;
             }
-
-            feedback.text += "Max Player number is set to " + maxPlayers + "\n";
         }
         else
         {
@@ -273,6 +271,15 @@ public class LobbyManager : MonoBehaviour
                     DisconnectFromLobby();
                     yield break;
                 }
+
+                if (count > 1)
+                {
+                    feedback.text +=
+                        "A room with this name has already been created. Please try creating another room with a different name.";
+                    stayDisconnected = true;
+                    DisconnectFromLobby();
+                    yield break;
+                }
             }
 
             if (count > maxPlayers && maxPlayers > 0)
@@ -293,6 +300,7 @@ public class LobbyManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         isConnectedToALobby = true;
         tryingToConnect = false;
+        feedback.text += "Max Player number is set to " + maxPlayers + "\n";
     }
 
     void DidDisconnectFromLobby(Realtime realtime)

@@ -51,6 +51,7 @@ public class Loot : RealtimeComponent<LootModel>
     public void SetCollectedBy(int _collectedBy)
     {
         model.collectedBy = _collectedBy;
+        lootContainer.DisplayCollectionMessage();
     }
 
     private void CollectedByDidChange(LootModel lootModel, int value)
