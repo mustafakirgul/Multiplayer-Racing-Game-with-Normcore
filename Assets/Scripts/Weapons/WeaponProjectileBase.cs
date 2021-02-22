@@ -162,6 +162,10 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     void Hit()
     {
         if (hitCoroutine != null) return;
+        if (explosion != null)
+        {
+            explosion.SetActive(true);
+        }
 
         hitCoroutine = StartCoroutine(HitCR());
     }
@@ -220,7 +224,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
         rb.isKinematic = true;
         yield return wait1Sec;
-        yield return wait1Sec;
+        //yield return wait1Sec;
         explosion.SetActive(false);
         yield return wait1Sec;
         if (realtimeView.isOwnedLocallyInHierarchy) Realtime.Destroy(gameObject);
@@ -268,7 +272,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                 HitNoDmg();
                 return;
             }
-        }   
+        }
 
         //Only look at the root of the transform object
         if (other.gameObject.GetComponent<NewCarController>() != null)
