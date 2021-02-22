@@ -27,4 +27,5 @@ public class BombProjectile : WeaponProjectileBase
         yield return new WaitForSeconds(waitTime);
         ColliderToArm.enabled = true;
     }
+    
 }

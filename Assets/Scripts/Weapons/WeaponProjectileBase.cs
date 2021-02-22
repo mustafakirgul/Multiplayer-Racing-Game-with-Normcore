@@ -255,41 +255,31 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         //If this is a networked projectile, let the local physic caculation
         //take place and report on the explosion state of the collision
         //Must immediately apply physics the moment projectile hits something
-        if (other.gameObject.GetComponent<NewCarController>() == null ||
-            other.gameObject.GetComponent<RealtimeView>().isOwnedRemotelyInHierarchy)
+        if (_realtimeView.ownerIDInHierarchy !=
+            other.gameObject.GetComponent<RealtimeView>().ownerIDInHierarchy) return;
+        if (other.gameObject.GetComponent<NewCarController>() == null)
         {
-            if (other.gameObject.GetComponent<Truck>())
+            if (other.gameObject.GetComponent<BombProjectile>() == null)
             {
-                model.exploded = true;
-                Hit();
+                if (other.gameObject.GetComponent<Truck>())
+                {
+                    model.exploded = true;
+                    Hit();
+                }
+                else
+                {
+                    model.exploded = true;
+                    HitNoDmg();
+                }
             }
-            else
-            {
-                model.exploded = true;
-                HitNoDmg();
-                return;
-            }
-
-            return;
-        }
-
-        //Only look at the root of the transform object
-        if (other.gameObject.GetComponent<NewCarController>() != null)
-        {
-            // if (other.gameObject.GetComponent<RealtimeView>().ownerIDInHierarchy == _realtimeView.ownerIDInHierarchy)
-            // {
-            //     Debug.Log("Self hit");
-            //     return;
-            // }
-
-            Debug.Log("HIT: " +
-                      PlayerManager.instance.PlayerName(other.GetComponent<RealtimeView>().ownerIDInHierarchy) +
-                      " | ID: " + other.GetComponent<RealtimeView>().ownerIDInHierarchy);
-            model.exploded = true;
-            Hit();
         }
         else
         {
+            if (other.gameObject.GetComponent<BombProjectile>() != null)
+                _realtimeView.SetOwnership(other.GetComponent<RealtimeView>().ownerIDInHierarchy);
+            Debug.Log("HIT: " +
+                      PlayerManager.instance.PlayerName(other.GetComponent<RealtimeView>().ownerIDInHierarchy) +
+                      " | ID: " + other.GetComponent<RealtimeView>().ownerIDInHierarchy);
             model.exploded = true;
             Hit();
         }
