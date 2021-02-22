@@ -69,6 +69,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         if (explosion != null && value)
         {
             explosion.SetActive(true);
+            projectile_Mesh.SetActive(false);
         }
 
         IsExplodedChanged();
