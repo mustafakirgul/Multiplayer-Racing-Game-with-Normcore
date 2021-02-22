@@ -851,7 +851,7 @@ public class NewCarController : MonoBehaviour
                                 position: _barrelTip.position,
                                 rotation: _barrelTip.rotation,
                                 ownedByClient: true,
-                                preventOwnershipTakeover: true,
+                                preventOwnershipTakeover: false,
                                 useInstance: _realtime);
 
                             WeaponProjectileBase SecondaryWeaponBase =
@@ -908,7 +908,8 @@ public class NewCarController : MonoBehaviour
                     case 1:
                         WeaponProjectileBase SecondaryWeaponBase =
                             SecondaryWeaponProjectile.GetComponent<WeaponProjectileBase>();
-                        _barrelTip.transform.localRotation = Quaternion.Euler(0 - SecondaryWeaponBase.barrelFireAngle, 0, 0);
+                        _barrelTip.transform.localRotation =
+                            Quaternion.Euler(0 - SecondaryWeaponBase.barrelFireAngle, 0, 0);
                         uIManager.SwitchProjectileDisplayInfo(SecondaryWeaponBase.ProjectileToDisplay,
                             (int) currentAmmo);
                         break;
