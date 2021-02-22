@@ -8,7 +8,7 @@ public class BulletProjectile : WeaponProjectileBase
 
     public void Update()
     {
-        if (rb != null && !isNetworkInstance)
+        if (rb != null && _realtimeView.isOwnedLocallyInHierarchy)
         {
             BulletBrain();
         }
@@ -20,11 +20,11 @@ public class BulletProjectile : WeaponProjectileBase
         if (mf_carVelocity < 10)
         {
             mf_carVelocity = 10;
-            rb.velocity = this.transform.forward * (bulletSpeed + mf_carVelocity);
+            rb.velocity = transform.forward * (bulletSpeed + mf_carVelocity);
         }
         else
         {
-            rb.velocity = this.transform.forward * (bulletSpeed + mf_carVelocity);
+            rb.velocity = transform.forward * (bulletSpeed + mf_carVelocity);
         }
     }
 }

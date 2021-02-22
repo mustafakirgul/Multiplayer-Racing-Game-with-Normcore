@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Player : RealtimeComponent<PlayerModel>
 {
-    public int _id;
     public string playerName;
     public float playerHealth;
     public float maxPlayerHealth;
@@ -41,11 +40,6 @@ public class Player : RealtimeComponent<PlayerModel>
             currentModel.healthDidChange += PlayerHealthChanged;
             currentModel.forcesDidChange += PlayerForcesChanged;
         }
-    }
-
-    private void Start()
-    {
-        _id = realtimeView.ownerIDInHierarchy;
     }
 
     private void Update()

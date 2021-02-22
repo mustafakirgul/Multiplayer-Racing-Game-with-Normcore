@@ -23,7 +23,6 @@ public class Truck : RealtimeComponent<TruckModel>
     List<RealtimeTransform> _rTTransforms;
     public Vector3 explosionPoint;
     Transform _ownerTransform;
-    bool isNetworkInstance;
     Rigidbody truckBody;
     Vector3 _startPosition => new Vector3(0, 30, 0);
     [Space] [Header("Loot Settings")] public Vector3 lootLaunchPoint;
@@ -95,8 +94,7 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void Start()
     {
-        isNetworkInstance = !_rTTransform.isOwnedLocallyInHierarchy;
-        if (isNetworkInstance) return;
+        if (realtimeView.isOwnedRemotelyInHierarchy) return;
         StartHealth();
         InitializWaypointAI();
         waitASecond = new WaitForSeconds(steerRefreshTimer);
@@ -110,10 +108,9 @@ public class Truck : RealtimeComponent<TruckModel>
 
         for (int i = 0; i < _wheels.Length; i++)
         {
-            if (_wheels[i].model.GetComponent<RealtimeTransform>().ownerIDInHierarchy !=
-                GetComponent<RealtimeTransform>().ownerIDInHierarchy)
-                _wheels[i].model.GetComponent<RealtimeTransform>()
-                    .SetOwnership(GetComponent<RealtimeTransform>().ownerIDInHierarchy);
+            _wheels[i].model.GetComponent<RealtimeView>().RequestOwnership();
+            _wheels[i].model.GetComponent<RealtimeView>().RequestOwnership();
+            _wheels[i].model.GetComponent<RealtimeTransform>().RequestOwnership();
         }
     }
 
@@ -142,7 +139,7 @@ public class Truck : RealtimeComponent<TruckModel>
     {
         while (true)
         {
-            while (currentWPT != null && !isNetworkInstance)
+            while (currentWPT != null && realtimeView.isOwnedLocallyInHierarchy)
             {
 #if UNITY_EDITOR
                 waitASecond = new WaitForSeconds(steerRefreshTimer);
@@ -210,7 +207,7 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void Update()
     {
-        if (isNetworkInstance) return;
+        if (realtimeView.isOwnedRemotelyInHierarchy) return;
         if (Input.GetKeyDown(KeyCode.P))
         {
             ResetTransform();
@@ -259,7 +256,7 @@ public class Truck : RealtimeComponent<TruckModel>
 
     public void AddExplosionForce(Vector3 _origin)
     {
-        if (!isNetworkInstance)
+        if (realtimeView.isOwnedLocallyInHierarchy)
         {
             truckBody.AddExplosionForce(200000f, transform.position - _origin, 20f, 1000f);
             ResetExplosionPoint();
@@ -368,7 +365,7 @@ public class Truck : RealtimeComponent<TruckModel>
             ownedByClient:
             true,
             preventOwnershipTakeover:
-            true,
+            false,
             useInstance:
             _realtime);
         int PUCount =

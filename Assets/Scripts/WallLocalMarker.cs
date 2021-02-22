@@ -9,7 +9,6 @@ public class WallLocalMarker : MonoBehaviour
     [SerializeField] private float targetY, currentY;
     public float speed;
     private GameObject networkedWall;
-    bool isNetworkInstance = true;
     private RealtimeView rtView, childRtView;
     private RealtimeTransform rtTransform, childRtTransform;
     private Realtime _realtime;
@@ -28,9 +27,15 @@ public class WallLocalMarker : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, 1f);
     }
 
+    private void Start()
+    {
+        rtView = GetComponent<RealtimeView>();
+        rtTransform = GetComponent<RealtimeTransform>();
+    }
+
     private void Update()
     {
-        if (isNetworkInstance) return;
+        if (rtView.isOwnedRemotelyInHierarchy) return;
         if (isRunning && networkedWall != null)
         {
             currentY = Mathf.Lerp(currentY, targetY, speed * Time.deltaTime);
@@ -60,29 +65,30 @@ public class WallLocalMarker : MonoBehaviour
         if (_realtime == null) _realtime = FindObjectOfType<Realtime>();
         if (rtView == null) rtView = GetComponent<RealtimeView>();
         if (rtTransform == null) rtTransform = GetComponent<RealtimeTransform>();
+        if (rtView.isOwnedRemotelyInHierarchy) return;
         if (rtView.isUnownedSelf)
         {
-            rtView.SetOwnership(_realtime.clientID);
-            rtTransform.SetOwnership(_realtime.clientID);
+            rtView.RequestOwnership();
+            rtTransform.RequestOwnership();
         }
-
-        isNetworkInstance = !rtView.isOwnedLocallyInHierarchy;
-        if (isNetworkInstance) return;
 
         if (networkedWall != null)
         {
-            networkedWall.GetComponent<RealtimeView>().SetOwnership(_realtime.clientID);
-            networkedWall.GetComponent<RealtimeTransform>().SetOwnership(_realtime.clientID);
-            if (!networkedWall.GetComponent<RealtimeView>().isUnownedInHierarchy)
+            networkedWall.GetComponent<RealtimeView>().RequestOwnership();
+            networkedWall.GetComponent<RealtimeTransform>().RequestOwnership();
+
+            if (networkedWall.GetComponent<RealtimeView>().isOwnedLocallyInHierarchy)
+            {
                 Realtime.Destroy(networkedWall);
-            Debug.LogWarning("Existing wall removed!");
+                Debug.LogWarning("Existing wall removed!");
+            }
         }
 
         networkedWall = Realtime.Instantiate(wall.transform.name,
             position: transform.position,
             rotation: transform.rotation,
-            ownedByClient: false,
-            preventOwnershipTakeover: false,
+            ownedByClient: true,
+            preventOwnershipTakeover: true,
             destroyWhenOwnerOrLastClientLeaves: true,
             useInstance: _realtime);
         Debug.LogWarning("Networked Wall Instantiated");

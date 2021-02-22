@@ -15,7 +15,6 @@ public class LootContainer : MonoBehaviour
     private bool customMesh;
     private ParticleSystem collectionParticle;
 
-    [SerializeField] private bool isNetworkInstance;
     private Coroutine cr_Die;
     private Camera mainCamera;
     public LootCollectionFeedback lCF => FindObjectOfType<LootCollectionFeedback>();
@@ -33,8 +32,7 @@ public class LootContainer : MonoBehaviour
     {
         mainCamera = Camera.main;
         collectionParticle = transform.GetChild(2).GetChild(0).GetComponent<ParticleSystem>();
-        isNetworkInstance = !_realtime.isOwnedLocallyInHierarchy;
-        if (isNetworkInstance)
+        if (_realtime.isOwnedRemotelyInHierarchy)
             GetComponent<Rigidbody>().isKinematic = true;
         customMesh = GetComponent<PowerUpMeshGetter>() != null;
     }
@@ -80,9 +78,6 @@ public class LootContainer : MonoBehaviour
 
     public void DisplayCollectionMessage()
     {
-        if (mainCamera != null)
-            collectionParticle.transform.LookAt(mainCamera.transform);
-        collectionParticle.Play();
         //Logic for power up vs. loot added
         string tempName;
         Texture2D tempImage;
@@ -101,18 +96,23 @@ public class LootContainer : MonoBehaviour
         lCF.PlayAnimation(tempName, content.id);
     }
 
-    public IEnumerator CR_NetworkInstanceDie()
+    public IEnumerator CR_MeshDie()
     {
-         foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
-         {
-             mr.enabled = false;
-         }
+        foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+        {
+            mr.enabled = false;
+        }
+
+        if (mainCamera != null)
+            collectionParticle.transform.LookAt(mainCamera.transform);
+        collectionParticle.Play();
         yield return null;
     }
 
     public IEnumerator CR_Die()
     {
         yield return new WaitForSeconds(dieDelay);
-        if (!isNetworkInstance) Realtime.Destroy(gameObject);
+        if (_realtime.isOwnedLocallyInHierarchy) Realtime.Destroy(gameObject);
+        cr_Die = null;
     }
 }

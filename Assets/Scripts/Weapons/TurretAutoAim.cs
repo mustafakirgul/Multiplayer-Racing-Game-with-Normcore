@@ -62,7 +62,7 @@ public class TurretAutoAim : MonoBehaviour
         targetList.Clear();
         carController = GetComponentInParent<NewCarController>();
 
-        if (!carController.isNetworkInstance)
+        if (carController._realtimeView.isOwnedLocallyInHierarchy)
         {
             m_uiManager = FindObjectOfType<UIManager>();
             CrossHairUI = m_uiManager.CrossHairUI;
@@ -81,7 +81,7 @@ public class TurretAutoAim : MonoBehaviour
 
     void Update()
     {
-        if (!carController.isNetworkInstance)
+        if (carController._realtimeView.isOwnedLocallyInHierarchy)
         {
             RotateTurret();
             MoveCrossHair();

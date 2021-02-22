@@ -11,7 +11,7 @@ public class BombProjectile : WeaponProjectileBase
     public override void Fire(Transform _barrelTip, float _tipVelocity)
     {
         ColliderToArm.enabled = false;
-        if (!isNetworkInstance)
+        if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             base.Fire(_barrelTip, mf_carVelocity);
             rb.AddForce(

@@ -20,7 +20,7 @@ public class MissileProjectile : WeaponProjectileBase
     protected override void Start()
     {
         base.Start();
-        if (!isNetworkInstance)
+        if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             MissileTargets = new Collider[0];
             StartCoroutine(DetectTarget());
@@ -30,7 +30,7 @@ public class MissileProjectile : WeaponProjectileBase
     // Update is called once per frame
     public void Update()
     {
-        if (rb != null && !isNetworkInstance)
+        if (rb != null && _realtimeView.isOwnedLocallyInHierarchy)
         {
             MissileBrain();
             AdjustMissileCourse();
@@ -102,14 +102,6 @@ public class MissileProjectile : WeaponProjectileBase
                     }
                 }
             }
-        }
-    }
-
-    protected override void OnTriggerEnter(Collider other)
-    {
-        if (!isNetworkInstance)
-        {
-            base.OnTriggerEnter(other);
         }
     }
 }

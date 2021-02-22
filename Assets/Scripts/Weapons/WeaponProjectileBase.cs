@@ -28,7 +28,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     GameObject explosion;
     WaitForSeconds wait1Sec;
     Collider[] colliders;
-    public bool isNetworkInstance = true;
     public RealtimeView _realtimeView;
     RealtimeTransform _realtimeTransform;
     bool isExploded = false;
@@ -114,7 +113,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             Invoke(nameof(KillTimer), weaponLifeTime);
-            isNetworkInstance = false;
         }
     }
 
@@ -147,7 +145,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
         //Only apply kinematics after missile explosion occurs
         //Let local physics be done on local machine
-        if (isNetworkInstance)
+        if (_realtimeView.isOwnedRemotelyInHierarchy)
         {
             rb.isKinematic = true;
             return;
@@ -161,10 +159,9 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     void Hit()
     {
-        //if (hitCoroutine != null)
-        {
-            StartCoroutine(HitCR());
-        }
+        if (hitCoroutine != null) return;
+
+        hitCoroutine = StartCoroutine(HitCR());
     }
 
     IEnumerator HitCR()
@@ -190,7 +187,8 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                         {
                             Player _player = colliders[i].gameObject.GetComponent<Player>();
 
-                            if (_realtimeView.ownerIDInHierarchy != _player._id)
+                            if (_realtimeView.ownerIDInHierarchy !=
+                                _player.GetComponent<RealtimeView>().ownerIDInHierarchy)
                             {
                                 _player.ChangeExplosionForce(_origin);
                                 _player.DamagePlayer(damage);
@@ -233,7 +231,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         //Which means that only if this is a local projectile owned by the player
         //Make them stop moving and commence damage caculations
         //Explosions and animations etc
-        if (!isNetworkInstance)
+        if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             GetComponent<TrailRenderer>().emitting = false;
             //GetComponent<MeshRenderer>().enabled = false;
@@ -254,11 +252,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         //If this is a networked projectile, let the local physic caculation
         //take place and report on the explosion state of the collision
         //Must immediately apply physics the moment projectile hits something
-        if (isNetworkInstance)
-        {
-            return;
-        }
-
+        if (_realtimeView.isOwnedRemotelyInHierarchy) return;
         //Only look at the root of the transform object
         if (other.gameObject.GetComponent<NewCarController>() != null)
         {

@@ -8,7 +8,6 @@ public class Melee : MonoBehaviour
     public float meleePower;
     public float armorFactor;
     private Melee opponent;
-    private bool isNetworkInstance;
     private ContactPoint[] contactPoints;
     public ParticleSystem crashParticle;
     private NewCarController controller;
@@ -19,7 +18,6 @@ public class Melee : MonoBehaviour
     private void Start()
     {
         parent = transform.parent;
-        isNetworkInstance = !parent.GetComponent<RealtimeView>().isOwnedLocallyInHierarchy;
         controller = parent.GetComponent<NewCarController>();
         carRB = controller.CarRB;
         rb = GetComponent<Rigidbody>();
@@ -43,7 +41,7 @@ public class Melee : MonoBehaviour
 
     private IEnumerator OnCollisionEnter(Collision collision)
     {
-        if (isNetworkInstance) yield break;
+        if (GetComponent<RealtimeView>().isOwnedLocallyInHierarchy) yield break;
         opponent = collision.transform.GetComponentInChildren<Melee>();
         if (opponent == null) yield break;
         Vector3 collisionForce = -(opponent.ReturnVelocity() + ReturnVelocity());

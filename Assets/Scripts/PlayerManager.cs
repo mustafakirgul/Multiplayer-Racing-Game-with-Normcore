@@ -76,7 +76,7 @@ public class PlayerManager : MonoBehaviour
         for (int i = 0; i < carControllers.Length; i++)
         {
             foundTransforms[i] = carControllers[i].transform;
-            if (carControllers[i].isNetworkInstance)
+            if (carControllers[i]._realtimeView.isOwnedRemotelyInHierarchy)
             {
                 if (!networkPlayers.Contains(foundTransforms[i]))
                 {
@@ -85,7 +85,7 @@ public class PlayerManager : MonoBehaviour
             }
 
             allPlayers[i] = new PlayerInfo(carControllers[i].GetComponent<Player>(),
-                carControllers[i].isNetworkInstance);
+                carControllers[i]._realtimeView.isOwnedRemotelyInHierarchy);
         }
     }
     public string PlayerName(int id)

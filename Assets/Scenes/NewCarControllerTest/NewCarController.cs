@@ -46,11 +46,10 @@ public class NewCarController : MonoBehaviour
     //Neworking Related Functionalities
     public Realtime _realtime;
 
-    private RealtimeView _realtimeView;
+    public RealtimeView _realtimeView;
     private RealtimeTransform _realtimeTransform;
     private ChaseCam followCamera;
     public Transform CameraContainer, fowardCamera, rearCamera;
-    public bool isNetworkInstance = false;
     public bool offlineTest;
 
     bool resetReverseView = false;
@@ -193,7 +192,6 @@ public class NewCarController : MonoBehaviour
 
     private void Awake()
     {
-        isNetworkInstance = false;
         waitFrameDamageEffect = new WaitForEndOfFrame();
         if (!offlineTest)
         {
@@ -347,16 +345,11 @@ public class NewCarController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (!offlineTest)
-            isNetworkInstance = !_realtimeView.isOwnedLocallyInHierarchy;
-        else
-        {
+        if (offlineTest)
             _miniMapRenderer.enabled = false;
-            isNetworkInstance = false;
-        }
 
 
-        if (!isNetworkInstance)
+        if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             uIManager = FindObjectOfType<UIManager>();
             OverheatMeterObj.SetActive(true);
@@ -430,12 +423,12 @@ public class NewCarController : MonoBehaviour
 
         WeaponSwitcherUI.SetActive(false);
         OverHeatNotice.gameObject.SetActive(false);
-        OverheatMeterObj.SetActive(!isNetworkInstance);
+        OverheatMeterObj.SetActive(_realtimeView.isOwnedLocallyInHierarchy);
     }
 
     public void DamageFeedback()
     {
-        if (isNetworkInstance) return;
+        if (_realtimeView.isOwnedRemotelyInHierarchy) return;
         if (cR_damageEffect != null)
         {
             StopCoroutine(cR_damageEffect);
@@ -549,7 +542,7 @@ public class NewCarController : MonoBehaviour
 
     public void ExplosionForce(Vector3 _origin)
     {
-        if (!isNetworkInstance)
+        if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             CarRB.AddExplosionForce(explosionForce, transform.position - _origin, 20f, 1000f);
         }
@@ -567,7 +560,7 @@ public class NewCarController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isNetworkInstance)
+        if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             if (!offlineTest)
             {
@@ -660,7 +653,7 @@ public class NewCarController : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (isNetworkInstance && !offlineTest)
+        if (_realtimeView.isOwnedRemotelyInHierarchy && !offlineTest)
             PlayerManager.instance.RemoveNetworkPlayer(transform);
         if (CarRB != null)
             Destroy(CarRB.gameObject);
@@ -668,7 +661,7 @@ public class NewCarController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isNetworkInstance)
+        if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             if (speedDisplay != null)
             {
@@ -840,7 +833,6 @@ public class NewCarController : MonoBehaviour
 
                             WeaponProjectileBase PrimaryWeaponBase = _bulletBuffer.GetComponent<WeaponProjectileBase>();
 
-                            PrimaryWeaponBase.isNetworkInstance = false;
                             PrimaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             PrimaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
 
@@ -865,7 +857,6 @@ public class NewCarController : MonoBehaviour
                             WeaponProjectileBase SecondaryWeaponBase =
                                 _bulletBuffer.GetComponent<WeaponProjectileBase>();
 
-                            SecondaryWeaponBase.isNetworkInstance = false;
                             SecondaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             SecondaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
 
@@ -1179,20 +1170,17 @@ public class NewCarController : MonoBehaviour
 
         if (lootbox != null)
         {
-            if (isNetworkInstance)
-            {
-                StartCoroutine(lootbox.CR_NetworkInstanceDie());
-                return;
-            }
+            StartCoroutine(lootbox.CR_MeshDie());
 
+            if (_realtimeView.isOwnedRemotelyInHierarchy) return;
             int LootRoll = lootbox.id;
-            lootbox.transform.GetComponent<RealtimeView>().SetOwnership(_realtimeView.ownerIDInHierarchy);
+            lootbox.transform.GetComponent<RealtimeView>().RequestOwnership();
             lootbox.GetCollected(_realtimeView.ownerIDInHierarchy);
             if (LootRoll > 0)
             {
                 lootManager.numberOfLootRolls++;
             }
-            else
+            else if (LootRoll < 0)
             {
                 //Player got powerup here
                 //Use a decode or script obj to determine what   each temp powerup should be
