@@ -35,7 +35,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     bool isExploded = false;
     List<GameObject> damagedPlayers;
 
-
     private Coroutine hitCoroutine = null;
     private Coroutine hitNoDamageCoroutine = null;
 
@@ -80,7 +79,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         isExploded = model.exploded;
     }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         colliders = new Collider[0];
         _realtimeView = realtimeView;
@@ -189,8 +188,8 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                         {
                             Player _player = colliders[i].gameObject.GetComponent<Player>();
 
-                            if (_realtimeView.ownerIDInHierarchy !=
-                                _player.GetComponent<RealtimeView>().ownerIDInHierarchy)
+                            //if (_realtimeView.ownerIDInHierarchy !=
+                            //    _player.GetComponent<RealtimeView>().ownerIDInHierarchy)
                             {
                                 _player.ChangeExplosionForce(_origin);
                                 _player.DamagePlayer(damage);
@@ -218,7 +217,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             }
         }
 
-        explosion.SetActive(true);
+        //explosion.SetActive(true);
         rb.isKinematic = true;
         yield return wait1Sec;
         //yield return wait1Sec;
@@ -251,38 +250,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        //TODO Logic for target type detection
-        //If this is a networked projectile, let the local physic caculation
-        //take place and report on the explosion state of the collision
-        //Must immediately apply physics the moment projectile hits something
-        if (other.gameObject.GetComponent<RealtimeView>() == null) return;
-        if (realtimeView.ownerIDInHierarchy !=
-            other.gameObject.GetComponent<RealtimeView>().ownerIDInHierarchy) return;
-        if (other.gameObject.GetComponent<NewCarController>() == null)
-        {
-            if (GetComponent<BombProjectile>() == null)
-            {
-                if (other.gameObject.GetComponent<Truck>())
-                {
-                    model.exploded = true;
-                    Hit();
-                }
-                else
-                {
-                    model.exploded = true;
-                    Hit();
-                }
-            }
-        }
-        else
-        {
-            if (GetComponent<BombProjectile>() != null)
-                _realtimeView.SetOwnership(other.gameObject.GetComponent<RealtimeView>().ownerIDInHierarchy);
-            Debug.Log("HIT: " +
-                      PlayerManager.instance.PlayerName(other.GetComponent<RealtimeView>().ownerIDInHierarchy) +
-                      " | ID: " + other.GetComponent<RealtimeView>().ownerIDInHierarchy);
-            model.exploded = true;
-            Hit();
-        }
+        model.exploded = true;
+        Hit();
     }
 }
