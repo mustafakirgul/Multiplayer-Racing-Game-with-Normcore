@@ -1172,6 +1172,8 @@ public class NewCarController : MonoBehaviour
         if (_realtimeView.isOwnedRemotelyInHierarchy) return;
         LootContainer lootbox = collision.gameObject.GetComponent<LootContainer>();
 
+        BombProjectile bomb = collision.gameObject.GetComponent<BombProjectile>();
+
         if (lootbox != null)
         {
             StartCoroutine(lootbox.CR_MeshDie());
@@ -1191,6 +1193,11 @@ public class NewCarController : MonoBehaviour
                     ApplyPowerUpToPlayer(lootManager.DecodePowerUp(LootRoll));
                 }
             }
+        }
+
+        if(bomb != null && bomb.realtimeView.ownerIDInHierarchy != _realtimeView.ownerIDInHierarchy)
+        {
+            _player.DamagePlayer(bomb.damage);
         }
     }
 
