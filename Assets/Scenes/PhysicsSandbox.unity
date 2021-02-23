@@ -5642,7 +5642,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e4cc70da0c2ae4b70a67b859b17455a6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2b898eb6cff4b4a479fe6d92ba6ac105, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6329,6 +6329,12 @@ PrefabInstance:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5039603603669701049, guid: 450d68942c8ac15439d52452cb108a0d,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 3c85f8d2cb5e44fb4b0f2562109eb3d7,
+        type: 3}
     - target: {fileID: 6665207017241399379, guid: 450d68942c8ac15439d52452cb108a0d,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -6401,6 +6407,12 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 8905840109694457460, guid: 450d68942c8ac15439d52452cb108a0d,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 3c85f8d2cb5e44fb4b0f2562109eb3d7,
+        type: 3}
     - target: {fileID: 8905840109904118137, guid: 450d68942c8ac15439d52452cb108a0d,
         type: 3}
       propertyPath: m_Camera
@@ -6608,6 +6620,12 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 8905840110404869580, guid: 450d68942c8ac15439d52452cb108a0d,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 3c85f8d2cb5e44fb4b0f2562109eb3d7,
+        type: 3}
     - target: {fileID: 8905840110775063998, guid: 450d68942c8ac15439d52452cb108a0d,
         type: 3}
       propertyPath: m_StaticEditorFlags
