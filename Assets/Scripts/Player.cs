@@ -32,7 +32,6 @@ public class Player : RealtimeComponent<PlayerModel>
                 currentModel.health = maxPlayerHealth;
                 playerName = GameManager.instance.playerName;
                 playerHealth = maxPlayerHealth;
-                controller = GetComponent<NewCarController>();
                 ResetHealth();
             }
 
@@ -47,6 +46,10 @@ public class Player : RealtimeComponent<PlayerModel>
         if (model == null) return;
         playerName = model.playerName;
         playerHealth = model.health;
+        controller = GetComponent<NewCarController>();
+        if (controller == null) return;
+        controller.IDDisplay.SetText(playerName);
+        controller._currentName = model.playerName;
     }
 
     public void ResetHealth()
@@ -100,7 +103,5 @@ public class Player : RealtimeComponent<PlayerModel>
     private void PlayerNameChanged(PlayerModel playerModel, string value)
     {
         playerName = value;
-        controller.IDDisplay.SetText(playerName);
-        controller._currentName = model.playerName;
     }
 }
