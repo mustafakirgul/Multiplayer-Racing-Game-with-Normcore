@@ -190,6 +190,19 @@ public class NewCarController : MonoBehaviour
 
     public ParticleSystem[] boostParticles;
 
+    public void RegisterDamage(float damage, RealtimeView realtimeView)
+    {
+        int _temp = realtimeView.ownerIDInHierarchy;
+        GameManager.instance.uIManager.DisplayUIMessage(
+            PlayerManager.instance.PlayerName(_temp) + " hit " +
+            PlayerManager.instance.PlayerName(_realtimeView.ownerIDInHierarchy) + " | Base Damage: " + damage);
+        realtimeView.RequestOwnership();
+        realtimeView.GetComponent<RealtimeTransform>().RequestOwnership();
+        realtimeView.transform.GetComponent<WeaponProjectileBase>().CosmeticExplode();
+        _player.DamagePlayer(damage);
+        _player.ChangeExplosionForce(realtimeView.transform.position);
+    }
+
     private void Awake()
     {
         waitFrameDamageEffect = new WaitForEndOfFrame();
@@ -545,16 +558,12 @@ public class NewCarController : MonoBehaviour
         if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             CarRB.AddExplosionForce(explosionForce, transform.position - _origin, 20f, 1000f);
-        }
-        else
-        {
             if (_player.explosionForce != _origin)
             {
                 _player.ChangeExplosionForce(_origin);
+                _player.explosionForce = Vector3.zero;
             }
         }
-
-        _player.explosionForce = Vector3.zero;
     }
 
     // Update is called once per frame
@@ -574,11 +583,6 @@ public class NewCarController : MonoBehaviour
                 {
                     wheels[i].wheelRTV.RequestOwnership();
                     wheels[i].wheelRT.RequestOwnership();
-                }
-
-                if (_player.explosionForce != Vector3.zero)
-                {
-                    ExplosionForce(_player.explosionForce);
                 }
             }
 
@@ -828,7 +832,7 @@ public class NewCarController : MonoBehaviour
                                 position: _barrelTip.position,
                                 rotation: _barrelTip.rotation,
                                 ownedByClient: true,
-                                preventOwnershipTakeover: true,
+                                preventOwnershipTakeover: false,
                                 useInstance: _realtime);
 
                             WeaponProjectileBase PrimaryWeaponBase = _bulletBuffer.GetComponent<WeaponProjectileBase>();
@@ -1195,7 +1199,7 @@ public class NewCarController : MonoBehaviour
             }
         }
 
-        if(bomb != null && bomb.realtimeView.ownerIDInHierarchy != _realtimeView.ownerIDInHierarchy)
+        if (bomb != null && bomb.realtimeView.ownerIDInHierarchy != _realtimeView.ownerIDInHierarchy)
         {
             _player.DamagePlayer(bomb.damage);
         }

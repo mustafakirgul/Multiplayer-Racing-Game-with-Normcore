@@ -25,11 +25,12 @@ public class BombProjectile : WeaponProjectileBase
                 -transform.forward * (startSpeed + mf_carVelocity) * BombEjectionSpeed,
                 ForceMode.VelocityChange);
         }
+
         StartCoroutine(DelayActivation(1f));
     }
+
     private IEnumerator DelayActivation(float waitTime)
     {
-        GetComponent<Rigidbody>().isKinematic = true;
         yield return new WaitForSeconds(waitTime);
         isArmed = true;
     }

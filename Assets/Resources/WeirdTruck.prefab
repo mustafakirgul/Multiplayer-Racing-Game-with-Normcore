@@ -825,7 +825,7 @@ MonoBehaviour:
     isPowered: 1
     isSteeringWheel: 1
     isReverseSteeringWheel: 0
-  maxTorque: 45000
+  maxTorque: 32000
   _torqueFactor: 0
   _steeringAngle: 0
   maxSteeringAngle: 60
@@ -848,7 +848,7 @@ MonoBehaviour:
   elevationTorqueFactor: 0
   elevationConstant: 90
   currentTorquePerWheel: 0
-  torqueBoostAngleLimit: 35
+  torqueBoostAngleLimit: 45
   _health: 666
   _maxHealth: 666
   _explosionForce: {x: 0, y: 0, z: 0}
