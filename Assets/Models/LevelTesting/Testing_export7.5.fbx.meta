@@ -1,44 +1,9 @@
 fileFormatVersion: 2
-guid: 89e3f970d83594ccfa1c41189ae00c73
+guid: f6e422661089f4b20a6410aab9907e62
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.Front
-    second: {fileID: 2100000, guid: f0d41963176184b4fbc2b73a5193e007, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Normal.Cover
-    second: {fileID: 2100000, guid: df434285e848f4edc9bfc262b15fbb33, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Normal.Detail01
-    second: {fileID: 2100000, guid: 382c97d9b105f410fad398eedeb996d7, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Normal.Detail02
-    second: {fileID: 2100000, guid: 2b74c881e1ddd4bacb0c80be4482bc08, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Normal.Detail03
-    second: {fileID: 2100000, guid: 6dd35108f6ef0427db3124db3204f7c5, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Normal.Front
-    second: {fileID: 2100000, guid: 976e5365c44e648ebae3eded2b0ba3c0, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Normal.Sides
-    second: {fileID: 2100000, guid: c71035f0955834b96b4ed4a02fd8b754, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 1
     materialName: 0
