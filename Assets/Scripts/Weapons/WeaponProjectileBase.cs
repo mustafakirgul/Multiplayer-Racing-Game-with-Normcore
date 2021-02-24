@@ -227,18 +227,19 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             Truck _tempTruck = other.gameObject.GetComponent<Truck>();
             if (_tempTruck != null) //if it is a truck
             {
-                //damage the truck, but only if you own it (you know why)
+                //damage the truck, but only if it is owned locally it (you know why)
                 if (_tempTruck.realtimeView.isOwnedLocallyInHierarchy)
                 {
                     Debug.LogWarning("Truck hit!");
+                    PlayerManager.instance.statsEntity.SendStat(StatType.damage, damage);
                     Hit(_tempTruck);
+
                     return;
                 }
             }
 
             //check if it is a car
             NewCarController _tempCar = other.gameObject.GetComponent<NewCarController>();
-            Debug.LogWarning("NCC: " + _tempCar);
             if (_tempCar != null) //if it is a car, go for it!
             {
                 if (_tempCar._realtimeView.isOwnedLocallyInHierarchy)

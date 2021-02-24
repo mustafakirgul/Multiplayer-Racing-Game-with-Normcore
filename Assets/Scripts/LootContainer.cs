@@ -82,12 +82,20 @@ public class LootContainer : MonoBehaviour
     {
         //Logic for power up vs. loot added
         string tempName;
-        Texture2D tempImage;
         if (content.id < 0)
+        {
             tempName = LootManager.instance.playerLootPoolSave
                 .PlayerPowerUps[Mathf.Abs(content.id) - 1].name
                 .Remove(0, 2);
-        else tempName = "Loot Obtained!! ";
+
+            PlayerManager.instance.statsEntity.SendStat(StatType.powerup);
+        }
+        else
+        {
+            tempName = "Loot Obtained!! ";
+            PlayerManager.instance.statsEntity.SendStat(StatType.loot);
+        }
+
         GameManager.instance.uIManager.DisplayUIMessage(tempName);
         lCF.PlayAnimation(tempName, content.id);
     }
