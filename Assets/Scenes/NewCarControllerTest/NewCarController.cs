@@ -93,6 +93,9 @@ public class NewCarController : MonoBehaviour
     public GameObject muzzleFlash;
     public float currentAmmo;
 
+    [SerializeField]
+    private BarrelShaker m_BarrelShaker;
+
     private float primaryAmmo;
     private float secondaryAmmo;
     private float temptAmmo;
@@ -827,6 +830,8 @@ public class NewCarController : MonoBehaviour
                         if (readyToFire && !Overheat)
                         {
                             readyToFire = false;
+
+                            m_BarrelShaker.StartShake();
 
                             _bulletBuffer = Realtime.Instantiate(PrimaryWeaponProjectile.name,
                                 position: _barrelTip.position,
