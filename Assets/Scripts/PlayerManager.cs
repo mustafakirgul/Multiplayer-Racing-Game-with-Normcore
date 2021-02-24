@@ -48,6 +48,7 @@ public class PlayerManager : MonoBehaviour
     GameObject _temp;
     public Realtime _realtime;
     public PlayerInfo[] allPlayers;
+    public StatsEntity statsEntity;
 
     private void Awake()
     {
@@ -88,9 +89,10 @@ public class PlayerManager : MonoBehaviour
                 carControllers[i]._realtimeView.isOwnedRemotelyInHierarchy);
         }
     }
+
     public string PlayerName(int id)
     {
-        string temp = "N/A";
+        string temp = id.ToString(); // if cannot find player id in the list return the id as the name
         if (id < allPlayers.Length)
         {
             foreach (PlayerInfo p in allPlayers)
@@ -113,11 +115,6 @@ public class PlayerManager : MonoBehaviour
         }
 
         return null;
-    }
-
-    public Player ReturnLocalPlayer()
-    {
-        return localPlayer.GetComponent<Player>();
     }
 
     public void AddLocalPlayer(Transform _player)

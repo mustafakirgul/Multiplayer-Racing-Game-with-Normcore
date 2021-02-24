@@ -12,6 +12,7 @@ public class Player : RealtimeComponent<PlayerModel>
     public float tempDefenseModifier = 0f;
     public float healModifier = 0f;
     private NewCarController controller;
+    public StatsEntity statsEntity;
 
     protected override void OnRealtimeModelReplaced(PlayerModel previousModel, PlayerModel currentModel)
     {
@@ -28,9 +29,9 @@ public class Player : RealtimeComponent<PlayerModel>
         {
             if (currentModel.isFreshModel)
             {
-                currentModel.playerName = GameManager.instance.playerName;
-                currentModel.health = maxPlayerHealth;
                 playerName = GameManager.instance.playerName;
+                currentModel.health = maxPlayerHealth;
+                currentModel.playerName = playerName;
                 playerHealth = maxPlayerHealth;
                 ResetHealth();
             }
@@ -39,6 +40,17 @@ public class Player : RealtimeComponent<PlayerModel>
             currentModel.healthDidChange += PlayerHealthChanged;
             currentModel.forcesDidChange += PlayerForcesChanged;
         }
+    }
+
+    private void Awake()
+    {
+        statsEntity = Realtime.Instantiate("StatEntity",
+            position: Vector3.zero,
+            rotation: Quaternion.identity,
+            ownedByClient: true,
+            preventOwnershipTakeover: true,
+            destroyWhenOwnerOrLastClientLeaves: true,
+            useInstance: realtime).GetComponent<StatsEntity>();
     }
 
     private void Update()
