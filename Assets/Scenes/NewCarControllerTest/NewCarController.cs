@@ -831,6 +831,7 @@ public class NewCarController : MonoBehaviour
                         {
                             readyToFire = false;
 
+                            if(m_BarrelShaker != null)
                             m_BarrelShaker.StartShake();
 
                             _bulletBuffer = Realtime.Instantiate(PrimaryWeaponProjectile.name,
