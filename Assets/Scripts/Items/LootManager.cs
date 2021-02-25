@@ -77,6 +77,9 @@ public class LootManager : MonoBehaviour
     //[SerializeField]
     public int numberOfLootRolls;
 
+
+    [SerializeField]
+    private LootDecoder lootDecoder;
     private void Awake()
     {
         SingletonCheck();
@@ -129,7 +132,13 @@ public class LootManager : MonoBehaviour
                 ItemBase itemToAdd =
                     playerLootPoolSave.m_RollPool[Random.Range(0, playerLootPoolSave.m_RollPool.Count)];
                 playerLootPoolSave.PlayerLootToAdd.Add(itemToAdd);
+
+
+                GameObject LootDisplay = lootDecoder.LootDecoderUnitToSpawn;
+                lootDecoder.LootDecoderUnits.Add(LootDisplay);
             }
+
+            lootDecoder.StartSequence();
         }
 
         //Reset once roll is complete
