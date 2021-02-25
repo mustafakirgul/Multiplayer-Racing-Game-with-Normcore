@@ -1,7 +1,12 @@
 fileFormatVersion: 2
-guid: bc289ac6a26ae5646b467fe04086c68b
+<<<<<<< HEAD:Assets/Prefabs/PlayerManager.prefab.meta
+guid: 3e89d94a362dfe947a4d118a2553fe62
+PrefabImporter:
+=======
+guid: 5833d7aa471e641699842066ea50ed4c
 folderAsset: yes
 DefaultImporter:
+>>>>>>> 3a8ca1cdf6d3cded44899caca512784a8e62dc55:Assets/Resources/Odin Inspector.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
