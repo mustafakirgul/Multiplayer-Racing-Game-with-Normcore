@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5091933263892716658}
   m_Layer: 5
-  m_Name: LootDecoder 1
+  m_Name: LootDecoder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23,11 +23,11 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5091933263892716659}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5091933263853835015}
+  - {fileID: 3294590697572773690}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -47,6 +47,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.a
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 716532291671103115, guid: a4c6ec0f6d9fd2044832e77014432fce,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 716532291671103115, guid: a4c6ec0f6d9fd2044832e77014432fce,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 716532291841200305, guid: a4c6ec0f6d9fd2044832e77014432fce,
         type: 3}
@@ -163,16 +173,35 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 716532292838095061, guid: a4c6ec0f6d9fd2044832e77014432fce,
+        type: 3}
+      propertyPath: m_Name
+      value: LootIconCover
+      objectReference: {fileID: 0}
     - target: {fileID: 3932361652101235500, guid: a4c6ec0f6d9fd2044832e77014432fce,
         type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7125592676357631106, guid: a4c6ec0f6d9fd2044832e77014432fce,
+        type: 3}
+      propertyPath: m_OverridePixelPerfect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7125592676357631106, guid: a4c6ec0f6d9fd2044832e77014432fce,
+        type: 3}
+      propertyPath: m_OverrideSorting
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 7823454023384300188, guid: a4c6ec0f6d9fd2044832e77014432fce, type: 3}
+    - {fileID: 716532292838095056, guid: a4c6ec0f6d9fd2044832e77014432fce, type: 3}
+    - {fileID: 716532291671103113, guid: a4c6ec0f6d9fd2044832e77014432fce, type: 3}
+    - {fileID: 716532292838095059, guid: a4c6ec0f6d9fd2044832e77014432fce, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a4c6ec0f6d9fd2044832e77014432fce, type: 3}
---- !u!224 &5091933263853835015 stripped
+--- !u!224 &3294590697572773690 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 716532291841200318, guid: a4c6ec0f6d9fd2044832e77014432fce,
+  m_CorrespondingSourceObject: {fileID: 7125592676357631107, guid: a4c6ec0f6d9fd2044832e77014432fce,
     type: 3}
   m_PrefabInstance: {fileID: 5718318091848008633}
   m_PrefabAsset: {fileID: 0}

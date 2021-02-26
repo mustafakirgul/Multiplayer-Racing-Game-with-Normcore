@@ -790,7 +790,7 @@ MonoBehaviour:
     type: 2}
   Tank_buildLoadOut: {fileID: 11400000, guid: dbaca7f026fe15a4eb3647ae0007b6bc, type: 2}
   numberOfLootRolls: 0
-  lootDecoder: {fileID: 0}
+  lootDecoder: {fileID: 1785653915277516156}
 --- !u!4 &176171384
 Transform:
   m_ObjectHideFlags: 0
@@ -3853,10 +3853,10 @@ RectTransform:
   m_Father: {fileID: 1846744686}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 305.89185, y: -61.795532}
-  m_SizeDelta: {x: 601.7837, y: 113.591064}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &622383512
 MonoBehaviour:
@@ -4159,10 +4159,10 @@ RectTransform:
   m_Father: {fileID: 1846744686}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 305.89185, y: -195.3866}
-  m_SizeDelta: {x: 601.7837, y: 113.591064}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &656910296
 MonoBehaviour:
@@ -10144,10 +10144,10 @@ RectTransform:
   m_Father: {fileID: 1846744686}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 305.89185, y: -462.56873}
-  m_SizeDelta: {x: 601.7837, y: 113.591064}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1515884478
 MonoBehaviour:
@@ -10896,10 +10896,10 @@ RectTransform:
   m_Father: {fileID: 1846744686}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 305.89185, y: -328.97766}
-  m_SizeDelta: {x: 601.7837, y: 113.591064}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1633520922
 MonoBehaviour:
@@ -14680,7 +14680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2144996358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14765,6 +14765,7 @@ RectTransform:
   - {fileID: 507446253}
   - {fileID: 1763525402}
   - {fileID: 1178585580}
+  - {fileID: 1785653915277516155}
   m_Father: {fileID: 1993620754}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14999,6 +15000,61 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0b17a1bc6e4da840b4fc08a6c1e416a, type: 3}
+--- !u!1 &1785653915277516154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1785653915277516155}
+  - component: {fileID: 1785653915277516156}
+  m_Layer: 5
+  m_Name: LootDecoder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1785653915277516155
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785653915277516154}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2144996361}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1785653915277516156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785653915277516154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e32747c8e65d4746a4ce51ba75fadb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lootManager: {fileID: 0}
+  LootDecoderUnits: []
+  indexToActivate: 0
+  childCount: 0
+  canCheck: 0
+  LootDecoderUnitToSpawn: {fileID: 5091933263892716659, guid: 3184288832b76cb49a37c6d63ee8e325,
+    type: 3}
 --- !u!1001 &2635713673130010592
 PrefabInstance:
   m_ObjectHideFlags: 0

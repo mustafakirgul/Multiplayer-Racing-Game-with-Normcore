@@ -58,12 +58,17 @@ public class LootManager : MonoBehaviour
     //Even for specific builds where 2 of a kind of item can be equipped
     //Still only use 1 extra type
 
-    [Space] [Space] [Header("In-Game Applied LoadOut")]
+    [Space]
+    [Space]
+    [Header("In-Game Applied LoadOut")]
     public BuildType current_buildType;
 
     [SerializeField] private BuildLoadOutSObj current_buildLoadOut;
 
-    [Space] [Space] [Header("Garage Settings")] [SerializeField]
+    [Space]
+    [Space]
+    [Header("Garage Settings")]
+    [SerializeField]
     public RollPoolAndPlayerItemSave playerLootPoolSave;
 
     public BuildType selected_buildType;
@@ -133,16 +138,31 @@ public class LootManager : MonoBehaviour
                     playerLootPoolSave.m_RollPool[Random.Range(0, playerLootPoolSave.m_RollPool.Count)];
                 playerLootPoolSave.PlayerLootToAdd.Add(itemToAdd);
 
-
-                GameObject LootDisplay = lootDecoder.LootDecoderUnitToSpawn;
-                lootDecoder.LootDecoderUnits.Add(LootDisplay);
+                ConfigureDecoder(itemToAdd);
             }
 
             lootDecoder.StartSequence();
+            lootDecoder.canCheck = true;
         }
 
         //Reset once roll is complete
         numberOfLootRolls = 0;
+    }
+
+    private void ConfigureDecoder(ItemBase lootReference)
+    {
+        //Reference an empty decoder slot to decode
+        GameObject LootDisplay = Instantiate(lootDecoder.LootDecoderUnitToSpawn);
+
+        //Configure slot to decode with information of loot
+        DecoderDataReference itemDataReference = LootDisplay.GetComponentInChildren<DecoderDataReference>();
+
+        itemDataReference.LootImage.texture = lootReference.m_image;
+        itemDataReference.LootName.text = lootReference.name;
+        itemDataReference.LootDescription.text = lootReference.m_text;
+
+        //Add the configured UI display to the list under the decoder
+        lootDecoder.LootDecoderUnits.Add(LootDisplay);
     }
 
     public void SelectBuildToDisplay(BuildLoadOutSObj buildToDisplay)
