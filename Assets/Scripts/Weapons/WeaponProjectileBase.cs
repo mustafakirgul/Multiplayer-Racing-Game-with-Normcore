@@ -39,7 +39,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     UIManager UIManager;
 
-    //public int ProjectileID;
+    public StatsEntity statEntity;
 
     protected override void OnRealtimeModelReplaced(ProjectileModel previousModel, ProjectileModel currentModel)
     {
@@ -81,7 +81,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     void KillTimer()
     {
-        //hitCoroutine = StartCoroutine(HitCR());
         GetComponent<TrailRenderer>().emitting = false;
         rb.isKinematic = true;
         GetComponent<Collider>().enabled = false;
@@ -149,9 +148,9 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         truck.RegisterDamage(damage, realtimeView);
     }
 
-    void Hit(NewCarController car)
+    bool Hit(NewCarController car)
     {
-        car.RegisterDamage(damage, realtimeView);
+        return car.RegisterDamage(damage, realtimeView);
     }
 
     IEnumerator HitCR()
@@ -215,10 +214,10 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<RealtimeView>() == realtimeView) return;
-        CosmeticExplode();
         //if no realtime component in collided object then just detonate the projectile/explosive 
         RealtimeView _tempRTView = other.gameObject.GetComponent<RealtimeView>();
+        if (_tempRTView.ownerIDInHierarchy == realtimeView.ownerIDInHierarchy)
+            return; //if hit self or a friendly projectile, bail out
         Debug.LogWarning("Hit: " + other.transform.name + " | Realtime: " + _tempRTView);
         //if the collided object has a realtimeview
         if (_tempRTView != null)
@@ -227,13 +226,17 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             Truck _tempTruck = other.gameObject.GetComponent<Truck>();
             if (_tempTruck != null) //if it is a truck
             {
-                //damage the truck, but only if it is owned locally it (you know why)
+                if (realtimeView.isOwnedLocallyInHierarchy) //record stat if you are owned locally
+                    statEntity.ReceiveStat(StatType.damage, damage);
+
+
+                //damage the truck, but only if it is owned locally (you know why)
                 if (_tempTruck.realtimeView.isOwnedLocallyInHierarchy)
                 {
-                    Debug.LogWarning("Truck hit!");
-                    PlayerManager.instance.statsEntity.SendStat(StatType.damage, damage);
+                    //Debug.LogWarning("Truck hit!");
+                    UIManager.ConfirmHitDamage();
                     Hit(_tempTruck);
-
+                    CosmeticExplode();
                     return;
                 }
             }
@@ -244,8 +247,13 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             {
                 if (_tempCar._realtimeView.isOwnedLocallyInHierarchy)
                 {
-                    Debug.LogWarning("Car hit!");
-                    Hit(_tempCar);
+                    //Debug.LogWarning("Car hit!");
+                    UIManager.ConfirmHitDamage();
+                    if (Hit(_tempCar))
+                        if (realtimeView.isOwnedLocallyInHierarchy) //record stat if you are owned locally
+                            statEntity.ReceiveStat(StatType.kill);
+
+                    CosmeticExplode();
                     return;
                 }
             }
@@ -258,6 +266,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         }
 
         Debug.LogWarning("Empty hit!");
+        CosmeticExplode();
         Hit();
     }
 }

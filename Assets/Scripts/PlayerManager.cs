@@ -48,7 +48,6 @@ public class PlayerManager : MonoBehaviour
     GameObject _temp;
     public Realtime _realtime;
     public PlayerInfo[] allPlayers;
-    public StatsEntity statsEntity;
 
     private void Awake()
     {

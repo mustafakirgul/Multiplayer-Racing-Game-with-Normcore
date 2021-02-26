@@ -73,8 +73,15 @@ public class LootContainer : MonoBehaviour
             GetComponent<Rigidbody>().isKinematic = true;
             GetComponent<BoxCollider>().enabled = false;
             cr_Die = StartCoroutine(CR_Die());
-            //if (_collectorID == _realtime.ownerIDInHierarchy)
             DisplayCollectionMessage();
+            if (content.id < 0)
+            {
+                PlayerManager.instance.ReturnPlayer(_collectorID).statsEntity.ReceiveStat(StatType.powerup);
+            }
+            else
+            {
+                PlayerManager.instance.ReturnPlayer(_collectorID).statsEntity.ReceiveStat(StatType.loot);
+            }
         }
     }
 
@@ -87,13 +94,10 @@ public class LootContainer : MonoBehaviour
             tempName = LootManager.instance.playerLootPoolSave
                 .PlayerPowerUps[Mathf.Abs(content.id) - 1].name
                 .Remove(0, 2);
-
-            PlayerManager.instance.statsEntity.SendStat(StatType.powerup);
         }
         else
         {
             tempName = "Loot Obtained!! ";
-            PlayerManager.instance.statsEntity.SendStat(StatType.loot);
         }
 
         GameManager.instance.uIManager.DisplayUIMessage(tempName);

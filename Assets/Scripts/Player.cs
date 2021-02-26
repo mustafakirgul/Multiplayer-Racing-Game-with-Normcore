@@ -42,15 +42,18 @@ public class Player : RealtimeComponent<PlayerModel>
         }
     }
 
-    private void Awake()
+    private void Start()
     {
-        statsEntity = Realtime.Instantiate("StatEntity",
-            position: Vector3.zero,
-            rotation: Quaternion.identity,
-            ownedByClient: true,
-            preventOwnershipTakeover: true,
-            destroyWhenOwnerOrLastClientLeaves: true,
-            useInstance: realtime).GetComponent<StatsEntity>();
+        if (realtimeView.isOwnedLocallyInHierarchy)
+        {
+            statsEntity = Realtime.Instantiate("StatEntity",
+                position: Vector3.zero,
+                rotation: Quaternion.identity,
+                ownedByClient: true,
+                preventOwnershipTakeover: true,
+                destroyWhenOwnerOrLastClientLeaves: true,
+                useInstance: realtime).GetComponent<StatsEntity>();
+        }
     }
 
     private void Update()

@@ -93,8 +93,7 @@ public class NewCarController : MonoBehaviour
     public GameObject muzzleFlash;
     public float currentAmmo;
 
-    [SerializeField]
-    private BarrelShaker m_BarrelShaker;
+    [SerializeField] private BarrelShaker m_BarrelShaker;
 
     private float primaryAmmo;
     private float secondaryAmmo;
@@ -192,18 +191,20 @@ public class NewCarController : MonoBehaviour
     private float _tempHealth;
 
     public ParticleSystem[] boostParticles;
+    private int theKiller = -1;
 
-    public void RegisterDamage(float damage, RealtimeView realtimeView)
+    public bool RegisterDamage(float damage, RealtimeView realtimeView)
     {
-        int _temp = realtimeView.ownerIDInHierarchy;
+        theKiller = realtimeView
+            .ownerIDInHierarchy; //everyone is the potential killer until the target survives the hit
         GameManager.instance.uIManager.DisplayUIMessage(
-            PlayerManager.instance.PlayerName(_temp) + " hit " +
+            PlayerManager.instance.PlayerName(theKiller) + " hit " +
             PlayerManager.instance.PlayerName(_realtimeView.ownerIDInHierarchy) + " | Base Damage: " + damage);
-        realtimeView.RequestOwnership();
-        realtimeView.GetComponent<RealtimeTransform>().RequestOwnership();
-        realtimeView.transform.GetComponent<WeaponProjectileBase>().CosmeticExplode();
         _player.DamagePlayer(damage);
-        _player.ChangeExplosionForce(realtimeView.transform.position);
+        var difference = transform.position - realtimeView.transform.position;
+        _player.ChangeExplosionForce(difference);
+        ExplosionForce(difference);
+        return _player.playerHealth - damage <= 0;
     }
 
     private void Awake()
@@ -437,6 +438,7 @@ public class NewCarController : MonoBehaviour
             }
         }
 
+        IDDisplay.SetText(_player.playerName);
         WeaponSwitcherUI.SetActive(false);
         OverHeatNotice.gameObject.SetActive(false);
         OverheatMeterObj.SetActive(_realtimeView.isOwnedLocallyInHierarchy);
@@ -635,7 +637,7 @@ public class NewCarController : MonoBehaviour
         moveInput = 0;
         turnInput = 0;
         DeathExplosion.SetActive(true);
-        CarRB.AddExplosionForce(20f, this.CarRB.transform.position, 20f, 500f, ForceMode.Impulse);
+        CarRB.AddExplosionForce(20f, this.CarRB.transform.position + (-Vector3.up * 2f), 20f, 500f, ForceMode.Impulse);
         StartCoroutine(RespawnCountDown(5f));
     }
 
@@ -831,20 +833,22 @@ public class NewCarController : MonoBehaviour
                         {
                             readyToFire = false;
 
-                            m_BarrelShaker.StartShake();
+                            if (m_BarrelShaker != null)
+                                m_BarrelShaker.StartShake();
 
                             _bulletBuffer = Realtime.Instantiate(PrimaryWeaponProjectile.name,
                                 position: _barrelTip.position,
                                 rotation: _barrelTip.rotation,
                                 ownedByClient: true,
-                                preventOwnershipTakeover: false,
+                                preventOwnershipTakeover: true,
+                                destroyWhenOwnerOrLastClientLeaves: true,
                                 useInstance: _realtime);
 
                             WeaponProjectileBase PrimaryWeaponBase = _bulletBuffer.GetComponent<WeaponProjectileBase>();
 
                             PrimaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             PrimaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
-
+                            PrimaryWeaponBase.statEntity = _player.statsEntity;
                             StartCoroutine(FirePrimaryCR());
                         }
 
@@ -860,7 +864,8 @@ public class NewCarController : MonoBehaviour
                                 position: _barrelTip.position,
                                 rotation: _barrelTip.rotation,
                                 ownedByClient: true,
-                                preventOwnershipTakeover: false,
+                                preventOwnershipTakeover: true,
+                                destroyWhenOwnerOrLastClientLeaves: true,
                                 useInstance: _realtime);
 
                             WeaponProjectileBase SecondaryWeaponBase =
@@ -868,7 +873,7 @@ public class NewCarController : MonoBehaviour
 
                             SecondaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             SecondaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
-
+                            SecondaryWeaponBase.statEntity = _player.statsEntity;
                             StartCoroutine(FireSecondaryCR());
                         }
                         else if (currentAmmo <= 0)
