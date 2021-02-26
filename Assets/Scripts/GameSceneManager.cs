@@ -138,7 +138,19 @@ public class GameSceneManager : MonoBehaviour
         }
         else
         {
+
         }
+    }
+
+    private void StartEndSplashes()
+    {
+        //Turn off all splashes first
+        for (int i = 0; i < GameEndSplashes.Length; i++)
+        {
+            GameStartSplashes[i].splashedGObj.SetActive(false);
+        }
+
+        ShowSplash(m_iSplashIndex);
     }
 
     private void ShowSplash(int SplashIndex)
