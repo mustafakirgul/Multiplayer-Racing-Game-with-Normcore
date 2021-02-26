@@ -55,7 +55,6 @@ public class StatsManager : MonoBehaviour
 
         return stats;
     }
-
     public string ReturnStringStats()
     {
         sb.Clear();
