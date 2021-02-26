@@ -4,7 +4,6 @@ using Normal.Realtime;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
-using Random = System.Random;
 
 public class Truck : RealtimeComponent<TruckModel>
 {
