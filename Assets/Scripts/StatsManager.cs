@@ -36,6 +36,7 @@ public class StatsManager : MonoBehaviour
     {
         SingletonCheck();
     }
+
     private void Start()
     {
         wait = new WaitForSeconds(checkInterval);
@@ -55,6 +56,7 @@ public class StatsManager : MonoBehaviour
 
         return stats;
     }
+
     public string ReturnStringStats()
     {
         sb.Clear();
@@ -76,7 +78,7 @@ public class StatsManager : MonoBehaviour
 
     IEnumerator CR_CheckStats()
     {
-        while (entityChecker != null)
+        while (true)
         {
             entities = FindObjectsOfType<StatsEntity>();
             var length = entities.Length;

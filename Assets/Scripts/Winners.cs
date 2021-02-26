@@ -19,6 +19,7 @@ public class Winners : MonoBehaviour
     private void OnEnable()
     {
         RetrieveResults();
+        if (results == null) return;
         UpdateWinner();
         UpdateMostCars();
         UpdateMostDamage();
@@ -66,6 +67,7 @@ public class Winners : MonoBehaviour
 
     void RetrieveResults()
     {
+        if (StatsManager.instance == null) return;
         results = StatsManager.instance.ReturnStats();
     }
 

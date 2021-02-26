@@ -36,9 +36,13 @@ public class Results : MonoBehaviour
     private void PopulateList()
     {
         //return unordered results
+        if (StatsManager.instance == null) return;
         results = StatsManager.instance.ReturnStats();
         //clear ordered list to use it as a buffer before ordering
-        orderedResults.Clear();
+        if (orderedResults == null)
+            orderedResults = new List<OrderedEntry>();
+        else
+            orderedResults.Clear();
         //copy everything to ordered list (without ordering, yet)
         for (int i = 0; i < results.Length; i++)
         {
