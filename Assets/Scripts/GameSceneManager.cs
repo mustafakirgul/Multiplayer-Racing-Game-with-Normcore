@@ -22,8 +22,7 @@ public class GameSceneManager : MonoBehaviour
     public Splash[] GameEndSplashes;
 
     bool transitionStarted;
-    [SerializeField]
-    bool endSequenceActive;
+    [SerializeField] bool endSequenceActive;
 
     [SerializeField] private GameObject BlackFadeBox;
 
@@ -119,6 +118,7 @@ public class GameSceneManager : MonoBehaviour
             splashesToDisable[i].splashedGObj.SetActive(false);
         }
     }
+
     public void DisableEndSplashes()
     {
         for (int i = 0; i < GameEndSplashes.Length; i++)
@@ -149,7 +149,6 @@ public class GameSceneManager : MonoBehaviour
         }
         else
         {
-
         }
     }
 
@@ -169,6 +168,7 @@ public class GameSceneManager : MonoBehaviour
             StartCoroutine(FadeToBlackOutSquare(false, 2));
         }
     }
+
     public void StartEndSplashes()
     {
         //Reset splash index
@@ -182,6 +182,7 @@ public class GameSceneManager : MonoBehaviour
 
         ShowEndSplash(m_iSplashIndex);
     }
+
     private void ShowEndSplash(int SplashIndex)
     {
         if (SplashIndex < GameEndSplashes.Length)
@@ -194,7 +195,9 @@ public class GameSceneManager : MonoBehaviour
             Debug.Log("Loading Game Scene");
             //Disable all start splashes
             //Start end sequence here
+            LobbyManager.instance.ConnectToLobby(GameManager.instance.isHost);
             LootManager.instance.RollForLoot();
+            DisableEndSplashes();
             StartCoroutine(DelaySceneTransiton(0f));
             //Fade to Game Scene
             StartCoroutine(FadeToBlackOutSquare(false, 2));
@@ -259,14 +262,16 @@ public class GameSceneManager : MonoBehaviour
         //    StartCoroutine(DelaySceneTransiton(fadeOutTime, GameStartSplashes));
         //}
     }
+
     void Update()
     {
-        if(endSequenceActive &&
+        if (endSequenceActive &&
             Input.GetKeyUp(KeyCode.Space))
         {
             CycleEndSequence();
         }
     }
+
     void CycleEndSequence()
     {
         m_iSplashIndex++;
@@ -279,7 +284,7 @@ public class GameSceneManager : MonoBehaviour
         //Instead this should change to the game end canvas or the new screen canvas
 
         //When the new round loads no longer need intro splashes
-       
+
 
         //Don't load the scene instead just reconnect and restart the game
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -288,7 +293,6 @@ public class GameSceneManager : MonoBehaviour
         //TO DO: loot drop rolls and assign newly obtainloot to 
         //Display only new weapons that are dropped, avoid duplicating them in the UI
         GameManager.instance.uIManager.AssignAdditionalLootFromGameToDisplay();
-        LobbyManager.instance.ConnectToLobby(GameManager.instance.isHost);
         GameManager.instance.uIManager.ClearMessageCache();
     }
 }
