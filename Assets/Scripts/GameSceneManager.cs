@@ -293,7 +293,6 @@ public class GameSceneManager : MonoBehaviour
         //TO DO: loot drop rolls and assign newly obtainloot to 
         //Display only new weapons that are dropped, avoid duplicating them in the UI
         GameManager.instance.uIManager.AssignAdditionalLootFromGameToDisplay();
-        GameManager.instance.uIManager.ClearMessageCache();
     }
 }
 

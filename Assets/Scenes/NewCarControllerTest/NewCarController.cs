@@ -197,9 +197,6 @@ public class NewCarController : MonoBehaviour
     {
         theKiller = realtimeView
             .ownerIDInHierarchy; //everyone is the potential killer until the target survives the hit
-        GameManager.instance.uIManager.DisplayUIMessage(
-            PlayerManager.instance.PlayerName(theKiller) + " hit " +
-            PlayerManager.instance.PlayerName(_realtimeView.ownerIDInHierarchy) + " | Base Damage: " + damage);
         _player.DamagePlayer(damage);
         var difference = transform.position - realtimeView.transform.position;
         _player.ChangeExplosionForce(difference);

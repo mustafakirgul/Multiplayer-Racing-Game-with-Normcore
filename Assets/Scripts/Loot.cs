@@ -46,6 +46,7 @@ public class Loot : RealtimeComponent<LootModel>
     public void SetID(int _id)
     {
         model.id = _id;
+        
     }
 
     public void SetCollectedBy(int _collectedBy)

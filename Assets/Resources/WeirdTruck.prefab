@@ -25367,7 +25367,7 @@ Transform:
   m_GameObject: {fileID: 8749253059236063462}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -4.9399996, z: 5.95}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2936733036267682185}
   m_RootOrder: 1
@@ -25436,6 +25436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   local: {fileID: 0}
   network: {fileID: 0}
+  networked: 1
 --- !u!1001 &1938866513811889538
 PrefabInstance:
   m_ObjectHideFlags: 0

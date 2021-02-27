@@ -216,8 +216,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     {
         //if no realtime component in collided object then just detonate the projectile/explosive 
         RealtimeView _tempRTView = other.gameObject.GetComponent<RealtimeView>();
-
-        Debug.LogWarning("Hit: " + other.transform.name + " | Realtime: " + _tempRTView);
         //if the collided object has a realtimeview
         if (_tempRTView != null)
         {
@@ -240,6 +238,9 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                 }
             }
 
+            //if self hit return
+            if (_tempRTView.realtimeView.ownerIDInHierarchy==realtimeView.ownerIDInHierarchy) return;
+            
             //check if it is a car
             NewCarController _tempCar = other.gameObject.GetComponent<NewCarController>();
             if (_tempCar != null) //if it is a car, go for it!

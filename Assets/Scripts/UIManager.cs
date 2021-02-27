@@ -14,8 +14,6 @@ public class UIManager : MonoBehaviour
     public Image CrossHairUI;
     public RectTransform ScreenCanvas;
     public TextMeshProUGUI speedometer, playerName, timeRemaining;
-    public RectTransform uIMessagePanel;
-    public Text uIMessageTextBox;
     public int maximumNumberOfMessageLines = 10;
     private List<string> messages;
     private GameObject uIPanel;
@@ -375,26 +373,5 @@ public class UIManager : MonoBehaviour
     public void DisableUI()
     {
         uIPanel.SetActive(false);
-    }
-
-    public void DisplayUIMessage(string message)
-    {
-        messages.Add(message);
-        while (messages.Count > maximumNumberOfMessageLines)
-        {
-            messages.Remove(messages[0]);
-        }
-
-        uIMessageTextBox.text = "";
-        for (int i = 0; i < messages.Count; i++)
-        {
-            uIMessageTextBox.text += (messages[i] + "\n");
-        }
-    }
-
-    public void ClearMessageCache()
-    {
-        messages.Clear();
-        uIMessageTextBox.text = "";
     }
 }

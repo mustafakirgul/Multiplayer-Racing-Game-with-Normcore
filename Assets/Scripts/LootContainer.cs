@@ -100,7 +100,6 @@ public class LootContainer : MonoBehaviour
             tempName = "Loot Obtained!! ";
         }
 
-        GameManager.instance.uIManager.DisplayUIMessage(tempName);
         lCF.PlayAnimation(tempName, content.id);
     }
 
