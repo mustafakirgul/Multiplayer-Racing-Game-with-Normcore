@@ -11,6 +11,7 @@ public class MiniMapSprite : MonoBehaviour
     {
         _parent = transform.parent;
         _origin = transform.rotation.eulerAngles;
+        if (_parent.GetComponent<Truck>() != null) return;
         if (local == null) local = transform.GetChild(0).GetComponent<SpriteRenderer>();
         local.enabled = false;
         if (network != null) network = transform.GetChild(1).GetComponent<SpriteRenderer>();
@@ -19,6 +20,7 @@ public class MiniMapSprite : MonoBehaviour
 
     private void Start()
     {
+        if (_parent.GetComponent<Truck>() != null) return;
         local.enabled = _parent.GetComponent<RealtimeView>().isOwnedLocallyInHierarchy;
         network.enabled = _parent.GetComponent<RealtimeView>().isOwnedRemotelyInHierarchy;
     }
