@@ -30,6 +30,13 @@ public class LootDecoder : MonoBehaviour
 
     public void StartSequence()
     {
+        for (int i = 0; i < CheckForChildren(); i++)
+        {
+            GameObject toDestroy = this.transform.GetChild(i).gameObject;
+            LootDecoderUnits.Remove(toDestroy);
+            Destroy(toDestroy);
+        }
+
         foreach (GameObject promptToAdd in LootDecoderUnits)
         {
             promptToAdd.transform.parent = this.gameObject.transform;

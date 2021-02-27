@@ -401,13 +401,8 @@ public class GameManager : MonoBehaviour
     private IEnumerator EndDisplaySequence()
     {
         yield return StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 2));
-        GameSceneManager.instance.EnableSplashes(
-            GameSceneManager.instance.GameEndSplashes);
+        GameSceneManager.instance.StartEndSplashes();
         yield return StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 2));
-        lootManager.RollForLoot();
-        yield return StartCoroutine(
-            gameSceneManager.DelaySceneTransiton(3f)
-        );
     }
 
     private void ThingsToDoBeforeGameEnd()

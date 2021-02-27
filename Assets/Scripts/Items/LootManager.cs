@@ -142,6 +142,7 @@ public class LootManager : MonoBehaviour
             }
 
             lootDecoder.StartSequence();
+            GameSceneManager.instance.DisableEndSplashes();
             lootDecoder.canCheck = true;
         }
 

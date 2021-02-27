@@ -12036,7 +12036,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.24385422, y: 0.20300001}
   m_AnchorMax: {x: 0.24385422, y: 0.20300001}
-  m_AnchoredPosition: {x: 487.0884, y: -103.86571}
+  m_AnchoredPosition: {x: 487.0884, y: -103.86572}
   m_SizeDelta: {x: 209, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1342110917
@@ -15636,7 +15636,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.13216668, y: 0.20300001}
   m_AnchorMax: {x: 0.13216668, y: 0.20300001}
-  m_AnchoredPosition: {x: 337.8522, y: -103.86711}
+  m_AnchoredPosition: {x: 337.8522, y: -103.86713}
   m_SizeDelta: {x: 209, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1798566736
@@ -16601,7 +16601,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.35752085, y: 0.20300001}
   m_AnchorMax: {x: 0.35752085, y: 0.20300001}
-  m_AnchoredPosition: {x: 620.54, y: -103.86766}
+  m_AnchoredPosition: {x: 620.54, y: -103.867676}
   m_SizeDelta: {x: 209, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1910260769
@@ -20086,7 +20086,7 @@ PrefabInstance:
     - target: {fileID: 3256981861654351049, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
       propertyPath: phases.Array.data[1].duration
-      value: 20
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3256981861654351050, guid: c4243823ecb99bd4bbfff6f0ba948113,
         type: 3}
@@ -20333,7 +20333,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &4176943516331438294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20348,24 +20348,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blackSquareBox: {fileID: 0}
   m_fAutoTransitionDelay: 10
-  m_fFadeTime: 2
+  m_fFadeTime: 0
   m_bisAutomatedSplashes: 1
-  isDebugBuild: 0
+  isDebugBuild: 1
   buildFadeTime: 2
   buildSplashTime: 2
   m_iSplashIndex: 0
   GameStartSplashes:
   - splashedGObj: {fileID: 564327205}
-    duration: 2
+    duration: 0
   - splashedGObj: {fileID: 2072082877}
-    duration: 2
+    duration: 0
   GameEndSplashes:
   - splashedGObj: {fileID: 4345649890836148029}
-    duration: 2
+    duration: 0
   - splashedGObj: {fileID: 1053674393}
-    duration: 2
+    duration: 0
   - splashedGObj: {fileID: 471314785}
-    duration: 2
+    duration: 0
+  endSequenceActive: 0
   BlackFadeBox: {fileID: 4176943514987058843}
 --- !u!223 &4176943516331438295
 Canvas:

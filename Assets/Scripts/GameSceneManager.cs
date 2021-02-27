@@ -22,8 +22,12 @@ public class GameSceneManager : MonoBehaviour
     public Splash[] GameEndSplashes;
 
     bool transitionStarted;
+    [SerializeField]
+    bool endSequenceActive;
 
     [SerializeField] private GameObject BlackFadeBox;
+
+    Coroutine endScreenFade;
 
     #region Singleton Logic
 
@@ -115,6 +119,13 @@ public class GameSceneManager : MonoBehaviour
             splashesToDisable[i].splashedGObj.SetActive(false);
         }
     }
+    public void DisableEndSplashes()
+    {
+        for (int i = 0; i < GameEndSplashes.Length; i++)
+        {
+            GameEndSplashes[i].splashedGObj.SetActive(false);
+        }
+    }
 
     private void ObtainReferenceToBox()
     {
@@ -142,17 +153,6 @@ public class GameSceneManager : MonoBehaviour
         }
     }
 
-    private void StartEndSplashes()
-    {
-        //Turn off all splashes first
-        for (int i = 0; i < GameEndSplashes.Length; i++)
-        {
-            GameStartSplashes[i].splashedGObj.SetActive(false);
-        }
-
-        ShowSplash(m_iSplashIndex);
-    }
-
     private void ShowSplash(int SplashIndex)
     {
         if (SplashIndex < GameStartSplashes.Length)
@@ -169,6 +169,38 @@ public class GameSceneManager : MonoBehaviour
             StartCoroutine(FadeToBlackOutSquare(false, 2));
         }
     }
+    public void StartEndSplashes()
+    {
+        //Reset splash index
+        m_iSplashIndex = 0;
+        endSequenceActive = true;
+        //Turn off all splashes first
+        for (int i = 0; i < GameEndSplashes.Length; i++)
+        {
+            GameEndSplashes[i].splashedGObj.SetActive(false);
+        }
+
+        ShowEndSplash(m_iSplashIndex);
+    }
+    private void ShowEndSplash(int SplashIndex)
+    {
+        if (SplashIndex < GameEndSplashes.Length)
+        {
+            GameEndSplashes[SplashIndex].splashedGObj.SetActive(true);
+        }
+        else
+        {
+            endSequenceActive = false;
+            Debug.Log("Loading Game Scene");
+            //Disable all start splashes
+            //Start end sequence here
+            LootManager.instance.RollForLoot();
+            StartCoroutine(DelaySceneTransiton(0f));
+            //Fade to Game Scene
+            StartCoroutine(FadeToBlackOutSquare(false, 2));
+        }
+    }
+
 
     public IEnumerator FadeToBlackOutSquare(bool fadeToBlack, float fadeSpeedTime)
     {
@@ -227,27 +259,18 @@ public class GameSceneManager : MonoBehaviour
         //    StartCoroutine(DelaySceneTransiton(fadeOutTime, GameStartSplashes));
         //}
     }
-
-    public void CheckForEndSequenceTransition()
+    void Update()
     {
-        if (!transitionStarted)
+        if(endSequenceActive &&
+            Input.GetKeyUp(KeyCode.Space))
         {
-            //transitionStarted = true;
-            if (FindObjectOfType<AutoSceneTransitonTag>())
-            {
-                //StartCoroutine(DelaySceneTransiton(m_fAutoTransitionDelay, EndGameSplashes));
-                //Debug.Log("Auto Scene Transition Tag Found, Changing Scenes in " +
-                //    m_fAutoTransitionDelay);
-                //Need a new wait to restart and reload the game
-            }
-            else
-            {
-                Debug.Log("No auto Scene Transition Tag Found");
-                //Do nothing, no auto transition
-                //Wait for manual transition
-                //Manual Scene Transition Code here
-            }
+            CycleEndSequence();
         }
+    }
+    void CycleEndSequence()
+    {
+        m_iSplashIndex++;
+        ShowEndSplash(m_iSplashIndex);
     }
 
     public IEnumerator DelaySceneTransiton(float waitTime)
@@ -256,13 +279,12 @@ public class GameSceneManager : MonoBehaviour
         //Instead this should change to the game end canvas or the new screen canvas
 
         //When the new round loads no longer need intro splashes
-        DisableSplashes(GameEndSplashes);
+       
 
         //Don't load the scene instead just reconnect and restart the game
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         //Select the last build left off before start of the game
         GameManager.instance.uIManager.ReactivateLogin();
-
         //TO DO: loot drop rolls and assign newly obtainloot to 
         //Display only new weapons that are dropped, avoid duplicating them in the UI
         GameManager.instance.uIManager.AssignAdditionalLootFromGameToDisplay();
