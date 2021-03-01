@@ -32,6 +32,16 @@ public class Race : RealtimeComponent<RaceModel>
         }
     }
 
+    private void Start()
+    {
+        FindObjectOfType<TopRacersLive>().isRunning = true;
+    }
+
+    private void OnDestroy()
+    {
+        FindObjectOfType<TopRacersLive>().isRunning = false;
+    }
+
     private void Update()
     {
         m_iPhase = model.phase;
@@ -66,7 +76,6 @@ public class Race : RealtimeComponent<RaceModel>
 
     private void IsOnChanged(RaceModel raceModel, bool value)
     {
-        FindObjectOfType<TopRacersLive>().isRunning = value;
         m_isOn = value;
     }
 }
