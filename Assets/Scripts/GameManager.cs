@@ -395,6 +395,7 @@ public class GameManager : MonoBehaviour
 
     public void StartEndDisplaySequence()
     {
+        _race.ChangeIsOn(false);
         StartCoroutine(EndDisplaySequence());
     }
 

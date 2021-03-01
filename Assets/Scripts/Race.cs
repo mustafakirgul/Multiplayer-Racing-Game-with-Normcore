@@ -59,6 +59,7 @@ public class Race : RealtimeComponent<RaceModel>
 
     private void IsOnChanged(RaceModel raceModel, bool value)
     {
+        FindObjectOfType<TopRacersLive>().isRunning = value;
         m_isOn = value;
     }
 }

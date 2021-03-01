@@ -179,8 +179,6 @@ public class NewCarController : MonoBehaviour
 
     [HideInInspector] public int _resets;
 
-    public SpriteRenderer _miniMapRenderer;
-
     [Space] [Header("Suspension and Wheel Settings")]
     public bool identicalSuspension4AW;
 
@@ -201,7 +199,10 @@ public class NewCarController : MonoBehaviour
         var difference = transform.position - realtimeView.transform.position;
         _player.ChangeExplosionForce(difference);
         ExplosionForce(difference);
-        return _player.playerHealth - damage <= 0;
+        bool test = _player.playerHealth - damage <= 0;
+        Debug.LogWarning(PlayerManager.instance.PlayerName(realtimeView.ownerIDInHierarchy) + " was " +
+                         (test ? "killed" : "damaged") + " by " + PlayerManager.instance.PlayerName(theKiller));
+        return test;
     }
 
     private void Awake()
@@ -359,10 +360,6 @@ public class NewCarController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (offlineTest)
-            _miniMapRenderer.enabled = false;
-
-
         if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             uIManager = FindObjectOfType<UIManager>();
@@ -420,7 +417,6 @@ public class NewCarController : MonoBehaviour
         }
         else
         {
-            _miniMapRenderer.color = Color.red;
             CarRB.gameObject.SetActive(false);
             IDDisplay.gameObject.SetActive(true);
             if (!PlayerManager.instance.networkPlayers.Contains(transform))

@@ -20,14 +20,16 @@ public class StatsEntity : RealtimeComponent<StatsModel>
                 currentModel.loot = _loot;
                 currentModel.powerUp = _powerUp;
                 currentModel.damageToTruck = _damageToTruck;
-                return;
             }
-
-            _kills = currentModel.kills;
-            _damageToTruck = currentModel.damageToTruck;
-            _powerUp = currentModel.powerUp;
-            _loot = currentModel.loot;
         }
+    }
+
+    private void Update()
+    {
+        _kills = model.kills;
+        _damageToTruck = model.damageToTruck;
+        _powerUp = model.powerUp;
+        _loot = model.loot;
     }
 
     public void ReceiveStat(StatType type, float value)

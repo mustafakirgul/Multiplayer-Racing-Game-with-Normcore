@@ -72,7 +72,7 @@ public class Results : MonoBehaviour
 
     private int SortByScore(OrderedEntry p1, OrderedEntry p2)
     {
-        return p1.score.CompareTo(p2.score);
+        return p2.score.CompareTo(p1.score);
     }
 }
 

@@ -200,10 +200,10 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     IEnumerator CR_CosmeticExplode()
     {
-        if (realtimeView.isOwnedLocallyInHierarchy) model.exploded = true;
-        explosion.SetActive(true);
         GetComponent<TrailRenderer>().emitting = false;
         projectile_Mesh.SetActive(false);
+        explosion.SetActive(true);
+        if (realtimeView.isOwnedLocallyInHierarchy) model.exploded = true;
         yield return wait1Sec;
         yield return wait1Sec;
         explosion.SetActive(false);

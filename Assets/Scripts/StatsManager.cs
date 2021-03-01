@@ -41,7 +41,7 @@ public class StatsManager : MonoBehaviour
     {
         wait = new WaitForSeconds(checkInterval);
         if (entityChecker != null) StopCoroutine(entityChecker);
-        entityChecker = StartCoroutine(CR_CheckStats());
+        entityChecker = StartCoroutine(CR_CheckEntities());
     }
 
     public StatsEntry[] ReturnStats()
@@ -76,13 +76,11 @@ public class StatsManager : MonoBehaviour
         return sb.ToString();
     }
 
-    IEnumerator CR_CheckStats()
+    IEnumerator CR_CheckEntities()
     {
         while (true)
         {
             entities = FindObjectsOfType<StatsEntity>();
-            var length = entities.Length;
-            stats = new StatsEntry[length];
             yield return wait;
         }
     }

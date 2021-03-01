@@ -13,7 +13,7 @@ public class TopRacersLive : MonoBehaviour
     private float _interval;
     private Coroutine cr_Check;
     private WaitForSeconds wait;
-    private bool isRunning;
+    public bool isRunning;
     private StatsEntry[] results;
     private List<OrderedEntry> orderedResults;
     [Space(10)] public StatsEntry[] stats;
@@ -28,7 +28,6 @@ public class TopRacersLive : MonoBehaviour
         _interval = interval;
         wait = new WaitForSeconds(_interval);
         cr_Check = StartCoroutine(CR_Check());
-        isRunning = true;
     }
 
     private IEnumerator CR_Check()
@@ -104,6 +103,6 @@ public class TopRacersLive : MonoBehaviour
 
     private int SortByScore(OrderedEntry p1, OrderedEntry p2)
     {
-        return p1.score.CompareTo(p2.score);
+        return p2.score.CompareTo(p1.score);
     }
 }
