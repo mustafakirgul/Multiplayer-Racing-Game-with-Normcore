@@ -25,27 +25,17 @@ public class StatsManager : MonoBehaviour
 
     #endregion
 
-    public float checkInterval;
     [Header("Players&Stats")] public StatsEntity[] entities;
     [Space(10)] public StatsEntry[] stats;
     StringBuilder sb = new StringBuilder("", 666);
-    private Coroutine entityChecker;
-    private WaitForSeconds wait;
-
     private void Awake()
     {
         SingletonCheck();
     }
-
-    private void Start()
-    {
-        wait = new WaitForSeconds(checkInterval);
-        if (entityChecker != null) StopCoroutine(entityChecker);
-        entityChecker = StartCoroutine(CR_CheckEntities());
-    }
-
+  
     public StatsEntry[] ReturnStats()
     {
+        entities = FindObjectsOfType<StatsEntity>();
         var length = entities.Length;
         stats = new StatsEntry[length];
         for (int i = 0; i < length; i++)
@@ -74,15 +64,6 @@ public class StatsManager : MonoBehaviour
         }
 
         return sb.ToString();
-    }
-
-    IEnumerator CR_CheckEntities()
-    {
-        while (true)
-        {
-            entities = FindObjectsOfType<StatsEntity>();
-            yield return wait;
-        }
     }
 }
 

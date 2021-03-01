@@ -52,20 +52,17 @@ public class StatsEntity : RealtimeComponent<StatsModel>
         switch (type)
         {
             case StatType.kill:
-                _kills++;
-                model.kills = _kills;
+                model.kills++;
                 break;
             case StatType.damage:
                 Debug.LogError(
                     "Please send a float with statType 'damageToTruck' so that I know how much damage you did to the truck!");
                 break;
             case StatType.powerup:
-                _powerUp++;
-                model.powerUp = _powerUp;
+                model.powerUp++;
                 break;
             case StatType.loot:
-                _loot++;
-                model.loot = _loot;
+                model.loot++;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);

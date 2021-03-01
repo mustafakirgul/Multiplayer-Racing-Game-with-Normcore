@@ -1,4 +1,5 @@
-﻿using Normal.Realtime;
+﻿using System;
+using Normal.Realtime;
 
 public class Race : RealtimeComponent<RaceModel>
 {
@@ -21,14 +22,20 @@ public class Race : RealtimeComponent<RaceModel>
         {
             if (currentModel.isFreshModel)
             {
-                m_iPhase = currentModel.phase;
-                m_isOn = currentModel.isOn;
+                currentModel.phase = m_iPhase;
+                currentModel.isOn = m_isOn;
             }
 
             currentModel.gameStartTimeDidChange += GameTimeChanged;
             currentModel.phaseDidChange += PhaseChanged;
             currentModel.isOnDidChange += IsOnChanged;
         }
+    }
+
+    private void Update()
+    {
+        m_iPhase = model.phase;
+        m_isOn = model.isOn;
     }
 
     public void ChangeIsOn(bool state)

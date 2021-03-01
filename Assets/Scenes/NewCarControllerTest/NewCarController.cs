@@ -191,7 +191,7 @@ public class NewCarController : MonoBehaviour
     public ParticleSystem[] boostParticles;
     private int theKiller = -1;
 
-    public bool RegisterDamage(float damage, RealtimeView realtimeView)
+    public void RegisterDamage(float damage, RealtimeView realtimeView)
     {
         theKiller = realtimeView
             .ownerIDInHierarchy; //everyone is the potential killer until the target survives the hit
@@ -200,9 +200,9 @@ public class NewCarController : MonoBehaviour
         _player.ChangeExplosionForce(difference);
         ExplosionForce(difference);
         bool test = _player.playerHealth - damage <= 0;
-        Debug.LogWarning(PlayerManager.instance.PlayerName(realtimeView.ownerIDInHierarchy) + " was " +
+        if (test) realtimeView.transform.GetComponent<WeaponProjectileBase>().RegisterKill();
+        Debug.LogWarning(PlayerManager.instance.PlayerName(_realtimeView.ownerIDInHierarchy) + " was " +
                          (test ? "killed" : "damaged") + " by " + PlayerManager.instance.PlayerName(theKiller));
-        return test;
     }
 
     private void Awake()

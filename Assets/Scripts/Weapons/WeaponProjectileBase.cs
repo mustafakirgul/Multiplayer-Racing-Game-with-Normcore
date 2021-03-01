@@ -148,9 +148,9 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         truck.RegisterDamage(damage, realtimeView);
     }
 
-    bool Hit(NewCarController car)
+    void Hit(NewCarController car)
     {
-        return car.RegisterDamage(damage, realtimeView);
+        car.RegisterDamage(damage, realtimeView);
     }
 
     IEnumerator HitCR()
@@ -239,8 +239,8 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             }
 
             //if self hit return
-            if (_tempRTView.realtimeView.ownerIDInHierarchy==realtimeView.ownerIDInHierarchy) return;
-            
+            if (_tempRTView.realtimeView.ownerIDInHierarchy == realtimeView.ownerIDInHierarchy) return;
+
             //check if it is a car
             NewCarController _tempCar = other.gameObject.GetComponent<NewCarController>();
             if (_tempCar != null) //if it is a car, go for it!
@@ -249,10 +249,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                 {
                     //Debug.LogWarning("Car hit!");
                     UIManager.ConfirmHitDamage();
-                    if (Hit(_tempCar))
-                        if (realtimeView.isOwnedLocallyInHierarchy) //record stat if you are owned locally
-                            statEntity.ReceiveStat(StatType.kill);
-
+                    Hit(_tempCar);
                     CosmeticExplode();
                     return;
                 }
@@ -268,5 +265,15 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         Debug.LogWarning("Empty hit!");
         CosmeticExplode();
         Hit();
+    }
+
+    public void RegisterKill()
+    {
+        if (realtimeView.isOwnedLocallyInHierarchy) //record stat if you are owned locally
+        {
+            Debug.LogWarning("1 kill registered for " +
+                             PlayerManager.instance.PlayerName(realtimeView.ownerIDInHierarchy));
+            statEntity.ReceiveStat(StatType.kill);
+        }
     }
 }
