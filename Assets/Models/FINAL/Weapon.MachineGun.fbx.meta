@@ -3,7 +3,47 @@ guid: 239b6c6c4e4fb412c8a0dd0cfb55df32
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.MachineGun.Base
+    second: {fileID: 2100000, guid: a255382bdc8264b2d960c270b2dfcf3a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.MachineGun.Cylinders
+    second: {fileID: 2100000, guid: 7e9202e744d37408dbefb566154a57a5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.MachineGun.Main
+    second: {fileID: 2100000, guid: 95d11c969809947319d0cbf5efa8f374, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.MachineGun.Part01
+    second: {fileID: 2100000, guid: eb4d8489ee03845a4986c878f46062b9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.MachineGun.Part02
+    second: {fileID: 2100000, guid: 4ff8baa55ab4c46f5a8069c605d46ce8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.MachineGun.Part03
+    second: {fileID: 2100000, guid: ef5bb9fbcdf4541549e316e721921fbc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.MachineGun.Part04
+    second: {fileID: 2100000, guid: bac0b52f049fc419b981f581df91eb7c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.MachineGun.Pipes
+    second: {fileID: 2100000, guid: 552c2ad0298e6418c8a6785edd36b93b, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
