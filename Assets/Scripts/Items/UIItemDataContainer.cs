@@ -5,7 +5,6 @@ using UnityEngine;
 public class UIItemDataContainer : MonoBehaviour
 {
     public int _buttonItemID;
-
     //Button 
     public void InjectButtonBuildDataToBuild()
     {
@@ -26,6 +25,11 @@ public class UIItemDataContainer : MonoBehaviour
                 uiManager.ItemDescription.text =
                     lootManager.selected_buildLoadOutToView.Weapon.m_text;
 
+                int WeaponIndex = (int)lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID].m_itemVisualIndex;
+
+                uiManager.UpdateCarVisualModelsWeapons(WeaponIndex);
+
+
                 //Set new flag to false
                 lootManager.playerLootPoolSave.PlayerNewLabelLootFlags[_buttonItemID] = false;
                 break;
@@ -39,6 +43,10 @@ public class UIItemDataContainer : MonoBehaviour
                 uiManager.ItemDescription.text =
                     lootManager.selected_buildLoadOutToView.Armour.m_text;
 
+                int ArmourIndex = (int)lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID].m_itemVisualIndex;
+
+                uiManager.UpdateCarVisualModelsArmour(ArmourIndex);
+
                 //Set new flag to false
                 lootManager.playerLootPoolSave.PlayerNewLabelLootFlags[_buttonItemID] = false;
                 break;
@@ -51,6 +59,11 @@ public class UIItemDataContainer : MonoBehaviour
                 //UI Text for Item
                 uiManager.ItemDescription.text =
                     lootManager.selected_buildLoadOutToView.Engine.m_text;
+
+                //Model change
+                int EngineIndex = (int)lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID].m_itemVisualIndex;
+
+                uiManager.UpdateCarVisualModelsEngines(EngineIndex);
 
                 //Set new flag to false
                 lootManager.playerLootPoolSave.PlayerNewLabelLootFlags[_buttonItemID] = false;

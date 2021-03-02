@@ -10,10 +10,10 @@ public class Winners : MonoBehaviour
 
     private void Awake()
     {
+        mostLoot = transform.GetChild(1).GetChild(3).GetComponent<Text>();
         winner = transform.GetChild(1).GetChild(0).GetComponent<Text>();
         mostCars = transform.GetChild(1).GetChild(1).GetComponent<Text>();
         mostDamage = transform.GetChild(1).GetChild(2).GetComponent<Text>();
-        mostLoot = transform.GetChild(1).GetChild(3).GetComponent<Text>();
     }
 
     private void OnEnable()

@@ -229,6 +229,18 @@ public class NewCarController : MonoBehaviour
         SyncPhysicsParamsData();
     }
 
+    void ObtainCorrectShaker()
+    {
+        BarrelShaker[] shakers  = GetComponentsInChildren<BarrelShaker>();
+
+        for (int i = 0; i < shakers.Length; i++)
+        {
+            if(shakers[i].isActiveAndEnabled)
+            {
+                m_BarrelShaker = shakers[i];
+            }
+        }
+    }
     //For tuning physics and car physics params
     void SyncPhysicsParamsData()
     {
@@ -435,6 +447,7 @@ public class NewCarController : MonoBehaviour
         WeaponSwitcherUI.SetActive(false);
         OverHeatNotice.gameObject.SetActive(false);
         OverheatMeterObj.SetActive(_realtimeView.isOwnedLocallyInHierarchy);
+        ObtainCorrectShaker();
     }
 
     public void DamageFeedback()

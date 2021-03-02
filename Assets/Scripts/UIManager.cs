@@ -45,6 +45,7 @@ public class UIManager : MonoBehaviour
 
     //Need to add details the mesh of each car
     public List<GameObject> BuildModelsAppearance = new List<GameObject>();
+    public List<ContainerSelector> VisualModelSelectors = new List<ContainerSelector>();
 
     //UI weapon display for current build
     public RawImage SelectedWeapon;
@@ -88,6 +89,15 @@ public class UIManager : MonoBehaviour
         _gameManager.FixAssociations();
         AssignLootToDisplayAtStart();
         AssignLoadOutLootItemVisualImage(_lootManager.selected_buildLoadOutToView);
+
+        ContainerSelector[] selector = BuildModelsAppearance[0].GetComponentsInChildren<ContainerSelector>();
+
+        VisualModelSelectors.Clear();
+        foreach (ContainerSelector sel in selector)
+        {
+            VisualModelSelectors.Add(sel);
+        }
+
         MakeHitMarkerDissappear();
     }
 
@@ -100,7 +110,17 @@ public class UIManager : MonoBehaviour
             BuildModelsAppearance[i].SetActive(false);
         }
 
+
         BuildModelsAppearance[_buildIndex].SetActive(true);
+
+        ContainerSelector[] selector = BuildModelsAppearance[_buildIndex].
+            GetComponentsInChildren<ContainerSelector>();
+
+        VisualModelSelectors.Clear();
+        foreach(ContainerSelector sel in selector)
+        {
+            VisualModelSelectors.Add(sel);
+        }
 
         _lootManager.RetreiveBuild(_buildIndex);
         SelectedBuildToView = _buildIndex;
@@ -108,6 +128,23 @@ public class UIManager : MonoBehaviour
         AssignLoadOutLootItemVisualImage(_lootManager.selected_buildLoadOutToView);
     }
 
+    public void UpdateCarVisualModelsWeapons(int indexToActivate)
+    {
+        //Index 0 is the weapon
+        VisualModelSelectors[0].ActivateItem(indexToActivate);
+    }
+
+    public void UpdateCarVisualModelsArmour(int indexToActivate)
+    {
+        //Index 1 is the armour
+        VisualModelSelectors[1].ActivateItem(indexToActivate);
+    }
+
+    public void UpdateCarVisualModelsEngines(int indexToActivate)
+    {
+        //Index 2 is the Engine
+        VisualModelSelectors[2].ActivateItem(indexToActivate);
+    }
     public void SwitchProjectileDisplayInfo(Texture2D spriteToChange, int currentAmmoCount)
     {
         CurrentWeaponProjectile.texture = spriteToChange;
@@ -248,6 +285,16 @@ public class UIManager : MonoBehaviour
         //Select Default build to display
         //To Do: remember the load saved build
         CarBuildSelection(lastbuildSelected);
+
+        //Visual things add back
+        ContainerSelector[] selector = BuildModelsAppearance[lastbuildSelected].
+        GetComponentsInChildren<ContainerSelector>();
+
+        VisualModelSelectors.Clear();
+        foreach (ContainerSelector sel in selector)
+        {
+            VisualModelSelectors.Add(sel);
+        }
     }
 
     //this needs to run first before the UI methods run

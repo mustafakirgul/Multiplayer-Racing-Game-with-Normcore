@@ -82,7 +82,6 @@ public class LootManager : MonoBehaviour
     //[SerializeField]
     public int numberOfLootRolls;
 
-
     [SerializeField]
     private LootDecoder lootDecoder;
     private void Awake()
@@ -120,6 +119,16 @@ public class LootManager : MonoBehaviour
         //Note index for List starts still at 0 so minus 1 to start from the 1st element in the PU list
         TempItemSObj DecodedPU = playerLootPoolSave.PlayerPowerUps[Index - 1];
         return DecodedPU;
+    }
+    
+    public Vector3 VisualModelIndex()
+    {
+        Vector3 VisualIndex =
+            new Vector3(current_buildLoadOut.Weapon.m_itemVisualIndex,
+                        current_buildLoadOut.Armour.m_itemVisualIndex,
+                        current_buildLoadOut.Engine.m_itemVisualIndex);
+
+        return VisualIndex;
     }
 
     public void RollForLoot()

@@ -315,6 +315,7 @@ public class GameManager : MonoBehaviour
         _temp.GetComponent<Player>().SetPlayerName(playerName);
 
         _temp.GetComponent<ItemDataProcessor>().ObtainLoadOutData(lootManager.ObatinCurrentBuild());
+        _temp.GetComponent<ItemDataProcessor>().ProcessVisualIndices(lootManager.VisualModelIndex());
         FindObjectOfType<MiniMapCamera>()._master = _temp.transform;
         ResetBoolsForNewRound();
         _race.ChangeIsOn(true);

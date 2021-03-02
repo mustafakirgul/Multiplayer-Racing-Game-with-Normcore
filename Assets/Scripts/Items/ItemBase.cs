@@ -6,7 +6,7 @@ public class ItemBase : ScriptableObject
     public ItemType _ItemType;
 
     //Read only data
-    [SerializeField] private float f_attack = 0f, f_defense = 0f, f_speed = 0f, f_amount = 0f, f_fireRate = 0f;
+    [SerializeField] private float f_attack = 0f, f_defense = 0f, f_speed = 0f, f_amount = 0f, f_fireRate = 0f, f_itemVisualIndex;
     private int i_subType = 0;
 
     [SerializeField] private string itemText = "";
@@ -20,6 +20,7 @@ public class ItemBase : ScriptableObject
     public int m_subType => i_subType;
     public float m_fireRate => f_fireRate;
     public string m_text => itemText;
+    public float m_itemVisualIndex => f_itemVisualIndex;
 
     public Texture2D m_image => itemImage;
 

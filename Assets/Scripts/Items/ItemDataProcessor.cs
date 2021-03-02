@@ -23,6 +23,12 @@ public class ItemDataProcessor : MonoBehaviour
 
     [SerializeField] public BuildLoadOutSObj current_buildLoadOut;
 
+    //TODO: to be expanded later
+    //For Vehicle appearance should be already associated in prefab
+    [SerializeField] private ContainerSelector WeaponSelector;
+    [SerializeField] private ContainerSelector ArmourSelector;
+    [SerializeField] private ContainerSelector EngineSelector;
+
     private void Awake()
     {
         //Modifications for player health/defense/armour
@@ -56,6 +62,13 @@ public class ItemDataProcessor : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void ProcessVisualIndices(Vector3 indices)
+    {
+        WeaponSelector.ActivateItem((int)indices.x);
+        ArmourSelector.ActivateItem((int)indices.y);
+        EngineSelector.ActivateItem((int)indices.z);
     }
 
     public void ProcessLoadOutData(ItemBase ItemPickUp)
