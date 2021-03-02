@@ -37,11 +37,6 @@ public class Race : RealtimeComponent<RaceModel>
         FindObjectOfType<TopRacersLive>().isRunning = true;
     }
 
-    private void OnDestroy()
-    {
-        FindObjectOfType<TopRacersLive>().isRunning = false;
-    }
-
     private void Update()
     {
         m_iPhase = model.phase;
