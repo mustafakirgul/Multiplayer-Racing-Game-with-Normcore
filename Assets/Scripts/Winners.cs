@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Winners : MonoBehaviour
 {
     private Text winner, mostCars, mostDamage, mostLoot;
-    private StatsEntry[] results;
+    private OrderedEntry[] results;
     private string playerName;
 
     private void Awake()
@@ -38,10 +38,10 @@ public class Winners : MonoBehaviour
         var highest = -1;
         for (int i = 0; i < results.Length; i++)
         {
-            if (results[i].loot > highest)
+            if (results[i].result.loot > highest)
             {
-                highest = results[i].loot;
-                playerName = results[i].playerName;
+                highest = results[i].result.loot;
+                playerName = results[i].result.playerName;
             }
         }
 
@@ -56,7 +56,18 @@ public class Winners : MonoBehaviour
 
     private string CalculateWinner()
     {
-        return "PLATYPUS";
+        playerName = "";
+        var highest = -1;
+        for (int i = 0; i < results.Length; i++)
+        {
+            if (results[i].score > highest)
+            {
+                highest = results[i].score;
+                playerName = results[i].result.playerName;
+            }
+        }
+
+        return playerName;
     }
 
     private void UpdateMostDamage()
@@ -68,7 +79,7 @@ public class Winners : MonoBehaviour
     void RetrieveResults()
     {
         if (StatsManager.instance == null) return;
-        results = StatsManager.instance.ReturnStats();
+        results = StatsManager.instance.ReturnOrderedStats();
     }
 
     private string ReturnMostDamage()
@@ -77,10 +88,10 @@ public class Winners : MonoBehaviour
         var highest = -0.1f;
         for (int i = 0; i < results.Length; i++)
         {
-            if (results[i].damageToTruck > highest)
+            if (results[i].result.damageToTruck > highest)
             {
-                highest = results[i].damageToTruck;
-                playerName = results[i].playerName;
+                highest = results[i].result.damageToTruck;
+                playerName = results[i].result.playerName;
             }
         }
 
@@ -99,10 +110,10 @@ public class Winners : MonoBehaviour
         var highest = -1;
         for (int i = 0; i < results.Length; i++)
         {
-            if (results[i].kills > highest)
+            if (results[i].result.kills > highest)
             {
-                highest = results[i].kills;
-                playerName = results[i].playerName;
+                highest = results[i].result.kills;
+                playerName = results[i].result.playerName;
             }
         }
 

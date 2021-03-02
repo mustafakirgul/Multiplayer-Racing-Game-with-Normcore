@@ -174,7 +174,7 @@ public class NewCarController : MonoBehaviour
     //QA
     [HideInInspector] public int _bombs;
 
-    private WaitForEndOfFrame waitFrame, waitFrame2;
+    private WaitForEndOfFrame waitFrame, waitFrame2, waitFrame3;
     private WaitForSeconds primaryWait, secondaryWait, muzzleWait;
 
     [HideInInspector] public int _resets;
@@ -199,10 +199,9 @@ public class NewCarController : MonoBehaviour
         var difference = transform.position - realtimeView.transform.position;
         _player.ChangeExplosionForce(difference);
         ExplosionForce(difference);
-        bool test = _player.playerHealth - damage <= 0;
-        if (test) realtimeView.transform.GetComponent<WeaponProjectileBase>().RegisterKill();
         Debug.LogWarning(PlayerManager.instance.PlayerName(_realtimeView.ownerIDInHierarchy) + " was " +
-                         (test ? "killed" : "damaged") + " by " + PlayerManager.instance.PlayerName(theKiller));
+                         (_player.playerHealth - damage <= 0 ? "killed" : "damaged") + " by " +
+                         PlayerManager.instance.PlayerName(theKiller));
     }
 
     private void Awake()
@@ -222,6 +221,7 @@ public class NewCarController : MonoBehaviour
         _player = GetComponent<Player>();
         waitFrame = new WaitForEndOfFrame();
         waitFrame2 = new WaitForEndOfFrame();
+        waitFrame3 = new WaitForEndOfFrame();
         primaryWait = new WaitForSeconds(primaryFireTimer);
         secondaryWait = new WaitForSeconds(secondayFireTimer);
         muzzleWait = new WaitForSeconds(.2f);
@@ -231,16 +231,17 @@ public class NewCarController : MonoBehaviour
 
     void ObtainCorrectShaker()
     {
-        BarrelShaker[] shakers  = GetComponentsInChildren<BarrelShaker>();
+        BarrelShaker[] shakers = GetComponentsInChildren<BarrelShaker>();
 
         for (int i = 0; i < shakers.Length; i++)
         {
-            if(shakers[i].isActiveAndEnabled)
+            if (shakers[i].isActiveAndEnabled)
             {
                 m_BarrelShaker = shakers[i];
             }
         }
     }
+
     //For tuning physics and car physics params
     void SyncPhysicsParamsData()
     {
@@ -372,6 +373,7 @@ public class NewCarController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(CR_CosmeticHealthAnimator());
         if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             uIManager = FindObjectOfType<UIManager>();
@@ -400,16 +402,6 @@ public class NewCarController : MonoBehaviour
             currentX = carBody.localEulerAngles.x;
             currentZ = carBody.localEulerAngles.z;
 
-            //IDDisplay.gameObject.SetActive(false);
-            if (!offlineTest)
-            {
-                StartCoroutine(BoostCounter());
-                if (healthAnimator == null)
-                {
-                    healthAnimator = StartCoroutine(CR_HealthAnimator());
-                }
-            }
-
             StartCoroutine(FirePrimaryCR());
 
             if (SecondaryWeaponProjectile)
@@ -420,7 +412,12 @@ public class NewCarController : MonoBehaviour
             InitCamera();
             if (!offlineTest)
             {
-                healthAnimator = StartCoroutine(CR_HealthAnimator());
+                StartCoroutine(BoostCounter());
+                if (healthAnimator == null)
+                {
+                    healthAnimator = StartCoroutine(CR_HealthAnimator());
+                }
+
                 PlayerManager.instance.UpdateExistingPlayers();
             }
 
@@ -524,12 +521,28 @@ public class NewCarController : MonoBehaviour
                 healthRadialLoader.fillAmount = _tempHealth / _player.maxPlayerHealth;
             }
 
+            yield return waitFrame2;
+        }
+    }
+
+    IEnumerator CR_CosmeticHealthAnimator()
+    {
+        while (true)
+        {
             if (_player.playerHealth <= 0 && isPlayerAlive)
             {
                 PlayerDeath();
+                foreach (var s in FindObjectsOfType<StatsEntity>())
+                {
+                    RealtimeView rt = s.transform.GetComponent<RealtimeView>();
+                    if (rt.ownerIDInHierarchy == theKiller && rt.isOwnedLocallyInHierarchy)
+                    {
+                        s.ReceiveStat(StatType.kill);
+                    }
+                }
             }
 
-            yield return waitFrame2;
+            yield return waitFrame3;
         }
     }
 

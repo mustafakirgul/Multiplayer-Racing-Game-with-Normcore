@@ -35,26 +35,10 @@ public class Results : MonoBehaviour
 
     private void PopulateList()
     {
-        //return unordered results
+//return ordered results
         if (StatsManager.instance == null) return;
-        results = StatsManager.instance.ReturnStats();
-        //clear ordered list to use it as a buffer before ordering
-        if (orderedResults == null)
-            orderedResults = new List<OrderedEntry>();
-        else
-            orderedResults.Clear();
-        //copy everything to ordered list (without ordering, yet)
-        for (int i = 0; i < results.Length; i++)
-        {
-            //TODO calculate score better
-            //calculate score - it is the total of all numbers in a stats entity for now
-            int score = results[i].kills + Convert.ToInt32(results[i].damageToTruck) + results[i].loot +
-                        results[i].powerUp;
-            orderedResults.Add(new OrderedEntry(results[i], score));
-        }
-
-        //sort the ordered list by score to make it ordered for real!
-        orderedResults.Sort(SortByScore);
+        if (orderedResults == null) orderedResults = new List<OrderedEntry>();
+        orderedResults.AddRange(StatsManager.instance.ReturnOrderedStats());
 
         //copy information from the ordered list to UI entries;
         for (int i = 0; i < entries.Length; i++)
@@ -68,11 +52,6 @@ public class Results : MonoBehaviour
             entries[i].loot.text = i < orderedResults.Count ? orderedResults[i].result.loot.ToString() : "---";
             entries[i].score.text = i < orderedResults.Count ? orderedResults[i].score.ToString() : "---";
         }
-    }
-
-    private int SortByScore(OrderedEntry p1, OrderedEntry p2)
-    {
-        return p2.score.CompareTo(p1.score);
     }
 }
 
@@ -93,17 +72,4 @@ public struct ResultEntry
     public Text damageToTruck;
     public Text loot;
     public Text score;
-}
-
-[Serializable]
-public struct OrderedEntry
-{
-    public OrderedEntry(StatsEntry result, int score)
-    {
-        this.result = result;
-        this.score = score;
-    }
-
-    public StatsEntry result;
-    public int score;
 }

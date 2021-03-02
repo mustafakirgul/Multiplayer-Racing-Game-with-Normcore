@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using Normal.Realtime;
 using UnityEngine;
@@ -28,12 +29,14 @@ public class StatsManager : MonoBehaviour
     [Header("Players&Stats")] public StatsEntity[] entities;
     [Space(10)] public StatsEntry[] stats;
     StringBuilder sb = new StringBuilder("", 666);
+    private List<OrderedEntry> orderedResults;
+
     private void Awake()
     {
         SingletonCheck();
     }
-  
-    public StatsEntry[] ReturnStats()
+
+    public OrderedEntry[] ReturnOrderedStats()
     {
         entities = FindObjectsOfType<StatsEntity>();
         var length = entities.Length;
@@ -44,26 +47,27 @@ public class StatsManager : MonoBehaviour
             stats[i] = new StatsEntry(entity);
         }
 
-        return stats;
-    }
-
-    public string ReturnStringStats()
-    {
-        sb.Clear();
-        var _stats = ReturnStats();
-        var length = _stats.Length;
+        //clear ordered list to use it as a buffer before ordering
+        if (orderedResults == null)
+            orderedResults = new List<OrderedEntry>();
+        else
+            orderedResults.Clear();
+        //copy everything to ordered list (without ordering, yet)
         for (int i = 0; i < length; i++)
         {
-            sb.Append(_stats[i].playerName + " has killed " + _stats[i].kills + " rivals, " + "did " +
-                      _stats[i].damageToTruck + " damage to the truck, collected " + _stats[i].powerUp +
-                      " powerup(s) and " + _stats[i].loot + " loot container(s).");
-            if (i < length - 1)
-            {
-                sb.Append("\n");
-            }
+            //calculate score
+            int score = (stats[i].kills * 100) + (Convert.ToInt32(stats[i].damageToTruck) * 3) + (stats[i].loot * 50);
+            orderedResults.Add(new OrderedEntry(stats[i], score));
         }
 
-        return sb.ToString();
+        //sort the ordered list by score to make it ordered for real!
+        orderedResults.Sort(SortByScore);
+        return orderedResults.ToArray();
+    }
+
+    private int SortByScore(OrderedEntry p1, OrderedEntry p2)
+    {
+        return p2.score.CompareTo(p1.score);
     }
 }
 
@@ -101,4 +105,17 @@ public struct StatsEntry
     public float damageToTruck;
     public int powerUp;
     public int loot;
+}
+
+[Serializable]
+public struct OrderedEntry
+{
+    public OrderedEntry(StatsEntry result, int score)
+    {
+        this.result = result;
+        this.score = score;
+    }
+
+    public StatsEntry result;
+    public int score;
 }

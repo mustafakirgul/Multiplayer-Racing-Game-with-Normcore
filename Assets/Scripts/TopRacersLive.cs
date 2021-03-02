@@ -58,39 +58,26 @@ public class TopRacersLive : MonoBehaviour
             return;
         }
 
-        //return unordered results
+        //return ordered results
         if (StatsManager.instance == null) return;
-        results = StatsManager.instance.ReturnStats();
-        var length = results.Length;
-        //clear ordered list to use it as a buffer before ordering
         if (orderedResults == null)
             orderedResults = new List<OrderedEntry>();
         else
             orderedResults.Clear();
-        //copy everything to ordered list (without ordering, yet)
-        for (int i = 0; i < length; i++)
-        {
-            //TODO calculate score better
-            //calculate score - it is the total of all numbers in a stats entity for now
-            int score = results[i].kills + Convert.ToInt32(results[i].damageToTruck) + results[i].loot +
-                        results[i].powerUp;
-            orderedResults.Add(new OrderedEntry(results[i], score));
-        }
-
-        //sort the ordered list by score to make it ordered for real!
-        orderedResults.Sort(SortByScore);
-
+        orderedResults.AddRange(StatsManager.instance.ReturnOrderedStats());
+        var length = orderedResults.Count;
         //convert information to string to show it on the game screen live!
         sb.Clear();
+        sb.Append("RACER_____SCORE");
         for (int i = 0; i < length; i++)
         {
             sb.Append((i + 1) + ". " + orderedResults[i].result.playerName);
-            sb.Append(" / KILLS " + orderedResults[i].result.kills);
-            sb.Append(" / DMG " + orderedResults[i].result.damageToTruck);
-            sb.Append(" / PWU " + orderedResults[i].result.powerUp);
-            sb.Append(" / LOOT " + orderedResults[i].result.loot);
-            sb.Append(" / SCORE " + (orderedResults[i].result.kills + orderedResults[i].result.damageToTruck +
-                                     orderedResults[i].result.powerUp + orderedResults[i].result.loot));
+            for (int j = 1; j == 11 - orderedResults[i].result.playerName.Length; j++)
+            {
+                sb.Append(" ");
+            }
+
+            sb.Append(" / SCORE " + orderedResults[i].score);
 
             if (i < length - 1)
             {
@@ -99,10 +86,5 @@ public class TopRacersLive : MonoBehaviour
         }
 
         display.text = sb.ToString();
-    }
-
-    private int SortByScore(OrderedEntry p1, OrderedEntry p2)
-    {
-        return p2.score.CompareTo(p1.score);
     }
 }
