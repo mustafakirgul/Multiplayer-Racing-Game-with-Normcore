@@ -8,12 +8,46 @@ public class FadingFeedbackText : MonoBehaviour
 {
     public List<FadingText> displays;
     public float speed;
+    public float distanceFromTarget;
+    public bool isTesting;
     private GameObject child;
-    private Transform target, lookAtTarget;
+    [SerializeField] private Transform target, lookAtTarget;
     private StatsEntity se;
     private int counter;
+    private bool isAttached, elementsLoaded;
     [Range(0f, 100f)] public float transparencyThreshold;
     private WaitForEndOfFrame waitFrame => new WaitForEndOfFrame();
+    private WaitForEndOfFrame wait => new WaitForEndOfFrame();
+    private Coroutine cr_MainThread;
+    private ComparisonTableColumn previousStats, currentStats;
+
+    void Initialize()
+    {
+        if (!elementsLoaded) LoadElements();
+        if (!isAttached)
+        {
+            if (cr_MainThread != null) StopCoroutine(cr_MainThread);
+            cr_MainThread = StartCoroutine(CR_MainThread());
+        }
+    }
+
+    private void Start()
+    {
+        Initialize();
+    }
+
+    private void Update()
+    {
+        if (!isAttached) return;
+        PlaceCanvas();
+    }
+
+    private void PlaceCanvas()
+    {
+        transform.position =
+            target.position + ((lookAtTarget.position - target.position).normalized * distanceFromTarget);
+        transform.LookAt(lookAtTarget);
+    }
 
     void LoadElements()
     {
@@ -22,56 +56,110 @@ public class FadingFeedbackText : MonoBehaviour
         if (child != null)
             displays.Add(new FadingText(child.transform.GetChild(0).GetComponent<Text>(),
                 child.transform.GetChild(0).GetComponent<CanvasGroup>(),
-                child.transform.GetChild(0).GetComponent<RectTransform>(), child));
+                child.transform.GetChild(0).GetComponent<RectTransform>(), child, true));
+        elementsLoaded = true;
+    }
+
+    FadingText CreateNewFadingText()
+    {
+        if (child != null)
+        {
+            GameObject tempGO = Instantiate(child, transform);
+            FadingText _tempFT = new FadingText(tempGO.transform.GetChild(0).GetComponent<Text>(),
+                tempGO.transform.GetChild(0).GetComponent<CanvasGroup>(),
+                tempGO.transform.GetChild(0).GetComponent<RectTransform>(), tempGO, true);
+            displays.Add(_tempFT);
+            return _tempFT;
+        }
+
+        return null;
+    }
+
+    void AttachToTarget()
+    {
         if (PlayerManager.instance == null) return;
         target = PlayerManager.instance.localPlayer;
         if (target == null) return;
         lookAtTarget = Camera.main.transform;
         se = target.transform.GetComponent<Player>().statsEntity;
+        currentStats = se.ReturnStats();
+        if (se == null) return;
+        isAttached = true;
     }
 
-    FadingText CreateNewFadingText()
+    IEnumerator CR_MainThread()
     {
-        FadingText _temp = new FadingText();
-        if (child != null)
+        while (!isAttached)
         {
-            GameObject temp = Instantiate(child, transform);
-            _temp = new FadingText(temp.transform.GetChild(0).GetComponent<Text>(),
-                temp.transform.GetChild(0).GetComponent<CanvasGroup>(),
-                temp.transform.GetChild(0).GetComponent<RectTransform>(), temp);
-            displays.Add(_temp);
+            AttachToTarget();
+            yield return wait;
         }
 
-        return _temp;
+        while (isAttached)
+        {
+            if (target == null)
+                isAttached = false;
+            if (isTesting)
+            {
+                ShowFeedbackText("+" + counter + " Cheeseburgers");
+                counter++;
+            }
+            else
+            {
+                CheckProgress();
+            }
+
+            yield return wait;
+        }
+
+        yield return null;
     }
 
-    private void Start()
+    private void CheckProgress()
     {
-        LoadElements();
-        ShowFeedbackText("+" + counter + " Feedbacking");
+        previousStats = currentStats;
+        currentStats = se.ReturnStats();
+        Debug.LogWarning("Previous Status: k-" + previousStats.kills + " | d-" + previousStats.damage + " | p-" +
+                         previousStats.powerup + " | l-" + previousStats.loot);
+        Debug.LogWarning("Current Status: k-" + currentStats.kills + " | d-" + currentStats.damage + " | p-" +
+                         currentStats.powerup + " | l-" + currentStats.loot);
+        int score =
+                (currentStats.kills - previousStats.kills) * 100 +
+                (currentStats.damage - previousStats.damage) * 3 +
+                (currentStats.loot - previousStats.loot) * 50
+            ;
+        if (score <= 0) return;
+        ShowFeedbackText("+" + score + " points!");
+        Debug.LogWarning("Score registered: " + score);
     }
 
     private void ShowFeedbackText(string text)
     {
-        for (int i = 0; i < displays.Count; i++)
+        if (isAttached)
         {
-            FadingText temp = displays[i];
-            if (temp.isAvailable)
+            for (int i = 0; i < displays.Count; i++)
             {
-                temp.isAvailable = false;
-                StartCoroutine(CR_AnimateText(text, temp));
-                return;
+                if (displays[i].isAvailable)
+                {
+                    StartCoroutine(CR_AnimateText(text, displays[i]));
+                    return;
+                }
             }
+
+            StartCoroutine(CR_AnimateText(text, CreateNewFadingText()));
+            return;
         }
 
-        StartCoroutine(CR_AnimateText(text, CreateNewFadingText()));
+        Debug.LogWarning("Fading text is not attached to a localPlayer");
     }
 
     IEnumerator CR_AnimateText(string text, FadingText fText)
     {
-        fText._gameObject.SetActive(true);
+        Debug.LogWarning("CR_AnimateText");
         fText.isAvailable = false;
+        fText._gameObject.SetActive(true);
         float Y = 100f;
+        fText.cg.alpha = 1f;
         fText.display.text = text;
         while (Y > 0)
         {
@@ -85,22 +173,20 @@ public class FadingFeedbackText : MonoBehaviour
             yield return waitFrame;
         }
 
-        fText.isAvailable = true;
         fText._gameObject.SetActive(false);
-        counter++;
-        ShowFeedbackText("+" + counter + " Feedbacking");
+        fText.isAvailable = true;
     }
 }
 
 [Serializable]
-public struct FadingText
+public class FadingText
 {
-    public FadingText(Text display, CanvasGroup cg, RectTransform rt, GameObject gameObject)
+    public FadingText(Text display, CanvasGroup cg, RectTransform rt, GameObject gameObject, bool isAvailable)
     {
         this.display = display;
         this.cg = cg;
         this.rt = rt;
-        isAvailable = true;
+        this.isAvailable = isAvailable;
         _gameObject = gameObject;
     }
 

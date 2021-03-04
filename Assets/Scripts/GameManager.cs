@@ -324,7 +324,7 @@ public class GameManager : MonoBehaviour
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
         Walls = FindObjectsOfType<WallLocalMarker>();
         if (isHost) ResetWalls();
-        PlayerManager.instance.AddLocalPlayer(transform);
+        PlayerManager.instance.AddLocalPlayer(_temp.transform);
         Invoke("KeepTrackOfWinConditions", 3f);
         jukebox.SwitchState(State.game);
         _race.ChangeIsOn(true);

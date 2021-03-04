@@ -85,7 +85,7 @@ public class PlayerManager : MonoBehaviour
             }
 
             allPlayers[i] = new PlayerInfo(carControllers[i].GetComponent<Player>(),
-                carControllers[i]._realtimeView.isOwnedRemotelyInHierarchy);
+                carControllers[i]._realtimeView.isOwnedLocallyInHierarchy);
         }
     }
 

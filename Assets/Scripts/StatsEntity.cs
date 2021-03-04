@@ -47,6 +47,11 @@ public class StatsEntity : RealtimeComponent<StatsModel>
         }
     }
 
+    public ComparisonTableColumn ReturnStats()
+    {
+        return new ComparisonTableColumn(model.kills, Convert.ToInt32(model.damageToTruck), model.powerUp, model.loot);
+    }
+
     public void ReceiveStat(StatType type)
     {
         switch (type)
@@ -68,4 +73,20 @@ public class StatsEntity : RealtimeComponent<StatsModel>
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
     }
+}
+
+public struct ComparisonTableColumn
+{
+    public ComparisonTableColumn(int kills, int damage, int powerup, int loot)
+    {
+        this.kills = kills;
+        this.damage = damage;
+        this.powerup = powerup;
+        this.loot = loot;
+    }
+
+    public int kills;
+    public int damage;
+    public int powerup;
+    public int loot;
 }

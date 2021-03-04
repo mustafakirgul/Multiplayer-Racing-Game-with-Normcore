@@ -68,7 +68,7 @@ public class TopRacersLive : MonoBehaviour
         var length = orderedResults.Count;
         //convert information to string to show it on the game screen live!
         sb.Clear();
-        sb.Append("RACER_____SCORE");
+        sb.Append("RACER_____SCORE\n");
         for (int i = 0; i < length; i++)
         {
             sb.Append((i + 1) + ". " + orderedResults[i].result.playerName);
