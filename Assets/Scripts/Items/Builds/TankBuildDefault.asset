@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildType: 2
   Weapon: {fileID: 11400000, guid: 3e6e53f0fdc6c3c41b6b6d548a07439c, type: 2}
-  Armour: {fileID: 11400000, guid: 042e8a027e3b4e2449acd1f8471caf54, type: 2}
+  Armour: {fileID: 11400000, guid: c99ba97fdf25fed4fa5ea5290863151f, type: 2}
   Engine: {fileID: 11400000, guid: e28629993c1879c4d8ca0b8585d3c884, type: 2}
