@@ -141,8 +141,8 @@ public class PlayerManager : MonoBehaviour
                 destroyWhenOwnerOrLastClientLeaves: true,
                 useInstance: _realtime);
             _temp.GetComponent<Truck>().StartHealth();
-
-            prespawnManager._realtime = _realtime;
+            if (prespawnManager != null)
+                prespawnManager._realtime = _realtime;
             SpawnItems();
         }
     }
