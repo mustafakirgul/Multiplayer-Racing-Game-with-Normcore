@@ -825,7 +825,7 @@ MonoBehaviour:
     isPowered: 1
     isSteeringWheel: 1
     isReverseSteeringWheel: 0
-  maxTorque: 32000
+  maxTorque: 66666
   _torqueFactor: 0
   _steeringAngle: 0
   maxSteeringAngle: 60
