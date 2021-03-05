@@ -58,17 +58,12 @@ public class LootManager : MonoBehaviour
     //Even for specific builds where 2 of a kind of item can be equipped
     //Still only use 1 extra type
 
-    [Space]
-    [Space]
-    [Header("In-Game Applied LoadOut")]
+    [Space] [Space] [Header("In-Game Applied LoadOut")]
     public BuildType current_buildType;
 
     [SerializeField] private BuildLoadOutSObj current_buildLoadOut;
 
-    [Space]
-    [Space]
-    [Header("Garage Settings")]
-    [SerializeField]
+    [Space] [Space] [Header("Garage Settings")] [SerializeField]
     public RollPoolAndPlayerItemSave playerLootPoolSave;
 
     public BuildType selected_buildType;
@@ -82,8 +77,8 @@ public class LootManager : MonoBehaviour
     //[SerializeField]
     public int numberOfLootRolls;
 
-    [SerializeField]
-    private LootDecoder lootDecoder;
+    [SerializeField] private LootDecoder lootDecoder;
+
     private void Awake()
     {
         SingletonCheck();
@@ -110,8 +105,7 @@ public class LootManager : MonoBehaviour
         {
             //Creates a powerup with no effect
             TempItemSObj DummyPU = playerLootPoolSave.PlayerPowerUps[playerLootPoolSave.PlayerPowerUps.Count - 1];
-            Debug.LogWarning(
-                "Item is already picked up! If this is the prespawner, make sure it is disabled after spawning items");
+            //Debug.LogWarning("Item is already picked up! If this is the prespawner, make sure it is disabled after spawning items");
             return DummyPU;
         }
 
@@ -120,13 +114,13 @@ public class LootManager : MonoBehaviour
         TempItemSObj DecodedPU = playerLootPoolSave.PlayerPowerUps[Index - 1];
         return DecodedPU;
     }
-    
+
     public Vector3 VisualModelIndex()
     {
         Vector3 VisualIndex =
             new Vector3(current_buildLoadOut.Weapon.m_itemVisualIndex,
-                        current_buildLoadOut.Armour.m_itemVisualIndex,
-                        current_buildLoadOut.Engine.m_itemVisualIndex);
+                current_buildLoadOut.Armour.m_itemVisualIndex,
+                current_buildLoadOut.Engine.m_itemVisualIndex);
 
         return VisualIndex;
     }

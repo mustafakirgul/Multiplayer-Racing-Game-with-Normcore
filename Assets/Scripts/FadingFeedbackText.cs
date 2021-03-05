@@ -119,10 +119,8 @@ public class FadingFeedbackText : MonoBehaviour
     {
         previousStats = currentStats;
         currentStats = se.ReturnStats();
-        Debug.LogWarning("Previous Status: k-" + previousStats.kills + " | d-" + previousStats.damage + " | p-" +
-                         previousStats.powerup + " | l-" + previousStats.loot);
-        Debug.LogWarning("Current Status: k-" + currentStats.kills + " | d-" + currentStats.damage + " | p-" +
-                         currentStats.powerup + " | l-" + currentStats.loot);
+        //Debug.LogWarning("Previous Status: k-" + previousStats.kills + " | d-" + previousStats.damage + " | p-" + previousStats.powerup + " | l-" + previousStats.loot);
+        //Debug.LogWarning("Current Status: k-" + currentStats.kills + " | d-" + currentStats.damage + " | p-" + currentStats.powerup + " | l-" + currentStats.loot);
         int score =
                 (currentStats.kills - previousStats.kills) * 100 +
                 (currentStats.damage - previousStats.damage) * 3 +
@@ -130,7 +128,7 @@ public class FadingFeedbackText : MonoBehaviour
             ;
         if (score <= 0) return;
         ShowFeedbackText("+" + score + " points!");
-        Debug.LogWarning("Score registered: " + score);
+        //Debug.LogWarning("Score registered: " + score);
     }
 
     private void ShowFeedbackText(string text)
@@ -150,12 +148,12 @@ public class FadingFeedbackText : MonoBehaviour
             return;
         }
 
-        Debug.LogWarning("Fading text is not attached to a localPlayer");
+        //Debug.LogWarning("Fading text is not attached to a localPlayer");
     }
 
     IEnumerator CR_AnimateText(string text, FadingText fText)
     {
-        Debug.LogWarning("CR_AnimateText");
+        //Debug.LogWarning("CR_AnimateText");
         fText.isAvailable = false;
         fText._gameObject.SetActive(true);
         float Y = 100f;
