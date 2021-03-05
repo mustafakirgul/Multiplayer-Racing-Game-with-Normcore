@@ -48,7 +48,7 @@ public class Melee : MonoBehaviour
         Debug.DrawLine(transform.position, transform.position + collisionForce, Color.red);
         crashParticle.Play();
         carRB.AddForce(collisionForce * 10000f * meleePower);
-        Debug.LogWarning("Melee happened!" + collisionForce);
+        //Debug.LogWarning("Melee happened!" + collisionForce);
         yield return wait;
         crashParticle.Stop();
     }

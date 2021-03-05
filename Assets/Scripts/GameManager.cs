@@ -274,7 +274,7 @@ public class GameManager : MonoBehaviour
             _realtime.didDisconnectFromRoom += DidDisconnectFromRoom;
             _roomName = LobbyManager.instance.RoomName();
             _realtime.Connect(_roomName);
-            Debug.LogWarning("Room name set to: " + _roomName);
+            //Debug.LogWarning("Room name set to: " + _roomName);
         }
     }
 

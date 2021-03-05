@@ -29,7 +29,7 @@ public class Lobbiest : RealtimeComponent<LobbiestModel>
                 roomName = currentModel.roomName;
                 maxPlayers = Convert.ToInt32(currentModel.maxPlayers);
                 isHost = currentModel.isHost;
-                Debug.LogWarning("Garage Ready Set to " + currentModel.isReady + " for this player");
+                //Debug.LogWarning("Garage Ready Set to " + currentModel.isReady + " for this player");
                 isReady = currentModel.isReady;
             }
 

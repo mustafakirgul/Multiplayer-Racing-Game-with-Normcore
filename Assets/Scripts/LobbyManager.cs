@@ -98,7 +98,7 @@ public class LobbyManager : MonoBehaviour
                 float delay = 0f;
                 if (!isHost)
                     delay = 1f;
-                Debug.LogWarning("Count: " + count + " | Ready: " + ready);
+                //Debug.LogWarning("Count: " + count + " | Ready: " + ready);
                 cr_ConnectToRoom = StartCoroutine(CR_ConnectToRace(delay));
             }
         }

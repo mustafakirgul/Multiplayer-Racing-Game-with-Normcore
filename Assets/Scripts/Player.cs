@@ -90,8 +90,7 @@ public class Player : RealtimeComponent<PlayerModel>
     public void DamagePlayer(float damage)
     {
         float calculatedDamage = (1 - armourDefenseModifier - tempDefenseModifier * 0.5f) * damage;
-        Debug.LogWarning("Calculated Damage for " + PlayerManager.instance.PlayerName(realtimeView.ownerIDInHierarchy) +
-                         " is " + calculatedDamage);
+        //Debug.LogWarning("Calculated Damage for " + PlayerManager.instance.PlayerName(realtimeView.ownerIDInHierarchy) + " is " + calculatedDamage);
         model.health -= calculatedDamage;
 
         if (controller != null)

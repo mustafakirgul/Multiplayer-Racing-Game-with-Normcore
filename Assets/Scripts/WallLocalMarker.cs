@@ -75,7 +75,7 @@ public class WallLocalMarker : MonoBehaviour
             preventOwnershipTakeover: true,
             destroyWhenOwnerOrLastClientLeaves: true,
             useInstance: _realtime);
-        Debug.LogWarning("Networked Wall Instantiated");
+        //Debug.LogWarning("Networked Wall Instantiated");
         childRtView = networkedWall.GetComponent<RealtimeView>();
         childRtTransform = networkedWall.GetComponent<RealtimeTransform>();
     }

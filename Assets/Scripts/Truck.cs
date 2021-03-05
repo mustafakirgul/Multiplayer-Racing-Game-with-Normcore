@@ -300,8 +300,7 @@ public class Truck : RealtimeComponent<TruckModel>
 
     public void RegisterDamage(float damage, RealtimeView _realtimeView)
     {
-        Debug.LogWarning(
-            PlayerManager.instance.PlayerName(_realtimeView.ownerIDInHierarchy) + " hit truck! | Damage: " + damage);
+        //Debug.LogWarning(PlayerManager.instance.PlayerName(_realtimeView.ownerIDInHierarchy) + " hit truck! | Damage: " + damage);
         _realtimeView.RequestOwnership();
         _realtimeView.GetComponent<RealtimeTransform>().RequestOwnership();
         _realtimeView.transform.GetComponent<WeaponProjectileBase>().CosmeticExplode();

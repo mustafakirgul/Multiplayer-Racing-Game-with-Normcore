@@ -199,9 +199,7 @@ public class NewCarController : MonoBehaviour
         var difference = transform.position - realtimeView.transform.position;
         _player.ChangeExplosionForce(difference);
         ExplosionForce(difference);
-        Debug.LogWarning(PlayerManager.instance.PlayerName(_realtimeView.ownerIDInHierarchy) + " was " +
-                         (_player.playerHealth - damage <= 0 ? "killed" : "damaged") + " by " +
-                         PlayerManager.instance.PlayerName(theKiller));
+        //Debug.LogWarning(PlayerManager.instance.PlayerName(_realtimeView.ownerIDInHierarchy) + " was " + (_player.playerHealth - damage <= 0 ? "killed" : "damaged") + " by " + PlayerManager.instance.PlayerName(theKiller));
     }
 
     private void Awake()

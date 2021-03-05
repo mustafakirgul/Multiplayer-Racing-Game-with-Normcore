@@ -223,7 +223,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             Truck _tempTruck = other.gameObject.GetComponent<Truck>();
             if (_tempTruck != null) //if it is a truck
             {
-                if (realtimeView.isOwnedLocallyInHierarchy&&statEntity!=null) //record stat if you are owned locally
+                if (realtimeView.isOwnedLocallyInHierarchy && statEntity != null) //record stat if you are owned locally
                     statEntity.ReceiveStat(StatType.damage, damage);
 
 
@@ -262,7 +262,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                 return; // do nothing if the collided object is not owned by the local player because it would not make any difference on the main model if a network instance tries to register damage
         }
 
-        Debug.LogWarning("Empty hit!");
+        //Debug.LogWarning("Empty hit!");
         CosmeticExplode();
         Hit();
     }
@@ -271,8 +271,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     {
         if (realtimeView.isOwnedLocallyInHierarchy) //record stat if you are owned locally
         {
-            Debug.LogWarning("1 kill registered for " +
-                             PlayerManager.instance.PlayerName(realtimeView.ownerIDInHierarchy));
+            //Debug.LogWarning("1 kill registered for " + PlayerManager.instance.PlayerName(realtimeView.ownerIDInHierarchy));
             statEntity.ReceiveStat(StatType.kill);
         }
     }
