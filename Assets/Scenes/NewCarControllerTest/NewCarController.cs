@@ -525,6 +525,8 @@ public class NewCarController : MonoBehaviour
 
     IEnumerator CR_CosmeticHealthAnimator()
     {
+        yield return new WaitForSeconds(10f);
+
         while (true)
         {
             if (_player.playerHealth <= 0 && isPlayerAlive)
