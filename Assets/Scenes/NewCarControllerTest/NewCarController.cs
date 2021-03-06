@@ -1003,12 +1003,12 @@ public class NewCarController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.U)) //|| Input.GetButtonDown("Lights")) //lights
+        /*if (Input.GetKeyDown(KeyCode.U)) //|| Input.GetButtonDown("Lights")) //lights
         {
             lights = !lights;
             RHL.enabled = lights;
             LHL.enabled = lights;
-        }
+        }*/
 
         if (Input.GetKeyDown(KeyCode.E))
         {
