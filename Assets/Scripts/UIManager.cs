@@ -113,11 +113,10 @@ public class UIManager : MonoBehaviour
 
         BuildModelsAppearance[_buildIndex].SetActive(true);
 
-        ContainerSelector[] selector = BuildModelsAppearance[_buildIndex].
-            GetComponentsInChildren<ContainerSelector>();
+        ContainerSelector[] selector = BuildModelsAppearance[_buildIndex].GetComponentsInChildren<ContainerSelector>();
 
         VisualModelSelectors.Clear();
-        foreach(ContainerSelector sel in selector)
+        foreach (ContainerSelector sel in selector)
         {
             VisualModelSelectors.Add(sel);
         }
@@ -145,6 +144,7 @@ public class UIManager : MonoBehaviour
         //Index 2 is the Engine
         VisualModelSelectors[2].ActivateItem(indexToActivate);
     }
+
     public void SwitchProjectileDisplayInfo(Texture2D spriteToChange, int currentAmmoCount)
     {
         CurrentWeaponProjectile.texture = spriteToChange;
@@ -211,13 +211,6 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape))
-        {
-            _realtime.Disconnect();
-            DisableUI();
-            enterNamePanel.SetActive(true);
-        }
-
         //To be removed in final build
         if (Input.GetKeyDown(KeyCode.N))
         {
@@ -287,8 +280,8 @@ public class UIManager : MonoBehaviour
         CarBuildSelection(lastbuildSelected);
 
         //Visual things add back
-        ContainerSelector[] selector = BuildModelsAppearance[lastbuildSelected].
-        GetComponentsInChildren<ContainerSelector>();
+        ContainerSelector[] selector =
+            BuildModelsAppearance[lastbuildSelected].GetComponentsInChildren<ContainerSelector>();
 
         VisualModelSelectors.Clear();
         foreach (ContainerSelector sel in selector)

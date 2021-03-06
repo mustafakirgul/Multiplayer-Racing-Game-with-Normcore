@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 public class Results : MonoBehaviour
 {
-    private StatsEntry[] results;
-    private List<OrderedEntry> orderedResults;
-    private ResultEntry[] entries;
-    private PlayerResultLine[] lines;
+    [SerializeField] private StatsEntry[] results;
+    [SerializeField] private List<OrderedEntry> orderedResults;
+    [SerializeField] private ResultEntry[] entries;
+    [SerializeField] private PlayerResultLine[] lines;
 
     private void OnValidate()
     {
@@ -38,6 +38,7 @@ public class Results : MonoBehaviour
 //return ordered results
         if (StatsManager.instance == null) return;
         if (orderedResults == null) orderedResults = new List<OrderedEntry>();
+        orderedResults.Clear();
         orderedResults.AddRange(StatsManager.instance.ReturnOrderedStats());
 
         //copy information from the ordered list to UI entries;
