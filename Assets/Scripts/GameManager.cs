@@ -421,8 +421,6 @@ public class GameManager : MonoBehaviour
         //Debug.LogWarning("HealthCheckStoppedAtTheEndOfTheGame");
         _race.ChangeGameTime(0);
     }
-
-    private bool dMode;
 }
 
 public struct GameWinConditions
