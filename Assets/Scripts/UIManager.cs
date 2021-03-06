@@ -19,6 +19,8 @@ public class UIManager : MonoBehaviour
     private GameObject uIPanel;
     public GameObject enterNamePanel;
 
+    public Image[] buildSelectionLights;
+
     //UI Slots for loot inventory
     //Assigned manually
     public AutoResizeLootRectTransforms[] AutoResizeLootRectTransforms;
@@ -110,6 +112,10 @@ public class UIManager : MonoBehaviour
             BuildModelsAppearance[i].SetActive(false);
         }
 
+        for (int i = 0; i < buildSelectionLights.Length; i++)
+        {
+            buildSelectionLights[i].enabled = i == _buildIndex;
+        }
 
         BuildModelsAppearance[_buildIndex].SetActive(true);
 
