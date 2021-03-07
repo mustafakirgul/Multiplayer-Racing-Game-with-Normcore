@@ -36,6 +36,8 @@ public class TurretAutoAim : MonoBehaviour
     public bool isManualTargeting = false;
     public bool isRotating = false;
 
+    public bool isPlayerControlled;
+
     private UIManager m_uiManager;
 
     public Image CrossHairUI;
@@ -85,67 +87,73 @@ public class TurretAutoAim : MonoBehaviour
         {
             RotateTurret();
             MoveCrossHair();
+
+            if(isPlayerControlled)
             RotateTurretToMouse();
+
+            if(Input.GetKey(KeyCode.B))
+            {
+                isPlayerControlled = !isPlayerControlled;
+            }
         }
     }
 
     void MoveCrossHair()
     {
-        if (CrossHairUI.gameObject.activeInHierarchy)
+        if (isPlayerControlled)
         {
-            Vector3 MousePos = Input.mousePosition;
-            Vector3 MousePosCalculated = new Vector3(parentCanvas.rect.width * (MousePos.x - 0.5f),
-                parentCanvas.rect.height * (MousePos.y - 0.5f), 0);
 
-            CrossHairUI.rectTransform.anchoredPosition = (Input.mousePosition - new Vector3(Screen.width * 0.5f, Screen.height * 0.5f));
+            if (CrossHairUI.gameObject.activeInHierarchy)
+            {
+                Vector3 MousePos = Input.mousePosition;
+                Vector3 MousePosCalculated = new Vector3(parentCanvas.rect.width * (MousePos.x - 0.5f),
+                    parentCanvas.rect.height * (MousePos.y - 0.5f), 0);
+
+                CrossHairUI.rectTransform.anchoredPosition = (Input.mousePosition - new Vector3(Screen.width * 0.5f, Screen.height * 0.5f));
+            }
         }
-        //Vector2 pos;
-        //RectTransformUtility.ScreenPointToLocalPointInRectangle(
-        //    myCanvas.transform as RectTransform, Input.mousePosition, myCanvas.worldCamera, out pos);
-        //transform.position = myCanvas.transform.TransformPoint(pos);
+        else if (enemy != null)
+        {
+            Vector3 Pos = Camera.main.WorldToViewportPoint(enemy.transform.position);
+            Vector3 PosCalculated = new Vector3(parentCanvas.rect.width * (Pos.x - 0.5f),
+                parentCanvas.rect.height * (Pos.y - 0.5f), 0);
 
-        //if (enemy != null)
-        //{
-        //    Vector3 Pos = Camera.main.WorldToViewportPoint(enemy.transform.position);
-        //    Vector3 PosCalculated = new Vector3(parentCanvas.rect.width * (Pos.x - 0.5f),
-        //        parentCanvas.rect.height * (Pos.y - 0.5f), 0);
-
-        //    if (lastEnemy != null)
-        //    {
-        //        Vector3 LastPos = Camera.main.WorldToViewportPoint(lastEnemy.transform.position);
-        //        Vector3 LastPosCalculated = new Vector3(parentCanvas.rect.width * (LastPos.x - 0.5f),
-        //            parentCanvas.rect.height * (LastPos.y - 0.5f), 0);
+            if (lastEnemy != null)
+            {
+                Vector3 LastPos = Camera.main.WorldToViewportPoint(lastEnemy.transform.position);
+                Vector3 LastPosCalculated = new Vector3(parentCanvas.rect.width * (LastPos.x - 0.5f),
+                    parentCanvas.rect.height * (LastPos.y - 0.5f), 0);
 
 
-        //        //CrossHairUI.rectTransform.localPosition = new Vector3(parentCanvas.rect.width * (Pos.x - 0.5f),
-        //        //    parentCanvas.rect.height * (Pos.y - 0.5f), 0);
-        //        currentLerpTime += Time.deltaTime * 3f;
+                //CrossHairUI.rectTransform.localPosition = new Vector3(parentCanvas.rect.width * (Pos.x - 0.5f),
+                //    parentCanvas.rect.height * (Pos.y - 0.5f), 0);
+                currentLerpTime += Time.deltaTime * 3f;
 
-        //        if (currentLerpTime > lerpTime)
-        //        {
-        //            currentLerpTime = lerpTime;
-        //        }
+                if (currentLerpTime > lerpTime)
+                {
+                    currentLerpTime = lerpTime;
+                }
 
-        //        //lerp!
-        //        float perc = currentLerpTime / lerpTime;
+                //lerp!
+                float perc = currentLerpTime / lerpTime;
 
-        //        CrossHairUI.rectTransform.anchoredPosition =
-        //            Vector3.Lerp(LastPosCalculated, PosCalculated, perc);
+                CrossHairUI.rectTransform.anchoredPosition =
+                    Vector3.Lerp(LastPosCalculated, PosCalculated, perc);
 
 
-        //        if (isRotating)
-        //        {
-        //            CrossHairUI.rectTransform.localScale = (Vector3.one * 4f);
-        //            float turningSpd = Mathf.Lerp(1, 5, perc);
-        //            CrossHairUI.rectTransform.eulerAngles += (new Vector3(0, 0, turningSpd));
-        //            CrossHairUI.rectTransform.localScale = Vector3.Lerp(new Vector3(
-        //                    CrossHairUI.rectTransform.localScale.x,
-        //                    CrossHairUI.rectTransform.localScale.y, CrossHairUI.rectTransform.localScale.z),
-        //                Vector3.one,
-        //                perc);
-        //        }
-        //    }
-        //}
+                if (isRotating)
+                {
+                    CrossHairUI.rectTransform.localScale = (Vector3.one * 4f);
+                    float turningSpd = Mathf.Lerp(1, 5, perc);
+                    CrossHairUI.rectTransform.eulerAngles += (new Vector3(0, 0, turningSpd));
+                    CrossHairUI.rectTransform.localScale = Vector3.Lerp(new Vector3(
+                            CrossHairUI.rectTransform.localScale.x,
+                            CrossHairUI.rectTransform.localScale.y, CrossHairUI.rectTransform.localScale.z),
+                        Vector3.one,
+                        perc);
+                }
+            }
+        }
     }
 
     public void ResetManualTargeting()
@@ -176,9 +184,11 @@ public class TurretAutoAim : MonoBehaviour
     {
         while (true)
         {
-            ObtainTargets();
-            RemoveTargets();
-
+            if (!isPlayerControlled)
+            {
+                ObtainTargets();
+                RemoveTargets();
+            }
             yield return new WaitForSeconds(radarSweepTimer);
         }
     }
@@ -240,7 +250,7 @@ public class TurretAutoAim : MonoBehaviour
     public void CycleSelectTarget()
     {
         //Rotate CrossHair code here
-        if (targetList.Count != 0)
+        if (targetList.Count != 0 && !isPlayerControlled)
         {
             if (targetIndex < targetList.Count)
             {
@@ -306,19 +316,22 @@ public class TurretAutoAim : MonoBehaviour
 
     void RotateTurret()
     {
-        if (EnemyInFieldOfView(turretFOV))
+        if (!isPlayerControlled)
         {
-            Vector3 direction = enemy.transform.position - transform.position;
-            targetRotation = Quaternion.LookRotation(direction);
-            LookAtRotation = Quaternion.RotateTowards(transform.rotation, targetRotation,
-                Time.deltaTime * turretRotationSpd);
-            transform.rotation = LookAtRotation;
-        }
-        else
-        {
-            targetRotation = Quaternion.Euler(0, 0, 0);
-            transform.localRotation = Quaternion.RotateTowards(transform.localRotation,
-                targetRotation, Time.deltaTime * turretRotationSpd);
+            if (EnemyInFieldOfView(turretFOV))
+            {
+                Vector3 direction = enemy.transform.position - transform.position;
+                targetRotation = Quaternion.LookRotation(direction);
+                LookAtRotation = Quaternion.RotateTowards(transform.rotation, targetRotation,
+                    Time.deltaTime * turretRotationSpd);
+                transform.rotation = LookAtRotation;
+            }
+            else
+            {
+                targetRotation = Quaternion.Euler(0, 0, 0);
+                transform.localRotation = Quaternion.RotateTowards(transform.localRotation,
+                    targetRotation, Time.deltaTime * turretRotationSpd);
+            }
         }
     }
 
@@ -362,21 +375,21 @@ public class TurretAutoAim : MonoBehaviour
             {
                 if (!CrossHairUI.gameObject.activeInHierarchy)
                 {
-                    //CrossHairUI.gameObject.SetActive(true);
+                    CrossHairUI.gameObject.SetActive(true);
                 }
 
                 return true;
             }
             else
             {
-                //CrossHairUI.gameObject.SetActive(false);
+                CrossHairUI.gameObject.SetActive(false);
 
                 return false;
             }
         }
         else
         {
-            //CrossHairUI.gameObject.SetActive(false);
+            CrossHairUI.gameObject.SetActive(false);
             return false;
         }
     }
