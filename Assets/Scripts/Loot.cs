@@ -46,7 +46,6 @@ public class Loot : RealtimeComponent<LootModel>
     public void SetID(int _id)
     {
         model.id = _id;
-        
     }
 
     public void SetCollectedBy(int _collectedBy)
@@ -63,6 +62,7 @@ public class Loot : RealtimeComponent<LootModel>
     {
         collectedBy = model.collectedBy;
         if (realtimeView.isOwnedLocallyInHierarchy) return;
+        if (lootContainer == null) return;
         StartCoroutine(lootContainer.CR_MeshDie());
     }
 
