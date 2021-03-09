@@ -223,17 +223,17 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             Truck _tempTruck = other.gameObject.GetComponent<Truck>();
             if (_tempTruck != null) //if it is a truck
             {
+                CosmeticExplode();
+                UIManager.ConfirmHitDamage();
+
                 if (realtimeView.isOwnedLocallyInHierarchy && statEntity != null) //record stat if you are owned locally
                     statEntity.ReceiveStat(StatType.damage, damage);
-
 
                 //damage the truck, but only if it is owned locally (you know why)
                 if (_tempTruck.realtimeView.isOwnedLocallyInHierarchy)
                 {
                     //Debug.LogWarning("Truck hit!");
-                    UIManager.ConfirmHitDamage();
                     Hit(_tempTruck);
-                    CosmeticExplode();
                     return;
                 }
             }
@@ -254,25 +254,10 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                     return;
                 }
             }
-
-            //if it is not a truck, first check this:
-            if (realtimeView.isOwnedLocallyInHierarchy)
-                return; //do nothing if the projectile/explosive is owned by the localPlayer (which means all other player cars in your scene are network instances)
-            if (_tempRTView.isOwnedRemotelyInHierarchy)
-                return; // do nothing if the collided object is not owned by the local player because it would not make any difference on the main model if a network instance tries to register damage
         }
 
         //Debug.LogWarning("Empty hit!");
         CosmeticExplode();
         Hit();
-    }
-
-    public void RegisterKill()
-    {
-        if (realtimeView.isOwnedLocallyInHierarchy) //record stat if you are owned locally
-        {
-            //Debug.LogWarning("1 kill registered for " + PlayerManager.instance.PlayerName(realtimeView.ownerIDInHierarchy));
-            statEntity.ReceiveStat(StatType.kill);
-        }
     }
 }
