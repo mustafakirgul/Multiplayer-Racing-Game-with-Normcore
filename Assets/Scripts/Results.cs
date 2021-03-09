@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class Results : MonoBehaviour
 {
-    [SerializeField] private StatsEntry[] results;
     [SerializeField] private List<OrderedEntry> orderedResults;
     [SerializeField] private ResultEntry[] entries;
     [SerializeField] private PlayerResultLine[] lines;
@@ -28,12 +27,7 @@ public class Results : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        PopulateList();
-    }
-
-    private void PopulateList()
+    public void PopulateList()
     {
 //return ordered results
         if (StatsManager.instance == null) return;

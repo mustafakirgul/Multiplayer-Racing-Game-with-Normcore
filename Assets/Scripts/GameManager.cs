@@ -411,7 +411,7 @@ public class GameManager : MonoBehaviour
     {
         //gather race information and store it for evaluation later
         //-----------------------------------------------------------
-
+        FindObjectOfType<Results>().PopulateList();
 
         //Loot manager will need to be update with new roles to do
         //Loot manager needs to know consumables/powerups like scrap that can persist
