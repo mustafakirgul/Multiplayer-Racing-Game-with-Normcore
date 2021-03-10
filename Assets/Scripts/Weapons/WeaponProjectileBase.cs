@@ -245,26 +245,26 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                 }
             }
 
-            //if self hit return
-            if (_tempRTView.realtimeView.ownerIDInHierarchy == realtimeView.ownerIDInHierarchy) return;
-
             //check if it is a car
             NewCarController _tempCar = other.gameObject.GetComponent<NewCarController>();
             if (_tempCar != null) //if it is a car, go for it!
             {
-                if (_tempCar._realtimeView.isOwnedLocallyInHierarchy)
+                if (_tempRTView.realtimeView.ownerIDInHierarchy != realtimeView.ownerIDInHierarchy)
                 {
-                    //Debug.LogWarning("Car hit!");
                     UIManager.ConfirmHitDamage();
-                    Hit(_tempCar);
                     CosmeticExplode();
-                    return;
+                    if (_tempCar._realtimeView.isOwnedLocallyInHierarchy)
+                    {
+                        //Debug.LogWarning("Car hit!");
+                        Hit(_tempCar);
+                    }
                 }
             }
+            else //Empty hit!
+            {
+                CosmeticExplode();
+                Hit();
+            }
         }
-
-        //Debug.LogWarning("Empty hit!");
-        CosmeticExplode();
-        Hit();
     }
 }

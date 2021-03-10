@@ -781,16 +781,16 @@ public class NewCarController : MonoBehaviour
             {
                 if (moveInput != 0)
                 {
-                    wheels[i].wheelT.Rotate(Vector3.right * Time.deltaTime * moveInput * wheelTurnFactor);
+                    wheels[i].wheelT.Rotate(Vector3.right * Time.deltaTime * moveInput * -wheelTurnFactor);
                 }
                 else
                 {
-                    wheels[i].wheelT.Rotate(Vector3.right * Time.deltaTime * LocalVelocity() * wheelTurnFactor);
+                    wheels[i].wheelT.Rotate(Vector3.right * Time.deltaTime * LocalVelocity() * -wheelTurnFactor);
                 }
             }
             else
             {
-                wheels[i].wheelT.Rotate(Vector3.right * Time.deltaTime * LocalVelocity() * wheelTurnFactor);
+                wheels[i].wheelT.Rotate(Vector3.right * Time.deltaTime * LocalVelocity() * -wheelTurnFactor);
             }
         }
     }
@@ -1033,7 +1033,7 @@ public class NewCarController : MonoBehaviour
 
         if (GameManager.instance.isHost)
         {
-            if (Input.GetKeyDown(KeyCode.K))
+            if (Input.GetKeyDown(KeyCode.Z))
             {
                 //PlayerManager
                 PlayerManager.instance.SpawnItems();
@@ -1042,7 +1042,7 @@ public class NewCarController : MonoBehaviour
 
         //AutoDamage Debug
         //TO REMOVE in testing and final builds
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.O))
         {
             _player.DamagePlayer(5f);
         }
