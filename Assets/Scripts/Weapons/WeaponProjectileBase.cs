@@ -251,12 +251,16 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             {
                 if (_tempRTView.realtimeView.ownerIDInHierarchy != realtimeView.ownerIDInHierarchy)
                 {
-                    UIManager.ConfirmHitDamage();
                     CosmeticExplode();
                     if (_tempCar._realtimeView.isOwnedLocallyInHierarchy)
                     {
-                        //Debug.LogWarning("Car hit!");
+                        //Debug.LogWarning("Car hit!");\
                         Hit(_tempCar);
+                    }
+
+                    if (realtimeView.isOwnedLocallyInHierarchy)
+                    {
+                        UIManager.ConfirmHitDamage();
                     }
                 }
             }
