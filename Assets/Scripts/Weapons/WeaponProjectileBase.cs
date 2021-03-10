@@ -41,6 +41,8 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     public StatsEntity statEntity;
 
+    private bool IsExploded;
+
     protected override void OnRealtimeModelReplaced(ProjectileModel previousModel, ProjectileModel currentModel)
     {
         base.OnRealtimeModelReplaced(previousModel, currentModel);
@@ -194,8 +196,13 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     public void CosmeticExplode()
     {
-        if (cr_CosmeticExplode != null) StopCoroutine(cr_CosmeticExplode);
-        cr_CosmeticExplode = StartCoroutine(CR_CosmeticExplode());
+        if (!isExploded)
+        {
+            isExploded = true;
+
+            if (cr_CosmeticExplode != null) StopCoroutine(cr_CosmeticExplode);
+            cr_CosmeticExplode = StartCoroutine(CR_CosmeticExplode());
+        }
     }
 
     IEnumerator CR_CosmeticExplode()
