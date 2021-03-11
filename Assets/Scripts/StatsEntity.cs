@@ -1,6 +1,7 @@
 ﻿using System;
 using Normal.Realtime;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class StatsEntity : RealtimeComponent<StatsModel>
 {
@@ -20,6 +21,7 @@ public class StatsEntity : RealtimeComponent<StatsModel>
                 currentModel.loot = _loot;
                 currentModel.powerUp = _powerUp;
                 currentModel.damageToTruck = _damageToTruck;
+                currentModel.killer = -1;
             }
         }
     }
@@ -47,6 +49,14 @@ public class StatsEntity : RealtimeComponent<StatsModel>
         }
     }
 
+    public void ReceiveKiller(int killer)
+    {
+        if (model.isOwnedLocallyInHierarchy)
+        {
+            model.killer = killer;
+        }
+    }
+
     public ComparisonTableColumn ReturnStats()
     {
         return new ComparisonTableColumn(model.kills, Convert.ToInt32(model.damageToTruck), model.powerUp, model.loot);
@@ -58,6 +68,7 @@ public class StatsEntity : RealtimeComponent<StatsModel>
         {
             case StatType.kill:
                 model.kills++;
+                model.killer = -1;
                 break;
             case StatType.damage:
                 Debug.LogError(

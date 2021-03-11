@@ -195,7 +195,8 @@ public class NewCarController : MonoBehaviour
     {
         theKiller = realtimeView
             .ownerIDInHierarchy; //everyone is the potential killer until the target survives the hit
-        _player.DamagePlayer(damage);
+        if (_realtimeView.isOwnedLocallyInHierarchy)
+            _player.DamagePlayer(damage);
         var difference = transform.position - realtimeView.transform.position;
         _player.ChangeExplosionForce(difference);
         ExplosionForce(difference);
@@ -532,14 +533,6 @@ public class NewCarController : MonoBehaviour
             if (_player.playerHealth <= 0 && isPlayerAlive)
             {
                 PlayerDeath();
-                foreach (var s in FindObjectsOfType<StatsEntity>())
-                {
-                    RealtimeView rt = s.transform.GetComponent<RealtimeView>();
-                    if (rt.ownerIDInHierarchy == theKiller && rt.isOwnedLocallyInHierarchy)
-                    {
-                        s.ReceiveStat(StatType.kill);
-                    }
-                }
             }
 
             yield return waitFrame3;
@@ -657,6 +650,7 @@ public class NewCarController : MonoBehaviour
         turnInput = 0;
         DeathExplosion.SetActive(true);
         CarRB.AddExplosionForce(20f, this.CarRB.transform.position + (-Vector3.up * 2f), 20f, 500f, ForceMode.Impulse);
+        StatsManager.instance.RegisterKill(theKiller);
         StartCoroutine(RespawnCountDown(5f));
     }
 

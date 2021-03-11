@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Normal.Realtime;
@@ -34,6 +33,19 @@ public class StatsManager : MonoBehaviour
     private void Awake()
     {
         SingletonCheck();
+    }
+
+    public void RegisterKill(int killer)
+    {
+        StatsEntity[] possibleKillers = FindObjectsOfType<StatsEntity>();
+        for (int i = 0; i < possibleKillers.Length; i++)
+        {
+            RealtimeView rt = possibleKillers[i].GetComponent<RealtimeView>();
+            if (rt.ownerIDInHierarchy == killer && rt.isOwnedLocallyInHierarchy)
+            {
+                possibleKillers[i].ReceiveStat(StatType.kill);
+            }
+        }
     }
 
     public OrderedEntry[] ReturnOrderedStats()

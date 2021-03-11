@@ -60,6 +60,8 @@ public class Truck : RealtimeComponent<TruckModel>
     [SerializeField]
     private float angle, elevationTorqueFactor, elevationConstant, currentTorquePerWheel, torqueBoostAngleLimit;
 
+    private int theKiller;
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position + lootLaunchPoint, 1f);
@@ -301,9 +303,7 @@ public class Truck : RealtimeComponent<TruckModel>
     public void RegisterDamage(float damage, RealtimeView _realtimeView)
     {
         //Debug.LogWarning(PlayerManager.instance.PlayerName(_realtimeView.ownerIDInHierarchy) + " hit truck! | Damage: " + damage);
-        _realtimeView.RequestOwnership();
-        _realtimeView.GetComponent<RealtimeTransform>().RequestOwnership();
-        _realtimeView.transform.GetComponent<WeaponProjectileBase>().CosmeticExplode();
+        theKiller = _realtimeView.ownerIDInHierarchy;
         DamagePlayer(damage);
     }
 

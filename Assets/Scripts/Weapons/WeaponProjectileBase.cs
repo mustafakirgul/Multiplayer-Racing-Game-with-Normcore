@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,8 +42,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     public StatsEntity statEntity;
 
-    private bool IsExploded;
-
     protected override void OnRealtimeModelReplaced(ProjectileModel previousModel, ProjectileModel currentModel)
     {
         base.OnRealtimeModelReplaced(previousModel, currentModel);
@@ -56,11 +55,13 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         {
             if (currentModel.isFreshModel)
             {
-                isExploded = currentModel.exploded;
+                currentModel.exploded = false;
             }
 
             currentModel.explodedDidChange += UpdateExplosionState;
         }
+
+        isExploded = model.exploded;
     }
 
     private void UpdateExplosionState(ProjectileModel projectileModel, bool value)
@@ -71,6 +72,18 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
     private void IsExplodedChanged()
     {
         isExploded = model.exploded;
+    }
+
+    protected void Update()
+    {
+        if (realtimeView.isOwnedRemotelyInHierarchy
+        ) //if this projectile is a network instance it will check the model to see if the owner had changed it
+        {
+            if (model.exploded) //if main model exploded, explode the instance, cosmetically
+            {
+                CosmeticExplode();
+            }
+        }
     }
 
     protected virtual void Awake()
@@ -98,22 +111,9 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         explosion = transform.GetChild(0).gameObject;
         explosion.SetActive(false);
 
-        if (realtimeView.isOwnedLocallyInHierarchy)
+        if (realtimeView.isOwnedLocallyInHierarchy && GetComponent<BombProjectile>() == null)
         {
             Invoke(nameof(KillTimer), weaponLifeTime);
-        }
-    }
-
-    protected void Update()
-    {
-        if (realtimeView.isOwnedRemotelyInHierarchy
-        ) //if this projectile is a network instance it will check the model to see if the owner had changed it
-        {
-            isExploded = model.exploded;
-            if (isExploded) //if main model exploded, explode the instance, cosmetically
-            {
-                CosmeticExplode();
-            }
         }
     }
 
@@ -124,25 +124,9 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
         rb = GetComponent<Rigidbody>();
         wait1Sec = new WaitForSeconds(1f);
-
-        //Only apply kinematics after missile explosion occurs
-        //Let local physics be done on local machine
-        if (_realtimeView.isOwnedRemotelyInHierarchy)
-        {
-            rb.isKinematic = true;
-            return;
-        }
-
-        //GetComponent<MeshRenderer>().enabled = true;
         projectile_Mesh.SetActive(true);
         transform.position = _barrelTip.position;
         transform.rotation = _barrelTip.rotation;
-    }
-
-    void Hit()
-    {
-        if (hitCoroutine != null) return;
-        hitCoroutine = StartCoroutine(HitCR());
     }
 
     void Hit(Truck truck)
@@ -150,125 +134,99 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         truck.RegisterDamage(damage, realtimeView);
     }
 
-    void Hit(NewCarController car)
+    void Hit(Player player)
     {
-        car.RegisterDamage(damage, realtimeView);
-    }
-
-    IEnumerator HitCR()
-    {
-        rb.isKinematic = true;
-        colliders = Physics.OverlapSphere(transform.position, explosiveRange);
-        damagedPlayers = new List<GameObject>();
-        GameObject _tempCollisionObject;
-        if (colliders != null)
-        {
-            if (colliders.Length > 0)
-            {
-                for (int i = 0; i < colliders.Length; i++)
-                {
-                    _tempCollisionObject = colliders[i].gameObject;
-                    if (!damagedPlayers.Contains(_tempCollisionObject))
-                    {
-                        damagedPlayers.Add(_tempCollisionObject);
-                        if (_tempCollisionObject.GetComponent<Rigidbody>() != null)
-                        {
-                            if (_tempCollisionObject.GetComponent<RealtimeView>() != null &&
-                                _tempCollisionObject.GetComponent<LootContainer>() != null)
-                            {
-                                _tempCollisionObject.GetComponent<RealtimeView>().RequestOwnership();
-                            }
-
-                            _tempCollisionObject.GetComponent<Rigidbody>()
-                                .AddExplosionForce(20000f,
-                                    transform.position,
-                                    20f,
-                                    1000f);
-                        }
-                    }
-                }
-            }
-        }
-
-        hitCoroutine = null;
-        yield return null;
+        player.gameObject.GetComponent<NewCarController>().RegisterDamage(damage, realtimeView);
     }
 
     public void CosmeticExplode()
     {
-        if (!isExploded)
-        {
-            isExploded = true;
-
-            if (cr_CosmeticExplode != null) StopCoroutine(cr_CosmeticExplode);
-            cr_CosmeticExplode = StartCoroutine(CR_CosmeticExplode());
-        }
+        if (realtimeView.isOwnedLocallyInHierarchy) model.exploded = true;
+        if (cr_CosmeticExplode == null) cr_CosmeticExplode = StartCoroutine(CR_CosmeticExplode());
     }
 
     IEnumerator CR_CosmeticExplode()
     {
         GetComponent<TrailRenderer>().emitting = false;
         projectile_Mesh.SetActive(false);
+        rb.isKinematic = true;
+        colliders = Physics.OverlapSphere(transform.position, explosiveRange);
+        damagedPlayers = new List<GameObject>();
+        if (colliders != null)
+        {
+            if (colliders.Length > 0)
+            {
+                for (int i = 0; i < colliders.Length; i++)
+                {
+                    var _tempCollisionObject = colliders[i].gameObject;
+                    if (!damagedPlayers.Contains(_tempCollisionObject))
+                    {
+                        damagedPlayers.Add(_tempCollisionObject);
+                        Truck truck = _tempCollisionObject.GetComponent<Truck>();
+                        if (truck != null)
+                        {
+                            if (realtimeView.isOwnedLocallyInHierarchy)
+                            {
+                                UIManager.ConfirmHitDamage();
+                                if (statEntity != null)
+                                    statEntity.ReceiveStat(StatType.damage, damage);
+                                }
+
+                            if (truck.realtimeView.isOwnedLocallyInHierarchy)
+                                Hit(truck);
+                        }
+                        else
+                        {
+                            Player player = _tempCollisionObject.GetComponent<Player>();
+                            if (player != null)
+                            {
+                                if (realtimeView.isOwnedLocallyInHierarchy)
+                                {
+                                    UIManager.ConfirmHitDamage();
+                                }
+
+                                Hit(player);
+                            }
+                            else
+                            {
+                                if (_tempCollisionObject.GetComponent<Rigidbody>() != null)
+                                {
+                                    if (_tempCollisionObject.GetComponent<RealtimeView>() != null &&
+                                        _tempCollisionObject.GetComponent<LootContainer>() != null)
+                                    {
+                                        _tempCollisionObject.GetComponent<RealtimeView>().RequestOwnership();
+                                    }
+
+                                    _tempCollisionObject.GetComponent<Rigidbody>()
+                                        .AddExplosionForce(20000f,
+                                            transform.position,
+                                            20f,
+                                            1000f);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        rb.isKinematic = true;
         explosion.SetActive(true);
-        if (realtimeView.isOwnedLocallyInHierarchy) model.exploded = true;
-        yield return wait1Sec;
         yield return wait1Sec;
         explosion.SetActive(false);
         yield return wait1Sec;
-        cr_CosmeticExplode = null;
         if (realtimeView.isOwnedLocallyInHierarchy) Realtime.Destroy(gameObject);
     }
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        //if no realtime component in collided object then just detonate the projectile/explosive 
-        RealtimeView _tempRTView = other.gameObject.GetComponent<RealtimeView>();
-        //if the collided object has a realtimeview
-        if (_tempRTView != null)
+        RealtimeView rt = other.gameObject.GetComponent<RealtimeView>();
+        if (rt != null)
         {
-            //now we need to check if the collided object is the truck, because if it is the truck, we need to damage it even if we own the projectile
-            Truck _tempTruck = other.gameObject.GetComponent<Truck>();
-            if (_tempTruck != null) //if it is a truck
+            if (rt.ownerIDInHierarchy == realtimeView.ownerIDInHierarchy)
             {
-                CosmeticExplode();
-                UIManager.ConfirmHitDamage();
-
-                if (realtimeView.isOwnedLocallyInHierarchy && statEntity != null) //record stat if you are owned locally
-                    statEntity.ReceiveStat(StatType.damage, damage);
-
-                //damage the truck, but only if it is owned locally (you know why)
-                if (_tempTruck.realtimeView.isOwnedLocallyInHierarchy)
-                {
-                    //Debug.LogWarning("Truck hit!");
-                    Hit(_tempTruck);
-                    return;
-                }
-            }
-
-            //check if it is a car
-            NewCarController _tempCar = other.gameObject.GetComponent<NewCarController>();
-            if (_tempCar != null) //if it is a car, go for it!
-            {
-                if (_tempRTView.realtimeView.ownerIDInHierarchy != realtimeView.ownerIDInHierarchy)
-                {
-                    CosmeticExplode();
-                    if (_tempCar._realtimeView.isOwnedLocallyInHierarchy)
-                    {
-                        //Debug.LogWarning("Car hit!");\
-                        Hit(_tempCar);
-                    }
-
-                    if (realtimeView.isOwnedLocallyInHierarchy)
-                    {
-                        UIManager.ConfirmHitDamage();
-                    }
-                }
-            }
-            else //Empty hit!
-            {
-                CosmeticExplode();
-                Hit();
+                return;
             }
         }
+        CosmeticExplode();
     }
 }

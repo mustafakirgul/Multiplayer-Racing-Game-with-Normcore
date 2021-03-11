@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 24123854704854561}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.08526981, y: 0.29475883, z: 1.530847}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1176611466031813889}
   m_RootOrder: 1
@@ -154,7 +154,7 @@ MonoBehaviour:
   barrelFireAngle: 0
   projectile_Mesh: {fileID: 24123854704854561}
   ProjectileToDisplay: {fileID: 2800000, guid: 2452e46bca22740c8abc1fa974c7cf7b, type: 3}
-  _realtimeView: {fileID: 0}
+  _realtimeView: {fileID: -2444969834895540377}
   statEntity: {fileID: 0}
   bulletSpeed: 100
 --- !u!114 &-2444969834895540377
