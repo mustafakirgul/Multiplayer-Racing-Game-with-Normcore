@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
     public bool isDebugBuild;
     public float debugTruckHealth;
     public string playerName;
+    public Results results;
 
     private void OnDrawGizmos()
     {
@@ -411,7 +412,7 @@ public class GameManager : MonoBehaviour
     {
         //gather race information and store it for evaluation later
         //-----------------------------------------------------------
-        FindObjectOfType<Results>().PopulateList();
+        if (results != null) results.PopulateList();
 
         //Loot manager will need to be update with new roles to do
         //Loot manager needs to know consumables/powerups like scrap that can persist
