@@ -12,14 +12,16 @@ public class BuildScrollSelector : MonoBehaviour
     List<GameObject> LootObjectContainers = new List<GameObject>();
 
     [SerializeField]
-    GameObject currentSelection;
+    GameObject currentSelecteCategory;
 
     [SerializeField]
     Image SelectionIcon;
 
+    [SerializeField]
     int selectionIndex = 0;
 
-    float scrollConstant = 0;
+    [SerializeField]
+    int CycleIndex = 0;
 
     [SerializeField]
     List<UIItemDataContainer> weaponsSelections = new List<UIItemDataContainer>();
@@ -30,41 +32,26 @@ public class BuildScrollSelector : MonoBehaviour
     [SerializeField]
     List<UIItemDataContainer> engineSelections = new List<UIItemDataContainer>();
 
+    [SerializeField]
+    float ScrollFloat;
 
-    public void ScrollToTop()
-    {
-        //currentSelection.GetComponent<ScrollRect>().horizontalNormalizedPosition += scrollConstant;
+    [SerializeField]
+    GameObject SelectedWeapon, SelectedArmour, SelectedEngine;
 
-        //currentSelection.GetComponent<ScrollRect>().horizontalNormalizedPosition %= 1f;
-
-
-        currentSelection.GetComponent<ScrollRect>().content.localPosition = 
-            GetSnapToPositionToBringChildIntoView(currentSelection.GetComponent<ScrollRect>(),
-            currentSelection.transform.GetChild(0).GetComponent<RectTransform>());
-    }
-    public void ScrollToBottom()
-    {
-        //currentSelection.GetComponent<ScrollRect>().horizontalNormalizedPosition -= scrollConstant;
-
-        //currentSelection.GetComponent<ScrollRect>().horizontalNormalizedPosition %= 1f;
-        currentSelection.GetComponent<ScrollRect>().content.localPosition =
-    GetSnapToPositionToBringChildIntoView(currentSelection.GetComponent<ScrollRect>(),
-    currentSelection.transform.GetChild(currentSelection.transform.childCount).GetComponent<RectTransform>());
-    }
 
     void Start()
     {
         InitializeManualSelection();
 
-        //for (int i = 0; i < CursorSelection.Count; i++)
-        //{
-        //    CursorSelection[i].gameObject.GetComponent<ScrollRect>().horizontalNormalizedPosition = 0f;
-        //}
+        for (int i = 0; i < CursorSelection.Count; i++)
+        {
+            CursorSelection[i].gameObject.GetComponent<ScrollRect>().horizontalNormalizedPosition = 0f;
+        }
     }
 
     public void InitializeManualSelection()
     {
-        currentSelection = CursorSelection[selectionIndex].gameObject;
+        currentSelecteCategory = CursorSelection[selectionIndex].gameObject;
 
         if (SelectionIcon != null)
         {
@@ -106,12 +93,54 @@ public class BuildScrollSelector : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            ScrollToBottom();
+            CycleItem(false);
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            ScrollToTop();
+            CycleItem(true);
+        }
+    }
+
+    void CycleItem(bool isRight)
+    {
+        if (isRight)
+            CycleIndex++;
+        else
+        {
+            CycleIndex--;
+            if (CycleIndex < 0)
+            {
+                switch (selectionIndex)
+                {
+                    case 0:
+                        CycleIndex = weaponsSelections.Count - 1;
+                        break;
+                    case 1:
+                        CycleIndex = armourSelections.Count - 1;
+                        break;
+                    case 2:
+                        CycleIndex = engineSelections.Count - 1;
+                        break;
+                }
+            }
+
+        }
+
+        switch (selectionIndex)
+        {
+            case 0:
+                CycleIndex %= weaponsSelections.Count;
+                weaponsSelections[(int)CycleIndex].InjectButtonBuildDataToBuild();
+                break;
+            case 1:
+                CycleIndex %= armourSelections.Count;
+                armourSelections[(int)CycleIndex].InjectButtonBuildDataToBuild();
+                break;
+            case 2:
+                CycleIndex %= engineSelections.Count;
+                engineSelections[(int)CycleIndex].InjectButtonBuildDataToBuild();
+                break;
         }
     }
 
@@ -131,23 +160,12 @@ public class BuildScrollSelector : MonoBehaviour
             }
         }
         selectionIndex %= CursorSelection.Count;
-        currentSelection = CursorSelection[selectionIndex].gameObject;
+        CycleIndex = 0;
+        currentSelecteCategory = CursorSelection[selectionIndex].gameObject;
 
         if (SelectionIcon != null)
         {
             SelectionIcon.rectTransform.anchoredPosition = CursorSelection[selectionIndex].gameObject.GetComponent<RectTransform>().anchoredPosition;
         }
-    }
-
-    public static Vector2 GetSnapToPositionToBringChildIntoView(ScrollRect instance, RectTransform child)
-    {
-        Canvas.ForceUpdateCanvases();
-        Vector2 viewportLocalPosition = instance.viewport.localPosition;
-        Vector2 childLocalPosition = child.localPosition;
-        Vector2 result = new Vector2(
-            0 - (viewportLocalPosition.x + childLocalPosition.x),
-            0 - (viewportLocalPosition.y + childLocalPosition.y)
-        );
-        return result;
     }
 }
