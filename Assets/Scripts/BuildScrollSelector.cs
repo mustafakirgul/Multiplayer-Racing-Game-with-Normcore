@@ -42,11 +42,6 @@ public class BuildScrollSelector : MonoBehaviour
     void Start()
     {
         InitializeManualSelection();
-
-        for (int i = 0; i < CursorSelection.Count; i++)
-        {
-            CursorSelection[i].gameObject.GetComponent<ScrollRect>().horizontalNormalizedPosition = 0f;
-        }
     }
 
     public void InitializeManualSelection()
