@@ -1342,7 +1342,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 4
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -400.6344, y: 70.05625, z: -686.3812}
+  PUSpawnReferencePoint: {x: -151.90002, y: 73.600006, z: -11.700012}
 --- !u!114 &209553271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1360,7 +1360,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 209553270}
@@ -4095,7 +4095,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -434.83438, y: 393.26624, z: -1763.0813}
+  PUSpawnReferencePoint: {x: -186.1, y: 396.81, z: -1088.4}
 --- !u!114 &590459237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4113,7 +4113,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 590459236}
@@ -5345,7 +5345,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -434.83438, y: 327.98624, z: -1747.4825}
+  PUSpawnReferencePoint: {x: -186.1, y: 331.53, z: -1072.8013}
 --- !u!114 &749936218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5363,7 +5363,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 749936217}
@@ -7472,7 +7472,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 6
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -372.03436, y: 58.25625, z: -745.1047}
+  PUSpawnReferencePoint: {x: -123.29999, y: 61.800003, z: -70.42343}
 --- !u!114 &1016693548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7490,7 +7490,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1016693547}
@@ -8975,7 +8975,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -473.13437, y: 327.75623, z: -1747.4825}
+  PUSpawnReferencePoint: {x: -224.4, y: 331.3, z: -1072.8013}
 --- !u!114 &1162637566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8993,7 +8993,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1162637565}
@@ -10162,7 +10162,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -487.83438, y: 326.29623, z: -1747.4825}
+  PUSpawnReferencePoint: {x: -239.1, y: 329.84, z: -1072.8013}
 --- !u!114 &1323451286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10180,7 +10180,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1323451285}
@@ -11376,7 +11376,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -447.3293, y: 397.30624, z: -1763.0801}
+  PUSpawnReferencePoint: {x: -198.59494, y: 400.85, z: -1088.3988}
 --- !u!114 &1440528330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11394,7 +11394,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1440528329}
@@ -11692,7 +11692,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 5
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -496.23438, y: 240.15623, z: -1444.3812}
+  PUSpawnReferencePoint: {x: -247.5, y: 243.69998, z: -769.7}
 --- !u!114 &1449993740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11710,7 +11710,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1449993739}
@@ -12985,7 +12985,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -460.13437, y: 399.03622, z: -1763.0813}
+  PUSpawnReferencePoint: {x: -211.4, y: 402.58, z: -1088.4}
 --- !u!114 &1657857082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13003,7 +13003,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1657857081}
@@ -13143,7 +13143,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -487.83438, y: 399.64624, z: -1763.0813}
+  PUSpawnReferencePoint: {x: -239.1, y: 403.19, z: -1088.4}
 --- !u!114 &1663201851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13161,7 +13161,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1663201850}
@@ -13301,7 +13301,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -473.13437, y: 400.05624, z: -1763.0813}
+  PUSpawnReferencePoint: {x: -224.4, y: 403.6, z: -1088.4}
 --- !u!114 &1672046637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13319,7 +13319,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1672046636}
@@ -13696,7 +13696,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 5
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -460.01437, y: 222.64624, z: -1479.1813}
+  PUSpawnReferencePoint: {x: -211.28, y: 226.18999, z: -804.5}
 --- !u!114 &1730193763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13714,7 +13714,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1730193762}
@@ -14795,7 +14795,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -460.13437, y: 327.51624, z: -1747.4825}
+  PUSpawnReferencePoint: {x: -211.4, y: 331.06, z: -1072.8013}
 --- !u!114 &1843300478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14813,7 +14813,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1843300477}
@@ -15851,7 +15851,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -447.3293, y: 327.30624, z: -1747.4812}
+  PUSpawnReferencePoint: {x: -198.59494, y: 330.85, z: -1072.8}
 --- !u!114 &1960490047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15869,7 +15869,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1960490046}
@@ -16757,7 +16757,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 1
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -501.23438, y: 49.25625, z: -745.16125}
+  PUSpawnReferencePoint: {x: -252.5, y: 52.800003, z: -70.48001}
 --- !u!114 &2010491841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16775,7 +16775,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 2010491840}
@@ -20400,7 +20400,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -393.73438, y: 53.40625, z: -727.98126}
+  PUSpawnReferencePoint: {x: -145, y: 56.95, z: -53.30002}
 --- !u!114 &6459804447956517650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20418,7 +20418,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 6928392778295944631}
@@ -20637,7 +20637,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -481.35202, y: 84.45625, z: -625.19214}
+  PUSpawnReferencePoint: {x: -232.61765, y: 88, z: 49.489105}
 --- !u!114 &115577316935235375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20655,7 +20655,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 8100393335618850586}
@@ -21336,7 +21336,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -531.41437, y: 57.15625, z: -785.28125}
+  PUSpawnReferencePoint: {x: -282.68, y: 60.7, z: -110.600006}
 --- !u!114 &6112218348653427928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21354,7 +21354,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 7438904098863032792}
@@ -22588,7 +22588,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -372.73438, y: 71.31625, z: -666.78125}
+  PUSpawnReferencePoint: {x: -124, y: 74.86, z: 7.899994}
 --- !u!114 &3730546030186600422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22606,7 +22606,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 7760692227576919305}
@@ -23087,7 +23087,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 2
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -374.9344, y: 57.65625, z: -727.7189}
+  PUSpawnReferencePoint: {x: -126.20001, y: 61.2, z: -53.03763}
 --- !u!114 &567410783833460818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23105,7 +23105,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 2810706428125525095}
@@ -26323,7 +26323,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -425.83438, y: 50.31625, z: -769.08124}
+  PUSpawnReferencePoint: {x: -177.1, y: 53.86, z: -94.399994}
 --- !u!114 &5957207355587845752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26341,7 +26341,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 7386578202342302989}
@@ -28947,7 +28947,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -473.13437, y: 48.79625, z: -769.08124}
+  PUSpawnReferencePoint: {x: -224.4, y: 52.34, z: -94.399994}
 --- !u!114 &4098567262267260993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28965,7 +28965,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 2203400875683842439}
@@ -29441,7 +29441,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 2
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -453.77194, y: 87.25625, z: -620.9353}
+  PUSpawnReferencePoint: {x: -205.03757, y: 90.8, z: 53.74594}
 --- !u!114 &1988337575066759186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29459,7 +29459,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 8796910265306035072}
@@ -29881,7 +29881,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -515.53436, y: 57.55625, z: -827.1813}
+  PUSpawnReferencePoint: {x: -266.8, y: 61.1, z: -152.5}
 --- !u!114 &644248579566868477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29899,7 +29899,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 6250286435314563901}
@@ -30786,7 +30786,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -458.63437, y: 80.85625, z: -698.78125}
+  PUSpawnReferencePoint: {x: -209.9, y: 84.4, z: -24.100006}
 --- !u!114 &2294716231438304575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30804,7 +30804,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 7908628531530576968}
@@ -31260,7 +31260,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -460.13437, y: 48.72625, z: -769.08124}
+  PUSpawnReferencePoint: {x: -211.4, y: 52.27, z: -94.399994}
 --- !u!114 &7596330033985003059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31278,7 +31278,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 2921762993215176211}
@@ -32505,7 +32505,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -367.33438, y: 67.33625, z: -682.1813}
+  PUSpawnReferencePoint: {x: -118.600006, y: 70.880005, z: -7.5}
 --- !u!114 &109813045090623173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32523,7 +32523,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 3793365928292282190}
@@ -33678,7 +33678,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -465.72946, y: 79.65625, z: -632.78125}
+  PUSpawnReferencePoint: {x: -216.99509, y: 83.2, z: 41.899994}
 --- !u!114 &8646650402422300200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33696,7 +33696,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 2521929766162868194}
@@ -34341,7 +34341,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -562.1344, y: 58.55625, z: -785.08124}
+  PUSpawnReferencePoint: {x: -313.4, y: 62.1, z: -110.399994}
 --- !u!114 &2065280770461393106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34359,7 +34359,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 8072201664606542544}
@@ -37870,7 +37870,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 2
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -534.1344, y: 59.716248, z: -690.58124}
+  PUSpawnReferencePoint: {x: -285.4, y: 63.260002, z: -15.899994}
 --- !u!114 &94507656757597431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37888,7 +37888,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 7378570169627359687}
@@ -38643,7 +38643,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -447.3293, y: 48.99625, z: -769.07996}
+  PUSpawnReferencePoint: {x: -198.59494, y: 52.54, z: -94.39871}
 --- !u!114 &2069081510301325637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38661,7 +38661,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 3883256866967423857}
@@ -38801,7 +38801,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -434.83438, y: 49.40625, z: -769.08124}
+  PUSpawnReferencePoint: {x: -186.1, y: 52.95, z: -94.399994}
 --- !u!114 &6459208048577890706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38819,7 +38819,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 5212696204184324897}
@@ -39548,7 +39548,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -537.2344, y: 54.646248, z: -755.9513}
+  PUSpawnReferencePoint: {x: -288.5, y: 58.190002, z: -81.27002}
 --- !u!114 &7227776293097139886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39566,7 +39566,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 4333428329372761017}
@@ -40750,7 +40750,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -467.45438, y: 47.18625, z: -755.9513}
+  PUSpawnReferencePoint: {x: -218.72, y: 50.73, z: -81.27002}
 --- !u!114 &8496141046549174216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40768,7 +40768,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 7322516160358410818}
@@ -42252,7 +42252,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 2
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -400.5678, y: 54.05625, z: -727.7189}
+  PUSpawnReferencePoint: {x: -151.83344, y: 57.6, z: -53.03763}
 --- !u!114 &9152744576616387464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42270,7 +42270,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 8861034437397077315}
@@ -45656,7 +45656,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -517.772, y: 67.55625, z: -661.8812}
+  PUSpawnReferencePoint: {x: -269.0376, y: 71.100006, z: 12.799988}
 --- !u!114 &3138185193435491402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45674,7 +45674,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 5337900869058703431}
@@ -47954,7 +47954,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -419.73438, y: 82.55625, z: -630.1813}
+  PUSpawnReferencePoint: {x: -171, y: 86.100006, z: 44.49997}
 --- !u!114 &5996146737479168706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47972,7 +47972,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 2267282816767544201}
@@ -49972,7 +49972,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -521.83435, y: 54.45625, z: -794.08124}
+  PUSpawnReferencePoint: {x: -273.1, y: 58, z: -119.399994}
 --- !u!114 &1765203425526700807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49990,7 +49990,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 4416259535903223518}
@@ -50367,7 +50367,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -488.4344, y: 49.49625, z: -769.08124}
+  PUSpawnReferencePoint: {x: -239.70001, y: 53.04, z: -94.399994}
 --- !u!114 &8762104602697369076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50385,7 +50385,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 182618631387895144}
@@ -51904,7 +51904,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -375.4344, y: 62.01625, z: -695.1813}
+  PUSpawnReferencePoint: {x: -126.70001, y: 65.56, z: -20.5}
 --- !u!114 &2008381387137510829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51922,7 +51922,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 3709947870143659188}
@@ -52627,7 +52627,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -385.73438, y: 58.37625, z: -710.6813}
+  PUSpawnReferencePoint: {x: -137, y: 61.92, z: -36}
 --- !u!114 &1757097427384083716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52645,7 +52645,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 2356258655817884928}
@@ -53685,7 +53685,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -476.02438, y: 46.93625, z: -745.16125}
+  PUSpawnReferencePoint: {x: -227.29001, y: 50.48, z: -70.48001}
 --- !u!114 &7801137769801738316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53703,7 +53703,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 1127151553794156667}
@@ -54591,7 +54591,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 4
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -453.13437, y: 81.15625, z: -693.08124}
+  PUSpawnReferencePoint: {x: -204.4, y: 84.7, z: -18.399994}
 --- !u!114 &5434475119838788770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54609,7 +54609,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 8639175520860281383}
@@ -55189,7 +55189,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -537.2344, y: 56.786247, z: -766.98126}
+  PUSpawnReferencePoint: {x: -288.5, y: 60.33, z: -92.30002}
 --- !u!114 &3420451031521687088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55207,7 +55207,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 8982210722279900757}
@@ -59618,7 +59618,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -450.73438, y: 21.07625, z: -1029.1013}
+  PUSpawnReferencePoint: {x: -202, y: 24.62, z: -354.42}
 --- !u!114 &4646586123340627567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59636,7 +59636,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 5009795094370201764}
@@ -59776,7 +59776,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 5
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -335.83438, y: 332.55624, z: -1707.8812}
+  PUSpawnReferencePoint: {x: -87.100006, y: 336.1, z: -1033.2}
 --- !u!114 &4646586121874901331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59794,7 +59794,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 5009795092836845464}
@@ -60013,7 +60013,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -570.4344, y: 60.75625, z: -775.98126}
+  PUSpawnReferencePoint: {x: -321.7, y: 64.3, z: -101.30002}
 --- !u!114 &8465257113068684088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60031,7 +60031,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 4165487595585036922}
@@ -60487,7 +60487,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -513.9785, y: 77.85625, z: -638.99335}
+  PUSpawnReferencePoint: {x: -265.24414, y: 81.4, z: 35.687897}
 --- !u!114 &7384520399803498274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60505,7 +60505,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 4383051928159251479}
@@ -60724,7 +60724,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -546.1404, y: 59.87025, z: -765.28125}
+  PUSpawnReferencePoint: {x: -297.406, y: 63.414, z: -90.600006}
 --- !u!114 &8997234578986542221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60742,7 +60742,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 7482932315461992005}
@@ -61234,7 +61234,7 @@ MonoBehaviour:
   isPowerUp: 1
   powerUpTypeSelected: 0
   lootTypeSelected: 0
-  PUSpawnReferencePoint: {x: -537.2344, y: 57.60625, z: -777.78125}
+  PUSpawnReferencePoint: {x: -288.5, y: 61.15, z: -103.100006}
 --- !u!114 &1769624954238685511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61252,7 +61252,7 @@ MonoBehaviour:
   _viewUUID: 
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 0
+  _isRootPrefabView: 1
   _components:
   - componentID: 1
     component: {fileID: 5444496977983125550}
