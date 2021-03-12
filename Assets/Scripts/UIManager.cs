@@ -14,8 +14,6 @@ public class UIManager : MonoBehaviour
     public Image CrossHairUI;
     public RectTransform ScreenCanvas;
     public TextMeshProUGUI speedometer, playerName, timeRemaining;
-    public int maximumNumberOfMessageLines = 10;
-    private List<string> messages;
     private GameObject uIPanel;
     public GameObject enterNamePanel;
 
@@ -26,7 +24,6 @@ public class UIManager : MonoBehaviour
     public AutoResizeLootRectTransforms[] AutoResizeLootRectTransforms;
 
     //References to important things
-    Realtime _realtime;
     GameManager _gameManager;
     LootManager _lootManager;
 
@@ -74,7 +71,6 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        _realtime = FindObjectOfType<Realtime>();
         _gameManager = FindObjectOfType<GameManager>();
         _lootManager = FindObjectOfType<LootManager>();
         CrossHairUI.gameObject.SetActive(false);
@@ -84,7 +80,6 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        messages = new List<string>();
         transform.SetParent(null);
         if (damageIndicatorCanvasGroup != null)
             damageIndicatorCanvasGroup.alpha = 0f;

@@ -31,8 +31,10 @@ public class Results : MonoBehaviour
     {
 //return ordered results
         if (StatsManager.instance == null) return;
-        if (orderedResults == null) orderedResults = new List<OrderedEntry>();
-        orderedResults.Clear();
+        if (orderedResults == null)
+            orderedResults = new List<OrderedEntry>();
+        else
+            orderedResults.Clear();
         orderedResults.AddRange(StatsManager.instance.ReturnOrderedStats());
 
         //copy information from the ordered list to UI entries;
@@ -47,6 +49,7 @@ public class Results : MonoBehaviour
             entries[i].loot.text = i < orderedResults.Count ? orderedResults[i].result.loot.ToString() : "---";
             entries[i].score.text = i < orderedResults.Count ? orderedResults[i].score.ToString() : "---";
         }
+        Debug.LogWarning("Results Populated");
     }
 }
 
