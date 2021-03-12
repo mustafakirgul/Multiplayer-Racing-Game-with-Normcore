@@ -220,16 +220,24 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        RealtimeView rt = other.gameObject.GetComponent<RealtimeView>();
-        if (rt != null)
+        if (other.gameObject.GetComponent<Truck>() != null)
         {
-            if (rt.ownerIDInHierarchy == realtimeView.ownerIDInHierarchy &&
-                other.gameObject.GetComponent<Truck>() == null)
+            CosmeticExplode();
+        }
+        else
+        {
+            RealtimeView rt = other.gameObject.GetComponent<RealtimeView>();
+            if (rt != null)
             {
-                return;
+                if (rt.ownerIDInHierarchy != realtimeView.ownerIDInHierarchy)
+                {
+                    CosmeticExplode();
+                }
+            }
+            else
+            {
+                CosmeticExplode();
             }
         }
-
-        CosmeticExplode();
     }
 }
