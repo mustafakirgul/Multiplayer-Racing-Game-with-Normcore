@@ -1,7 +1,6 @@
 ﻿using System;
 using Normal.Realtime;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class StatsEntity : RealtimeComponent<StatsModel>
 {
@@ -32,6 +31,7 @@ public class StatsEntity : RealtimeComponent<StatsModel>
         _damageToTruck = model.damageToTruck;
         _powerUp = model.powerUp;
         _loot = model.loot;
+        
     }
 
     public void ReceiveStat(StatType type, float value)

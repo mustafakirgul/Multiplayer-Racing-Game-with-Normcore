@@ -160,7 +160,7 @@ public class NewCarController : MonoBehaviour
     public bool enableBoost = true;
     public float boostCooldownTime = 5f;
     public float dashForce;
-    public bool boosterReady;
+    public bool boosterReady, isBoosting;
     private float boosterCounter;
 
     [Space] [Space] [Header("Light Controls")]
@@ -190,6 +190,7 @@ public class NewCarController : MonoBehaviour
 
     public ParticleSystem[] boostParticles;
     private int theKiller = -1;
+    public GameObject ammoIndicator, lootIndicator;
 
     public void RegisterDamage(float damage, RealtimeView realtimeView)
     {
@@ -205,6 +206,12 @@ public class NewCarController : MonoBehaviour
 
     private void Awake()
     {
+        if (ammoIndicator != null)
+            ammoIndicator.SetActive(false);
+
+        if (lootIndicator != null)
+            lootIndicator.SetActive(false);
+
         waitFrameDamageEffect = new WaitForEndOfFrame();
         if (!offlineTest)
         {
@@ -329,6 +336,8 @@ public class NewCarController : MonoBehaviour
         tempTruckDamageModifier = damageModifier;
         temptAmmo = 30f;
         currentAmmo = temptAmmo;
+        if (ammoIndicator != null)
+            ammoIndicator.SetActive(true);
         WeaponProjectileBase LootWeaponBase = LootWeaponProjectile.GetComponent<WeaponProjectileBase>();
         if (LootWeaponBase != null)
         {
@@ -535,6 +544,7 @@ public class NewCarController : MonoBehaviour
                 PlayerDeath();
             }
 
+            lootIndicator.SetActive(_player.statsEntity._loot > 0);
             yield return waitFrame3;
         }
     }
@@ -891,6 +901,7 @@ public class NewCarController : MonoBehaviour
                         }
                         else if (currentAmmo <= 0)
                         {
+                            ammoIndicator.SetActive(false);
                             if (savedWeaponProjectile != null)
                             {
                                 SwitchBackToSavedWeapon();
@@ -992,6 +1003,7 @@ public class NewCarController : MonoBehaviour
                     }
                 }
 
+                isBoosting = true;
                 StartCoroutine(StopBoostEffect());
                 CarRB.AddForce(transform.forward * (dashForce), ForceMode.VelocityChange);
             }
@@ -1058,6 +1070,8 @@ public class NewCarController : MonoBehaviour
                 particle.Stop();
             }
         }
+
+        isBoosting = false;
     }
 
     private IEnumerator DelayCameraLerpReset()

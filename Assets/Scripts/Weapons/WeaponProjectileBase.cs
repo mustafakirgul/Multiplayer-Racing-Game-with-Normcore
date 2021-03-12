@@ -170,7 +170,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                                 UIManager.ConfirmHitDamage();
                                 if (statEntity != null)
                                     statEntity.ReceiveStat(StatType.damage, damage);
-                                }
+                            }
 
                             if (truck.realtimeView.isOwnedLocallyInHierarchy)
                                 Hit(truck);
@@ -209,6 +209,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                 }
             }
         }
+
         rb.isKinematic = true;
         explosion.SetActive(true);
         yield return wait1Sec;
@@ -222,11 +223,13 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         RealtimeView rt = other.gameObject.GetComponent<RealtimeView>();
         if (rt != null)
         {
-            if (rt.ownerIDInHierarchy == realtimeView.ownerIDInHierarchy)
+            if (rt.ownerIDInHierarchy == realtimeView.ownerIDInHierarchy &&
+                other.gameObject.GetComponent<Truck>() == null)
             {
                 return;
             }
         }
+
         CosmeticExplode();
     }
 }

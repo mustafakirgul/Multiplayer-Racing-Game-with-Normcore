@@ -2,8 +2,10 @@
 using Normal.Realtime;
 using UnityEngine;
 
+[RequireComponent(typeof(RealtimeView))]
 public class Melee : MonoBehaviour
 {
+    public int originalOwnerID;
     public float weight;
     public float meleePower;
     public float armorFactor;
@@ -13,43 +15,39 @@ public class Melee : MonoBehaviour
     private NewCarController controller;
     private Rigidbody carRB, rb;
     private WaitForSeconds wait;
-    private Transform parent;
+    private RealtimeView rt;
 
     private void Start()
     {
-        parent = transform.parent;
-        controller = parent.GetComponent<NewCarController>();
+        rt = GetComponent<RealtimeView>();
+        rt.RequestOwnership();
+        originalOwnerID = rt.ownerIDInHierarchy;
+        controller = transform.parent.GetComponent<NewCarController>();
         carRB = controller.CarRB;
-        rb = GetComponent<Rigidbody>();
         wait = new WaitForSeconds(.25f);
-        transform.SetParent(null);
         if (crashParticle == null) crashParticle = GetComponentInChildren<ParticleSystem>();
-    }
-
-    private void Update()
-    {
-        if (parent == null) return;
-
-        rb.MovePosition(parent.position);
-        rb.MoveRotation(parent.rotation);
     }
 
     public Vector3 ReturnVelocity()
     {
-        return rb.velocity;
+        return carRB.velocity;
     }
 
     private IEnumerator OnCollisionEnter(Collision collision)
     {
-        if (GetComponent<RealtimeView>().isOwnedLocallyInHierarchy) yield break;
         opponent = collision.transform.GetComponentInChildren<Melee>();
         if (opponent == null) yield break;
-        Vector3 collisionForce = -(opponent.ReturnVelocity() + ReturnVelocity());
-        Debug.DrawLine(transform.position, transform.position + collisionForce, Color.red);
-        crashParticle.Play();
-        carRB.AddForce(collisionForce * 10000f * meleePower);
-        //Debug.LogWarning("Melee happened!" + collisionForce);
-        yield return wait;
-        crashParticle.Stop();
+        Debug.DrawLine(transform.position, opponent.transform.position, Color.white);
+        Debug.DrawLine(transform.position, transform.forward, Color.green);
+        Debug.DrawLine(opponent.transform.position, opponent.transform.forward, Color.red);
+        if (controller.isBoosting)
+        {
+            crashParticle.Play();
+            Debug.LogWarning("Melee happened!");
+            yield return wait;
+            crashParticle.Stop();
+        }
+        else
+            Debug.LogWarning("Melee did not happen!");
     }
 }
