@@ -234,6 +234,12 @@ public class Truck : RealtimeComponent<TruckModel>
             ResetTransform();
         }
 
+        if (Input.GetKeyDown(KeyCode.Insert))
+        {
+            Vector3 pos = PlayerManager.instance.localPlayer.position;
+            transform.position = new Vector3(pos.x, pos.y + 10f, pos.z);
+        }
+
         currentTorquePerWheel = maxTorque * _torqueFactor * elevationTorqueFactor;
         if (_length > 0)
         {

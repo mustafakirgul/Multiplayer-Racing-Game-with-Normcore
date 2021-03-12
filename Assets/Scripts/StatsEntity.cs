@@ -25,13 +25,26 @@ public class StatsEntity : RealtimeComponent<StatsModel>
         }
     }
 
+    private void Start()
+    {
+        foreach (var p in FindObjectsOfType<Player>())
+        {
+            if (p.statsEntity == null)
+            {
+                if (p.realtimeView.ownerIDInHierarchy == realtimeView.ownerIDInHierarchy)
+                {
+                    p.statsEntity = this;
+                }
+            }
+        }
+    }
+
     private void Update()
     {
         _kills = model.kills;
         _damageToTruck = model.damageToTruck;
         _powerUp = model.powerUp;
         _loot = model.loot;
-        
     }
 
     public void ReceiveStat(StatType type, float value)

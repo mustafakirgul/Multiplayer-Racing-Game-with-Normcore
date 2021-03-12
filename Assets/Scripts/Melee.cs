@@ -9,23 +9,33 @@ public class Melee : MonoBehaviour
     public float weight;
     public float meleePower;
     public float armorFactor;
+    public Transform parent;
     private Melee opponent;
-    private ContactPoint[] contactPoints;
     public ParticleSystem crashParticle;
     private NewCarController controller;
     private Rigidbody carRB, rb;
     private WaitForSeconds wait;
     private RealtimeView rt;
 
-    private void Start()
+    public void Setup(Transform _parent, NewCarController _controller)
     {
+        parent = _parent;
         rt = GetComponent<RealtimeView>();
         rt.RequestOwnership();
         originalOwnerID = rt.ownerIDInHierarchy;
-        controller = transform.parent.GetComponent<NewCarController>();
+        controller = _controller;
         carRB = controller.CarRB;
+        rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
         wait = new WaitForSeconds(.25f);
         if (crashParticle == null) crashParticle = GetComponentInChildren<ParticleSystem>();
+    }
+
+    private void Update()
+    {
+        if (parent == null || rb == null) return;
+        rb.MovePosition(parent.position);
+        rb.MoveRotation(parent.rotation);
     }
 
     public Vector3 ReturnVelocity()
