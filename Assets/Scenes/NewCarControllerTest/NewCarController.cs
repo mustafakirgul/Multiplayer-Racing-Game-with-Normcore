@@ -84,7 +84,7 @@ public class NewCarController : MonoBehaviour
     private GameObject PrimaryWeaponProjectile;
 
     [SerializeField] private GameObject SecondaryWeaponProjectile;
-
+    [SerializeField]private float startingAmmo=5f;
     private GameObject _bulletBuffer;
     public Transform _barrelTip;
     public float primaryfireRate = 1;
@@ -191,7 +191,7 @@ public class NewCarController : MonoBehaviour
     public ParticleSystem[] boostParticles;
     private int theKiller = -1;
     public GameObject ammoIndicator, lootIndicator;
-
+    
     public void RegisterDamage(float damage, RealtimeView realtimeView)
     {
         theKiller = realtimeView
@@ -334,7 +334,8 @@ public class NewCarController : MonoBehaviour
         secondayFireTimer = 1f / secondaryfireRate;
         secondaryWait = new WaitForSeconds(secondayFireTimer);
         tempTruckDamageModifier = damageModifier;
-        temptAmmo = 30f;
+        
+        temptAmmo =startingAmmo;
         currentAmmo = temptAmmo;
         if (ammoIndicator != null)
             ammoIndicator.SetActive(true);

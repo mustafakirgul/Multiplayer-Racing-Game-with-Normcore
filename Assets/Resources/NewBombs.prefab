@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startSpeed: 50
-  damage: 5
+  damage: 100
   explosiveRange: 10
   weaponLifeTime: 20
   truckDamageFactor: 1
@@ -110,6 +110,7 @@ MonoBehaviour:
   projectile_Mesh: {fileID: 4332054682276169056}
   ProjectileToDisplay: {fileID: 2800000, guid: ec1a7cc9797404c29a0095e9f51971d6, type: 3}
   _realtimeView: {fileID: 0}
+  statEntity: {fileID: 0}
   ColliderToArm: {fileID: 6189135154252535727}
   BombEjectionSpeed: 0
   isArmed: 0
