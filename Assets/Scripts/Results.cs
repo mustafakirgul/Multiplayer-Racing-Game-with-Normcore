@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 public class Results : MonoBehaviour
@@ -27,6 +28,12 @@ public class Results : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (gameObject.activeSelf)
+            PopulateList();
+    }
+
     public void PopulateList()
     {
 //return ordered results
@@ -49,7 +56,8 @@ public class Results : MonoBehaviour
             entries[i].loot.text = i < orderedResults.Count ? orderedResults[i].result.loot.ToString() : "---";
             entries[i].score.text = i < orderedResults.Count ? orderedResults[i].score.ToString() : "---";
         }
-        Debug.LogWarning("Results Populated");
+
+        //Debug.LogWarning("Results Populated");
     }
 }
 

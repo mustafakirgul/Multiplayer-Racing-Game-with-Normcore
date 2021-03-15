@@ -62,6 +62,11 @@ public class StatsEntity : RealtimeComponent<StatsModel>
         }
     }
 
+    public void LoseLoot()
+    {
+        model.loot = Mathf.Clamp(model.loot - 1, 0, 999999);
+    }
+
     public void ReceiveKiller(int killer)
     {
         if (model.isOwnedLocallyInHierarchy)

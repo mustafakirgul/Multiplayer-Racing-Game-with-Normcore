@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3256921104142013075}
   - component: {fileID: 4657228065282159550}
   - component: {fileID: 8426010137019054103}
+  - component: {fileID: 6160723597532551801}
   m_Layer: 14
   m_Name: Melee
   m_TagString: Untagged
@@ -53,7 +54,9 @@ MonoBehaviour:
   _sceneViewPreventOwnershipTakeover: 0
   _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
   _isRootPrefabView: 1
-  _components: []
+  _components:
+  - componentID: 1
+    component: {fileID: 6160723597532551801}
   _childViews: []
 --- !u!114 &3256921104142013075
 MonoBehaviour:
@@ -102,6 +105,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6160723597532551801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5689408152762404242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1029778088, guid: 30f4fd177e1fad742be136a8237ab587, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolate: 1
+  _syncPosition: 1
+  _syncRotation: 1
+  _syncScale: 0
+  _syncVelocity: 1
+  _maintainOwnershipWhileSleeping: 1
 --- !u!1001 &7925405432671183929
 PrefabInstance:
   m_ObjectHideFlags: 0

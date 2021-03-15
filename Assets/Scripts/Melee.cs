@@ -10,20 +10,40 @@ public class Melee : MonoBehaviour
     public float meleePower;
     public float armorFactor;
     public Transform parent;
-    private Melee opponent;
+    public Melee opponent;
     public ParticleSystem crashParticle;
-    private NewCarController controller;
-    private Rigidbody carRB, rb;
-    private WaitForSeconds wait;
-    private RealtimeView rt;
+    public NewCarController controller, opponentController;
+    public Rigidbody carRB, rb;
+    public WaitForSeconds wait;
+    public RealtimeView rt;
+    public StatsEntity statsEntity;
+    public Player player;
+    public Realtime realtime => FindObjectOfType<Realtime>();
+    public float testMeleeForce = 666f;
+    public float LootThrowForce = 100f;
 
-    public void Setup(Transform _parent, NewCarController _controller)
+    private void Start()
     {
-        parent = _parent;
         rt = GetComponent<RealtimeView>();
-        rt.RequestOwnership();
         originalOwnerID = rt.ownerIDInHierarchy;
+        if (rt.isOwnedRemotelyInHierarchy)
+        {
+            foreach (var c in FindObjectsOfType<NewCarController>())
+            {
+                if (c._realtimeView.ownerIDInHierarchy == originalOwnerID)
+                {
+                    Setup(c);
+                }
+            }
+        }
+    }
+
+    public void Setup(NewCarController _controller)
+    {
+        parent = _controller.transform;
         controller = _controller;
+        player = _controller._player;
+        statsEntity = player.statsEntity;
         carRB = controller.CarRB;
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
@@ -43,21 +63,46 @@ public class Melee : MonoBehaviour
         return carRB.velocity;
     }
 
-    private IEnumerator OnCollisionEnter(Collision collision)
+    private IEnumerator OnTriggerEnter(Collider other)
     {
-        opponent = collision.transform.GetComponentInChildren<Melee>();
-        if (opponent == null) yield break;
+        opponent = other.transform.GetComponentInChildren<Melee>();
+        if (opponent != null)
+            opponentController = opponent.controller;
+        else
+        {
+            Debug.LogWarning("No opponent for controller adoption!");
+            yield break;
+        }
+
         Debug.DrawLine(transform.position, opponent.transform.position, Color.white);
         Debug.DrawLine(transform.position, transform.forward, Color.green);
         Debug.DrawLine(opponent.transform.position, opponent.transform.forward, Color.red);
         if (controller.isBoosting)
         {
             crashParticle.Play();
-            Debug.LogWarning("Melee happened!");
+            Debug.LogWarning("Melee hit sent by " + PlayerManager.instance.PlayerName(rt.ownerIDInHierarchy));
             yield return wait;
             crashParticle.Stop();
         }
+        else if (opponentController.isBoosting)
+        {
+            GetMeleeHit();
+            Debug.LogWarning("Melee hit received by " + PlayerManager.instance.PlayerName(rt.ownerIDInHierarchy));
+        }
+    }
+
+    private void GetMeleeHit()
+    {
+        if (statsEntity == null) statsEntity = player.statsEntity;
+        carRB.AddForce((parent.position - opponent.transform.position) * testMeleeForce);
+        if (statsEntity._loot > 0)
+        {
+            statsEntity.LoseLoot();
+            opponentController._player.statsEntity.ReceiveStat(StatType.loot);
+        }
         else
-            Debug.LogWarning("Melee did not happen!");
+        {
+            //give ammo TODO
+        }
     }
 }

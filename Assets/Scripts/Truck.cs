@@ -17,7 +17,6 @@ public class Truck : RealtimeComponent<TruckModel>
     int _length;
     Vector3 _position;
     Quaternion _rotation;
-    Realtime _realtime;
     RealtimeTransform _rTTransform;
     List<RealtimeTransform> _rTTransforms;
     public Vector3 explosionPoint;
@@ -80,7 +79,6 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void Awake()
     {
-        _realtime = FindObjectOfType<Realtime>();
         truckBody = GetComponent<Rigidbody>();
         _rTTransform = GetComponent<RealtimeTransform>();
         _rTTransforms = new List<RealtimeTransform>();
@@ -386,7 +384,7 @@ public class Truck : RealtimeComponent<TruckModel>
             preventOwnershipTakeover:
             false,
             useInstance:
-            _realtime);
+            realtime);
         int PUCount =
             (LootManager.instance.playerLootPoolSave.PlayerPowerUps.Count - 1);
         _temp.GetComponent<LootContainer>().SetID(UnityEngine.Random.Range(-PUCount, 666));

@@ -23,6 +23,7 @@ public class Player : RealtimeComponent<PlayerModel>
             previousModel.playerNameDidChange -= PlayerNameChanged;
             previousModel.healthDidChange -= PlayerHealthChanged;
             previousModel.forcesDidChange -= PlayerForcesChanged;
+            previousModel.isBoostingDidChange -= PlayerIsBoostingChanged;
         }
 
         if (currentModel != null)
@@ -32,6 +33,7 @@ public class Player : RealtimeComponent<PlayerModel>
                 playerName = GameManager.instance.playerName;
                 currentModel.health = maxPlayerHealth;
                 currentModel.playerName = playerName;
+                currentModel.isBoosting = false;
                 playerHealth = maxPlayerHealth;
                 ResetHealth();
             }
@@ -39,7 +41,19 @@ public class Player : RealtimeComponent<PlayerModel>
             currentModel.playerNameDidChange += PlayerNameChanged;
             currentModel.healthDidChange += PlayerHealthChanged;
             currentModel.forcesDidChange += PlayerForcesChanged;
+            currentModel.isBoostingDidChange += PlayerIsBoostingChanged;
         }
+    }
+
+    public void ChangeIsBoosting(bool value)
+    {
+        model.isBoosting = value;
+        controller.isBoosting = value;
+    }
+
+    private void PlayerIsBoostingChanged(PlayerModel playerModel, bool value)
+    {
+        controller.isBoosting = value;
     }
 
     private void Start()

@@ -384,6 +384,9 @@ public class NewCarController : MonoBehaviour
         StartCoroutine(CR_CosmeticHealthAnimator());
         if (_realtimeView.isOwnedLocallyInHierarchy)
         {
+            CreateMeleeEntity();
+            ammoIndicator = null;
+            lootIndicator = null;
             uIManager = FindObjectOfType<UIManager>();
             OverheatMeterObj.SetActive(true);
             if (uIManager != null)
@@ -453,6 +456,18 @@ public class NewCarController : MonoBehaviour
         OverHeatNotice.gameObject.SetActive(false);
         OverheatMeterObj.SetActive(_realtimeView.isOwnedLocallyInHierarchy);
         ObtainCorrectShaker();
+    }
+
+    private void CreateMeleeEntity()
+    {
+        GameObject _temp = Realtime.Instantiate("Melee",
+            position: transform.position,
+            rotation: transform.rotation,
+            ownedByClient: true,
+            preventOwnershipTakeover: false,
+            destroyWhenOwnerOrLastClientLeaves: true,
+            useInstance: _realtime);
+        _temp.GetComponent<Melee>().Setup(this);
     }
 
     public void DamageFeedback()
@@ -544,7 +559,8 @@ public class NewCarController : MonoBehaviour
                 PlayerDeath();
             }
 
-            lootIndicator.SetActive(_player.statsEntity._loot > 0);
+            if (lootIndicator != null)
+                lootIndicator.SetActive(_player.statsEntity._loot > 0);
             yield return waitFrame3;
         }
     }
@@ -901,7 +917,6 @@ public class NewCarController : MonoBehaviour
                         }
                         else if (currentAmmo <= 0)
                         {
-                            ammoIndicator.SetActive(false);
                             if (savedWeaponProjectile != null)
                             {
                                 SwitchBackToSavedWeapon();
@@ -909,6 +924,8 @@ public class NewCarController : MonoBehaviour
                             else
                             {
                                 //Do nothing, no ammo!
+                                if (ammoIndicator != null)
+                                    ammoIndicator.SetActive(false);
                                 Debug.Log("No ammo remains!");
                             }
                         }
@@ -1003,7 +1020,7 @@ public class NewCarController : MonoBehaviour
                     }
                 }
 
-                isBoosting = true;
+                _player.ChangeIsBoosting(true);
                 StartCoroutine(StopBoostEffect());
                 CarRB.AddForce(transform.forward * (dashForce), ForceMode.VelocityChange);
             }
@@ -1071,7 +1088,7 @@ public class NewCarController : MonoBehaviour
             }
         }
 
-        isBoosting = false;
+        _player.ChangeIsBoosting(false);
     }
 
     private IEnumerator DelayCameraLerpReset()
@@ -1210,7 +1227,6 @@ public class NewCarController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (_realtimeView.isOwnedRemotelyInHierarchy) return;
         LootContainer lootbox = collision.gameObject.GetComponent<LootContainer>();
 
         BombProjectile bomb = collision.gameObject.GetComponent<BombProjectile>();
@@ -1218,25 +1234,27 @@ public class NewCarController : MonoBehaviour
         if (lootbox != null)
         {
             StartCoroutine(lootbox.CR_MeshDie());
-            int LootRoll = lootbox.id;
-            if (lootbox.collectedBy < 0)
+            if (_realtimeView.isOwnedLocallyInHierarchy)
             {
-                lootbox.transform.GetComponent<RealtimeView>().RequestOwnership();
-                lootbox.GetCollected(_realtimeView.ownerIDInHierarchy);
-                if (LootRoll > 0)
+                int LootRoll = lootbox.id;
+                if (lootbox.collectedBy < 0)
                 {
-                    lootManager.numberOfLootRolls++;
-                }
-                else if (LootRoll < 0)
-                {
-                    //Player got powerup here
-                    //Use a decode or script obj to determine what   each temp powerup should be
-                    ApplyPowerUpToPlayer(lootManager.DecodePowerUp(LootRoll));
+                    lootbox.transform.GetComponent<RealtimeView>().RequestOwnership();
+                    lootbox.GetCollected(_realtimeView.ownerIDInHierarchy);
+                    if (LootRoll > 0)
+                    {
+                        lootManager.numberOfLootRolls++;
+                    }
+                    else if (LootRoll < 0)
+                    {
+                        //Player got powerup here
+                        //Use a decode or script obj to determine what   each temp powerup should be
+                        ApplyPowerUpToPlayer(lootManager.DecodePowerUp(LootRoll));
+                    }
                 }
             }
         }
-
-        if (bomb != null && bomb.realtimeView.ownerIDInHierarchy != _realtimeView.ownerIDInHierarchy)
+        else if (bomb != null && bomb.realtimeView.ownerIDInHierarchy != _realtimeView.ownerIDInHierarchy)
         {
             _player.DamagePlayer(bomb.damage);
         }
