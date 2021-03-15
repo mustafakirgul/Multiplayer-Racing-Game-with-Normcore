@@ -69,6 +69,9 @@ public class UIManager : MonoBehaviour
 
     public Image HitMarker;
 
+    [SerializeField]
+    private BuildScrollSelector m_buildScrollSelector;
+
     private void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();
@@ -283,6 +286,9 @@ public class UIManager : MonoBehaviour
         //Visual things add back
         ContainerSelector[] selector =
             BuildModelsAppearance[lastbuildSelected].GetComponentsInChildren<ContainerSelector>();
+
+        if(m_buildScrollSelector != null)
+        m_buildScrollSelector.InitializeManualSelection();
 
         VisualModelSelectors.Clear();
         foreach (ContainerSelector sel in selector)

@@ -125,16 +125,25 @@ public class BuildScrollSelector : MonoBehaviour
         switch (selectionIndex)
         {
             case 0:
-                CycleIndex %= weaponsSelections.Count;
-                weaponsSelections[(int)CycleIndex].InjectButtonBuildDataToBuild();
+                if (weaponsSelections.Count != 0)
+                {
+                    CycleIndex %= weaponsSelections.Count;
+                    weaponsSelections[(int)CycleIndex].InjectButtonBuildDataToBuild();
+                }
                 break;
             case 1:
-                CycleIndex %= armourSelections.Count;
-                armourSelections[(int)CycleIndex].InjectButtonBuildDataToBuild();
+                if (armourSelections.Count != 0)
+                {
+                    CycleIndex %= armourSelections.Count;
+                    armourSelections[(int)CycleIndex].InjectButtonBuildDataToBuild();
+                }
                 break;
             case 2:
-                CycleIndex %= engineSelections.Count;
-                engineSelections[(int)CycleIndex].InjectButtonBuildDataToBuild();
+                if (engineSelections.Count != 0)
+                {
+                    CycleIndex %= engineSelections.Count;
+                    engineSelections[(int)CycleIndex].InjectButtonBuildDataToBuild();
+                }
                 break;
         }
     }
