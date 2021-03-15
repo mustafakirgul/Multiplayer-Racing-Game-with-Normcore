@@ -849,8 +849,8 @@ MonoBehaviour:
   elevationConstant: 90
   currentTorquePerWheel: 0
   torqueBoostAngleLimit: 45
-  _health: 666
-  _maxHealth: 666
+  _health: 2000
+  _maxHealth: 2000
   _explosionForce: {x: 0, y: 0, z: 0}
 --- !u!114 &7175390289188852947
 MonoBehaviour:

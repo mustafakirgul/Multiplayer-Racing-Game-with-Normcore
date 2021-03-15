@@ -1208,12 +1208,13 @@ MonoBehaviour:
   PrimaryWeaponProjectile: {fileID: 3112086905854782875, guid: e220297a90909d147a2ac03c3dc95e92,
     type: 3}
   SecondaryWeaponProjectile: {fileID: 0}
+  startingAmmo: 5
   _barrelTip: {fileID: 3724910010964426554}
   primaryfireRate: 1
   secondaryfireRate: 1
   readyToFire: 0
   muzzleFlash: {fileID: 312486024225244060}
-  currentAmmo: 10
+  currentAmmo: 5
   m_BarrelShaker: {fileID: 6453841869835185003}
   primaryFireTimer: 0
   secondayFireTimer: 0

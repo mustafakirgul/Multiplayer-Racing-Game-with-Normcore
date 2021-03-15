@@ -58,7 +58,7 @@ MonoBehaviour:
   truckDamageTempModifier: 0
   weaponFireRate: 5
   barrelFireAngle: 0
-  projectile_Mesh: {fileID: 0}
+  projectile_Mesh: {fileID: 3395412828007224916}
   ProjectileToDisplay: {fileID: 2800000, guid: 9dc907618504cc8468bcd435eba17b95, type: 3}
   _realtimeView: {fileID: 0}
   statEntity: {fileID: 0}
@@ -29023,6 +29023,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b82537990cc3d254894286d6efad9c1f, type: 3}
+--- !u!1 &3395412828007224916 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b82537990cc3d254894286d6efad9c1f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2584930034894629637}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2618066200875011310 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b82537990cc3d254894286d6efad9c1f,
