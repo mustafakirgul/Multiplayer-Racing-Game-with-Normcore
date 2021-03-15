@@ -1278,7 +1278,7 @@ MonoBehaviour:
     type: 3}
   SecondaryWeaponProjectile: {fileID: 3112086905854782875, guid: 5dfb8fa6b064c5341a1a2ed8e2b7ab15,
     type: 3}
-  startingAmmo: 5
+  startingAmmo: 50
   _barrelTip: {fileID: 7999507694352759004}
   primaryfireRate: 1
   secondaryfireRate: 1
