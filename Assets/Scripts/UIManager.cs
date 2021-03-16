@@ -70,7 +70,7 @@ public class UIManager : MonoBehaviour
     public Image HitMarker;
 
     [SerializeField]
-    private BuildScrollSelector m_buildScrollSelector;
+    BuildScrollSelector m_buildScrollSelector;
 
     private void Awake()
     {
@@ -287,9 +287,6 @@ public class UIManager : MonoBehaviour
         ContainerSelector[] selector =
             BuildModelsAppearance[lastbuildSelected].GetComponentsInChildren<ContainerSelector>();
 
-        if(m_buildScrollSelector != null)
-        m_buildScrollSelector.InitializeManualSelection();
-
         VisualModelSelectors.Clear();
         foreach (ContainerSelector sel in selector)
         {
@@ -399,6 +396,12 @@ public class UIManager : MonoBehaviour
 
         //Empty array for next round
         _lootManager.playerLootPoolSave.PlayerLootToAdd.Clear();
+    }
+
+    public void ResetLootUI()
+    {
+        if(m_buildScrollSelector!= null)
+        m_buildScrollSelector.InitializeManualSelection();
     }
 
     public void ResizeUILootContainers()

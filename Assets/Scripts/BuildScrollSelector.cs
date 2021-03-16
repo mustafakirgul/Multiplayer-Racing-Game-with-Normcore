@@ -62,24 +62,28 @@ public class BuildScrollSelector : MonoBehaviour
         //Populate Weapons
         for (int i = 0; i < LootObjectContainers[0].transform.childCount; i++)
         {
+            if(!weaponsSelections.Contains(LootObjectContainers[0].transform.GetChild(i).GetComponent<UIItemDataContainer>()))
             weaponsSelections.Add(LootObjectContainers[0].transform.GetChild(i).GetComponent<UIItemDataContainer>());
         }
 
         //Populate Armour
         for (int i = 0; i < LootObjectContainers[1].transform.childCount; i++)
         {
+            if (!armourSelections.Contains(LootObjectContainers[1].transform.GetChild(i).GetComponent<UIItemDataContainer>()))
             armourSelections.Add(LootObjectContainers[1].transform.GetChild(i).GetComponent<UIItemDataContainer>());
         }
 
         //Populate Engine
         for (int i = 0; i < LootObjectContainers[2].transform.childCount; i++)
         {
+            if (!engineSelections.Contains(LootObjectContainers[2].transform.GetChild(i).GetComponent<UIItemDataContainer>()))
             engineSelections.Add(LootObjectContainers[2].transform.GetChild(i).GetComponent<UIItemDataContainer>());
         }
 
         //Populate Builds
         for (int i = 0; i < LootObjectContainers[3].transform.childCount; i++)
         {
+            if(!carBuild.Contains(LootObjectContainers[3].transform.GetChild(i).gameObject))
             carBuild.Add(LootObjectContainers[3].transform.GetChild(i).gameObject);
         }
     }
