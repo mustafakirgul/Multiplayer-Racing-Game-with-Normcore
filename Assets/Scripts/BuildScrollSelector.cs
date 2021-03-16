@@ -33,10 +33,16 @@ public class BuildScrollSelector : MonoBehaviour
     List<UIItemDataContainer> engineSelections = new List<UIItemDataContainer>();
 
     [SerializeField]
+    List<GameObject> carBuild = new List<GameObject>();
+
+    [SerializeField]
     float ScrollFloat;
 
     [SerializeField]
     GameObject SelectedWeapon, SelectedArmour, SelectedEngine;
+
+    [SerializeField]
+    private UIManager uIManager;
 
 
     void Start()
@@ -71,6 +77,11 @@ public class BuildScrollSelector : MonoBehaviour
             engineSelections.Add(LootObjectContainers[2].transform.GetChild(i).GetComponent<UIItemDataContainer>());
         }
 
+        //Populate Builds
+        for (int i = 0; i < LootObjectContainers[3].transform.childCount; i++)
+        {
+            carBuild.Add(LootObjectContainers[3].transform.GetChild(i).gameObject);
+        }
     }
 
     private void Update()
@@ -117,6 +128,9 @@ public class BuildScrollSelector : MonoBehaviour
                     case 2:
                         CycleIndex = engineSelections.Count - 1;
                         break;
+                    case 3:
+                        CycleIndex = carBuild.Count - 1;
+                        break;
                 }
             }
 
@@ -145,7 +159,25 @@ public class BuildScrollSelector : MonoBehaviour
                     engineSelections[(int)CycleIndex].InjectButtonBuildDataToBuild();
                 }
                 break;
+            case 3:
+                if (carBuild.Count != 0)
+                {
+                    CycleIndex %= 3;
+                    uIManager.CarBuildSelection(CycleIndex);
+                    ToggleBuildIcon(CycleIndex);
+                }
+                break;
         }
+    }
+
+    private void ToggleBuildIcon(int iconIndex)
+    {
+        foreach(GameObject build in carBuild)
+        {
+            build.SetActive(false);
+        }
+
+        carBuild[iconIndex].SetActive(true);
     }
 
     void SwitchCollectionType(bool isDown)
@@ -160,7 +192,7 @@ public class BuildScrollSelector : MonoBehaviour
 
             if (selectionIndex < 0)
             {
-                selectionIndex = 2;
+                selectionIndex = 3;
             }
         }
         selectionIndex %= CursorSelection.Count;
