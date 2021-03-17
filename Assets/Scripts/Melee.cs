@@ -98,11 +98,28 @@ public class Melee : MonoBehaviour
         if (statsEntity._loot > 0)
         {
             statsEntity.LoseLoot();
-            opponentController._player.statsEntity.ReceiveStat(StatType.loot);
+            DropLoot(opponent.transform.position);
         }
-        else
+        else if (controller.currentAmmo > 0)
         {
-            //give ammo TODO
+            controller.currentAmmo--;
+//attacker will gain ammo TODO
         }
+    }
+
+    private void DropLoot(Vector3 _position)
+    {
+        GameObject _temp = Realtime.Instantiate("Loot",
+            position: _position,
+            rotation: Quaternion.identity,
+            ownedByClient:
+            false,
+            preventOwnershipTakeover:
+            false,
+            useInstance:
+            realtime);
+        int PUCount =
+            (LootManager.instance.playerLootPoolSave.PlayerPowerUps.Count - 1);
+        _temp.GetComponent<LootContainer>().SetID(UnityEngine.Random.Range(-PUCount, 666));
     }
 }

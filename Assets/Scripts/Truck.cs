@@ -61,6 +61,10 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private int theKiller;
 
+    public bool isBoombastic;
+    public float boombasticModeY = 666f;
+    private Rigidbody rb => GetComponent<Rigidbody>();
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position + lootLaunchPoint, 1f);
@@ -212,56 +216,68 @@ public class Truck : RealtimeComponent<TruckModel>
     private void Update()
     {
         if (realtimeView.isOwnedRemotelyInHierarchy) return;
-        if (Input.GetKeyDown(KeyCode.P))
+        if (isBoombastic)
         {
-            ResetTransform();
+            BoombasticMode();
         }
-
-        if (Input.GetKeyDown(KeyCode.K)) // Kill Ironhog
+        else
         {
-            model.health = 0f;
-        }
-
-        if (Input.GetKeyDown(KeyCode.L)) // Drop Loot
-        {
-            DropLoot();
-        }
-
-        if (transform.position.y < -300)
-        {
-            ResetTransform();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Insert))
-        {
-            Vector3 pos = PlayerManager.instance.localPlayer.position;
-            transform.position = new Vector3(pos.x, pos.y + 10f, pos.z);
-        }
-
-        currentTorquePerWheel = maxTorque * _torqueFactor * elevationTorqueFactor;
-        if (_length > 0)
-        {
-            for (int i = 0; i < _length; i++)
+            if (Input.GetKeyDown(KeyCode.P))
             {
-                if (_handBrake)
+                ResetTransform();
+            }
+
+            if (Input.GetKeyDown(KeyCode.K)) // Kill Ironhog
+            {
+                model.health = 0f;
+            }
+
+            if (Input.GetKeyDown(KeyCode.L)) // Drop Loot
+            {
+                DropLoot();
+            }
+
+            if (transform.position.y < -300)
+            {
+                ResetTransform();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Insert))
+            {
+                Vector3 pos = PlayerManager.instance.localPlayer.position;
+                transform.position = new Vector3(pos.x, pos.y + 10f, pos.z);
+            }
+
+            currentTorquePerWheel = maxTorque * _torqueFactor * elevationTorqueFactor;
+            if (_length > 0)
+            {
+                for (int i = 0; i < _length; i++)
                 {
-                    _wheels[i].collider.motorTorque = 0f;
-                    _wheels[i].collider.brakeTorque = maxTorque;
+                    if (_handBrake)
+                    {
+                        _wheels[i].collider.motorTorque = 0f;
+                        _wheels[i].collider.brakeTorque = maxTorque;
+                    }
+                    else if (_wheels[i].isPowered)
+                    {
+                        _wheels[i].collider.brakeTorque = 0f;
+                        _wheels[i].collider.motorTorque = currentTorquePerWheel;
+                    }
+
+
+                    _wheels[i].collider.GetWorldPose(out _position, out _rotation);
+
+                    _wheels[i].model.position = _position;
+
+                    _wheels[i].model.rotation = _rotation;
                 }
-                else if (_wheels[i].isPowered)
-                {
-                    _wheels[i].collider.brakeTorque = 0f;
-                    _wheels[i].collider.motorTorque = currentTorquePerWheel;
-                }
-
-
-                _wheels[i].collider.GetWorldPose(out _position, out _rotation);
-
-                _wheels[i].model.position = _position;
-
-                _wheels[i].model.rotation = _rotation;
             }
         }
+    }
+
+    private void BoombasticMode()
+    {
+        //KOP KOP
     }
 
     public void AddExplosionForce(Vector3 _origin)
@@ -285,6 +301,7 @@ public class Truck : RealtimeComponent<TruckModel>
     public float _health;
     public float _maxHealth;
     public Vector3 _explosionForce;
+    [SerializeField] private float boombasticModeDuration = 33f;
 
     protected override void OnRealtimeModelReplaced(TruckModel previousModel, TruckModel currentModel)
     {
@@ -293,15 +310,42 @@ public class Truck : RealtimeComponent<TruckModel>
             // Unregister from events
             previousModel.healthDidChange -= HealthChanged;
             previousModel.explosionPointDidChange -= ForcesChanged;
+            previousModel.isBoombasticDidChange -= IsBoombasticChanged;
         }
 
         if (currentModel != null)
         {
             if (currentModel.isFreshModel)
+            {
                 StartHealth();
+                currentModel.isBoombastic = false;
+            }
+
             currentModel.healthDidChange += HealthChanged;
             currentModel.explosionPointDidChange += ForcesChanged;
+            currentModel.isBoombasticDidChange += IsBoombasticChanged;
         }
+    }
+
+    private void ChangeIsBoombastic(bool value)
+    {
+        isBoombastic = value;
+        model.isBoombastic = value;
+        isInvincible = value;
+
+        if (value) StartCoroutine(CR_BackToNormal());
+    }
+
+    private IEnumerator CR_BackToNormal()
+    {
+        yield return new WaitForSeconds(boombasticModeDuration);
+        ChangeIsBoombastic(false);
+        yield return null;
+    }
+
+    private void IsBoombasticChanged(TruckModel truckModel, bool value)
+    {
+        isBoombastic = value;
     }
 
     public void RegisterDamage(float damage, RealtimeView _realtimeView)
@@ -343,6 +387,11 @@ public class Truck : RealtimeComponent<TruckModel>
             model.health -= damage;
             DamageFeedback();
             DropRandomLoot();
+        }
+
+        if (_health < (_maxHealth / 2f) && !isBoombastic)
+        {
+            ChangeIsBoombastic(true);
         }
     }
 
