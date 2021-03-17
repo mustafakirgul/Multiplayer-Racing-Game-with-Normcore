@@ -168,7 +168,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                             if (realtimeView.isOwnedLocallyInHierarchy)
                             {
                                 UIManager.ConfirmHitDamage();
-                                if (statEntity != null)
+                                if (statEntity != null && !truck.isInvincible && truck._health > 0)
                                     statEntity.ReceiveStat(StatType.damage, damage);
                             }
 
