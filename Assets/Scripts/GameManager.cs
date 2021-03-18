@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private Realtime _realtime;
+    public Realtime _realtime;
     public Vector3 center, size; //for player spawn box
     [Range(0, 359)] public float direction; //y angle of the spawned player
     Vector3 spawnPoint;
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
     {
         if (lootTruck != null)
         {
-            lootTruck.UpdateToqueFactor(_f);
+            lootTruck.UpdateTorqueFactor(_f);
         }
     }
 

@@ -8,7 +8,6 @@ public class StatsEntity : RealtimeComponent<StatsModel>
     public float _damageToTruck;
     public int _powerUp;
     public int _loot;
-
     protected override void OnRealtimeModelReplaced(StatsModel previousModel, StatsModel currentModel)
     {
         base.OnRealtimeModelReplaced(previousModel, currentModel);
@@ -64,7 +63,11 @@ public class StatsEntity : RealtimeComponent<StatsModel>
 
     public void LoseLoot()
     {
-        model.loot = Mathf.Clamp(model.loot - 1, 0, 999999);
+        if (realtimeView.isOwnedLocallyInHierarchy)
+        {
+            int temp = Mathf.Clamp(model.loot - 1, 0, 999999);
+            model.loot = temp;
+        }
     }
 
     public void ReceiveKiller(int killer)

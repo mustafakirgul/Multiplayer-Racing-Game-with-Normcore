@@ -75,7 +75,16 @@ MonoBehaviour:
   meleePower: 0
   armorFactor: 0
   parent: {fileID: 0}
+  opponent: {fileID: 0}
   crashParticle: {fileID: 0}
+  controller: {fileID: 0}
+  opponentController: {fileID: 0}
+  carRB: {fileID: 0}
+  rb: {fileID: 0}
+  rt: {fileID: 0}
+  statsEntity: {fileID: 0}
+  player: {fileID: 0}
+  testMeleeForce: 66666
 --- !u!65 &4657228065282159550
 BoxCollider:
   m_ObjectHideFlags: 0

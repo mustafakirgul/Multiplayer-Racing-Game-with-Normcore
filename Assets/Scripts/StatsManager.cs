@@ -81,6 +81,20 @@ public class StatsManager : MonoBehaviour
     {
         return p2.score.CompareTo(p1.score);
     }
+
+    public StatsEntity ReturnStatsEntityById(int id)
+    {
+        StatsEntity[] temp = FindObjectsOfType<StatsEntity>();
+        for (int i = 0; i < temp.Length; i++)
+        {
+            if (temp[i].GetComponent<RealtimeView>().ownerIDInHierarchy == id)
+            {
+                return temp[i];
+            }
+        }
+
+        return null;
+    }
 }
 
 public enum StatType

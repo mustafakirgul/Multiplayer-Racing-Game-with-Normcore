@@ -55,6 +55,8 @@ public class Truck : RealtimeComponent<TruckModel>
     public Renderer TruckMesh;
     public Outline TruckOutline;
 
+    private bool postBoom = false;
+
     //Torque adjustment relative to elevation trend of the ground
     [SerializeField]
     private float angle, elevationTorqueFactor, elevationConstant, currentTorquePerWheel, torqueBoostAngleLimit;
@@ -62,7 +64,10 @@ public class Truck : RealtimeComponent<TruckModel>
     private int theKiller;
 
     public bool isBoombastic;
-    public float boombasticModeY = 666f;
+    public float boombasticModeY = 25f;
+    public float boombasticModeDuration = 33f;
+    public ParticleSystem boombasticShield;
+    private SphereCollider shieldCollider => boombasticShield.transform.GetComponent<SphereCollider>();
     private Rigidbody rb => GetComponent<Rigidbody>();
 
     private void OnDrawGizmos()
@@ -70,7 +75,7 @@ public class Truck : RealtimeComponent<TruckModel>
         Gizmos.DrawWireSphere(transform.position + lootLaunchPoint, 1f);
     }
 
-    public void UpdateToqueFactor(float _f)
+    public void UpdateTorqueFactor(float _f)
     {
         _torqueFactor = _f;
         //Debug.LogWarning("Truck Torque Factor = " + _torqueFactor);
@@ -277,7 +282,16 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void BoombasticMode()
     {
-        //KOP KOP
+        if (Math.Abs(transform.position.y - boombasticModeY) > 1f)
+        {
+            rb.MovePosition(Vector3.Lerp(rb.position,
+                new Vector3(rb.position.x, boombasticModeY, rb.position.z), Time.deltaTime * 6.66f));
+            transform.up = Vector3.Lerp(transform.up, Vector3.up, Time.deltaTime * 6.66f);
+        }
+        else
+        {
+            transform.Rotate(Vector3.up, Time.deltaTime * 133.2f);
+        }
     }
 
     public void AddExplosionForce(Vector3 _origin)
@@ -301,7 +315,6 @@ public class Truck : RealtimeComponent<TruckModel>
     public float _health;
     public float _maxHealth;
     public Vector3 _explosionForce;
-    [SerializeField] private float boombasticModeDuration = 33f;
 
     protected override void OnRealtimeModelReplaced(TruckModel previousModel, TruckModel currentModel)
     {
@@ -332,8 +345,21 @@ public class Truck : RealtimeComponent<TruckModel>
         isBoombastic = value;
         model.isBoombastic = value;
         isInvincible = value;
-
-        if (value) StartCoroutine(CR_BackToNormal());
+        rb.isKinematic = value;
+        rb.useGravity = !value;
+        shieldCollider.enabled = value;
+        Handrake(true);
+        UpdateTorqueFactor(0f);
+        if (value)
+        {
+            boombasticModeY += transform.position.y;
+            StartCoroutine(CR_BackToNormal());
+            boombasticShield.Play();
+        }
+        else
+        {
+            boombasticShield.Stop();
+        }
     }
 
     private IEnumerator CR_BackToNormal()
@@ -389,8 +415,9 @@ public class Truck : RealtimeComponent<TruckModel>
             DropRandomLoot();
         }
 
-        if (_health < (_maxHealth / 2f) && !isBoombastic)
+        if (_health < (_maxHealth / 2f) && !postBoom)
         {
+            postBoom = true;
             ChangeIsBoombastic(true);
         }
     }

@@ -20,7 +20,6 @@ public class Melee : MonoBehaviour
     public Player player;
     public Realtime realtime => FindObjectOfType<Realtime>();
     public float testMeleeForce = 666f;
-    public float LootThrowForce = 100f;
 
     private void Start()
     {
@@ -82,6 +81,7 @@ public class Melee : MonoBehaviour
             crashParticle.Play();
             Debug.LogWarning("Melee hit sent by " + PlayerManager.instance.PlayerName(rt.ownerIDInHierarchy));
             yield return wait;
+            SendMeleeHit();
             crashParticle.Stop();
         }
         else if (opponentController.isBoosting)
@@ -91,35 +91,36 @@ public class Melee : MonoBehaviour
         }
     }
 
+    private void SendMeleeHit()
+    {
+        if (statsEntity == null) statsEntity = player.statsEntity;
+        StatsEntity opponentStatsEntity =
+            StatsManager.instance.ReturnStatsEntityById(opponentController._realtimeView.ownerIDInHierarchy);
+        Debug.LogWarning("Grabbed opponent stats entity: " + opponentStatsEntity);
+        if (controller._realtimeView.isOwnedLocallyInHierarchy)
+            carRB.AddForce((opponent.transform.position - transform.position).normalized * (testMeleeForce * .33f));
+        if (opponentStatsEntity._loot > 0)
+        {
+            statsEntity.ReceiveStat(StatType.loot);
+        }
+        else if (opponentController.currentAmmo > 0)
+        {
+            controller.currentAmmo++;
+        }
+    }
+
     private void GetMeleeHit()
     {
         if (statsEntity == null) statsEntity = player.statsEntity;
-        carRB.AddForce((parent.position - opponent.transform.position) * testMeleeForce);
+        if (controller._realtimeView.isOwnedLocallyInHierarchy)
+            carRB.AddForce((transform.position - opponent.transform.position).normalized * testMeleeForce);
         if (statsEntity._loot > 0)
         {
             statsEntity.LoseLoot();
-            DropLoot(opponent.transform.position);
         }
         else if (controller.currentAmmo > 0)
         {
             controller.currentAmmo--;
-//attacker will gain ammo TODO
         }
-    }
-
-    private void DropLoot(Vector3 _position)
-    {
-        GameObject _temp = Realtime.Instantiate("Loot",
-            position: _position,
-            rotation: Quaternion.identity,
-            ownedByClient:
-            false,
-            preventOwnershipTakeover:
-            false,
-            useInstance:
-            realtime);
-        int PUCount =
-            (LootManager.instance.playerLootPoolSave.PlayerPowerUps.Count - 1);
-        _temp.GetComponent<LootContainer>().SetID(UnityEngine.Random.Range(-PUCount, 666));
     }
 }
