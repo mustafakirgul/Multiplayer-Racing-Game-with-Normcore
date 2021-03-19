@@ -95,6 +95,20 @@ public class StatsManager : MonoBehaviour
 
         return null;
     }
+
+    public StatsEntity ReturnLocalStatsEntity()
+    {
+        StatsEntity[] temp = FindObjectsOfType<StatsEntity>();
+        for (int i = 0; i < temp.Length; i++)
+        {
+            if (temp[i].GetComponent<RealtimeView>().isOwnedLocallyInHierarchy)
+            {
+                return temp[i];
+            }
+        }
+
+        return null;
+    }
 }
 
 public enum StatType

@@ -196,6 +196,7 @@ public class GameSceneManager : MonoBehaviour
             //Disable all start splashes
             //Start end sequence here
             LobbyManager.instance.ConnectToLobby(GameManager.instance.isHost);
+            LootManager.instance.numberOfLootRolls = StatsManager.instance.ReturnLocalStatsEntity()._loot;
             LootManager.instance.RollForLoot();
             DisableEndSplashes();
             StartCoroutine(DelaySceneTransiton(0f));
