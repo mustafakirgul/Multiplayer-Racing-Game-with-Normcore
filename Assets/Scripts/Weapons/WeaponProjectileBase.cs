@@ -111,9 +111,15 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         explosion = transform.GetChild(0).gameObject;
         explosion.SetActive(false);
 
-        if (realtimeView.isOwnedLocallyInHierarchy && GetComponent<BombProjectile>() == null)
+        if (realtimeView.isOwnedLocallyInHierarchy)
         {
-            Invoke(nameof(KillTimer), weaponLifeTime);
+            if (GetComponent<BombProjectile>() == null)
+            {
+                Invoke(nameof(KillTimer), weaponLifeTime);
+            }
+            else
+            {
+            }
         }
     }
 
@@ -229,14 +235,14 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
             RealtimeView rt = other.gameObject.GetComponent<RealtimeView>();
             if (rt != null)
             {
-                if (rt.ownerIDInHierarchy != realtimeView.ownerIDInHierarchy)
+                if (GetComponent<BombProjectile>() != null)
                 {
                     CosmeticExplode();
                 }
-            }
-            else
-            {
-                CosmeticExplode();
+                else if (rt.ownerIDInHierarchy != realtimeView.ownerIDInHierarchy)
+                {
+                    CosmeticExplode();
+                }
             }
         }
     }

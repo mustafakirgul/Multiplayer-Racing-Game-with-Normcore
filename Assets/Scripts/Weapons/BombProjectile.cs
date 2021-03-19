@@ -5,9 +5,7 @@ using Normal.Realtime;
 
 public class BombProjectile : WeaponProjectileBase
 {
-    public Collider ColliderToArm;
     public float BombEjectionSpeed;
-
     public bool isArmed = false;
 
     protected override void Awake()

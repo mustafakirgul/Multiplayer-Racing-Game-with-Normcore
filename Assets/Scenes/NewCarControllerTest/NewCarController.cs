@@ -84,7 +84,7 @@ public class NewCarController : MonoBehaviour
     private GameObject PrimaryWeaponProjectile;
 
     [SerializeField] private GameObject SecondaryWeaponProjectile;
-    [SerializeField]private float startingAmmo=5f;
+    [SerializeField] private float startingAmmo = 5f;
     private GameObject _bulletBuffer;
     public Transform _barrelTip;
     public float primaryfireRate = 1;
@@ -191,7 +191,7 @@ public class NewCarController : MonoBehaviour
     public ParticleSystem[] boostParticles;
     private int theKiller = -1;
     public GameObject ammoIndicator, lootIndicator;
-    
+
     public void RegisterDamage(float damage, RealtimeView realtimeView)
     {
         theKiller = realtimeView
@@ -334,8 +334,8 @@ public class NewCarController : MonoBehaviour
         secondayFireTimer = 1f / secondaryfireRate;
         secondaryWait = new WaitForSeconds(secondayFireTimer);
         tempTruckDamageModifier = damageModifier;
-        
-        temptAmmo =startingAmmo;
+
+        temptAmmo = startingAmmo;
         currentAmmo = temptAmmo;
         if (ammoIndicator != null)
             ammoIndicator.SetActive(true);
@@ -677,7 +677,12 @@ public class NewCarController : MonoBehaviour
         turnInput = 0;
         DeathExplosion.SetActive(true);
         CarRB.AddExplosionForce(20f, this.CarRB.transform.position + (-Vector3.up * 2f), 20f, 500f, ForceMode.Impulse);
-        StatsManager.instance.RegisterKill(theKiller);
+        if (theKiller > -1 && theKiller != _realtimeView.ownerIDInHierarchy) //prevent self kill and ghost killing (player dies for a different reason but points are registered to the player who had killed them last, in the past)
+        {
+            StatsManager.instance.RegisterKill(theKiller);
+            theKiller = -1;
+        }
+
         StartCoroutine(RespawnCountDown(5f));
     }
 
@@ -889,6 +894,7 @@ public class NewCarController : MonoBehaviour
                             PrimaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             PrimaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
                             PrimaryWeaponBase.statEntity = _player.statsEntity;
+
                             StartCoroutine(FirePrimaryCR());
                         }
 
@@ -1229,9 +1235,6 @@ public class NewCarController : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
         LootContainer lootbox = collision.gameObject.GetComponent<LootContainer>();
-
-        BombProjectile bomb = collision.gameObject.GetComponent<BombProjectile>();
-
         if (lootbox != null)
         {
             StartCoroutine(lootbox.CR_MeshDie());
@@ -1242,11 +1245,7 @@ public class NewCarController : MonoBehaviour
                 {
                     lootbox.transform.GetComponent<RealtimeView>().RequestOwnership();
                     lootbox.GetCollected(_realtimeView.ownerIDInHierarchy);
-                    if (LootRoll > 0)
-                    {
-                        lootManager.numberOfLootRolls++;
-                    }
-                    else if (LootRoll < 0)
+                    if (LootRoll < 0)
                     {
                         //Player got powerup here
                         //Use a decode or script obj to determine what   each temp powerup should be
@@ -1254,10 +1253,6 @@ public class NewCarController : MonoBehaviour
                     }
                 }
             }
-        }
-        else if (bomb != null && bomb.realtimeView.ownerIDInHierarchy != _realtimeView.ownerIDInHierarchy)
-        {
-            _player.DamagePlayer(bomb.damage);
         }
     }
 

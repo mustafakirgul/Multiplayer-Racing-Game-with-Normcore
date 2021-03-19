@@ -105,6 +105,7 @@ public class LootContainer : MonoBehaviour
 
     public IEnumerator CR_MeshDie()
     {
+        GetComponent<Collider>().enabled = false;
         foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
         {
             mr.enabled = false;
