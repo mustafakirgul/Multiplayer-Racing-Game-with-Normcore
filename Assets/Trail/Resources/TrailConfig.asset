@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ad586577c8b82e408fe588d97ae3f13, type: 3}
+  m_Name: TrailConfig
+  m_EditorClassIdentifier: 
+  initializeSDKAtStartup: 1
+  devServerPort: 23000
+  enableLogging: 1
+  logLevel: 1
+  reportSceneChanges: 1
+  reportQualityChanges: 1
+  initialAspectRatio: 0
