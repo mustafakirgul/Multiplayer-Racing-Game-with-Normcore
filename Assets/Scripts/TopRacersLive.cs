@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +9,6 @@ public class TopRacersLive : MonoBehaviour
 {
     public float interval;
     public Text display;
-    private float _interval;
     private Coroutine cr_Check;
     private WaitForSeconds wait;
     public bool isRunning;
@@ -19,33 +17,32 @@ public class TopRacersLive : MonoBehaviour
     [Space(10)] public StatsEntry[] stats;
     StringBuilder sb = new StringBuilder("", 666);
 
-    private void Start()
+    private void OnEnable()
     {
+        if (!isRunning)
+        {
+            StartCheck();
+        }
+    }
+
+    public void StartCheck()
+    {
+        isRunning = true;
         if (interval <= 0)
             interval = 1f;
         if (display == null)
             display = GetComponent<Text>();
-        _interval = interval;
-        wait = new WaitForSeconds(_interval);
+        display.text = "";
+        wait = new WaitForSeconds(interval);
+        if (cr_Check != null) StopCoroutine(cr_Check);
         cr_Check = StartCoroutine(CR_Check());
     }
 
     private IEnumerator CR_Check()
     {
-        while (true)
+        while (isRunning)
         {
-            while (isRunning)
-            {
-                if (_interval != interval)
-                {
-                    _interval = interval;
-                    wait = new WaitForSeconds(_interval);
-                }
-
-                GetResults();
-                yield return wait;
-            }
-
+            GetResults();
             yield return wait;
         }
     }
@@ -59,7 +56,12 @@ public class TopRacersLive : MonoBehaviour
         }
 
         //return ordered results
-        if (StatsManager.instance == null) return;
+        if (StatsManager.instance == null)
+        {
+            Debug.LogWarning("Stats Manager instance is missing!");
+            return;
+        }
+
         if (orderedResults == null)
             orderedResults = new List<OrderedEntry>();
         else

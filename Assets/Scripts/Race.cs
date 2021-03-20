@@ -31,12 +31,7 @@ public class Race : RealtimeComponent<RaceModel>
             currentModel.isOnDidChange += IsOnChanged;
         }
     }
-
-    private void Start()
-    {
-        FindObjectOfType<TopRacersLive>().isRunning = true;
-    }
-
+    
     private void Update()
     {
         m_iPhase = model.phase;

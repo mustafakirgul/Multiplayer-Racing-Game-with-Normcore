@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
     public float debugTruckHealth;
     public string playerName;
     public Results results;
+    public TopRacersLive trl;
 
     private void OnDrawGizmos()
     {
