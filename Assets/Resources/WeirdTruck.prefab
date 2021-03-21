@@ -883,8 +883,9 @@ MonoBehaviour:
   boombasticModeY: 133.2
   boombasticModeDuration: 15
   boombasticShield: {fileID: 1017615277261355035}
-  _health: 99
-  _maxHealth: 99
+  _health: 0
+  _maxHealth: 0
+  scaleableHealth: 400
   _explosionForce: {x: 0, y: 0, z: 0}
 --- !u!114 &7175390289188852947
 MonoBehaviour:

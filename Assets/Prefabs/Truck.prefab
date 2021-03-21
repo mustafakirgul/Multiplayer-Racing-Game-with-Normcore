@@ -432,6 +432,7 @@ MonoBehaviour:
   boombasticShield: {fileID: 0}
   _health: 0
   _maxHealth: 350
+  scaleableHealth: 400
   _explosionForce: {x: 0, y: 0, z: 0}
 --- !u!114 &8311060182861833592
 MonoBehaviour:

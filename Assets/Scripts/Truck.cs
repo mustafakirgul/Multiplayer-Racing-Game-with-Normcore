@@ -314,6 +314,7 @@ public class Truck : RealtimeComponent<TruckModel>
 
     public float _health;
     public float _maxHealth;
+    public float scaleableHealth;
     public Vector3 _explosionForce;
 
     protected override void OnRealtimeModelReplaced(TruckModel previousModel, TruckModel currentModel)
@@ -409,8 +410,8 @@ public class Truck : RealtimeComponent<TruckModel>
     {
         yield return new WaitForSeconds(5f);
         int numberOfPlayers = PlayerManager.instance.allPlayers.Length;
-        _maxHealth = (350f * numberOfPlayers);
-        model.health = (350f * numberOfPlayers);
+        _maxHealth = (scaleableHealth * numberOfPlayers);
+        model.health = (scaleableHealth * numberOfPlayers);
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
