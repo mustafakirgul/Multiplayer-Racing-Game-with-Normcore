@@ -400,9 +400,17 @@ public class Truck : RealtimeComponent<TruckModel>
         }
         else
         {
-            model.health = _maxHealth;
+            StartCoroutine(SetTruckScaleableHealthCR());
             currentWPindex = 0;
         }
+    }
+
+    private IEnumerator SetTruckScaleableHealthCR()
+    {
+        yield return new WaitForSeconds(5f);
+        int numberOfPlayers = PlayerManager.instance.allPlayers.Length;
+        _maxHealth = (350f * numberOfPlayers);
+        model.health = (350f * numberOfPlayers);
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
@@ -417,6 +425,7 @@ public class Truck : RealtimeComponent<TruckModel>
 
         if (_health < (_maxHealth / 2f) && !postBoom)
         {
+            PlayerManager.instance.SpawnItems();
             postBoom = true;
             ChangeIsBoombastic(true);
         }

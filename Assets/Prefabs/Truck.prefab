@@ -402,20 +402,36 @@ MonoBehaviour:
     isPowered: 1
     isSteeringWheel: 0
     isReverseSteeringWheel: 0
-  _torque: 0
+  maxTorque: 0
   _torqueFactor: 0
   _steeringAngle: 0
   maxSteeringAngle: 0
   _handBrake: 0
   explosionPoint: {x: 0, y: 0, z: 0}
+  lootLaunchPoint: {x: 0, y: 0, z: 0}
+  lootChance: 0
+  throwForce: 0
   m_wayPoints: []
   currentWPT: {fileID: 0}
   steerRefreshTimer: 0
   currentWPindex: 0
   waypointSwitchThreshold: 0
-  _owner: 0
+  damageSphere: {fileID: 0}
+  damageDisplayTime: 0
+  isInvincible: 1
+  TruckMesh: {fileID: 0}
+  TruckOutline: {fileID: 0}
+  angle: 0
+  elevationTorqueFactor: 0
+  elevationConstant: 0
+  currentTorquePerWheel: 0
+  torqueBoostAngleLimit: 0
+  isBoombastic: 0
+  boombasticModeY: 25
+  boombasticModeDuration: 33
+  boombasticShield: {fileID: 0}
   _health: 0
-  _maxHealth: 300
+  _maxHealth: 350
   _explosionForce: {x: 0, y: 0, z: 0}
 --- !u!114 &8311060182861833592
 MonoBehaviour:

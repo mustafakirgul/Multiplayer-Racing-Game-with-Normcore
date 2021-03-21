@@ -18,6 +18,7 @@ MonoBehaviour:
   f_speed: 0
   f_amount: 0
   f_fireRate: 1
+  f_itemVisualIndex: 1
   itemText: Machine Gun Weapon Projectile
   itemImage: {fileID: 2800000, guid: 4805620c001a84dc7b5d4bc68cbb6b4c, type: 3}
   WeaponProjectile: {fileID: 3112086905854782875, guid: e220297a90909d147a2ac03c3dc95e92,
