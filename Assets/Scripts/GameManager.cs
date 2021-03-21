@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
     public Results results;
     public TopRacersLive trl;
 
+    public bool GameStarted = false;
     private void OnDrawGizmos()
     {
         float radians = direction * Mathf.Deg2Rad;
@@ -174,6 +175,7 @@ public class GameManager : MonoBehaviour
         truckIsKilled = false;
         readyToStart = false;
         isCountingDown = false;
+        GameStarted = false;
 
         if (lootTruck != null)
         {
@@ -234,7 +236,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (lootTruck != null)
+        if (lootTruck != null && GameStarted)
         {
             TruckHealthCheck();
         }

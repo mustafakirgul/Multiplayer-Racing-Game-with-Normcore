@@ -410,6 +410,7 @@ public class Truck : RealtimeComponent<TruckModel>
     {
         yield return new WaitForSeconds(5f);
         int numberOfPlayers = PlayerManager.instance.allPlayers.Length;
+        GameManager.instance.GameStarted = true;
         _maxHealth = (scaleableHealth * numberOfPlayers);
         model.health = (scaleableHealth * numberOfPlayers);
     }
