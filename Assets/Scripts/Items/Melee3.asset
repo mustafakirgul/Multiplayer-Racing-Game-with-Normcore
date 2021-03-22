@@ -17,6 +17,9 @@ MonoBehaviour:
   f_defense: 0
   f_speed: 0
   f_amount: 0
-  itemText: Hello This is Melee 3
+  f_fireRate: 0
+  f_itemVisualIndex: 0
+  itemText: Melee Power increase by 15%
   itemImage: {fileID: 2800000, guid: 828ae8bfc6ee54d5fa48a6fcfa7a99ae, type: 3}
+  WeaponProjectile: {fileID: 0}
   m_CosmeticModelToBeApplied: {fileID: 0}

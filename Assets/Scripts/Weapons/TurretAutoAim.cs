@@ -50,7 +50,7 @@ public class TurretAutoAim : MonoBehaviour
 
     [SerializeField] private Collider truck;
 
-    int targetlayer = (1 << 17);
+    int targetlayer = (1 << 12 | 1 << 15);
     // Update is called once per frame
     private void OnDrawGizmos()
     {
@@ -88,10 +88,10 @@ public class TurretAutoAim : MonoBehaviour
             RotateTurret();
             MoveCrossHair();
 
-            if(isPlayerControlled)
-            RotateTurretToMouse();
+            if (isPlayerControlled)
+                RotateTurretToMouse();
 
-            if(Input.GetKey(KeyCode.B))
+            if (Input.GetKey(KeyCode.B))
             {
                 isPlayerControlled = !isPlayerControlled;
             }
@@ -345,14 +345,20 @@ public class TurretAutoAim : MonoBehaviour
 
             if (Physics.Raycast(rayOrigin, out hitInfo, Mathf.Infinity, targetlayer))
             {
-                CrossHairUI.gameObject.SetActive(true);
-                Debug.Log("Collided with " + hitInfo.collider.name);
-                //Vector3 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-                Vector3 direction = (hitInfo.point - this.transform.position);
-
+                if (hitInfo.transform.root.gameObject.name != this.transform.root.gameObject.name)
+                {
+                    CrossHairUI.gameObject.SetActive(true);
+                    Debug.Log("Collided with " + hitInfo.collider.name);
+                    //Vector3 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                    Vector3 direction = (hitInfo.point - this.transform.position);
+                    targetRotation = Quaternion.LookRotation(direction);
+                    transform.rotation = targetRotation;
+                }
+                else
+                {
+                    return;
+                }
                 //Debug.Log("hit " + hitInfo.collider.name);
-                targetRotation = Quaternion.LookRotation(direction);
-                transform.rotation = targetRotation;
             }
             else
             {
