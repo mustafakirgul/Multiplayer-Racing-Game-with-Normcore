@@ -314,6 +314,7 @@ public class Truck : RealtimeComponent<TruckModel>
 
     public float _health;
     public float _maxHealth;
+    public float currentMaxHealth;
     public float scaleableHealth;
     public Vector3 _explosionForce;
 
@@ -414,7 +415,7 @@ public class Truck : RealtimeComponent<TruckModel>
         int numberOfPlayers = PlayerManager.instance.allPlayers.Length;
         GameManager.instance.GameStarted = true;
         model.maxHealth = (scaleableHealth * numberOfPlayers);
-        _maxHealth = (scaleableHealth * numberOfPlayers);
+        //_maxHealth = (scaleableHealth * numberOfPlayers);
         model.health = (scaleableHealth * numberOfPlayers);
     }
 
