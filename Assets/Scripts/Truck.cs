@@ -323,6 +323,7 @@ public class Truck : RealtimeComponent<TruckModel>
         {
             // Unregister from events
             previousModel.healthDidChange -= HealthChanged;
+            previousModel.maxHealthDidChange -= MaxHealthChanged;
             previousModel.explosionPointDidChange -= ForcesChanged;
             previousModel.isBoombasticDidChange -= IsBoombasticChanged;
         }
@@ -336,6 +337,7 @@ public class Truck : RealtimeComponent<TruckModel>
             }
 
             currentModel.healthDidChange += HealthChanged;
+            currentModel.maxHealthDidChange += MaxHealthChanged;
             currentModel.explosionPointDidChange += ForcesChanged;
             currentModel.isBoombasticDidChange += IsBoombasticChanged;
         }
@@ -411,6 +413,7 @@ public class Truck : RealtimeComponent<TruckModel>
         yield return new WaitForSeconds(5f);
         int numberOfPlayers = PlayerManager.instance.allPlayers.Length;
         GameManager.instance.GameStarted = true;
+        model.maxHealth = (scaleableHealth * numberOfPlayers);
         _maxHealth = (scaleableHealth * numberOfPlayers);
         model.health = (scaleableHealth * numberOfPlayers);
     }
@@ -484,6 +487,11 @@ public class Truck : RealtimeComponent<TruckModel>
     void HealthChanged(TruckModel model, float value)
     {
         _health = value;
+    }
+
+    void MaxHealthChanged(TruckModel model, float value)
+    {
+        _maxHealth = value;
     }
 
     void ForcesChanged(TruckModel model, Vector3 value)

@@ -9,6 +9,7 @@ public partial class TruckModel
     [RealtimeProperty(2, true, true)] private float _health;
     [RealtimeProperty(3, true, true)] private Vector3 _explosionPoint;
     [RealtimeProperty(4, true, true)] private bool _isBoombastic;
+    [RealtimeProperty(5, true, true)] private float _maxHealth;
 }
 
 
@@ -62,11 +63,24 @@ public partial class TruckModel : RealtimeModel {
         }
     }
     
+    public float maxHealth {
+        get {
+            return _cache.LookForValueInCache(_maxHealth, entry => entry.maxHealthSet, entry => entry.maxHealth);
+        }
+        set {
+            if (this.maxHealth == value) return;
+            _cache.UpdateLocalCache(entry => { entry.maxHealthSet = true; entry.maxHealth = value; return entry; });
+            InvalidateReliableLength();
+            FireMaxHealthDidChange(value);
+        }
+    }
+    
     public delegate void PropertyChangedHandler<in T>(TruckModel model, T value);
     public event PropertyChangedHandler<int> ownerDidChange;
     public event PropertyChangedHandler<float> healthDidChange;
     public event PropertyChangedHandler<UnityEngine.Vector3> explosionPointDidChange;
     public event PropertyChangedHandler<bool> isBoombasticDidChange;
+    public event PropertyChangedHandler<float> maxHealthDidChange;
     
     private struct LocalCacheEntry {
         public bool ownerSet;
@@ -77,6 +91,8 @@ public partial class TruckModel : RealtimeModel {
         public UnityEngine.Vector3 explosionPoint;
         public bool isBoombasticSet;
         public bool isBoombastic;
+        public bool maxHealthSet;
+        public float maxHealth;
     }
     
     private LocalChangeCache<LocalCacheEntry> _cache = new LocalChangeCache<LocalCacheEntry>();
@@ -86,6 +102,7 @@ public partial class TruckModel : RealtimeModel {
         Health = 2,
         ExplosionPoint = 3,
         IsBoombastic = 4,
+        MaxHealth = 5,
     }
     
     public TruckModel() : this(null) {
@@ -130,6 +147,14 @@ public partial class TruckModel : RealtimeModel {
         }
     }
     
+    private void FireMaxHealthDidChange(float value) {
+        try {
+            maxHealthDidChange?.Invoke(this, value);
+        } catch (System.Exception exception) {
+            UnityEngine.Debug.LogException(exception);
+        }
+    }
+    
     protected override int WriteLength(StreamContext context) {
         int length = 0;
         if (context.fullModel) {
@@ -138,6 +163,7 @@ public partial class TruckModel : RealtimeModel {
             length += WriteStream.WriteFloatLength((uint)PropertyID.Health);
             length += WriteStream.WriteBytesLength((uint)PropertyID.ExplosionPoint, WriteStream.Vector3ToBytesLength());
             length += WriteStream.WriteVarint32Length((uint)PropertyID.IsBoombastic, _isBoombastic ? 1u : 0u);
+            length += WriteStream.WriteFloatLength((uint)PropertyID.MaxHealth);
         } else if (context.reliableChannel) {
             LocalCacheEntry entry = _cache.localCache;
             if (entry.ownerSet) {
@@ -152,6 +178,9 @@ public partial class TruckModel : RealtimeModel {
             if (entry.isBoombasticSet) {
                 length += WriteStream.WriteVarint32Length((uint)PropertyID.IsBoombastic, entry.isBoombastic ? 1u : 0u);
             }
+            if (entry.maxHealthSet) {
+                length += WriteStream.WriteFloatLength((uint)PropertyID.MaxHealth);
+            }
         }
         return length;
     }
@@ -164,9 +193,10 @@ public partial class TruckModel : RealtimeModel {
             stream.WriteFloat((uint)PropertyID.Health, _health);
             stream.WriteBytes((uint)PropertyID.ExplosionPoint, WriteStream.Vector3ToBytes(_explosionPoint));
             stream.WriteVarint32((uint)PropertyID.IsBoombastic, _isBoombastic ? 1u : 0u);
+            stream.WriteFloat((uint)PropertyID.MaxHealth, _maxHealth);
         } else if (context.reliableChannel) {
             LocalCacheEntry entry = _cache.localCache;
-            if (entry.ownerSet || entry.healthSet || entry.explosionPointSet || entry.isBoombasticSet) {
+            if (entry.ownerSet || entry.healthSet || entry.explosionPointSet || entry.isBoombasticSet || entry.maxHealthSet) {
                 _cache.PushLocalCacheToInflight(context.updateID);
                 ClearCacheOnStreamCallback(context);
             }
@@ -184,6 +214,10 @@ public partial class TruckModel : RealtimeModel {
             }
             if (entry.isBoombasticSet) {
                 stream.WriteVarint32((uint)PropertyID.IsBoombastic, entry.isBoombastic ? 1u : 0u);
+                didWriteProperties = true;
+            }
+            if (entry.maxHealthSet) {
+                stream.WriteFloat((uint)PropertyID.MaxHealth, entry.maxHealth);
                 didWriteProperties = true;
             }
             
@@ -230,6 +264,15 @@ public partial class TruckModel : RealtimeModel {
                     }
                     break;
                 }
+                case (uint)PropertyID.MaxHealth: {
+                    float previousValue = _maxHealth;
+                    _maxHealth = stream.ReadFloat();
+                    bool maxHealthExistsInChangeCache = _cache.ValueExistsInCache(entry => entry.maxHealthSet);
+                    if (!maxHealthExistsInChangeCache && _maxHealth != previousValue) {
+                        FireMaxHealthDidChange(_maxHealth);
+                    }
+                    break;
+                }
                 default: {
                     stream.SkipProperty();
                     break;
@@ -247,6 +290,7 @@ public partial class TruckModel : RealtimeModel {
         _health = health;
         _explosionPoint = explosionPoint;
         _isBoombastic = isBoombastic;
+        _maxHealth = maxHealth;
         _cache.Clear();
     }
     
