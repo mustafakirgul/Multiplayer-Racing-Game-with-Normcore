@@ -642,7 +642,7 @@ public class NewCarController : MonoBehaviour
             DragCheck();
             GroundCheck();
             LerpFallCorrection();
-            transform.position = CarRB.transform.position;
+            transform.position = Vector3.Lerp(transform.position, CarRB.transform.position, 6.66f);
 
             if (weaponType == 1)
             {
@@ -677,7 +677,8 @@ public class NewCarController : MonoBehaviour
         turnInput = 0;
         DeathExplosion.SetActive(true);
         CarRB.AddExplosionForce(20f, this.CarRB.transform.position + (-Vector3.up * 2f), 20f, 500f, ForceMode.Impulse);
-        if (theKiller > -1 && theKiller != _realtimeView.ownerIDInHierarchy) //prevent self kill and ghost killing (player dies for a different reason but points are registered to the player who had killed them last, in the past)
+        if (theKiller > -1 && theKiller != _realtimeView.ownerIDInHierarchy
+        ) //prevent self kill and ghost killing (player dies for a different reason but points are registered to the player who had killed them last, in the past)
         {
             StatsManager.instance.RegisterKill(theKiller);
             theKiller = -1;

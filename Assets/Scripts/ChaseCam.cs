@@ -17,6 +17,10 @@ public class ChaseCam : MonoBehaviour
     public float heightDamping;
 
     public bool bToggleRearView = false;
+    public float desiredHeight;
+    private float hitDistance, calculatedY, targetY;
+    private Vector3 lookPosition;
+    public float lookPositionLerpSpeed;
 
     private void Start()
     {
@@ -90,8 +94,17 @@ public class ChaseCam : MonoBehaviour
             // Set the height of the camera
             transform.position = new Vector3(transform.position.x, currentHeight, transform.position.z);
 
+            //raycast to see the height of target from ground
+            Physics.Raycast(target.position, Vector3.down, out RaycastHit hit, Mathf.Infinity);
+            hitDistance = hit.distance;
+            Debug.DrawRay(target.position, Vector3.down * hitDistance, Color.white);
+
+            targetY = Mathf.Clamp(hit.point.y + desiredHeight, target.parent.position.y,
+                target.position.y + desiredHeight);
+            calculatedY = Mathf.Lerp(calculatedY, targetY, Time.deltaTime * lookPositionLerpSpeed);
+            lookPosition = new Vector3(target.position.x, calculatedY, target.position.z);
             // Always look at the target
-            transform.LookAt(target);
+            transform.LookAt(lookPosition);
         }
         else if (target != null)
         {

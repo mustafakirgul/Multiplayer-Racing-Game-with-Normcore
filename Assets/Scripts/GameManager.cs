@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
     public TopRacersLive trl;
 
     public bool GameStarted = false;
+
     private void OnDrawGizmos()
     {
         float radians = direction * Mathf.Deg2Rad;
@@ -320,7 +321,12 @@ public class GameManager : MonoBehaviour
 
         _temp.GetComponent<ItemDataProcessor>().ObtainLoadOutData(lootManager.ObatinCurrentBuild());
         _temp.GetComponent<ItemDataProcessor>().ProcessVisualIndices(lootManager.VisualModelIndex());
-        FindObjectOfType<MiniMapCamera>()._master = _temp.transform;
+        MiniMapCamera _tempCam = FindObjectOfType<MiniMapCamera>();
+        if (_tempCam != null)
+        {
+            _tempCam._master = _temp.transform;
+        }
+
         ResetBoolsForNewRound();
         _race.ChangeIsOn(true);
         _enterNameCanvas.gameObject.SetActive(false);
