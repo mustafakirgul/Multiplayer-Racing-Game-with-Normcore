@@ -1263,7 +1263,7 @@ public class NewCarController : MonoBehaviour
         {
             case PowerUpType.Ammo:
                 //Idea add weapon ammo pick up modifier
-                currentAmmo++;
+                currentAmmo+=2;
                 break;
             case PowerUpType.Boost:
                 //Custom boost condition here to do
