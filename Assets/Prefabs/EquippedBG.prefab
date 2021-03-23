@@ -697,7 +697,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5551201504090704784}
   m_Layer: 5
-  m_Name: EngineIndicator
+  m_Name: ArmourIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -737,7 +737,7 @@ GameObject:
   - component: {fileID: 5551201504105101398}
   - component: {fileID: 5551201504105101385}
   m_Layer: 5
-  m_Name: ArmourIndex
+  m_Name: EngineIndex
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -815,7 +815,7 @@ GameObject:
   - component: {fileID: 5551201504185509573}
   - component: {fileID: 5551201504185509572}
   m_Layer: 5
-  m_Name: EngineCount
+  m_Name: ArmourCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1127,7 +1127,7 @@ GameObject:
   - component: {fileID: 5551201504585606591}
   - component: {fileID: 5551201504585606590}
   m_Layer: 5
-  m_Name: EngineIndex
+  m_Name: ArmourIndex
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1281,7 +1281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5551201504867236784}
   m_Layer: 5
-  m_Name: ArmourIndicator
+  m_Name: EngineIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1321,7 +1321,7 @@ GameObject:
   - component: {fileID: 5551201504868122489}
   - component: {fileID: 5551201504868122488}
   m_Layer: 5
-  m_Name: ArmourCount
+  m_Name: EngineCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1465,6 +1465,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5551201503073307177}
     m_Modifications:
+    - target: {fileID: 557911753485042485, guid: c68b837ad0c413c4486b1e0732eab05f,
+        type: 3}
+      propertyPath: m_Name
+      value: Tank
+      objectReference: {fileID: 0}
     - target: {fileID: 557911754454650577, guid: c68b837ad0c413c4486b1e0732eab05f,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -22,3 +22,4 @@ MonoBehaviour:
   m_rbWeight: 120
   m_boostTimer: 5
   m_boostForce: 120
+  m_defenseForce: 1
