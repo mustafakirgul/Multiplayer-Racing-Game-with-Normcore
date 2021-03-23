@@ -15,11 +15,11 @@ MonoBehaviour:
   _ItemType: 3
   f_attack: 0
   f_defense: 0
-  f_speed: 1
+  f_speed: 0.5
   f_amount: 0
   f_fireRate: 0
   f_itemVisualIndex: 3
-  itemText: Engine 4 Text (100% increase in handling)
+  itemText: Engine 4 Text (50% increase in handling)
   itemImage: {fileID: 2800000, guid: 8c404b46cdeb54c05ba5f67680471942, type: 3}
   WeaponProjectile: {fileID: 0}
   m_CosmeticModelToBeApplied: {fileID: 0}

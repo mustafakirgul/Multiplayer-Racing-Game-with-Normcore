@@ -34,4 +34,7 @@ public class CarPhysicsParamsSObj : ScriptableObject
 
     [SerializeField] [Range(0, 300)] private float m_boostForce;
     public float f_boostForce => m_boostForce;
+
+    [SerializeField] [Range(0, 10)] private float m_defenseForce;
+    public float f_defenseForce => m_defenseForce;
 }

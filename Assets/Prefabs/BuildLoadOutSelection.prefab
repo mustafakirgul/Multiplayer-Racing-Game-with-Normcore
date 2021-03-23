@@ -425,6 +425,19 @@ MonoBehaviour:
   SelectedArmour: {fileID: 0}
   SelectedEngine: {fileID: 0}
   uIManager: {fileID: 0}
+  WeaponIndex: {fileID: 0}
+  WeaponTotalCount: {fileID: 0}
+  ArmourIndex: {fileID: 0}
+  ArmourTotalCount: {fileID: 0}
+  EngineIndex: {fileID: 0}
+  EngineTotalCount: {fileID: 0}
+  buildIndex: {fileID: 0}
+  BuildTotalCount: {fileID: 0}
+  buildParams:
+  - {fileID: 11400000, guid: 81f790ab4df8e4a39a89313e0c17ac1e, type: 2}
+  - {fileID: 11400000, guid: 539d903eb73be4d0fab1b62bf75185cd, type: 2}
+  - {fileID: 11400000, guid: 18694bd1f9c27404aa3f650c613b861e, type: 2}
+  VisualStatsManager: {fileID: 0}
 --- !u!1 &4399354424300915912
 GameObject:
   m_ObjectHideFlags: 0
