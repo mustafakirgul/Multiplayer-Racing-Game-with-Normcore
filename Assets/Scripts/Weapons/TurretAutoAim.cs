@@ -50,7 +50,7 @@ public class TurretAutoAim : MonoBehaviour
 
     [SerializeField] private Collider truck;
 
-    int targetlayer = (1 << 12 | 1 << 15);
+    int targetlayer = (1 << 12 | 1 << 15 | 1 << 9);
     // Update is called once per frame
     private void OnDrawGizmos()
     {
