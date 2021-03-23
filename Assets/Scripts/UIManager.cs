@@ -72,6 +72,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     BuildScrollSelector m_buildScrollSelector;
 
+    [SerializeField]
+    GameObject ReadyToStartMenu;
+
     private void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();
@@ -215,14 +218,6 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        //To be removed in final build
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            _lootManager.numberOfLootRolls++;
-            //_lootManager.RollForLoot();
-            //ResizeUILootContainers();
-        }
-
         if (_gameManager.lootTruck != null)
         {
             if (!Mathf.Approximately(_lastTruckHealth, _gameManager.lootTruck._health))
@@ -282,6 +277,7 @@ public class UIManager : MonoBehaviour
         //Select Default build to display
         //To Do: remember the load saved build
         CarBuildSelection(lastbuildSelected);
+        ReadyToStartMenu.SetActive(false);
 
         //Visual things add back
         ContainerSelector[] selector =

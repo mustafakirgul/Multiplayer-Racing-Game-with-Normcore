@@ -103,7 +103,7 @@ public class LootManager : MonoBehaviour
             SelectBuildToDisplay(current_buildLoadOut);
         }
 
-        numberOfLootRolls = 0;
+        //numberOfLootRolls = 0;
     }
 
     public TempItemSObj DecodePowerUp(int ItemID)
@@ -122,7 +122,7 @@ public class LootManager : MonoBehaviour
         TempItemSObj DecodedPU = playerLootPoolSave.PlayerPowerUps[Index - 1];
         return DecodedPU;
     }
-    
+
     public Vector3 VisualModelIndex()
     {
         VisualIndex =
@@ -157,7 +157,6 @@ public class LootManager : MonoBehaviour
             GameSceneManager.instance.DisableEndSplashes();
             lootDecoder.canCheck = true;
         }
-
         //Reset once roll is complete
         numberOfLootRolls = 0;
     }

@@ -147,6 +147,7 @@ public class BuildScrollSelector : MonoBehaviour
                 {
                     CycleIndex %= weaponsSelections.Count;
                     weaponsSelections[(int)CycleIndex].InjectButtonBuildDataToBuild();
+                    //Display Relevant Stats Data Here
                 }
                 break;
             case 1:
@@ -154,6 +155,7 @@ public class BuildScrollSelector : MonoBehaviour
                 {
                     CycleIndex %= armourSelections.Count;
                     armourSelections[(int)CycleIndex].InjectButtonBuildDataToBuild();
+                    //Display Relevant Stats Data Here
                 }
                 break;
             case 2:
@@ -161,6 +163,7 @@ public class BuildScrollSelector : MonoBehaviour
                 {
                     CycleIndex %= engineSelections.Count;
                     engineSelections[(int)CycleIndex].InjectButtonBuildDataToBuild();
+                    //Display Relevant Stats Data Here
                 }
                 break;
             case 3:
