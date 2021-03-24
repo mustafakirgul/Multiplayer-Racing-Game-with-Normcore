@@ -114,7 +114,6 @@ MonoBehaviour:
   startSpeed: 50
   damage: 5
   explosiveRange: 5
-  isNetworkInstance: 1
 --- !u!114 &-2444969834895540377
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@
 public class Help : MonoBehaviour
 {
     GameObject _panel;
-    bool _state;
+    bool _state = true;
 
     private void Start()
     {
