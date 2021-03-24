@@ -1,15 +1,22 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class AudioPlayer : MonoBehaviour
 {
-    AudioSource source => GetComponent<AudioSource>();
+    AudioSource source;
     public AudioClip[] sounds;
-    public bool debug;
+    public bool playAtStart;
+
+    private void OnValidate()
+    {
+        if (source == null) source = GetComponent<AudioSource>();
+        if (source == null) source = gameObject.AddComponent<AudioSource>();
+        source.playOnAwake = false;
+    }
 
     private void Start()
     {
-        if (debug) PlaySound(0);
+        if (playAtStart) PlaySound(0);
     }
 
     public void PlaySound(int index)
