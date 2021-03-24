@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BalancedBuildDefault
   m_EditorClassIdentifier: 
   buildType: 0
-  Weapon: {fileID: 11400000, guid: c8e5e0ab9767e1147ace4bfab4aca856, type: 2}
+  Weapon: {fileID: 11400000, guid: 3e6e53f0fdc6c3c41b6b6d548a07439c, type: 2}
   Armour: {fileID: 11400000, guid: c99ba97fdf25fed4fa5ea5290863151f, type: 2}
   Engine: {fileID: 11400000, guid: e28629993c1879c4d8ca0b8585d3c884, type: 2}
