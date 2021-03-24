@@ -9,11 +9,13 @@ using UnityEngine.UI;
 
 public class NewCarController : MonoBehaviour
 {
-    [Space] [Space] [Header("Car Controller Main Settings")]
+    [Space]
+    [Space]
+    [Header("Car Controller Main Settings")]
     public Rigidbody CarRB;
 
     private float moveInput, turnInput;
-    public float fwdSpeed, reverseSpd, turnSpd, turningFwdSpeed;
+    public float acceleration, reverseAccel, turnSpd, turningFwdSpeed;
     public float airDrag, groundDrag;
 
     public LayerMask groundLayer;
@@ -42,7 +44,9 @@ public class NewCarController : MonoBehaviour
     float currentZ, currentX;
     float XTimer, ZTimer, XFactor, ZFactor;
 
-    [Space] [Space] [Header("Camera and Networking")]
+    [Space]
+    [Space]
+    [Header("Camera and Networking")]
     //Neworking Related Functionalities
     public Realtime _realtime;
 
@@ -56,17 +60,16 @@ public class NewCarController : MonoBehaviour
     bool CoroutineReset = false;
 
 
-    [Space] [Space] [Header("Loot Based Modifiers")]
+    [Space]
+    [Space]
+    [Header("Loot Based Modifiers")]
     //Does the car need to know about these or does the game manager needs to know about these?
     //Car simply keeps track of what it encounters and talks to game managers to obtain loot or powerups
     public float meleeDamageModifier;
 
-    public float verticalSpdModifier;
-    public float turnSpdModifier;
-
     //Loot Modifiers
     //Engine and weapon projectiles need to be updated
-    public float MaxSpeedModifier, accelerationModifier, HandlingModifier;
+    private float maxSpeedModifier, meleePower;
     [SerializeField] private LootManager lootManager;
 
     //Temporary mods
@@ -92,6 +95,9 @@ public class NewCarController : MonoBehaviour
     public bool readyToFire = false;
     public GameObject muzzleFlash;
     public float currentAmmo;
+
+    [SerializeField]
+    private float ammoEfficiency;
 
     [SerializeField] private BarrelShaker m_BarrelShaker;
 
@@ -136,7 +142,9 @@ public class NewCarController : MonoBehaviour
     public GameObject OverHeatNotice;
     public GameObject WeaponSwitcherUI;
 
-    [Space] [Space] [Header("Health Params")]
+    [Space]
+    [Space]
+    [Header("Health Params")]
     //Health Controls
     public Player _player;
 
@@ -153,7 +161,9 @@ public class NewCarController : MonoBehaviour
     public CanvasGroup damageIndicatorCanvasGroup;
 
 
-    [Space] [Space] [Header("Boost Params")]
+    [Space]
+    [Space]
+    [Header("Boost Params")]
     //Boost Controls
     public Image boostRadialLoader;
 
@@ -163,7 +173,9 @@ public class NewCarController : MonoBehaviour
     public bool boosterReady, isBoosting;
     private float boosterCounter;
 
-    [Space] [Space] [Header("Light Controls")]
+    [Space]
+    [Space]
+    [Header("Light Controls")]
     //Light Controls
     public Light RHL;
 
@@ -179,7 +191,8 @@ public class NewCarController : MonoBehaviour
 
     [HideInInspector] public int _resets;
 
-    [Space] [Header("Suspension and Wheel Settings")]
+    [Space]
+    [Header("Suspension and Wheel Settings")]
     public bool identicalSuspension4AW;
 
     public float suspensionHeight; // these 2 only work if identical suspension for all wheels is true
@@ -254,13 +267,17 @@ public class NewCarController : MonoBehaviour
         m_currentPhysicsSet =
             m_carDataContainer[dataParamsIndex];
 
-        fwdSpeed = m_currentPhysicsSet.f_FowardSpd;
-        reverseSpd = m_currentPhysicsSet.f_ReverseSpd;
+        meleeDamageModifier = m_currentPhysicsSet.f_meleePower;
+        maxSpeedModifier = m_currentPhysicsSet.f_topSpd;
+        acceleration = m_currentPhysicsSet.f_acceleration;
+        reverseAccel = m_currentPhysicsSet.f_ReverseAccel;
         turnSpd = m_currentPhysicsSet.f_TurnSpd;
         turningFwdSpeed = m_currentPhysicsSet.f_TurnFwdSpd;
         BrakeForce = m_currentPhysicsSet.f_BrakeForce;
         extraGravity = m_currentPhysicsSet.f_Gravity;
         _player.maxPlayerHealth = m_currentPhysicsSet.f_maxPlayerHealth;
+        _player.armourDefenseModifier = m_currentPhysicsSet.f_defenseForce;
+        ammoEfficiency = m_currentPhysicsSet.f_ammoEfficiency;
         CarRB.mass = m_currentPhysicsSet.f_rbWeight;
         boostCooldownTime = m_currentPhysicsSet.f_boostTimer;
         dashForce = m_currentPhysicsSet.f_boostForce;
@@ -274,16 +291,33 @@ public class NewCarController : MonoBehaviour
         m_currentPhysicsSet =
             m_carDataContainer[dataParamsIndex];
 
-        fwdSpeed = m_currentPhysicsSet.f_FowardSpd;
-        reverseSpd = m_currentPhysicsSet.f_ReverseSpd;
+        meleeDamageModifier = m_currentPhysicsSet.f_meleePower;
+        maxSpeedModifier = m_currentPhysicsSet.f_topSpd;
+        acceleration = m_currentPhysicsSet.f_acceleration;
+        reverseAccel = m_currentPhysicsSet.f_ReverseAccel;
         turnSpd = m_currentPhysicsSet.f_TurnSpd;
         turningFwdSpeed = m_currentPhysicsSet.f_TurnFwdSpd;
         BrakeForce = m_currentPhysicsSet.f_BrakeForce;
         extraGravity = m_currentPhysicsSet.f_Gravity;
         _player.maxPlayerHealth = m_currentPhysicsSet.f_maxPlayerHealth;
+        _player.armourDefenseModifier = m_currentPhysicsSet.f_defenseForce;
+        ammoEfficiency = m_currentPhysicsSet.f_ammoEfficiency;
         CarRB.mass = m_currentPhysicsSet.f_rbWeight;
         boostCooldownTime = m_currentPhysicsSet.f_boostTimer;
         dashForce = m_currentPhysicsSet.f_boostForce;
+    }
+
+    public CarPhysicsParamsSObj GetCarParams()
+    {
+        if (m_carDataContainer.Count != 0)
+        {
+            return m_carDataContainer[0];
+
+        }
+        else
+        {
+            return null;
+        }
     }
 
     void SetWeaponFireRates()
@@ -308,12 +342,13 @@ public class NewCarController : MonoBehaviour
     }
 
     //Use this to apply weapons for loot
-    public void SetCurrentWeapon(GameObject PermanentLootWeaponProjectile, float PermaFireRatet, float PermaDmgMod)
+    public void SetCurrentWeapon(GameObject PermanentLootWeaponProjectile, float PermaFireRatet, float PermaDmgMod, float efficiency)
     {
         SecondaryWeaponProjectile = PermanentLootWeaponProjectile;
         secondaryfireRate = PermaFireRatet;
         secondayFireTimer = 1f / secondaryfireRate;
         secondaryWait = new WaitForSeconds(secondayFireTimer);
+        ammoEfficiency = efficiency;
         //tempTruckDamageModifier = PermaDmgMod;
         //Permanent Weapon starts off as 0
     }
@@ -342,7 +377,7 @@ public class NewCarController : MonoBehaviour
         WeaponProjectileBase LootWeaponBase = LootWeaponProjectile.GetComponent<WeaponProjectileBase>();
         if (LootWeaponBase != null)
         {
-            uIManager.SwitchProjectileDisplayInfo(LootWeaponBase.ProjectileToDisplay, (int) currentAmmo);
+            uIManager.SwitchProjectileDisplayInfo(LootWeaponBase.ProjectileToDisplay, (int)currentAmmo);
         }
 
         if (weaponType == 0)
@@ -365,7 +400,7 @@ public class NewCarController : MonoBehaviour
 
         if (savedWeaponBase != null)
         {
-            uIManager.SwitchProjectileDisplayInfo(savedWeaponBase.ProjectileToDisplay, (int) currentAmmo);
+            uIManager.SwitchProjectileDisplayInfo(savedWeaponBase.ProjectileToDisplay, (int)currentAmmo);
         }
 
         ResetSavedWeapon();
@@ -646,7 +681,7 @@ public class NewCarController : MonoBehaviour
 
             if (weaponType == 1)
             {
-                uIManager.UpdateAmmoCount((int) currentAmmo);
+                uIManager.UpdateAmmoCount((int)currentAmmo);
             }
         }
 
@@ -758,9 +793,9 @@ public class NewCarController : MonoBehaviour
 
     private void MaxSpeedCheck()
     {
-        if (CarRB.velocity.magnitude > (MaxSpeed * (1 + MaxSpeedModifier)))
+        if (CarRB.velocity.magnitude > (MaxSpeed * (1 + maxSpeedModifier)))
         {
-            CarRB.velocity = CarRB.velocity.normalized * (MaxSpeed * (1 + MaxSpeedModifier));
+            CarRB.velocity = CarRB.velocity.normalized * (MaxSpeed * (1 + maxSpeedModifier));
         }
     }
 
@@ -859,11 +894,11 @@ public class NewCarController : MonoBehaviour
 
         if (moveInput > 0)
         {
-            moveInput *= (fwdSpeed * (1 + accelerationModifier));
+            moveInput *= (150 * (1 + acceleration));
         }
         else
         {
-            moveInput *= (reverseSpd * (1 + accelerationModifier));
+            moveInput *= (150 * (1 + reverseAccel));
         }
 
         //Weapon Controls
@@ -974,7 +1009,7 @@ public class NewCarController : MonoBehaviour
                         _barrelTip.transform.localRotation =
                             Quaternion.Euler(0 - SecondaryWeaponBase.barrelFireAngle, 0, 0);
                         uIManager.SwitchProjectileDisplayInfo(SecondaryWeaponBase.ProjectileToDisplay,
-                            (int) currentAmmo);
+                            (int)currentAmmo);
                         break;
                 }
             }
@@ -1152,13 +1187,13 @@ public class NewCarController : MonoBehaviour
             {
                 //Debug.Log("Stationary Turning");
                 float StationaryRotation =
-                    (1 + HandlingModifier + tempSpeedModifier) * turnInput * turnSpd * Time.deltaTime;
+                    (1 + tempSpeedModifier) * turnInput * turnSpd * Time.deltaTime;
                 CarRB.AddForce(transform.forward * turningFwdSpeed, ForceMode.Acceleration);
                 transform.Rotate(0, StationaryRotation, 0, Space.World);
             }
             else
             {
-                float motionRotation = ((1 + HandlingModifier + tempSpeedModifier) * turnInput * turnSpd *
+                float motionRotation = ((1 + tempSpeedModifier) * turnInput * turnSpd *
                                         Time.deltaTime *
                                         Input.GetAxisRaw("Vertical"));
                 transform.Rotate(0, motionRotation, 0, Space.World);
@@ -1263,7 +1298,7 @@ public class NewCarController : MonoBehaviour
         {
             case PowerUpType.Ammo:
                 //Idea add weapon ammo pick up modifier
-                currentAmmo+=2;
+                currentAmmo += ammoEfficiency;
                 break;
             case PowerUpType.Boost:
                 //Custom boost condition here to do

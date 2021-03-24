@@ -14,10 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ItemType: 2
   f_attack: 0
-  f_defense: 0.05
-  f_speed: 0
-  f_amount: 0
+  f_defense: 0.02
+  f_acceleration: -0.1
+  f_health: 0
+  f_TopSpeed: -0.05
+  f_turnSpd: -10
   f_fireRate: 0
+  f_ammoPickUpEfficency: 1
+  f_weight: 25
+  f_boostTimer: 0
+  f_boostForce: 0
   f_itemVisualIndex: 0
   itemText: 'Armour 1 Text: stop 15% of incoming Damage'
   itemImage: {fileID: 2800000, guid: f843f937998574f0c91dfd96af77515d, type: 3}

@@ -23,16 +23,16 @@ public class VisualStatsManager : MonoBehaviour
             StatsToDisplay.f_maxPlayerHealth / 100f;
 
             StatsList[1].transform.GetChild(0).GetComponent<Image>().fillAmount =
-            StatsToDisplay.f_rbWeight / 300f;
+            StatsToDisplay.f_rbWeight / 100;
 
             StatsList[2].transform.GetChild(0).GetComponent<Image>().fillAmount =
-            StatsToDisplay.f_FowardSpd / 500f;
+            StatsToDisplay.f_acceleration / 2f;
 
             StatsList[3].transform.GetChild(0).GetComponent<Image>().fillAmount =
-            StatsToDisplay.f_TurnFwdSpd / 200f;
+            StatsToDisplay.f_topSpd / 2f;
 
             StatsList[4].transform.GetChild(0).GetComponent<Image>().fillAmount =
-            StatsToDisplay.f_defenseForce / 10f;
+            StatsToDisplay.f_defenseForce / 1f;
         }
     }
 }

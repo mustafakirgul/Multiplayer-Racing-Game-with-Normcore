@@ -58,6 +58,7 @@ public class BuildScrollSelector : MonoBehaviour
 
     [SerializeField]
     private List<CarPhysicsParamsSObj> buildParams = new List<CarPhysicsParamsSObj>();
+    public CarPhysicsParamsSObj currentSelectBuild;
 
     [SerializeField]
     private VisualStatsManager VisualStatsManager;
@@ -68,7 +69,12 @@ public class BuildScrollSelector : MonoBehaviour
 
         if (VisualStatsManager != null)
         {
-            VisualStatsManager.SetVisualStats(buildParams[CycleIndex]);
+            VisualStatsManager.SetVisualStats(buildParams[0]);
+        }
+
+        for (int i = 0; i < buildParams.Count ; i++)
+        {
+            buildParams[i].ResetData();
         }
     }
 
@@ -218,6 +224,12 @@ public class BuildScrollSelector : MonoBehaviour
                     CycleIndex %= weaponsSelections.Count;
                     weaponsSelections[(int)CycleIndex].InjectButtonBuildDataToBuild();
 
+                    VisualStatsManager.SetVisualStats(currentSelectBuild);
+                    //Need to update the current ParamsObj with the data from the loot piece to have it reflected in the menu stats bar
+                    //when switching items need to reset back the data that was touched
+                    //Note this is done in the UIItemDataContainer now
+
+
                     //Display Relevant Stats Data Here
                     WeaponIndex.text = (CycleIndex + 1).ToString();
                 }
@@ -227,6 +239,13 @@ public class BuildScrollSelector : MonoBehaviour
                 {
                     CycleIndex %= armourSelections.Count;
                     armourSelections[(int)CycleIndex].InjectButtonBuildDataToBuild();
+
+                    VisualStatsManager.SetVisualStats(currentSelectBuild);
+                    //Need to update the current ParamsObj with the data from the loot piece to have it reflected in the menu stats bar
+                    //when switching items need to reset back the data that was touched
+                    //Note this is done in the UIItemDataContainer now
+
+
                     //Display Relevant Stats Data Here
                     ArmourIndex.text = (CycleIndex + 1).ToString();
                 }
@@ -236,6 +255,13 @@ public class BuildScrollSelector : MonoBehaviour
                 {
                     CycleIndex %= engineSelections.Count;
                     engineSelections[(int)CycleIndex].InjectButtonBuildDataToBuild();
+
+                    VisualStatsManager.SetVisualStats(currentSelectBuild);
+
+                    //Need to update the current ParamsObj with the data from the loot piece to have it reflected in the menu stats bar
+                    //when switching items need to reset back the data that was touched
+                    //Note this is done in the UIItemDataContainer now
+
                     //Display Relevant Stats Data Here
                     EngineIndex.text = (CycleIndex + 1).ToString();
                 }
@@ -248,8 +274,12 @@ public class BuildScrollSelector : MonoBehaviour
                     ToggleBuildIcon(CycleIndex);
                     buildIndex.text = (CycleIndex + 1).ToString();
 
+                    //Need to update the current ParamsObj with the data from the loot piece to have it reflected in the menu stats bar
+                    //when switching items need to reset back the data that was touched
+
                     if (VisualStatsManager != null)
                     {
+                        currentSelectBuild = buildParams[CycleIndex];
                         VisualStatsManager.SetVisualStats(buildParams[CycleIndex]);
                     }
                 }

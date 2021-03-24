@@ -9,6 +9,7 @@ public class UIItemDataContainer : MonoBehaviour
     public void InjectButtonBuildDataToBuild()
     {
         UIManager uiManager = FindObjectOfType<UIManager>();
+        BuildScrollSelector buildScrollSelector = FindObjectOfType<BuildScrollSelector>();
         LootManager lootManager = LootManager.instance;
 
         switch (lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID]._ItemType)
@@ -18,6 +19,10 @@ public class UIItemDataContainer : MonoBehaviour
                 lootManager.selected_buildLoadOutToView.Weapon
                     = lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID];
 
+                //Need to update the current ParamsObj with the data from the loot piece to have it reflected in the menu stats bar
+                //when switching items need to reset back the data that was touched
+                //Visualization for stats bar and ParamsSObj
+                buildScrollSelector.currentSelectBuild.UpdateParamsFromUI(lootManager.selected_buildLoadOutToView.Weapon);
                 //UI Image visualizaions
                 uiManager.SelectedWeapon.texture =
                     lootManager.selected_buildLoadOutToView.Weapon.m_image;
@@ -36,6 +41,9 @@ public class UIItemDataContainer : MonoBehaviour
             case ItemType.Armour:
                 lootManager.selected_buildLoadOutToView.Armour
                     = lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID];
+
+                //Visualization for stats bar and ParamsSObj
+                buildScrollSelector.currentSelectBuild.UpdateParamsFromUI(lootManager.selected_buildLoadOutToView.Armour);
                 //UI Image visualizaions
                 uiManager.SelectedArmour.texture =
                     lootManager.selected_buildLoadOutToView.Armour.m_image;
@@ -53,6 +61,9 @@ public class UIItemDataContainer : MonoBehaviour
             case ItemType.Engine:
                 lootManager.selected_buildLoadOutToView.Engine
                     = lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID];
+
+                //Visualization for stats bar and ParamsSObj
+                buildScrollSelector.currentSelectBuild.UpdateParamsFromUI(lootManager.selected_buildLoadOutToView.Engine);
                 //UI Image visualizaions
                 uiManager.SelectedEngine.texture =
                     lootManager.selected_buildLoadOutToView.Engine.m_image;

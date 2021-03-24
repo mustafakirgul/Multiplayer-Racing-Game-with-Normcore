@@ -15,9 +15,15 @@ MonoBehaviour:
   _ItemType: 2
   f_attack: 0
   f_defense: 0.25
-  f_speed: 0
-  f_amount: 0
+  f_acceleration: -0.3
+  f_health: 0
+  f_TopSpeed: -0.15
+  f_turnSpd: -50
   f_fireRate: 0
+  f_ammoPickUpEfficency: 1
+  f_weight: 85
+  f_boostTimer: 0
+  f_boostForce: 0
   f_itemVisualIndex: 1
   itemText: 'Armour 3 Text: stops 66% of incoming damage'
   itemImage: {fileID: 2800000, guid: 72e8934bff11c47ca9ffdf56a33993a0, type: 3}

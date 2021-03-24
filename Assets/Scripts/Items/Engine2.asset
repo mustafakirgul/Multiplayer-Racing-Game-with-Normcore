@@ -13,11 +13,17 @@ MonoBehaviour:
   m_Name: Engine2
   m_EditorClassIdentifier: 
   _ItemType: 3
-  f_attack: 0
+  f_attack: 1
   f_defense: 0
-  f_speed: 0.14
-  f_amount: 0
+  f_acceleration: 0
+  f_health: 50
+  f_TopSpeed: 0
+  f_turnSpd: 20
   f_fireRate: 0
+  f_ammoPickUpEfficency: 1
+  f_weight: 30
+  f_boostTimer: 0
+  f_boostForce: 0
   f_itemVisualIndex: 1
   itemText: Engine 2 Text (20% increase in handling)
   itemImage: {fileID: 2800000, guid: 21bcb53a68e1c43dab25ff25a0e2cc68, type: 3}

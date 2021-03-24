@@ -47,14 +47,13 @@ public class ItemDataProcessor : MonoBehaviour
                 break;
             case ItemType.Weapon:
                 mf_ItemMeleeAttack += ItemPickUp.m_Attack;
-
                 //Additional Weapon logic here
                 break;
             case ItemType.Armour:
                 mf_ItemArmour += ItemPickUp.m_Defense;
                 break;
             case ItemType.Engine:
-                mf_ItemSpeed += ItemPickUp.m_Speed;
+                mf_ItemSpeed += ItemPickUp.m_TopSpeed;
                 break;
             case ItemType.Other:
                 //mf_ItemOther += ItemPickUp.m_Speed;
@@ -83,21 +82,108 @@ public class ItemDataProcessor : MonoBehaviour
                 //TO DO need to add weapon projectile for ranged weapons etc.
                 m_playerCarController.SetCurrentWeapon(
                     ItemPickUp.GetProjectileForWeapon,
-                    ItemPickUp.m_fireRate,
+                    ItemPickUp.m_inGamePickUpWeaponFireRate,
                     //Temp Truck Damage Modifier
-                    ItemPickUp.m_Attack
+                    ItemPickUp.m_Attack,
+                    ItemPickUp.m_ammoPickUpEfficiency
                 );
+
+                if (ItemPickUp.m_Attack != 0)
+                {
+                    m_playerCarController.GetCarParams().SetMeleePower(ItemPickUp.m_Attack);
+                }
+                //Penalities to be checked and applied
+                //Weight, speed, acceleration are common
+                if (ItemPickUp.m_acceleration != 0)
+                {
+                    m_playerCarController.GetCarParams().SetAccleration(ItemPickUp.m_acceleration);
+                }
+
+                if (ItemPickUp.m_TopSpeed != 0)
+                {
+                    m_playerCarController.GetCarParams().SetTopSpd(ItemPickUp.m_TopSpeed);
+                }
+
+                if (ItemPickUp.m_weight != 0)
+                {
+                    m_playerCarController.GetCarParams().SetWeight(ItemPickUp.m_weight);
+                }
+
+                if (ItemPickUp.m_turnSpd != 0)
+                {
+                    m_playerCarController.GetCarParams().SetTurnSpd(ItemPickUp.m_turnSpd);
+                }
+
                 break;
             case ItemType.Armour:
-                mf_ItemArmour = ItemPickUp.m_Defense;
-                m_playerHealth.armourDefenseModifier = mf_ItemArmour;
+
+                //Armour Defense is a % range is 0 to 1
+                //m_playerHealth.armourDefenseModifier = ItemPickUp.m_Defense;
+
+                if (ItemPickUp.m_Attack != 0)
+                {
+                    m_playerCarController.GetCarParams().SetMeleePower(ItemPickUp.m_Attack);
+                }
+
+
+                if (ItemPickUp.m_Defense != 0)
+                {
+                    m_playerCarController.GetCarParams().SetDefenseForce(ItemPickUp.m_Defense);
+                }
+
+                //Penalities to be checked and applied
+                //Weight, speed, acceleration are common
+                if (ItemPickUp.m_acceleration != 0)
+                {
+                    m_playerCarController.GetCarParams().SetAccleration(ItemPickUp.m_acceleration);
+                }
+
+
+                if (ItemPickUp.m_TopSpeed != 0)
+                {
+                    m_playerCarController.GetCarParams().SetTopSpd(ItemPickUp.m_TopSpeed);
+                }
+
+                if (ItemPickUp.m_weight != 0)
+                {
+                    m_playerCarController.GetCarParams().SetWeight(ItemPickUp.m_weight);
+                }
+
+                if(ItemPickUp.m_turnSpd != 0)
+                {
+                    m_playerCarController.GetCarParams().SetTurnSpd(ItemPickUp.m_turnSpd);
+                }
+
+
                 break;
             case ItemType.Engine:
-                mf_ItemSpeed = ItemPickUp.m_Speed;
-                m_playerCarController.HandlingModifier = mf_ItemSpeed;
-                //TODO: accleration and top speed
-                //m_playerCarController.accelerationModifier
-                //m_playerCarController.MaxSpeedModifier;
+
+                if (ItemPickUp.m_Attack != 0)
+                {
+                    m_playerCarController.GetCarParams().SetMeleePower(ItemPickUp.m_Attack);
+                }
+
+                if (ItemPickUp.m_acceleration != 0)
+                {
+                    m_playerCarController.GetCarParams().SetAccleration(ItemPickUp.m_acceleration);
+                }
+
+
+                if (ItemPickUp.m_TopSpeed != 0)
+                {
+                    m_playerCarController.GetCarParams().SetTopSpd(ItemPickUp.m_TopSpeed);
+                }
+
+                if (ItemPickUp.m_weight != 0)
+                {
+                    m_playerCarController.GetCarParams().SetWeight(ItemPickUp.m_weight);
+                }
+
+                if (ItemPickUp.m_turnSpd != 0)
+                {
+                    m_playerCarController.GetCarParams().SetTurnSpd(ItemPickUp.m_turnSpd);
+                }
+
                 break;
             case ItemType.Other:
                 Debug.Log("Nothing to Update");

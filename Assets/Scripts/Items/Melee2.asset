@@ -13,11 +13,16 @@ MonoBehaviour:
   m_Name: Melee2
   m_EditorClassIdentifier: 
   _ItemType: 1
-  f_attack: 1
+  f_attack: 2
   f_defense: 0
-  f_speed: 0
-  f_amount: 0
+  f_acceleration: 0
+  f_TopSpeed: 0
+  f_turnSpd: 0
   f_fireRate: 0
+  f_ammoPickUpEfficency: 1
+  f_weight: 0
+  f_boostTimer: 0
+  f_boostForce: 0
   f_itemVisualIndex: 0
   itemText: Melee Power increase by 10%
   itemImage: {fileID: 2800000, guid: a76e8223b5a504144be5364047b0dd5f, type: 3}
