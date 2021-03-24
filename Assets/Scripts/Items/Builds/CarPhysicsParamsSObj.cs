@@ -52,11 +52,7 @@ public class CarPhysicsParamsSObj : ScriptableObject
         tempGravity, tempMaxPlayerHP, tempWeight, tempBoostTimer, tempBoostForce,
         tempDefenseForce, tempAmmoEfficiency;
 
-    //For reference and should not be changed during game
-    [SerializeField]
-    CarPhysicsParamsTemplate templateData;
-
-    public void ResetData()
+    public void ResetData(CarPhysicsParamsTemplate templateData)
     {
         if (templateData != null)
         {
@@ -75,6 +71,21 @@ public class CarPhysicsParamsSObj : ScriptableObject
             tempBoostForce = templateData.f_boostForce;
             tempDefenseForce = templateData.f_defenseForce;
             tempAmmoEfficiency = templateData.f_ammoEfficiency;
+
+            m_meleePower = tempMelee;
+            m_topSpd = tempTopSpd;
+            m_acceleration = tempAccel;
+            m_ReverseAccel = tempRAccel;
+            m_TurnSpd = tempTurnSpd;
+            m_TurnFwdSpd = tempTurnFwdSpd;
+            m_BrakeForce = tempBrakeForce;
+            m_Gravity = tempGravity;
+            m_maxPlayerHealth = tempMaxPlayerHP;
+            m_rbWeight = tempWeight;
+            m_boostTimer = tempBoostTimer;
+            m_boostForce = tempBoostForce;
+            m_defenseForce = tempDefenseForce;
+            m_ammoEfficiency = tempAmmoEfficiency;
         }
     }
 

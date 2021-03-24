@@ -14,30 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_meleePower: 2
   m_topSpd: 0.9
-  m_acceleration: 1
+  m_acceleration: 0.95
   m_ReverseAccel: 1
   m_TurnSpd: 100
   m_TurnFwdSpd: 0
   m_BrakeForce: 0.2
   m_Gravity: 50
   m_maxPlayerHealth: 25
-  m_rbWeight: 100
+  m_rbWeight: 150
   m_boostTimer: 5
   m_boostForce: 100
   m_defenseForce: 0.1
   m_ammoEfficiency: 2
-  tempMelee: 1
-  tempTopSpd: 1
-  tempAccel: 0
-  tempRAccel: 0
-  tempTurnSpd: 110.94999
+  tempMelee: 2
+  tempTopSpd: 0.9
+  tempAccel: 0.95
+  tempRAccel: 1
+  tempTurnSpd: 100
   tempTurnFwdSpd: 0
-  tempBrakeForce: 0.4
-  tempGravity: 75
+  tempBrakeForce: 0.2
+  tempGravity: 50
   tempMaxPlayerHP: 25
-  tempWeight: 180
-  tempBoostTimer: 6
+  tempWeight: 150
+  tempBoostTimer: 5
   tempBoostForce: 100
-  tempDefenseForce: 0.80000013
+  tempDefenseForce: 0.1
   tempAmmoEfficiency: 2
   templateData: {fileID: 11400000, guid: c608fd1f66df56842a99a83fd843a790, type: 2}

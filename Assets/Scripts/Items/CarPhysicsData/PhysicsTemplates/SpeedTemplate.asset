@@ -15,10 +15,10 @@ MonoBehaviour:
   m_meleePower: 1
   m_topSpd: 1.1
   maxPlayerTopSpd: 2
-  m_acceleration: 1.1
+  m_acceleration: 1.05
   maxPlayerAcceleration: 2
   m_ReverseAccel: 1.1
-  m_TurnSpd: 120
+  m_TurnSpd: 100
   m_TurnFwdSpd: 5
   m_BrakeForce: 0.4
   m_Gravity: 50

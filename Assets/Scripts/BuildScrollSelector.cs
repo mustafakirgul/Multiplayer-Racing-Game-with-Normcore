@@ -58,6 +58,10 @@ public class BuildScrollSelector : MonoBehaviour
 
     [SerializeField]
     private List<CarPhysicsParamsSObj> buildParams = new List<CarPhysicsParamsSObj>();
+
+    [SerializeField]
+    private List<CarPhysicsParamsTemplate> buildTemplates = new List<CarPhysicsParamsTemplate>();
+
     public CarPhysicsParamsSObj currentSelectBuild;
 
     [SerializeField]
@@ -73,9 +77,14 @@ public class BuildScrollSelector : MonoBehaviour
             VisualStatsManager.SetVisualStats(buildParams[0]);
         }
 
-        for (int i = 0; i < buildParams.Count ; i++)
+        UpdateFromTemplateData();
+    }
+
+    private void UpdateFromTemplateData()
+    {
+        for (int i = 0; i < buildParams.Count; i++)
         {
-            buildParams[i].ResetData();
+            buildParams[i].ResetData(buildTemplates[i]);
         }
     }
 

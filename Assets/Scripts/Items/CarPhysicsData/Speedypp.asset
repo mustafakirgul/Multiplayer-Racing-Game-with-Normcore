@@ -12,32 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49cebd47308937749a71ef553ef1d589, type: 3}
   m_Name: Speedypp
   m_EditorClassIdentifier: 
-  m_meleePower: 1
-  m_topSpd: 1.019
-  m_acceleration: -0.25
-  m_ReverseAccel: 0.995
-  m_TurnSpd: 77
-  m_TurnFwdSpd: 76.2
-  m_BrakeForce: 0.437
-  m_Gravity: 53.8
-  m_maxPlayerHealth: 63.6
-  m_rbWeight: 160
-  m_boostTimer: 14.73
-  m_boostForce: 44
-  m_defenseForce: 0.213
-  m_ammoEfficiency: 0
-  tempMelee: 0
-  tempTopSpd: 0
-  tempAccel: 0
-  tempRAccel: 0
-  tempTurnSpd: 130
-  tempTurnFwdSpd: 30
-  tempBrakeForce: 0.2
-  tempGravity: 40
+  m_meleePower: 2
+  m_topSpd: 2.1
+  m_acceleration: 1.25
+  m_ReverseAccel: 1.1
+  m_TurnSpd: 110
+  m_TurnFwdSpd: 5
+  m_BrakeForce: 0.4
+  m_Gravity: 50
+  m_maxPlayerHealth: 20
+  m_rbWeight: 140
+  m_boostTimer: 4
+  m_boostForce: 120
+  m_defenseForce: -0.1
+  m_ammoEfficiency: 1
+  tempMelee: 1
+  tempTopSpd: 1.1
+  tempAccel: 1.05
+  tempRAccel: 1.1
+  tempTurnSpd: 100
+  tempTurnFwdSpd: 5
+  tempBrakeForce: 0.4
+  tempGravity: 50
   tempMaxPlayerHP: 20
   tempWeight: 120
-  tempBoostTimer: 5
+  tempBoostTimer: 4
   tempBoostForce: 120
-  tempDefenseForce: 1
-  tempAmmoEfficiency: 0
+  tempDefenseForce: 0
+  tempAmmoEfficiency: 1
   templateData: {fileID: 11400000, guid: 8abcbed464f00ca4a8facb3129bba6fd, type: 2}
