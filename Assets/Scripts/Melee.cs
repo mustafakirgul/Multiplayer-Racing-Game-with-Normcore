@@ -69,25 +69,19 @@ public class Melee : MonoBehaviour
             opponentController = opponent.controller;
         else
         {
-            Debug.LogWarning("No opponent for controller adoption!");
-            yield break;
-        }
-
-        Debug.DrawLine(transform.position, opponent.transform.position, Color.white);
-        Debug.DrawLine(transform.position, transform.forward, Color.green);
-        Debug.DrawLine(opponent.transform.position, opponent.transform.forward, Color.red);
-        if (controller.isBoosting)
-        {
-            crashParticle.Play();
-            Debug.LogWarning("Melee hit sent by " + PlayerManager.instance.PlayerName(rt.ownerIDInHierarchy));
-            yield return wait;
-            SendMeleeHit();
-            crashParticle.Stop();
-        }
-        else if (opponentController.isBoosting)
-        {
-            GetMeleeHit();
-            Debug.LogWarning("Melee hit received by " + PlayerManager.instance.PlayerName(rt.ownerIDInHierarchy));
+            if (controller.isBoosting)
+            {
+                crashParticle.Play();
+                //Debug.LogWarning("Melee hit sent by " + PlayerManager.instance.PlayerName(rt.ownerIDInHierarchy));
+                yield return wait;
+                SendMeleeHit();
+                crashParticle.Stop();
+            }
+            else if (opponentController.isBoosting)
+            {
+                GetMeleeHit();
+                //Debug.LogWarning("Melee hit received by " + PlayerManager.instance.PlayerName(rt.ownerIDInHierarchy));
+            }
         }
     }
 
@@ -107,6 +101,8 @@ public class Melee : MonoBehaviour
         {
             controller.currentAmmo++;
         }
+
+        controller.RegisterDamage(50f, controller._realtimeView);
     }
 
     private void GetMeleeHit()
@@ -122,5 +118,7 @@ public class Melee : MonoBehaviour
         {
             controller.currentAmmo--;
         }
+
+        controller.RegisterDamage(100f, controller._realtimeView);
     }
 }
