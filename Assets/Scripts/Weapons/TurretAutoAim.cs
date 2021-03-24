@@ -36,6 +36,8 @@ public class TurretAutoAim : MonoBehaviour
     public bool isManualTargeting = false;
     public bool isRotating = false;
 
+    public bool isSwitchingMode = false;
+
     public bool isPlayerControlled;
 
     private UIManager m_uiManager;
@@ -49,6 +51,9 @@ public class TurretAutoAim : MonoBehaviour
     public float currentLerpTime;
 
     [SerializeField] private Collider truck;
+
+
+    Coroutine weaponChange;
 
     int targetlayer = (1 << 12 | 1 << 15 | 1 << 9);
     // Update is called once per frame
@@ -85,24 +90,41 @@ public class TurretAutoAim : MonoBehaviour
     {
         if (carController._realtimeView.isOwnedLocallyInHierarchy)
         {
-            RotateTurret();
-            MoveCrossHair();
+            if (!isSwitchingMode)
+            {
+                RotateTurret();
+                MoveCrossHair();
 
-            if (isPlayerControlled)
-                RotateTurretToMouse();
+                if (isPlayerControlled)
+                    RotateTurretToMouse();
+            }
+
 
             if (Input.GetKey(KeyCode.B))
             {
-                isPlayerControlled = !isPlayerControlled;
+                if(weaponChange == null)
+                {
+                    isSwitchingMode = true;
+                    weaponChange = StartCoroutine(ChangeWeaponMode());
+             
+                }
             }
         }
+    }
+    private IEnumerator ChangeWeaponMode()
+    {
+        //Add weapon Change UI here
+        yield return new WaitForSeconds(2f);
+        isPlayerControlled = !isPlayerControlled;
+        isSwitchingMode = false;
+        weaponChange = null;
+        //Disable weapon Change UI here
     }
 
     void MoveCrossHair()
     {
         if (isPlayerControlled)
         {
-
             if (CrossHairUI.gameObject.activeInHierarchy)
             {
                 Vector3 MousePos = Input.mousePosition;
