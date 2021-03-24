@@ -7,6 +7,11 @@ public class VisualStatsManager : MonoBehaviour
 {
     [SerializeField]
     List<GameObject> StatsList = new List<GameObject>();
+
+    [SerializeField]
+    CarPhysicsParamsTemplate referenceForValues;
+
+    private float maxHealth, maxWeight, maxacceleration, maxTopSpd, maxDefenseForce;
     // Start is called before the first frame update
     private void Start()
     {
@@ -20,19 +25,31 @@ public class VisualStatsManager : MonoBehaviour
         if(StatsList.Count != 0)
         {
             StatsList[0].transform.GetChild(0).GetComponent<Image>().fillAmount =
-            StatsToDisplay.f_maxPlayerHealth / 100f;
+            StatsToDisplay.f_maxPlayerHealth / maxHealth;
 
             StatsList[1].transform.GetChild(0).GetComponent<Image>().fillAmount =
-            StatsToDisplay.f_rbWeight / 100;
+            StatsToDisplay.f_rbWeight / maxWeight;
 
             StatsList[2].transform.GetChild(0).GetComponent<Image>().fillAmount =
-            StatsToDisplay.f_acceleration / 2f;
+            StatsToDisplay.f_acceleration / maxacceleration;
 
             StatsList[3].transform.GetChild(0).GetComponent<Image>().fillAmount =
-            StatsToDisplay.f_topSpd / 2f;
+            StatsToDisplay.f_topSpd / maxTopSpd;
 
             StatsList[4].transform.GetChild(0).GetComponent<Image>().fillAmount =
-            StatsToDisplay.f_defenseForce / 1f;
+            StatsToDisplay.f_defenseForce / maxDefenseForce;
         }
+    }
+
+    private void OnValidate()
+    {
+        if(referenceForValues != null)
+        {
+            maxacceleration = referenceForValues.maxPlayerAcceleration;
+            maxDefenseForce = referenceForValues.maxPlayerDefenseForce;
+            maxHealth = referenceForValues.maxPlayerHealthRef;
+            maxTopSpd = referenceForValues.maxPlayerTopSpd;
+            maxWeight = referenceForValues.maxPlayerWeightRef;
+        } 
     }
 }

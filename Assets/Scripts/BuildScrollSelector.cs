@@ -69,6 +69,7 @@ public class BuildScrollSelector : MonoBehaviour
 
         if (VisualStatsManager != null)
         {
+            currentSelectBuild = buildParams[0];
             VisualStatsManager.SetVisualStats(buildParams[0]);
         }
 

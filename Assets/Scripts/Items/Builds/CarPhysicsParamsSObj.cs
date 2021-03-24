@@ -52,23 +52,30 @@ public class CarPhysicsParamsSObj : ScriptableObject
         tempGravity, tempMaxPlayerHP, tempWeight, tempBoostTimer, tempBoostForce,
         tempDefenseForce, tempAmmoEfficiency;
 
+    //For reference and should not be changed during game
+    [SerializeField]
+    CarPhysicsParamsTemplate templateData;
+
     public void ResetData()
     {
-        Debug.Log("Running Sobj Logic");
-        tempMelee = m_meleePower;
-        tempTopSpd = m_topSpd;
-        tempAccel = m_acceleration;
-        tempRAccel = m_ReverseAccel;
-        tempTurnSpd = m_TurnSpd;
-        tempTurnFwdSpd = m_TurnFwdSpd;
-        tempBrakeForce = m_BrakeForce;
-        tempGravity = m_Gravity;
-        tempMaxPlayerHP = m_maxPlayerHealth;
-        tempWeight = m_rbWeight;
-        tempBoostTimer = m_boostTimer;
-        tempBoostForce = m_boostForce;
-        tempDefenseForce = m_defenseForce;
-        tempAmmoEfficiency = m_ammoEfficiency;
+        if (templateData != null)
+        {
+            Debug.Log("Running Sobj Logic");
+            tempMelee = templateData.f_meleePower;
+            tempTopSpd = templateData.f_topSpd;
+            tempAccel = templateData.f_acceleration;
+            tempRAccel = templateData.f_ReverseAccel;
+            tempTurnSpd = templateData.f_TurnSpd;
+            tempTurnFwdSpd = templateData.f_TurnFwdSpd;
+            tempBrakeForce = templateData.f_BrakeForce;
+            tempGravity = templateData.f_Gravity;
+            tempMaxPlayerHP = templateData.f_maxPlayerHealth;
+            tempWeight = templateData.f_rbWeight;
+            tempBoostTimer = templateData.f_boostTimer;
+            tempBoostForce = templateData.f_boostForce;
+            tempDefenseForce = templateData.f_defenseForce;
+            tempAmmoEfficiency = templateData.f_ammoEfficiency;
+        }
     }
 
     public void UpdateParamsFromUI(ItemBase item)
@@ -112,6 +119,8 @@ public class CarPhysicsParamsSObj : ScriptableObject
                 //Engine affects: MeleeAttack, Acceleration, TopSpeed, Weight, TurnSpeed
                 if (item.m_Attack != 0)
                     SetMeleePower(item.m_Attack);
+                if (item.m_Defense != 0)
+                    SetDefenseForce(item.m_Defense);
                 if (item.m_acceleration != 0)
                     SetAccleration(item.m_acceleration);
                 if (item.m_TopSpeed != 0)

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Armour1
   m_EditorClassIdentifier: 
   _ItemType: 2
-  f_attack: 0
+  f_attack: 3
   f_defense: 0.1
-  f_acceleration: -0.25
-  f_health: 0
-  f_TopSpeed: -0.1
+  f_acceleration: -0.2
+  f_health: 5
+  f_TopSpeed: -0.15
   f_turnSpd: -20
   f_fireRate: 0
   f_ammoPickUpEfficency: 1

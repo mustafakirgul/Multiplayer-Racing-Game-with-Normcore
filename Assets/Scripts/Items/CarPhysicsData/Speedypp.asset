@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49cebd47308937749a71ef553ef1d589, type: 3}
+  m_Name: Speedypp
+  m_EditorClassIdentifier: 
+  m_meleePower: 1
+  m_topSpd: 1.019
+  m_acceleration: -0.25
+  m_ReverseAccel: 0.995
+  m_TurnSpd: 77
+  m_TurnFwdSpd: 76.2
+  m_BrakeForce: 0.437
+  m_Gravity: 53.8
+  m_maxPlayerHealth: 63.6
+  m_rbWeight: 160
+  m_boostTimer: 14.73
+  m_boostForce: 44
+  m_defenseForce: 0.213
+  m_ammoEfficiency: 0
+  tempMelee: 0
+  tempTopSpd: 0
+  tempAccel: 0
+  tempRAccel: 0
+  tempTurnSpd: 130
+  tempTurnFwdSpd: 30
+  tempBrakeForce: 0.2
+  tempGravity: 40
+  tempMaxPlayerHP: 20
+  tempWeight: 120
+  tempBoostTimer: 5
+  tempBoostForce: 120
+  tempDefenseForce: 1
+  tempAmmoEfficiency: 0
+  templateData: {fileID: 11400000, guid: 8abcbed464f00ca4a8facb3129bba6fd, type: 2}

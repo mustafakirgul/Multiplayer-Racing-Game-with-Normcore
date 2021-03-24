@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Armour2
   m_EditorClassIdentifier: 
   _ItemType: 2
-  f_attack: 0
+  f_attack: 4
   f_defense: 0.15
   f_acceleration: -0.15
   f_health: 0

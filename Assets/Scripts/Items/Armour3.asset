@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Armour3
   m_EditorClassIdentifier: 
   _ItemType: 2
-  f_attack: 0
+  f_attack: 3
   f_defense: 0.25
-  f_acceleration: -0.3
+  f_acceleration: -0.2
   f_health: 0
-  f_TopSpeed: -0.15
-  f_turnSpd: -50
+  f_TopSpeed: -0.1
+  f_turnSpd: -35
   f_fireRate: 0
   f_ammoPickUpEfficency: 1
   f_weight: 85

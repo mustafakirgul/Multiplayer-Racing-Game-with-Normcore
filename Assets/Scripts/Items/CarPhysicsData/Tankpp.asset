@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49cebd47308937749a71ef553ef1d589, type: 3}
+  m_Name: Tankpp
+  m_EditorClassIdentifier: 
+  m_meleePower: 0
+  m_topSpd: 0
+  m_acceleration: 0
+  m_ReverseAccel: 0
+  m_TurnSpd: 90
+  m_TurnFwdSpd: 15
+  m_BrakeForce: 0.6
+  m_Gravity: 100
+  m_maxPlayerHealth: 30
+  m_rbWeight: 200
+  m_boostTimer: 6
+  m_boostForce: 120
+  m_defenseForce: 5
+  m_ammoEfficiency: 0
+  tempMelee: 0
+  tempTopSpd: 0
+  tempAccel: 0
+  tempRAccel: 0
+  tempTurnSpd: 90
+  tempTurnFwdSpd: 15
+  tempBrakeForce: 0.6
+  tempGravity: 100
+  tempMaxPlayerHP: 30
+  tempWeight: 200
+  tempBoostTimer: 6
+  tempBoostForce: 120
+  tempDefenseForce: 5
+  tempAmmoEfficiency: 0
+  templateData: {fileID: 11400000, guid: 6f847ef689960174d8dc3e617f14a94c, type: 2}

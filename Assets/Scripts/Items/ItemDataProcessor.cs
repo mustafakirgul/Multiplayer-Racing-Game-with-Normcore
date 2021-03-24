@@ -168,6 +168,10 @@ public class ItemDataProcessor : MonoBehaviour
                     m_playerCarController.GetCarParams().SetAccleration(ItemPickUp.m_acceleration);
                 }
 
+                if (ItemPickUp.m_Defense != 0)
+                {
+                    m_playerCarController.GetCarParams().SetDefenseForce(ItemPickUp.m_Defense);
+                }
 
                 if (ItemPickUp.m_TopSpeed != 0)
                 {

@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ItemType: 3
   f_attack: 1
-  f_defense: 0
-  f_acceleration: 0
-  f_health: 50
-  f_TopSpeed: 0
+  f_defense: -0.2
+  f_acceleration: 0.1
+  f_health: 0
+  f_TopSpeed: 1.1
   f_turnSpd: 20
   f_fireRate: 0
   f_ammoPickUpEfficency: 1
-  f_weight: 30
+  f_weight: 40
   f_boostTimer: 0
   f_boostForce: 0
   f_itemVisualIndex: 1
