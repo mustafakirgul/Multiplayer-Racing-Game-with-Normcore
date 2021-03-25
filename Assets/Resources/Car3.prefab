@@ -1124,7 +1124,7 @@ Transform:
   m_GameObject: {fileID: 1132834545575147083}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 23.95, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 1132834545854288051}
   - {fileID: 1132834545462220960}
@@ -1171,7 +1171,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   lerpRotationSpeed: 6
-  GroundCheckRayLength: 0.65
+  GroundCheckRayLength: 1
   MinVelocityThreshold: 0.25
   BrakeForce: 0.5
   MaxSpeed: 300
@@ -1248,7 +1248,7 @@ MonoBehaviour:
   _bombs: 0
   _resets: 0
   identicalSuspension4AW: 1
-  suspensionHeight: 0.45
+  suspensionHeight: 0.36
   wheelSize: 0.35
   wheels:
   - t: {fileID: 1132834545855456275}
@@ -1258,7 +1258,7 @@ MonoBehaviour:
     trail: {fileID: 1132834545060800039}
     isPowered: 1
     isSteeringWheel: 0
-    suspensionHeight: 0.45
+    suspensionHeight: 0.36
     wheelSize: 0.35
     originY: 0
   - t: {fileID: 1132834545869837110}
@@ -1268,7 +1268,7 @@ MonoBehaviour:
     trail: {fileID: 1132834545749936709}
     isPowered: 1
     isSteeringWheel: 0
-    suspensionHeight: 0.45
+    suspensionHeight: 0.36
     wheelSize: 0.35
     originY: 0
   - t: {fileID: 1132834544037804680}
@@ -1278,7 +1278,7 @@ MonoBehaviour:
     trail: {fileID: 1132834544566318866}
     isPowered: 0
     isSteeringWheel: 1
-    suspensionHeight: 0.45
+    suspensionHeight: 0.36
     wheelSize: 0.35
     originY: 0
   - t: {fileID: 1132834545439077073}
@@ -1288,7 +1288,7 @@ MonoBehaviour:
     trail: {fileID: 1132834545314979806}
     isPowered: 0
     isSteeringWheel: 1
-    suspensionHeight: 0.45
+    suspensionHeight: 0.36
     wheelSize: 0.35
     originY: 0
   boostParticles:
@@ -3938,6 +3938,7 @@ MonoBehaviour:
   lerpTime: 1
   currentLerpTime: 0
   truck: {fileID: 0}
+  missileTargetTransform: {fileID: 0}
 --- !u!135 &1091669036317237030
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6560,17 +6561,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: f90e164aa0397b843b41e261efa9d7b3,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.000000053385083
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f90e164aa0397b843b41e261efa9d7b3,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000053385072
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f90e164aa0397b843b41e261efa9d7b3,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.7071067
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f90e164aa0397b843b41e261efa9d7b3,
         type: 3}
@@ -6595,7 +6596,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: f90e164aa0397b843b41e261efa9d7b3,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: -90.00001
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f90e164aa0397b843b41e261efa9d7b3,
         type: 3}

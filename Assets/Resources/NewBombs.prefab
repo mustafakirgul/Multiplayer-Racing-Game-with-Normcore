@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startSpeed: 50
-  damage: 100
+  damage: 50
   explosiveRange: 10
   weaponLifeTime: 20
   truckDamageFactor: 1

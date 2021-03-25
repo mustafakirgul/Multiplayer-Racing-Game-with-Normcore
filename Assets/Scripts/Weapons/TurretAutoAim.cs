@@ -38,7 +38,7 @@ public class TurretAutoAim : MonoBehaviour
 
     public bool isSwitchingMode = false;
 
-    public bool isPlayerControlled;
+    private bool isPlayerControlled = true;
 
     private UIManager m_uiManager;
 
@@ -52,8 +52,9 @@ public class TurretAutoAim : MonoBehaviour
 
     [SerializeField] private Collider truck;
 
-
     Coroutine weaponChange;
+
+    public Transform missileTargetTransform;
 
     int targetlayer = (1 << 12 | 1 << 15 | 1 << 9);
     // Update is called once per frame
@@ -386,6 +387,10 @@ public class TurretAutoAim : MonoBehaviour
             }
         }
     }
+    public void EmptyTarget()
+    {
+        missileTargetTransform = null;
+    }
 
     void RotateTurretToMouse()
     {
@@ -401,6 +406,19 @@ public class TurretAutoAim : MonoBehaviour
                 {
                     CrossHairUI.gameObject.SetActive(true);
                     Debug.Log("Collided with " + hitInfo.collider.name);
+
+                    Truck TruckTarget = hitInfo.collider.gameObject.GetComponent<Truck>();
+                    NewCarController PlayerTarget = hitInfo.collider.gameObject.GetComponent<NewCarController>();
+
+                    if (TruckTarget != null)
+                    {
+                        missileTargetTransform = TruckTarget.transform;
+                    }
+
+                    if (PlayerTarget != null)
+                    {
+                        missileTargetTransform = PlayerTarget.transform;
+                    }
                     //Vector3 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
                     Vector3 direction = (hitInfo.point - this.transform.position);
                     targetRotation = Quaternion.LookRotation(direction);

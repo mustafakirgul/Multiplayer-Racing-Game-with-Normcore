@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: SpeedTemplate
   m_EditorClassIdentifier: 
   m_meleePower: 1
-  m_topSpd: 1.1
+  m_topSpd: 1
   maxPlayerTopSpd: 2
-  m_acceleration: 1.05
+  m_acceleration: 0.5
   maxPlayerAcceleration: 2
   m_ReverseAccel: 1.1
   m_TurnSpd: 100

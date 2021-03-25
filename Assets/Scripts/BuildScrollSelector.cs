@@ -63,6 +63,8 @@ public class BuildScrollSelector : MonoBehaviour
 
     private LootManager lootManager;
 
+    [SerializeField]
+    GameObject ConnectMenu;
     void Start()
     {
         lootManager = FindObjectOfType<LootManager>();
@@ -180,25 +182,32 @@ public class BuildScrollSelector : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (!ConnectMenu.activeInHierarchy)
         {
-            SwitchCollectionType(true);
-        }
+            if (Input.GetKeyDown(KeyCode.DownArrow) ||
+                Input.GetKeyDown(KeyCode.S))
+            {
+                SwitchCollectionType(true);
+            }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            SwitchCollectionType(false);
-        }
+            if (Input.GetKeyDown(KeyCode.UpArrow) ||
+                Input.GetKeyDown(KeyCode.W))
+            {
+                SwitchCollectionType(false);
+            }
 
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            CycleItem(false);
-        }
+            if (Input.GetKeyDown(KeyCode.LeftArrow) ||
+                Input.GetKeyDown(KeyCode.A))
+            {
+                CycleItem(false);
+            }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            CycleItem(true);
+            if (Input.GetKeyDown(KeyCode.RightArrow) ||
+                Input.GetKeyDown(KeyCode.D))
+            {
+                CycleItem(true);
+            }
         }
     }
 

@@ -1192,7 +1192,7 @@ Transform:
   m_GameObject: {fileID: 1132834545575147083}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 23.95, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 1132834545854288051}
   - {fileID: 1132834545462220960}
@@ -1240,7 +1240,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   lerpRotationSpeed: 6
-  GroundCheckRayLength: 0.65
+  GroundCheckRayLength: 0.9
   MinVelocityThreshold: 0.25
   BrakeForce: 0.5
   MaxSpeed: 300
@@ -1314,11 +1314,12 @@ MonoBehaviour:
   isBoosting: 0
   RHL: {fileID: 4017349281839318262}
   LHL: {fileID: 5813207258249045653}
+  PhysicsBuildIndex: 0
   _bombs: 0
   _resets: 0
   identicalSuspension4AW: 1
-  suspensionHeight: 0.45
-  wheelSize: 0.35
+  suspensionHeight: 0.4
+  wheelSize: 0.38
   wheels:
   - t: {fileID: 1132834545855456275}
     wheelT: {fileID: 1132834544749781854}
@@ -1327,8 +1328,8 @@ MonoBehaviour:
     trail: {fileID: 1132834545060800039}
     isPowered: 1
     isSteeringWheel: 0
-    suspensionHeight: 0.45
-    wheelSize: 0.35
+    suspensionHeight: 0.4
+    wheelSize: 0.38
     originY: 0
   - t: {fileID: 1132834545869837110}
     wheelT: {fileID: 1132834543889306470}
@@ -1337,8 +1338,8 @@ MonoBehaviour:
     trail: {fileID: 1132834545749936709}
     isPowered: 1
     isSteeringWheel: 0
-    suspensionHeight: 0.45
-    wheelSize: 0.35
+    suspensionHeight: 0.4
+    wheelSize: 0.38
     originY: 0
   - t: {fileID: 1132834544037804680}
     wheelT: {fileID: 1132834544292425273}
@@ -1347,8 +1348,8 @@ MonoBehaviour:
     trail: {fileID: 1132834544566318866}
     isPowered: 0
     isSteeringWheel: 1
-    suspensionHeight: 0.45
-    wheelSize: 0.35
+    suspensionHeight: 0.4
+    wheelSize: 0.38
     originY: 0
   - t: {fileID: 1132834545439077073}
     wheelT: {fileID: 1132834545641700118}
@@ -1357,8 +1358,8 @@ MonoBehaviour:
     trail: {fileID: 1132834545314979806}
     isPowered: 0
     isSteeringWheel: 1
-    suspensionHeight: 0.45
-    wheelSize: 0.35
+    suspensionHeight: 0.4
+    wheelSize: 0.38
     originY: 0
   boostParticles:
   - {fileID: 9124515108502422322}
@@ -2242,6 +2243,7 @@ MonoBehaviour:
   - {fileID: 6022472696859302080}
   isManualTargeting: 0
   isRotating: 0
+  isSwitchingMode: 0
   isPlayerControlled: 0
   CrossHairUI: {fileID: 0}
   currentCam: {fileID: 0}
@@ -2249,6 +2251,7 @@ MonoBehaviour:
   lerpTime: 2
   currentLerpTime: 0
   truck: {fileID: 0}
+  missileTargetTransform: {fileID: 0}
 --- !u!135 &6022472696859302080
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6173,17 +6176,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9ee2c30c7d15b8346935be098d1a3f0c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.7071068
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9ee2c30c7d15b8346935be098d1a3f0c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.70710677
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9ee2c30c7d15b8346935be098d1a3f0c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9ee2c30c7d15b8346935be098d1a3f0c,
         type: 3}
@@ -6208,7 +6211,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9ee2c30c7d15b8346935be098d1a3f0c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 90.00001
+      value: -90.00001
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9ee2c30c7d15b8346935be098d1a3f0c,
         type: 3}

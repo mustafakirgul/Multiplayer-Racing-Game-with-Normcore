@@ -35,8 +35,13 @@ public class MissileProjectile : WeaponProjectileBase
         if (rb != null && _realtimeView.isOwnedLocallyInHierarchy)
         {
             MissileBrain();
-            AdjustMissileCourse();
+            AdjustMissileCourse(LockedTarget);
         }
+    }
+
+    public void SetTarget(Transform Target)
+    {
+        LockedTarget = Target;
     }
 
     private void MissileBrain()
@@ -47,14 +52,19 @@ public class MissileProjectile : WeaponProjectileBase
 
     private IEnumerator DetectTarget()
     {
+        yield return new WaitForSeconds(1f);
         while (true)
         {
+            if(LockedTarget != null)
+            {
+                yield return null;
+            }    
             MissileDetection();
             yield return new WaitForSeconds(missileRadarRefresh);
         }
     }
 
-    private void AdjustMissileCourse()
+    private void AdjustMissileCourse(Transform LockedTarget)
     {
         if (LockedTarget != null)
         {
