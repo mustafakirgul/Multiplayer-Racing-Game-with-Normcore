@@ -79,6 +79,12 @@ public class LootManager : MonoBehaviour
     public BuildLoadOutSObj Speedy_buildLoadOut;
     public BuildLoadOutSObj Tank_buildLoadOut;
 
+    public List<CarPhysicsParamsSObj> CarPhysicsParams = new List<CarPhysicsParamsSObj>();
+
+    public List<CarPhysicsParamsTemplate> CarPhysicsTemplates = new List<CarPhysicsParamsTemplate>();
+
+    [SerializeField]
+
     //[SerializeField]
     public int numberOfLootRolls;
 

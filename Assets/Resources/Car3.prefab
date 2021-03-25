@@ -1161,8 +1161,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CarRB: {fileID: 1132834545854288050}
-  fwdSpeed: 250
-  reverseSpd: 100
+  acceleration: 0
+  reverseAccel: 0
   turnSpd: 140
   turningFwdSpeed: 35
   airDrag: 0
@@ -1195,11 +1195,6 @@ MonoBehaviour:
   rearCamera: {fileID: 2242678404415448609}
   offlineTest: 0
   meleeDamageModifier: 0
-  verticalSpdModifier: 0
-  turnSpdModifier: 0
-  MaxSpeedModifier: 0
-  accelerationModifier: 0
-  HandlingModifier: 0
   lootManager: {fileID: 0}
   tempSpeedModifier: 0
   tempDefenseModifier: 0
@@ -1215,6 +1210,7 @@ MonoBehaviour:
   readyToFire: 0
   muzzleFlash: {fileID: 312486024225244060}
   currentAmmo: 5
+  ammoEfficiency: 0
   m_BarrelShaker: {fileID: 6453841869835185003}
   primaryFireTimer: 0
   secondayFireTimer: 0
@@ -1248,6 +1244,7 @@ MonoBehaviour:
   isBoosting: 0
   RHL: {fileID: 4017349281839318262}
   LHL: {fileID: 5813207258249045653}
+  PhysicsBuildIndex: 2
   _bombs: 0
   _resets: 0
   identicalSuspension4AW: 1
@@ -3933,6 +3930,7 @@ MonoBehaviour:
   - {fileID: 7324370658739478688}
   isManualTargeting: 0
   isRotating: 0
+  isSwitchingMode: 0
   isPlayerControlled: 0
   CrossHairUI: {fileID: 0}
   currentCam: {fileID: 0}

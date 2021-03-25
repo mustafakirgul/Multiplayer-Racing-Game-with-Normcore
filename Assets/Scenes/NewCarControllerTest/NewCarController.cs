@@ -183,6 +183,9 @@ public class NewCarController : MonoBehaviour
 
     private bool lights;
 
+
+    [SerializeField]
+    private int PhysicsBuildIndex = 0;
     //QA
     [HideInInspector] public int _bombs;
 
@@ -217,8 +220,30 @@ public class NewCarController : MonoBehaviour
         //Debug.LogWarning(PlayerManager.instance.PlayerName(_realtimeView.ownerIDInHierarchy) + " was " + (_player.playerHealth - damage <= 0 ? "killed" : "damaged") + " by " + PlayerManager.instance.PlayerName(theKiller));
     }
 
+    private void GetPhysicsParamsBasedOnBuild()
+    {
+        switch (PhysicsBuildIndex)
+        {
+            case 0:
+                m_carDataContainer.Add(lootManager.CarPhysicsParams[0]);
+                m_currentPhysicsSet = lootManager.CarPhysicsParams[0];
+                break;
+            case 1:
+                m_carDataContainer.Add(lootManager.CarPhysicsParams[1]);
+                m_currentPhysicsSet = lootManager.CarPhysicsParams[1];
+                break;
+            case 2:
+                m_carDataContainer.Add(lootManager.CarPhysicsParams[2]);
+                m_currentPhysicsSet = lootManager.CarPhysicsParams[2];
+                break;
+        }
+    }
+
     private void Awake()
     {
+        lootManager = FindObjectOfType<LootManager>();
+        GetPhysicsParamsBasedOnBuild();
+
         if (ammoIndicator != null)
             ammoIndicator.SetActive(false);
 
@@ -436,7 +461,7 @@ public class NewCarController : MonoBehaviour
                 damageIndicatorCanvasGroup = uIManager.damageIndicatorCanvasGroup;
             }
 
-            lootManager = FindObjectOfType<LootManager>();
+         
             //Decouple Sphere Physics from car model
             CarRB.transform.parent = null;
             wheelCount = wheels.Length;

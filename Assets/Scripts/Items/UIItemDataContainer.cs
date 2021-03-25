@@ -10,7 +10,7 @@ public class UIItemDataContainer : MonoBehaviour
     {
         UIManager uiManager = FindObjectOfType<UIManager>();
         BuildScrollSelector buildScrollSelector = FindObjectOfType<BuildScrollSelector>();
-        LootManager lootManager = LootManager.instance;
+        LootManager lootManager = FindObjectOfType<LootManager>();
 
         switch (lootManager.playerLootPoolSave.PlayerLoot[_buttonItemID]._ItemType)
         {

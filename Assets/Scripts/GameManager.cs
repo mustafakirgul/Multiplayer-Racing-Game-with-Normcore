@@ -279,6 +279,7 @@ public class GameManager : MonoBehaviour
             _realtime.didDisconnectFromRoom += DidDisconnectFromRoom;
             _roomName = LobbyManager.instance.RoomName();
             _realtime.Connect(_roomName);
+            Cursor.visible = false;
             //Debug.LogWarning("Room name set to: " + _roomName);
         }
     }
@@ -417,6 +418,7 @@ public class GameManager : MonoBehaviour
     {
         yield return StartCoroutine(gameSceneManager.FadeToBlackOutSquare(true, 2));
         GameSceneManager.instance.StartEndSplashes();
+        Cursor.visible = true;
         yield return StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 2));
     }
 

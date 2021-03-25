@@ -18,7 +18,7 @@ public class BuildScrollSelector : MonoBehaviour
     Image SelectionIcon;
 
     [SerializeField]
-    int selectionIndex = 0;
+    int selectionIndex = 3;
 
     [SerializeField]
     int CycleIndex = 0;
@@ -56,36 +56,40 @@ public class BuildScrollSelector : MonoBehaviour
     [SerializeField]
     private Text buildIndex, BuildTotalCount;
 
-    [SerializeField]
-    private List<CarPhysicsParamsSObj> buildParams = new List<CarPhysicsParamsSObj>();
-
-    [SerializeField]
-    private List<CarPhysicsParamsTemplate> buildTemplates = new List<CarPhysicsParamsTemplate>();
-
     public CarPhysicsParamsSObj currentSelectBuild;
 
     [SerializeField]
     private VisualStatsManager VisualStatsManager;
 
+    private LootManager lootManager;
+
     void Start()
     {
+        lootManager = FindObjectOfType<LootManager>();
+        UpdateFromTemplateData();
         InitializeManualSelection();
 
+        StartCoroutine(WaitToInitialize());
+    }
+    private IEnumerator WaitToInitialize()
+    {
+        yield return new WaitForSeconds(1f);
         if (VisualStatsManager != null)
         {
-            currentSelectBuild = buildParams[0];
-            VisualStatsManager.SetVisualStats(buildParams[0]);
+            currentSelectBuild = lootManager.CarPhysicsParams[0];
+            VisualStatsManager.UpdateMaximums();
+            VisualStatsManager.SetVisualStats(currentSelectBuild);
         }
-
-        UpdateFromTemplateData();
     }
 
     private void UpdateFromTemplateData()
     {
-        for (int i = 0; i < buildParams.Count; i++)
+        for (int i = 0; i < lootManager.CarPhysicsParams.Count; i++)
         {
-            buildParams[i].ResetData(buildTemplates[i]);
+            lootManager.CarPhysicsParams[i].ResetData(
+                lootManager.CarPhysicsTemplates[i]);
         }
+
     }
 
     public void InitializeManualSelection()
@@ -129,7 +133,7 @@ public class BuildScrollSelector : MonoBehaviour
     }
 
 
-    private void  PopulateUIIndicators()
+    private void PopulateUIIndicators()
     {
         WeaponIndex.text = "1";
         ArmourIndex.text = "1";
@@ -289,8 +293,8 @@ public class BuildScrollSelector : MonoBehaviour
 
                     if (VisualStatsManager != null)
                     {
-                        currentSelectBuild = buildParams[CycleIndex];
-                        VisualStatsManager.SetVisualStats(buildParams[CycleIndex]);
+                        currentSelectBuild = lootManager.CarPhysicsParams[CycleIndex];
+                        VisualStatsManager.SetVisualStats(lootManager.CarPhysicsParams[CycleIndex]);
                     }
                 }
                 break;

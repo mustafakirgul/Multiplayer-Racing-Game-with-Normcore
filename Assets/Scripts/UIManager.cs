@@ -75,6 +75,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     GameObject ReadyToStartMenu;
 
+    public GameObject AutoAimUI, ManualAim;
+
     private void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();

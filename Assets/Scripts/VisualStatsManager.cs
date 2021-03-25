@@ -13,6 +13,10 @@ public class VisualStatsManager : MonoBehaviour
 
     private float maxHealth, maxWeight, maxacceleration, maxTopSpd, maxDefenseForce;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        UpdateMaximums();
+    }
     private void Start()
     {
         for (int i = 0; i < this.transform.childCount; i++)
@@ -51,5 +55,17 @@ public class VisualStatsManager : MonoBehaviour
             maxTopSpd = referenceForValues.maxPlayerTopSpd;
             maxWeight = referenceForValues.maxPlayerWeightRef;
         } 
+    }
+
+    public void UpdateMaximums()
+    {
+        if (referenceForValues != null)
+        {
+            maxacceleration = referenceForValues.maxPlayerAcceleration;
+            maxDefenseForce = referenceForValues.maxPlayerDefenseForce;
+            maxHealth = referenceForValues.maxPlayerHealthRef;
+            maxTopSpd = referenceForValues.maxPlayerTopSpd;
+            maxWeight = referenceForValues.maxPlayerWeightRef;
+        }
     }
 }

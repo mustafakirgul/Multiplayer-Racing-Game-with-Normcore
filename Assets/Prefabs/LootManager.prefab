@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3971792434802787723
+--- !u!1 &4469272745410393787
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3971792434802787717}
-  - component: {fileID: 3971792434802787722}
+  - component: {fileID: 4469272745410393781}
+  - component: {fileID: 4469272745410393786}
   m_Layer: 0
   m_Name: LootManager
   m_TagString: Untagged
@@ -17,27 +17,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!4 &3971792434802787717
+--- !u!4 &4469272745410393781
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3971792434802787723}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_GameObject: {fileID: 4469272745410393787}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 390.69556, y: 48.26345, z: -1173.4736}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3971792434802787722
+--- !u!114 &4469272745410393786
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3971792434802787723}
+  m_GameObject: {fileID: 4469272745410393787}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 494de6ce8fe80b648a3e42ee31a81de8, type: 3}
@@ -53,4 +53,14 @@ MonoBehaviour:
   Speedy_buildLoadOut: {fileID: 11400000, guid: 821d9c05f890c8c47902fcc0d27ea53d,
     type: 2}
   Tank_buildLoadOut: {fileID: 11400000, guid: dbaca7f026fe15a4eb3647ae0007b6bc, type: 2}
+  CarPhysicsParams:
+  - {fileID: 11400000, guid: 81f790ab4df8e4a39a89313e0c17ac1e, type: 2}
+  - {fileID: 11400000, guid: 539d903eb73be4d0fab1b62bf75185cd, type: 2}
+  - {fileID: 11400000, guid: 18694bd1f9c27404aa3f650c613b861e, type: 2}
+  CarPhysicsTemplates:
+  - {fileID: 11400000, guid: c608fd1f66df56842a99a83fd843a790, type: 2}
+  - {fileID: 11400000, guid: 8abcbed464f00ca4a8facb3129bba6fd, type: 2}
+  - {fileID: 11400000, guid: 6f847ef689960174d8dc3e617f14a94c, type: 2}
   numberOfLootRolls: 0
+  lootDecoder: {fileID: 0}
+  VisualIndex: {x: 0, y: 0, z: 0}
