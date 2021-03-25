@@ -208,7 +208,7 @@ public class LobbyManager : MonoBehaviour
 
     public void ClearGoFeedback()
     {
-        garageGoFeedback.text = "";
+        if (playerNameInputField.text.Length > 0) garageGoFeedback.text = "";
     }
 
     public string RoomName()

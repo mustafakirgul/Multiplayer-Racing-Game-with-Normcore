@@ -69,6 +69,27 @@ public class Truck : RealtimeComponent<TruckModel>
     public ParticleSystem boombasticShield;
     private SphereCollider shieldCollider => boombasticShield.transform.GetComponent<SphereCollider>();
     private Rigidbody rb => GetComponent<Rigidbody>();
+    private bool isGrounded;
+    public float groundCheckRayLength, lerpRotationSpeed, groundedEngineFactor;
+    public LayerMask groundLayer;
+    private Vector3 boombasticModePoint = Vector3.zero;
+
+    void GroundCheck()
+    {
+        isGrounded = Physics.Raycast(transform.position, -transform.up, groundCheckRayLength,
+            groundLayer);
+        Debug.DrawLine(transform.position, transform.position + (-transform.up * groundCheckRayLength), Color.cyan);
+
+        if (!isGrounded)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                (Quaternion.FromToRotation(transform.up, Vector3.up)
+                 * transform.rotation), Time.deltaTime * lerpRotationSpeed * 0.3f);
+            groundedEngineFactor = 0f;
+        }
+        else
+            groundedEngineFactor = 1f;
+    }
 
     private void OnDrawGizmos()
     {
@@ -108,6 +129,8 @@ public class Truck : RealtimeComponent<TruckModel>
             return;
         }
 
+        var temp = GameObject.FindGameObjectWithTag("boombasticPoint");
+        if (temp != null) boombasticModePoint = temp.transform.position;
         StartHealth();
         InitializWaypointAI();
         waitASecond = new WaitForSeconds(steerRefreshTimer);
@@ -179,7 +202,7 @@ public class Truck : RealtimeComponent<TruckModel>
     {
         angle = -Mathf.Clamp(Vector3.Angle(Vector3.up, transform.forward) - elevationConstant, -torqueBoostAngleLimit,
             torqueBoostAngleLimit);
-        elevationTorqueFactor = 1f + Mathf.Clamp01(angle / torqueBoostAngleLimit);
+        elevationTorqueFactor = 1f + Mathf.Clamp01(angle / torqueBoostAngleLimit) * groundedEngineFactor;
     }
 
     void SetWayPoint(int wayPointIndex)
@@ -227,6 +250,8 @@ public class Truck : RealtimeComponent<TruckModel>
         }
         else
         {
+            GroundCheck();
+
             if (Input.GetKeyDown(KeyCode.P))
             {
                 ResetTransform();
@@ -282,10 +307,10 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void BoombasticMode()
     {
-        if (Math.Abs(transform.position.y - boombasticModeY) > 1f)
+        if (Vector3.Distance(rb.position, boombasticModePoint) > .1f)
         {
             rb.MovePosition(Vector3.Lerp(rb.position,
-                new Vector3(rb.position.x, boombasticModeY, rb.position.z), Time.deltaTime * 6.66f));
+                boombasticModePoint, Time.deltaTime * 6.66f));
             transform.up = Vector3.Lerp(transform.up, Vector3.up, Time.deltaTime * 6.66f);
         }
         else
@@ -352,7 +377,7 @@ public class Truck : RealtimeComponent<TruckModel>
         rb.isKinematic = value;
         rb.useGravity = !value;
         shieldCollider.enabled = value;
-        Handrake(true);
+        Handrake(value);
         UpdateTorqueFactor(0f);
         if (value)
         {

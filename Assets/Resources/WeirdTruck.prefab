@@ -880,9 +880,15 @@ MonoBehaviour:
   currentTorquePerWheel: 0
   torqueBoostAngleLimit: 45
   isBoombastic: 0
-  boombasticModeY: 133.2
+  boombasticModeY: 15
   boombasticModeDuration: 35
   boombasticShield: {fileID: 1017615277261355035}
+  groundCheckRayLength: 9
+  lerpRotationSpeed: 12
+  groundedEngineFactor: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
   _health: 0
   _maxHealth: 0
   currentMaxHealth: 0

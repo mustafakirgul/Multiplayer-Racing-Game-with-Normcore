@@ -17,6 +17,7 @@ TagManager:
   - Loot
   - OverHeatMeter
   - OverHeatText
+  - boombasticPoint
   layers:
   - Default
   - TransparentFX
