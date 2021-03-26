@@ -14,6 +14,9 @@ public class LootDecoder : MonoBehaviour
     public bool canCheck;
 
     public GameObject LootDecoderUnitToSpawn;
+
+    [SerializeField]
+    private GameObject SkipText;
     private void Start()
     {
         lootManager = FindObjectOfType<LootManager>();
@@ -36,6 +39,8 @@ public class LootDecoder : MonoBehaviour
             LootDecoderUnits.Remove(toDestroy);
             Destroy(toDestroy);
         }
+
+        SkipText.SetActive(true);
 
         foreach (GameObject promptToAdd in LootDecoderUnits)
         {
@@ -63,6 +68,16 @@ public class LootDecoder : MonoBehaviour
         {
             TryNextSequenceInLine();
         }
+
+        if (canCheck && Input.GetKeyDown(KeyCode.Escape))
+        {
+            for (int i = 0; i < CheckForChildren(); i++)
+            {
+                this.transform.GetChild(i).gameObject.SetActive(false);
+            }
+
+            SkipText.SetActive(false);
+        }
     }
 
     public void ActivateNextInSequence()
@@ -84,6 +99,7 @@ public class LootDecoder : MonoBehaviour
         }
         else
         {
+            SkipText.SetActive(false);
             Debug.Log("Sequence ended for loot rolls");
         }
     }

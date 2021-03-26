@@ -59,7 +59,7 @@ MonoBehaviour:
   weaponFireRate: 5
   barrelFireAngle: 0
   projectile_Mesh: {fileID: 3395412828007224916}
-  ProjectileToDisplay: {fileID: 2800000, guid: 9dc907618504cc8468bcd435eba17b95, type: 3}
+  ProjectileToDisplay: {fileID: 2800000, guid: b8a2c70e179de9343a57682ec3857a62, type: 3}
   _realtimeView: {fileID: 0}
   statEntity: {fileID: 0}
   bulletSpeed: 100
