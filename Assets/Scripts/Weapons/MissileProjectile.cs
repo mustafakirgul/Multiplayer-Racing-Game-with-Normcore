@@ -59,7 +59,8 @@ public class MissileProjectile : WeaponProjectileBase
             {
                 MissileDetection();
                 yield return new WaitForSeconds(missileRadarRefresh);
-            }    
+            }
+            yield return null;
         }
     }
 
