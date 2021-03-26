@@ -55,12 +55,11 @@ public class MissileProjectile : WeaponProjectileBase
         yield return new WaitForSeconds(1f);
         while (true)
         {
-            if(LockedTarget != null)
+            if(LockedTarget == null)
             {
-                yield return null;
+                MissileDetection();
+                yield return new WaitForSeconds(missileRadarRefresh);
             }    
-            MissileDetection();
-            yield return new WaitForSeconds(missileRadarRefresh);
         }
     }
 
