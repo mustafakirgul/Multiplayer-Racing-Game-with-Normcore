@@ -484,7 +484,7 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void DropRandomLoot()
     {
-        if (UnityEngine.Random.Range(0f, 1f) < lootChance) //random chance of loot drop
+        if (UnityEngine.Random.Range(0, 1f) < lootChance) //random chance of loot drop
         {
             DropLoot();
         }
@@ -503,7 +503,14 @@ public class Truck : RealtimeComponent<TruckModel>
             realtime);
         int PUCount =
             (LootManager.instance.playerLootPoolSave.PlayerPowerUps.Count - 1);
-        _temp.GetComponent<LootContainer>().SetID(UnityEngine.Random.Range(-PUCount, 666));
+        int LootCount =
+            (LootManager.instance.playerLootPoolSave.m_RollPool.Count - 1);
+        int RandomID = UnityEngine.Random.Range(-PUCount, LootCount);
+        //Debug.Log("PU id is" + RandomID);
+
+        _temp.GetComponent<LootContainer>().SetID(RandomID);
+
+
         Vector3 _tempDir = UnityEngine.Random.onUnitSphere;
         _tempDir = new Vector3(_tempDir.x, Mathf.Abs(_tempDir.y), _tempDir.z) * throwForce;
         Debug.DrawLine(lootLaunchPoint, lootLaunchPoint + _tempDir, Color.blue, 3f);

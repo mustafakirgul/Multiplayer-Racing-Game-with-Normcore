@@ -56,6 +56,11 @@ public class TurretAutoAim : MonoBehaviour
 
     public Transform missileTargetTransform;
 
+    private Truck Truck;
+    private NewCarController Player;
+
+    private bool delayTargeting = false;
+
     int targetlayer = (1 << 12 | 1 << 15 | 1 << 9);
     // Update is called once per frame
     private void OnDrawGizmos()
@@ -390,6 +395,17 @@ public class TurretAutoAim : MonoBehaviour
     public void EmptyTarget()
     {
         missileTargetTransform = null;
+        Truck = null;
+        Player = null;
+        delayTargeting = true;
+        //Prevents next missile from immediately locking on to the previous target
+        StartCoroutine(DelayTargetAcquisition());
+    }
+
+    private IEnumerator DelayTargetAcquisition()
+    {
+        yield return new WaitForSeconds(1f);
+        delayTargeting = false;
     }
 
     void RotateTurretToMouse()
@@ -407,17 +423,17 @@ public class TurretAutoAim : MonoBehaviour
                     CrossHairUI.gameObject.SetActive(true);
                     Debug.Log("Collided with " + hitInfo.collider.name);
 
-                    Truck TruckTarget = hitInfo.collider.gameObject.GetComponent<Truck>();
-                    NewCarController PlayerTarget = hitInfo.collider.gameObject.GetComponent<NewCarController>();
+                    Truck = hitInfo.collider.gameObject.GetComponent<Truck>();
+                    Player = hitInfo.collider.gameObject.GetComponent<NewCarController>();
 
-                    if (TruckTarget != null)
+                    if (Truck != null && missileTargetTransform == null && !delayTargeting)
                     {
-                        missileTargetTransform = TruckTarget.transform;
+                        missileTargetTransform = Truck.transform;
                     }
 
-                    if (PlayerTarget != null)
+                    if (Player != null && missileTargetTransform == null && !delayTargeting)
                     {
-                        missileTargetTransform = PlayerTarget.transform;
+                        missileTargetTransform = Player.transform;
                     }
                     //Vector3 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
                     Vector3 direction = (hitInfo.point - this.transform.position);

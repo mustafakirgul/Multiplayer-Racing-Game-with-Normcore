@@ -976,8 +976,8 @@ public class NewCarController : MonoBehaviour
                             {
                                 _bulletBuffer.GetComponent<MissileProjectile>()
                                     .SetTarget(turretAim.missileTargetTransform);
-                                turretAim.EmptyTarget();
                             }
+                            turretAim.EmptyTarget();
 
                             SecondaryWeaponBase.Fire(_barrelTip, ProjectileVelocity(CarRB.velocity));
                             SecondaryWeaponBase.truckDamageTempModifier = tempTruckDamageModifier;
