@@ -9,9 +9,7 @@ using UnityEngine.UI;
 
 public class NewCarController : MonoBehaviour
 {
-    [Space]
-    [Space]
-    [Header("Car Controller Main Settings")]
+    [Space] [Space] [Header("Car Controller Main Settings")]
     public Rigidbody CarRB;
 
     private float moveInput, turnInput;
@@ -44,9 +42,7 @@ public class NewCarController : MonoBehaviour
     float currentZ, currentX;
     float XTimer, ZTimer, XFactor, ZFactor;
 
-    [Space]
-    [Space]
-    [Header("Camera and Networking")]
+    [Space] [Space] [Header("Camera and Networking")]
     //Neworking Related Functionalities
     public Realtime _realtime;
 
@@ -60,9 +56,7 @@ public class NewCarController : MonoBehaviour
     bool CoroutineReset = false;
 
 
-    [Space]
-    [Space]
-    [Header("Loot Based Modifiers")]
+    [Space] [Space] [Header("Loot Based Modifiers")]
     //Does the car need to know about these or does the game manager needs to know about these?
     //Car simply keeps track of what it encounters and talks to game managers to obtain loot or powerups
     public float meleeDamageModifier;
@@ -96,8 +90,7 @@ public class NewCarController : MonoBehaviour
     public GameObject muzzleFlash;
     public float currentAmmo;
 
-    [SerializeField]
-    private float ammoEfficiency;
+    [SerializeField] private float ammoEfficiency;
 
     [SerializeField] private BarrelShaker m_BarrelShaker;
 
@@ -142,9 +135,7 @@ public class NewCarController : MonoBehaviour
     public GameObject OverHeatNotice;
     public GameObject WeaponSwitcherUI;
 
-    [Space]
-    [Space]
-    [Header("Health Params")]
+    [Space] [Space] [Header("Health Params")]
     //Health Controls
     public Player _player;
 
@@ -161,9 +152,7 @@ public class NewCarController : MonoBehaviour
     public CanvasGroup damageIndicatorCanvasGroup;
 
 
-    [Space]
-    [Space]
-    [Header("Boost Params")]
+    [Space] [Space] [Header("Boost Params")]
     //Boost Controls
     public Image boostRadialLoader;
 
@@ -173,9 +162,7 @@ public class NewCarController : MonoBehaviour
     public bool boosterReady, isBoosting;
     private float boosterCounter;
 
-    [Space]
-    [Space]
-    [Header("Light Controls")]
+    [Space] [Space] [Header("Light Controls")]
     //Light Controls
     public Light RHL;
 
@@ -184,8 +171,8 @@ public class NewCarController : MonoBehaviour
     private bool lights;
 
 
-    [SerializeField]
-    private int PhysicsBuildIndex = 0;
+    [SerializeField] private int PhysicsBuildIndex = 0;
+
     //QA
     [HideInInspector] public int _bombs;
 
@@ -194,8 +181,7 @@ public class NewCarController : MonoBehaviour
 
     [HideInInspector] public int _resets;
 
-    [Space]
-    [Header("Suspension and Wheel Settings")]
+    [Space] [Header("Suspension and Wheel Settings")]
     public bool identicalSuspension4AW;
 
     public float suspensionHeight; // these 2 only work if identical suspension for all wheels is true
@@ -206,7 +192,8 @@ public class NewCarController : MonoBehaviour
 
     public ParticleSystem[] boostParticles;
     private int theKiller = -1;
-    public GameObject ammoIndicator, lootIndicator;
+    public GameObject lootIndicator;
+    private Text lootIndicatorCountDisplay;
 
     public void RegisterDamage(float damage, RealtimeView realtimeView)
     {
@@ -243,12 +230,11 @@ public class NewCarController : MonoBehaviour
     {
         lootManager = FindObjectOfType<LootManager>();
         GetPhysicsParamsBasedOnBuild();
-
-        if (ammoIndicator != null)
-            ammoIndicator.SetActive(false);
-
         if (lootIndicator != null)
+        {
             lootIndicator.SetActive(false);
+            lootIndicatorCountDisplay = lootIndicator.GetComponentInChildren<Text>();
+        }
 
         waitFrameDamageEffect = new WaitForEndOfFrame();
         if (!offlineTest)
@@ -337,7 +323,6 @@ public class NewCarController : MonoBehaviour
         if (m_carDataContainer.Count != 0)
         {
             return m_carDataContainer[0];
-
         }
         else
         {
@@ -367,7 +352,8 @@ public class NewCarController : MonoBehaviour
     }
 
     //Use this to apply weapons for loot
-    public void SetCurrentWeapon(GameObject PermanentLootWeaponProjectile, float PermaFireRatet, float PermaDmgMod, float efficiency)
+    public void SetCurrentWeapon(GameObject PermanentLootWeaponProjectile, float PermaFireRatet, float PermaDmgMod,
+        float efficiency)
     {
         SecondaryWeaponProjectile = PermanentLootWeaponProjectile;
         secondaryfireRate = PermaFireRatet;
@@ -397,12 +383,10 @@ public class NewCarController : MonoBehaviour
 
         temptAmmo = startingAmmo;
         currentAmmo = temptAmmo;
-        if (ammoIndicator != null)
-            ammoIndicator.SetActive(true);
         WeaponProjectileBase LootWeaponBase = LootWeaponProjectile.GetComponent<WeaponProjectileBase>();
         if (LootWeaponBase != null)
         {
-            uIManager.SwitchProjectileDisplayInfo(LootWeaponBase.ProjectileToDisplay, (int)currentAmmo);
+            uIManager.SwitchProjectileDisplayInfo(LootWeaponBase.ProjectileToDisplay, (int) currentAmmo);
         }
 
         if (weaponType == 0)
@@ -425,7 +409,7 @@ public class NewCarController : MonoBehaviour
 
         if (savedWeaponBase != null)
         {
-            uIManager.SwitchProjectileDisplayInfo(savedWeaponBase.ProjectileToDisplay, (int)currentAmmo);
+            uIManager.SwitchProjectileDisplayInfo(savedWeaponBase.ProjectileToDisplay, (int) currentAmmo);
         }
 
         ResetSavedWeapon();
@@ -446,8 +430,6 @@ public class NewCarController : MonoBehaviour
         if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             CreateMeleeEntity();
-            ammoIndicator = null;
-            lootIndicator = null;
             uIManager = FindObjectOfType<UIManager>();
             OverheatMeterObj.SetActive(true);
             if (uIManager != null)
@@ -461,7 +443,7 @@ public class NewCarController : MonoBehaviour
                 damageIndicatorCanvasGroup = uIManager.damageIndicatorCanvasGroup;
             }
 
-         
+
             //Decouple Sphere Physics from car model
             CarRB.transform.parent = null;
             wheelCount = wheels.Length;
@@ -620,8 +602,6 @@ public class NewCarController : MonoBehaviour
                 PlayerDeath();
             }
 
-            if (lootIndicator != null)
-                lootIndicator.SetActive(_player.statsEntity._loot > 0);
             yield return waitFrame3;
         }
     }
@@ -706,7 +686,20 @@ public class NewCarController : MonoBehaviour
 
             if (weaponType == 1)
             {
-                uIManager.UpdateAmmoCount((int)currentAmmo);
+                uIManager.UpdateAmmoCount((int) currentAmmo);
+            }
+        }
+        else
+        {
+            if (lootIndicator != null)
+            {
+                var lootCount = _player.statsEntity._loot;
+                if (lootCount > 0)
+                {
+                    lootIndicator.SetActive(true);
+                    lootIndicatorCountDisplay.text = lootCount.ToString();
+                }
+                else lootIndicator.SetActive(false);
             }
         }
 
@@ -978,10 +971,11 @@ public class NewCarController : MonoBehaviour
                             WeaponProjectileBase SecondaryWeaponBase =
                                 _bulletBuffer.GetComponent<WeaponProjectileBase>();
 
-                            if(turretAim.missileTargetTransform != null &&
+                            if (turretAim.missileTargetTransform != null &&
                                 _bulletBuffer.GetComponent<MissileProjectile>() != null)
                             {
-                                _bulletBuffer.GetComponent<MissileProjectile>().SetTarget(turretAim.missileTargetTransform);
+                                _bulletBuffer.GetComponent<MissileProjectile>()
+                                    .SetTarget(turretAim.missileTargetTransform);
                                 turretAim.EmptyTarget();
                             }
 
@@ -999,8 +993,6 @@ public class NewCarController : MonoBehaviour
                             else
                             {
                                 //Do nothing, no ammo!
-                                if (ammoIndicator != null)
-                                    ammoIndicator.SetActive(false);
                                 Debug.Log("No ammo remains!");
                             }
                         }
@@ -1041,7 +1033,7 @@ public class NewCarController : MonoBehaviour
                         _barrelTip.transform.localRotation =
                             Quaternion.Euler(0 - SecondaryWeaponBase.barrelFireAngle, 0, 0);
                         uIManager.SwitchProjectileDisplayInfo(SecondaryWeaponBase.ProjectileToDisplay,
-                            (int)currentAmmo);
+                            (int) currentAmmo);
                         break;
                 }
             }
