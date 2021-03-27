@@ -8,14 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M.Level.Cliff.pt3
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 66ad683e1f4b248148a314526a871b68,
+    type: 3}
   m_ShaderKeywords: _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -42,6 +42,30 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 2800000, guid: 976f0f80bd01b4ee48fbdc57d21f1f62, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_81092CAE_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 36cf93caa88fa42de8acc021feb71f03, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_81617D33_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 976f0f80bd01b4ee48fbdc57d21f1f62, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_865FC0FE_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 5ac517aa0a2914047a504084326c7f0e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_A19B30CA_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 2fbc0c2dd19fb4fc7bebc0434653a43f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_B593403E_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 72abfa66252534158a6ff6dfbf666bde, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_E58D6D33_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 6915963718122480db9909455a7d9992, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
