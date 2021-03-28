@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38e7efa47463ff74fb62589c6c453217, type: 3}
+  m_Name: Fakebombs
+  m_EditorClassIdentifier: 
+  _ItemType: 1
+  f_attack: 3
+  f_defense: 0
+  f_acceleration: 0
+  f_health: 0
+  f_TopSpeed: 0
+  f_turnSpd: 0
+  f_fireRate: 0.25
+  f_ammoPickUpEfficency: 1
+  f_weight: 0
+  f_boostTimer: 0
+  f_boostForce: 0
+  f_itemVisualIndex: 0
+  itemText: Bombs That look like Loot ;)
+  itemImage: {fileID: 2800000, guid: a9641f2e84ba44489bbe961566ccf2dd, type: 3}
+  WeaponProjectile: {fileID: 3112086905854782875, guid: 7eef150191a6ed248aea79d0269d8922,
+    type: 3}
+  m_CosmeticModelToBeApplied: {fileID: 0}
