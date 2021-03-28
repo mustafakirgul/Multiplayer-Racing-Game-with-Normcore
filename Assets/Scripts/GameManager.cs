@@ -61,6 +61,8 @@ public class GameManager : MonoBehaviour
 
     public bool GameStarted = false;
 
+    [SerializeField]
+    GameObject PanCamera;
     private void OnDrawGizmos()
     {
         float radians = direction * Mathf.Deg2Rad;
@@ -342,6 +344,9 @@ public class GameManager : MonoBehaviour
         Invoke("KeepTrackOfWinConditions", 3f);
         jukebox.SwitchState(State.game);
         _race.ChangeIsOn(true);
+        PanCamera.SetActive(true);
+        if (PanCamera.GetComponentInChildren<CameraMover>() != null)
+        PanCamera.GetComponentInChildren<CameraMover>().StartMoving();
     }
 
     private void KeepTrackOfWinConditions()
