@@ -28,7 +28,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c8e5e0ab9767e1147ace4bfab4aca856, type: 2}
   - {fileID: 11400000, guid: e5a33d74b3df55345b24cca1659708aa, type: 2}
   - {fileID: 11400000, guid: 8424554ddb379164c9f626293684e236, type: 2}
-  - {fileID: 11400000, guid: 8424554ddb379164c9f626293684e236, type: 2}
+  - {fileID: 11400000, guid: 6fabcf0cb4858ae4f83d35fda92e2e26, type: 2}
   PlayerNewLabelLootFlags: 0000000000
   PlayerLootToAdd: []
   PlayerPowerUps:
