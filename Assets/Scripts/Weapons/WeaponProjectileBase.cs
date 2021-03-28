@@ -164,7 +164,20 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     IEnumerator CR_CosmeticExplode()
     {
-        GetComponent<TrailRenderer>().emitting = false;
+        if (GetComponent<TrailRenderer>() != null)
+        {
+            GetComponent<TrailRenderer>().emitting = false;
+        }
+        else
+        {
+            TrailRenderer[] renders = GetComponentsInChildren<TrailRenderer>();
+
+            for (int i = 0; i < renders.Length; i++)
+            {
+                renders[i].emitting = false;
+            }
+        }
+
         projectile_Mesh.SetActive(false);
         rb.isKinematic = true;
         colliders = Physics.OverlapSphere(transform.position, explosiveRange);
