@@ -1,5 +1,191 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6448409072762559173
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2db86121404754db890f4c8dfe81b2, type: 3}
+  m_Name: Bloom
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  threshold:
+    m_OverrideState: 1
+    m_Value: 0
+    min: 0
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0.05
+    min: 0
+  scatter:
+    m_OverrideState: 0
+    m_Value: 0.7
+    min: 0
+    max: 1
+  clamp:
+    m_OverrideState: 0
+    m_Value: 65472
+    min: 0
+  tint:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 0.41037738, b: 0.4491474, a: 1}
+    hdr: 0
+    showAlpha: 0
+    showEyeDropper: 1
+  highQualityFiltering:
+    m_OverrideState: 1
+    m_Value: 1
+  dirtTexture:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+  dirtIntensity:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+--- !u!114 &-1641579043243705081
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66f335fb1ffd8684294ad653bf1c7564, type: 3}
+  m_Name: ColorAdjustments
+  m_EditorClassIdentifier: 
+  active: 0
+  m_AdvancedMode: 0
+  postExposure:
+    m_OverrideState: 1
+    m_Value: 0
+  contrast:
+    m_OverrideState: 1
+    m_Value: -5
+    min: -100
+    max: 100
+  colorFilter:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 0.8726415, b: 0.8800406, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  hueShift:
+    m_OverrideState: 0
+    m_Value: 0
+    min: -180
+    max: 180
+  saturation:
+    m_OverrideState: 0
+    m_Value: -14
+    min: -100
+    max: 100
+--- !u!114 &-1494825033208560242
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
+  m_Name: ShadowsMidtonesHighlights
+  m_EditorClassIdentifier: 
+  active: 0
+  m_AdvancedMode: 0
+  shadows:
+    m_OverrideState: 1
+    m_Value: {x: 0.6559789, y: 1, z: 0.7634453, w: 0.063559406}
+  midtones:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 0.63972795, z: 0.85764873, w: 0.23305087}
+  highlights:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 0.55707014, z: 0.87701106, w: 0.27542365}
+  shadowsStart:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+  shadowsEnd:
+    m_OverrideState: 0
+    m_Value: 0.3
+    min: 0
+  highlightsStart:
+    m_OverrideState: 0
+    m_Value: 0.55
+    min: 0
+  highlightsEnd:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+--- !u!114 &-179454802846881754
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01700fd266d6914ababb731e09af2eb, type: 3}
+  m_Name: DepthOfField
+  m_EditorClassIdentifier: 
+  active: 0
+  m_AdvancedMode: 0
+  mode:
+    m_OverrideState: 1
+    m_Value: 1
+  gaussianStart:
+    m_OverrideState: 0
+    m_Value: 10
+    min: 0
+  gaussianEnd:
+    m_OverrideState: 0
+    m_Value: 30
+    min: 0
+  gaussianMaxRadius:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0.5
+    max: 1.5
+  highQualitySampling:
+    m_OverrideState: 0
+    m_Value: 0
+  focusDistance:
+    m_OverrideState: 0
+    m_Value: 10
+    min: 0.1
+  aperture:
+    m_OverrideState: 0
+    m_Value: 5.6
+    min: 1
+    max: 32
+  focalLength:
+    m_OverrideState: 0
+    m_Value: 50
+    min: 1
+    max: 300
+  bladeCount:
+    m_OverrideState: 0
+    m_Value: 5
+    min: 3
+    max: 9
+  bladeCurvature:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+    max: 1
+  bladeRotation:
+    m_OverrideState: 0
+    m_Value: 0
+    min: -180
+    max: 180
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14,6 +200,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   components:
   - {fileID: 7018304662001665348}
+  - {fileID: -1641579043243705081}
+  - {fileID: -1494825033208560242}
+  - {fileID: -6448409072762559173}
+  - {fileID: 5351155870562839746}
+  - {fileID: -179454802846881754}
+--- !u!114 &5351155870562839746
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c23e3b12dc18c42a140437e53d3951, type: 3}
+  m_Name: Tonemapping
+  m_EditorClassIdentifier: 
+  active: 0
+  m_AdvancedMode: 0
+  mode:
+    m_OverrideState: 1
+    m_Value: 2
 --- !u!114 &7018304662001665348
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -119,7 +327,7 @@ MonoBehaviour:
     m_Value: 0
   stripUnityBloom:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   stripUnityChromaticAberration:
     m_OverrideState: 1
     m_Value: 0
@@ -128,7 +336,7 @@ MonoBehaviour:
     m_Value: 0
   sharpenIntensity:
     m_OverrideState: 1
-    m_Value: 0.8
+    m_Value: 4.3
   sharpenDepthThreshold:
     m_OverrideState: 0
     m_Value: 0.024
@@ -160,27 +368,27 @@ MonoBehaviour:
     m_Value: 1
   saturate:
     m_OverrideState: 1
-    m_Value: 0.4
+    m_Value: 1.18
     min: -2
     max: 3
   brightness:
     m_OverrideState: 1
-    m_Value: 1.02
+    m_Value: 1.04
     min: 0
     max: 2
   contrast:
     m_OverrideState: 1
-    m_Value: 1.02
+    m_Value: 0.965
     min: 0.5
     max: 1.5
   daltonize:
     m_OverrideState: 1
-    m_Value: 0.47
+    m_Value: 0.1
     min: 0
     max: 2
   sepia:
     m_OverrideState: 0
-    m_Value: 0.04
+    m_Value: 0.357
     min: 0
     max: 1
   tintColor:
@@ -191,12 +399,12 @@ MonoBehaviour:
     showEyeDropper: 1
   colorTemp:
     m_OverrideState: 1
-    m_Value: 11529
+    m_Value: 7966
     min: 1000
     max: 40000
   colorTempBlend:
     m_OverrideState: 1
-    m_Value: 0.87
+    m_Value: 0.458
     min: 0
     max: 1
   lut:
@@ -211,8 +419,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: {fileID: 0}
   bloomIntensity:
-    m_OverrideState: 1
-    m_Value: 0.01
+    m_OverrideState: 0
+    m_Value: 0
     min: 0
     max: 10
   bloomThreshold:
@@ -221,16 +429,16 @@ MonoBehaviour:
     min: 0
     max: 5
   bloomMaxBrightness:
-    m_OverrideState: 1
-    m_Value: 500
+    m_OverrideState: 0
+    m_Value: 503.99
   bloomDepthAtten:
-    m_OverrideState: 1
-    m_Value: 0.09
+    m_OverrideState: 0
+    m_Value: 0
     min: 0
     max: 1
   bloomNearAtten:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: 108.2
   bloomExcludeLayers:
     m_OverrideState: 0
     m_Value: 0
@@ -327,13 +535,13 @@ MonoBehaviour:
     min: 0
     max: 10
   anamorphicFlaresThreshold:
-    m_OverrideState: 0
-    m_Value: 0.75
+    m_OverrideState: 1
+    m_Value: 0
     min: 0
     max: 5
   anamorphicFlaresTint:
-    m_OverrideState: 0
-    m_Value: {r: 0.5, g: 0.5, b: 1, a: 0}
+    m_OverrideState: 1
+    m_Value: {r: 0.2028302, g: 0.79621416, b: 1, a: 0}
     hdr: 0
     showAlpha: 1
     showEyeDropper: 1
@@ -341,24 +549,24 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   anamorphicFlaresSpread:
-    m_OverrideState: 0
-    m_Value: 1
+    m_OverrideState: 1
+    m_Value: 0.59
     min: 0.1
     max: 2
   anamorphicFlaresDepthAtten:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
     min: 0
     max: 1
   anamorphicFlaresNearAtten:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: -2.19
   anamorphicFlaresAntiflicker:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   anamorphicFlaresResolution:
-    m_OverrideState: 0
-    m_Value: 1
+    m_OverrideState: 1
+    m_Value: 7
     min: 1
     max: 10
   sunFlaresIntensity:
@@ -571,16 +779,16 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 4294967295
   depthOfFieldDistance:
-    m_OverrideState: 1
-    m_Value: 1
+    m_OverrideState: 0
+    m_Value: 7.99
   depthOfFieldFocalLength:
-    m_OverrideState: 1
-    m_Value: 0.5
+    m_OverrideState: 0
+    m_Value: 0.005
     min: 0.005
     max: 0.5
   depthOfFieldAperture:
-    m_OverrideState: 1
-    m_Value: 30
+    m_OverrideState: 0
+    m_Value: 35.16
   depthOfFieldFocusSpeed:
     m_OverrideState: 0
     m_Value: 1
@@ -646,13 +854,13 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 1
   eyeAdaptationMinExposure:
-    m_OverrideState: 0
-    m_Value: 0.21
+    m_OverrideState: 1
+    m_Value: 0.287
     min: 0
     max: 1
   eyeAdaptationMaxExposure:
     m_OverrideState: 0
-    m_Value: 5
+    m_Value: 37.1
     min: 1
     max: 100
   eyeAdaptationSpeedToLight:
