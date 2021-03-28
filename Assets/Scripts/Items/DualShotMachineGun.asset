@@ -19,7 +19,7 @@ MonoBehaviour:
   f_health: 0
   f_TopSpeed: 0
   f_turnSpd: 0
-  f_fireRate: 15
+  f_fireRate: 6
   f_ammoPickUpEfficency: 1
   f_weight: 0
   f_boostTimer: 0
