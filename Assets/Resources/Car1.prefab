@@ -1240,7 +1240,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   lerpRotationSpeed: 6
-  GroundCheckRayLength: 0.9
+  GroundCheckRayLength: 1.2
   MinVelocityThreshold: 0.25
   BrakeForce: 0.5
   MaxSpeed: 300

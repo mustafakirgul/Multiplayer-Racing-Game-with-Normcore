@@ -653,8 +653,14 @@ public class NewCarController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!Mathf.Approximately(m_fplayerLastHealth, _player.playerHealth))
+        {
+            UpdateHealth();
+        }
+
         if (_realtimeView.isOwnedLocallyInHierarchy)
         {
+            lootIndicator.SetActive(false);
             if (!offlineTest)
             {
                 _realtimeView.RequestOwnership();
@@ -691,8 +697,11 @@ public class NewCarController : MonoBehaviour
         }
         else
         {
+            if (lootIndicator != null) lootIndicator.SetActive(false);
             if (lootIndicator != null)
             {
+                if (_player == null) return;
+                if (_player.statsEntity == null) return;
                 var lootCount = _player.statsEntity._loot;
                 if (lootCount > 0)
                 {
@@ -701,11 +710,6 @@ public class NewCarController : MonoBehaviour
                 }
                 else lootIndicator.SetActive(false);
             }
-        }
-
-        if (!Mathf.Approximately(m_fplayerLastHealth, _player.playerHealth))
-        {
-            UpdateHealth();
         }
     }
 

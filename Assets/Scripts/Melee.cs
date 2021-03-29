@@ -105,7 +105,7 @@ public class Melee : MonoBehaviour
 
         controller.currentAmmo++;
 
-        controller.RegisterDamage(50f, controller._realtimeView);
+        controller.RegisterDamage(10f, controller._realtimeView);
     }
 
     private void GetHit()
@@ -118,6 +118,6 @@ public class Melee : MonoBehaviour
             statsEntity.LoseLoot();
         }
 
-        controller.RegisterDamage(50f * opponent.player.meleeModifier, controller._realtimeView);
+        controller.RegisterDamage(10f * opponent.player.meleeModifier, controller._realtimeView);
     }
 }
