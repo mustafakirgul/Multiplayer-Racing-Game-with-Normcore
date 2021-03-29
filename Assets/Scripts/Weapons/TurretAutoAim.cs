@@ -62,6 +62,7 @@ public class TurretAutoAim : MonoBehaviour
     private bool delayTargeting = false;
 
     int targetlayer = (1 << 12 | 1 << 15 | 1 << 9);
+
     // Update is called once per frame
     private void OnDrawGizmos()
     {
@@ -85,17 +86,13 @@ public class TurretAutoAim : MonoBehaviour
 
             if (isPlayerControlled)
             {
-                m_uiManager.
-                AutoAimUI.SetActive(false);
-                m_uiManager.
-                ManualAim.SetActive(true);
+                m_uiManager.AutoAimUI.SetActive(false);
+                m_uiManager.ManualAim.SetActive(true);
             }
             else
             {
-                m_uiManager.
-                AutoAimUI.SetActive(true);
-                m_uiManager.
-                ManualAim.SetActive(false);
+                m_uiManager.AutoAimUI.SetActive(true);
+                m_uiManager.ManualAim.SetActive(false);
             }
         }
     }
@@ -127,11 +124,11 @@ public class TurretAutoAim : MonoBehaviour
                 {
                     isSwitchingMode = true;
                     weaponChange = StartCoroutine(ChangeWeaponMode());
-
                 }
             }
         }
     }
+
     private IEnumerator ChangeWeaponMode()
     {
         //Add weapon Change UI here
@@ -140,18 +137,15 @@ public class TurretAutoAim : MonoBehaviour
 
         if (isPlayerControlled)
         {
-            m_uiManager.
-            AutoAimUI.SetActive(false);
-            m_uiManager.
-            ManualAim.SetActive(true);
+            m_uiManager.AutoAimUI.SetActive(false);
+            m_uiManager.ManualAim.SetActive(true);
         }
         else
         {
-            m_uiManager.
-            AutoAimUI.SetActive(true);
-            m_uiManager.
-            ManualAim.SetActive(false);
+            m_uiManager.AutoAimUI.SetActive(true);
+            m_uiManager.ManualAim.SetActive(false);
         }
+
         isSwitchingMode = false;
         weaponChange = null;
         //Disable weapon Change UI here
@@ -167,7 +161,8 @@ public class TurretAutoAim : MonoBehaviour
                 Vector3 MousePosCalculated = new Vector3(parentCanvas.rect.width * (MousePos.x - 0.5f),
                     parentCanvas.rect.height * (MousePos.y - 0.5f), 0);
 
-                CrossHairUI.rectTransform.anchoredPosition = (Input.mousePosition - new Vector3(Screen.width * 0.5f, Screen.height * 0.5f));
+                CrossHairUI.rectTransform.anchoredPosition =
+                    (Input.mousePosition - new Vector3(Screen.width * 0.5f, Screen.height * 0.5f));
             }
         }
         else if (enemy != null)
@@ -247,6 +242,7 @@ public class TurretAutoAim : MonoBehaviour
                 ObtainTargets();
                 RemoveTargets();
             }
+
             yield return new WaitForSeconds(radarSweepTimer);
         }
     }
@@ -392,6 +388,7 @@ public class TurretAutoAim : MonoBehaviour
             }
         }
     }
+
     public void EmptyTarget()
     {
         missileTargetTransform = null;
@@ -435,15 +432,17 @@ public class TurretAutoAim : MonoBehaviour
                     {
                         missileTargetTransform = Player.transform;
                     }
+
                     //Vector3 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
                     Vector3 direction = (hitInfo.point - this.transform.position);
                     targetRotation = Quaternion.LookRotation(direction);
-                    transform.rotation = targetRotation;
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 3f);
                 }
                 else
                 {
                     return;
                 }
+
                 //Debug.Log("hit " + hitInfo.collider.name);
             }
             else

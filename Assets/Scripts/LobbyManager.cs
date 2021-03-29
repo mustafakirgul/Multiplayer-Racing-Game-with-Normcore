@@ -37,8 +37,8 @@ public class LobbyManager : MonoBehaviour
     private bool stayDisconnected = true;
     private JukeBox jukebox => FindObjectOfType<JukeBox>();
     private bool freshLobby = true;
-    public Image readyCheckMark;
-
+    public Image readyLight;
+    
     private void Awake()
     {
         lobbiests = new List<Lobbiest>();
@@ -202,7 +202,7 @@ public class LobbyManager : MonoBehaviour
         }
 
         stayDisconnected = false;
-        readyCheckMark.enabled = true;
+        readyLight.enabled = true;
         _lobbiest.ChangeIsReady(true);
     }
 
@@ -243,7 +243,7 @@ public class LobbyManager : MonoBehaviour
         if (cr_RoomChecker != null) StopCoroutine(cr_RoomChecker);
         cr_RoomChecker = StartCoroutine(CR_Checkroom());
         jukebox.SwitchState(State.menu);
-        readyCheckMark.enabled = false;
+        readyLight.enabled = false;
     }
 
     private IEnumerator CR_Checkroom()

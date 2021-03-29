@@ -11,6 +11,7 @@ public class Player : RealtimeComponent<PlayerModel>
     public float armourDefenseModifier = 0f;
     public float tempDefenseModifier = 0f;
     public float healModifier = 0f;
+    public float meleeModifier;
     private NewCarController controller;
     public StatsEntity statsEntity;
 
@@ -24,6 +25,7 @@ public class Player : RealtimeComponent<PlayerModel>
             previousModel.healthDidChange -= PlayerHealthChanged;
             previousModel.forcesDidChange -= PlayerForcesChanged;
             previousModel.isBoostingDidChange -= PlayerIsBoostingChanged;
+            previousModel.meleePowerDidChange -= MeleePowerChanged;
         }
 
         if (currentModel != null)
@@ -34,6 +36,7 @@ public class Player : RealtimeComponent<PlayerModel>
                 currentModel.health = maxPlayerHealth;
                 currentModel.playerName = playerName;
                 currentModel.isBoosting = false;
+                currentModel.meleePower = controller.meleeDamageModifier;
                 playerHealth = maxPlayerHealth;
                 ResetHealth();
             }
@@ -43,6 +46,12 @@ public class Player : RealtimeComponent<PlayerModel>
             currentModel.forcesDidChange += PlayerForcesChanged;
             currentModel.isBoostingDidChange += PlayerIsBoostingChanged;
         }
+    }
+
+    private void MeleePowerChanged(PlayerModel playerModel, float value)
+    {
+        meleeModifier = value;
+        controller.meleeDamageModifier = value;
     }
 
     public void ChangeIsBoosting(bool value)

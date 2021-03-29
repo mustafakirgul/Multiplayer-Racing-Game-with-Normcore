@@ -40,8 +40,11 @@ public class Melee : MonoBehaviour
     public void Setup(NewCarController _controller)
     {
         parent = _controller.transform;
+        transform.parent = null;
         controller = _controller;
         player = _controller._player;
+        meleePower = controller.meleeDamageModifier;
+        armorFactor = player.armourDefenseModifier;
         statsEntity = player.statsEntity;
         carRB = controller.CarRB;
         rb = GetComponent<Rigidbody>();
@@ -64,48 +67,48 @@ public class Melee : MonoBehaviour
 
     private IEnumerator OnTriggerEnter(Collider other)
     {
-        opponent = other.transform.GetComponentInChildren<Melee>();
+        opponent = other.transform.GetComponent<Melee>();
         if (opponent != null)
             opponentController = opponent.controller;
-        else
+
+        if (controller.isBoosting)
         {
-            if (controller.isBoosting)
-            {
-                crashParticle.Play();
-                //Debug.LogWarning("Melee hit sent by " + PlayerManager.instance.PlayerName(rt.ownerIDInHierarchy));
-                yield return wait;
-                SendMeleeHit();
-                crashParticle.Stop();
-            }
-            else if (opponentController.isBoosting)
-            {
-                GetMeleeHit();
-                //Debug.LogWarning("Melee hit received by " + PlayerManager.instance.PlayerName(rt.ownerIDInHierarchy));
-            }
+            crashParticle.Play();
+            //Debug.LogWarning("Melee hit sent by " + PlayerManager.instance.PlayerName(rt.ownerIDInHierarchy));
+            yield return wait;
+            GiveDamage();
+            crashParticle.Stop();
+        }
+        else if (opponentController.isBoosting)
+        {
+            ReceiveDamage();
+            //Debug.LogWarning("Melee hit received by " + PlayerManager.instance.PlayerName(rt.ownerIDInHierarchy));
         }
     }
 
-    private void SendMeleeHit()
+    private void GiveDamage()
     {
         if (statsEntity == null) statsEntity = player.statsEntity;
+
         StatsEntity opponentStatsEntity =
             StatsManager.instance.ReturnStatsEntityById(opponentController._realtimeView.ownerIDInHierarchy);
+
         Debug.LogWarning("Grabbed opponent stats entity: " + opponentStatsEntity);
+
         if (controller._realtimeView.isOwnedLocallyInHierarchy)
             carRB.AddForce((opponent.transform.position - transform.position).normalized * (testMeleeForce * .33f));
+
         if (opponentStatsEntity._loot > 0)
         {
             statsEntity.ReceiveStat(StatType.loot);
         }
-        else if (opponentController.currentAmmo > 0)
-        {
-            controller.currentAmmo++;
-        }
+
+        controller.currentAmmo++;
 
         controller.RegisterDamage(50f, controller._realtimeView);
     }
 
-    private void GetMeleeHit()
+    private void ReceiveDamage()
     {
         if (statsEntity == null) statsEntity = player.statsEntity;
         if (controller._realtimeView.isOwnedLocallyInHierarchy)

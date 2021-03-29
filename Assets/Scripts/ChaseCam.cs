@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +23,19 @@ public class ChaseCam : MonoBehaviour
     private Vector3 lookPosition;
     public float lookPositionLerpSpeed;
     public float minY = 4f;
+    public Vector3 _target;
+
+    private void OnDrawGizmos()
+    {
+        if (target == null || _target == Vector3.zero) return;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(target.position, 1f);
+        Gizmos.DrawWireSphere(_target, 1f);
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawLine(_target + Vector3.up, _target + (Vector3.down * minY));
+        Gizmos.DrawLine(_target + Vector3.down, _target + (Vector3.up * minY));
+    }
 
     private void Start()
     {
@@ -85,15 +99,15 @@ public class ChaseCam : MonoBehaviour
 
             // Set the position of the camera on the x-z plane to:
             // distance meters behind the target
-            var _target = target.position - currentRotation * Vector3.forward * distance;
+            _target = target.position - currentRotation * Vector3.forward * distance;
 
             // Set the height of the camera
-            if (Physics.Raycast(_target, Vector3.down, out RaycastHit hit0, minY))
+            if (Physics.Raycast(_target + Vector3.up, Vector3.down, out RaycastHit hit0, minY))
                 _target = new Vector3(_target.x, hit0.point.y + minY, _target.z);
-            else if (Physics.Raycast(_target, Vector3.up, out RaycastHit hit1, minY * 3f))
+            else if (Physics.Raycast(_target + Vector3.down, Vector3.up, out RaycastHit hit1, minY))
                 _target = new Vector3(_target.x, hit1.point.y + minY, _target.z);
 
-            transform.position = Vector3.Lerp(transform.position, _target, Time.deltaTime * 13.2f);
+            transform.position = Vector3.Lerp(transform.position, _target, Time.deltaTime * 3f);
 
 
             //raycast to see the height of target from ground

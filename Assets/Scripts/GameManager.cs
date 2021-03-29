@@ -60,9 +60,8 @@ public class GameManager : MonoBehaviour
     public TopRacersLive trl;
 
     public bool GameStarted = false;
+    [SerializeField] GameObject PanCamera;
 
-    [SerializeField]
-    GameObject PanCamera;
     private void OnDrawGizmos()
     {
         float radians = direction * Mathf.Deg2Rad;
@@ -292,6 +291,7 @@ public class GameManager : MonoBehaviour
         {
             playerNameInputField = GameObject.FindGameObjectWithTag("enterNameField").GetComponent<TextMeshProUGUI>();
         }
+
         _enterNameCanvas = GameObject.FindGameObjectWithTag("enterNameCanvas").GetComponent<Canvas>();
         _miniMapCamera = GameObject.FindGameObjectWithTag("miniMapCamera").GetComponent<Camera>();
 
@@ -346,7 +346,7 @@ public class GameManager : MonoBehaviour
         _race.ChangeIsOn(true);
         PanCamera.SetActive(true);
         if (PanCamera.GetComponentInChildren<CameraMover>() != null)
-        PanCamera.GetComponentInChildren<CameraMover>().StartMoving();
+            PanCamera.GetComponentInChildren<CameraMover>().StartMoving();
     }
 
     private void KeepTrackOfWinConditions()
