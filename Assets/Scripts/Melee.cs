@@ -76,17 +76,17 @@ public class Melee : MonoBehaviour
             crashParticle.Play();
             //Debug.LogWarning("Melee hit sent by " + PlayerManager.instance.PlayerName(rt.ownerIDInHierarchy));
             yield return wait;
-            GiveDamage();
+            HitOther();
             crashParticle.Stop();
         }
         else if (opponentController.isBoosting)
         {
-            ReceiveDamage();
+            GetHit();
             //Debug.LogWarning("Melee hit received by " + PlayerManager.instance.PlayerName(rt.ownerIDInHierarchy));
         }
     }
 
-    private void GiveDamage()
+    private void HitOther()
     {
         if (statsEntity == null) statsEntity = player.statsEntity;
 
@@ -108,7 +108,7 @@ public class Melee : MonoBehaviour
         controller.RegisterDamage(50f, controller._realtimeView);
     }
 
-    private void ReceiveDamage()
+    private void GetHit()
     {
         if (statsEntity == null) statsEntity = player.statsEntity;
         if (controller._realtimeView.isOwnedLocallyInHierarchy)
@@ -117,11 +117,7 @@ public class Melee : MonoBehaviour
         {
             statsEntity.LoseLoot();
         }
-        else if (controller.currentAmmo > 0)
-        {
-            controller.currentAmmo--;
-        }
 
-        controller.RegisterDamage(100f, controller._realtimeView);
+        controller.RegisterDamage(50f * opponent.player.meleeModifier, controller._realtimeView);
     }
 }
