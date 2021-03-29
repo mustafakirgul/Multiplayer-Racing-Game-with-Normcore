@@ -1171,7 +1171,7 @@ public class NewCarController : MonoBehaviour
     {
         isGrounded = Physics.Raycast(transform.position, -transform.up, out RaycastHit ground, GroundCheckRayLength,
             groundLayer);
-        Debug.DrawLine(transform.position, ground.point, Color.cyan);
+        //Debug.DrawLine(transform.position, ground.point, Color.cyan);
 
         Physics.Raycast(transform.position, -transform.up, out RaycastHit rotationAlignment,
             (GroundCheckRayLength + 2f), groundLayer);
