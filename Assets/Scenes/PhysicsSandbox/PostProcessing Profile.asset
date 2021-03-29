@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f335fb1ffd8684294ad653bf1c7564, type: 3}
   m_Name: ColorAdjustments
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
   postExposure:
     m_OverrideState: 1
@@ -97,17 +97,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
   m_Name: ShadowsMidtonesHighlights
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 0.6559789, y: 1, z: 0.7634453, w: 0.063559406}
+    m_Value: {x: 0.52408946, y: 0.6124068, z: 1, w: 0.16949162}
   midtones:
     m_OverrideState: 1
     m_Value: {x: 1, y: 0.63972795, z: 0.85764873, w: 0.23305087}
   highlights:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.55707014, z: 0.87701106, w: 0.27542365}
+    m_Value: {x: 0.4047764, y: 1, z: 0.9696566, w: 0.27542365}
   shadowsStart:
     m_OverrideState: 0
     m_Value: 0
@@ -221,7 +221,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   mode:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1
 --- !u!114 &7018304662001665348
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -336,7 +336,7 @@ MonoBehaviour:
     m_Value: 0
   sharpenIntensity:
     m_OverrideState: 1
-    m_Value: 4.3
+    m_Value: 5.7
   sharpenDepthThreshold:
     m_OverrideState: 0
     m_Value: 0.024
@@ -368,12 +368,12 @@ MonoBehaviour:
     m_Value: 1
   saturate:
     m_OverrideState: 1
-    m_Value: 1.18
+    m_Value: -0.29
     min: -2
     max: 3
   brightness:
     m_OverrideState: 1
-    m_Value: 1.04
+    m_Value: 1.1
     min: 0
     max: 2
   contrast:
@@ -393,7 +393,7 @@ MonoBehaviour:
     max: 1
   tintColor:
     m_OverrideState: 1
-    m_Value: {r: 0, g: 0.29499903, b: 0.9716981, a: 0}
+    m_Value: {r: 0.4009434, g: 0.94568205, b: 1, a: 0}
     hdr: 0
     showAlpha: 1
     showEyeDropper: 1
@@ -541,7 +541,7 @@ MonoBehaviour:
     max: 5
   anamorphicFlaresTint:
     m_OverrideState: 1
-    m_Value: {r: 0.2028302, g: 0.79621416, b: 1, a: 0}
+    m_Value: {r: 0.5801887, g: 1, b: 0.98119223, a: 0}
     hdr: 0
     showAlpha: 1
     showEyeDropper: 1
