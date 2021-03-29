@@ -1165,7 +1165,7 @@ MonoBehaviour:
   reverseAccel: 0
   turnSpd: 140
   turningFwdSpeed: 35
-  airDrag: 0
+  airDrag: 0.75
   groundDrag: 4
   groundLayer:
     serializedVersion: 2
