@@ -47,8 +47,8 @@ public class CameraMover : MonoBehaviour
     {
         float step = speed * Time.deltaTime; // calculate distance to move
         this.transform.position = Vector3.MoveTowards(transform.position, target.position, step);
-        lerpValue = (1 - Vector3.Distance(transform.position, target.position) / MarkDistance);
-        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, target.localRotation, lerpValue * 0.75f);
+        //lerpValue = (1 - Vector3.Distance(transform.position, target.position) * 0.5f / MarkDistance);
+        //this.transform.rotation = Quaternion.Lerp(this.transform.rotation, target.localRotation, lerpValue);
     }
     void CheckDistance()
     {

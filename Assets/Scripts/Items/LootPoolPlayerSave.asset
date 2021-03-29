@@ -31,7 +31,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e5a33d74b3df55345b24cca1659708aa, type: 2}
   - {fileID: 11400000, guid: 8424554ddb379164c9f626293684e236, type: 2}
   - {fileID: 11400000, guid: 6fabcf0cb4858ae4f83d35fda92e2e26, type: 2}
-  PlayerNewLabelLootFlags: 0000000000
+  - {fileID: 11400000, guid: 2c10ed545e21d72499d7e0f20d6b3303, type: 2}
+  - {fileID: 11400000, guid: a458992c062e7b241a56133c054f5f22, type: 2}
+  - {fileID: 11400000, guid: 042e8a027e3b4e2449acd1f8471caf54, type: 2}
+  - {fileID: 11400000, guid: 2c42db5f0b8a2e9419002c23293af8a7, type: 2}
+  - {fileID: 11400000, guid: 6fabcf0cb4858ae4f83d35fda92e2e26, type: 2}
+  - {fileID: 11400000, guid: 3e08040d861aeae4096def5e94ba1c71, type: 2}
+  - {fileID: 11400000, guid: 450a2f2a2c53cb047912df782f6d7c41, type: 2}
+  - {fileID: 11400000, guid: 7dfa2140696b7b243b762f677ce4eeb5, type: 2}
+  PlayerNewLabelLootFlags: 00000000000000000000000000
   PlayerLootToAdd: []
   PlayerPowerUps:
   - {fileID: 11400000, guid: 3cbdb096c6805624cb5c69352b870534, type: 2}
