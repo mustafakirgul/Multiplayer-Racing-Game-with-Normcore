@@ -21,6 +21,7 @@ public class ChaseCam : MonoBehaviour
     private float hitDistance, calculatedY, targetY;
     private Vector3 lookPosition;
     public float lookPositionLerpSpeed;
+    public float minY = 4f;
 
     private void Start()
     {
@@ -59,10 +60,10 @@ public class ChaseCam : MonoBehaviour
         if (isInitialized)
         {
             float wantedRotationAngle = target.eulerAngles.y;
-            float wantedHeight = target.position.y + height;
+            //float wantedHeight = target.position.y + height;
 
             float currentRotationAngle = transform.eulerAngles.y;
-            float currentHeight = transform.position.y;
+            //float currentHeight = transform.position.y;
 
             if (!bToggleRearView)
             {
@@ -71,35 +72,34 @@ public class ChaseCam : MonoBehaviour
                     rotationDamping * Time.deltaTime);
 
                 // Damp the height
-                currentHeight = Mathf.Lerp(currentHeight, wantedHeight, heightDamping * Time.deltaTime);
-
-
-                // Convert the angle into a rotation
-                Quaternion currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
-
-                // Set the position of the camera on the x-z plane to:
-                // distance meters behind the target
-                transform.position = target.position;
-                transform.position -= currentRotation * Vector3.forward * distance;
+                //currentHeight = Mathf.Lerp(currentHeight, wantedHeight, heightDamping * Time.deltaTime);
             }
             else
             {
                 currentRotationAngle = wantedRotationAngle;
-                currentHeight = wantedHeight;
-                transform.position = target.position;
-                Quaternion currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
-                transform.position -= currentRotation * Vector3.forward * distance;
+                //currentHeight = wantedHeight;
             }
 
+            // Convert the angle into a rotation
+            Quaternion currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
+
+            // Set the position of the camera on the x-z plane to:
+            // distance meters behind the target
+            var _target = target.position - currentRotation * Vector3.forward * distance;
+
             // Set the height of the camera
-            transform.position = new Vector3(transform.position.x, currentHeight, transform.position.z);
+            if (Physics.Raycast(_target, Vector3.down, out RaycastHit hit0, minY))
+                _target = new Vector3(_target.x, hit0.point.y + minY, _target.z);
+            else if (Physics.Raycast(_target, Vector3.up, out RaycastHit hit1, minY * 3f))
+                _target = new Vector3(_target.x, hit1.point.y + minY, _target.z);
+
+            transform.position = Vector3.Lerp(transform.position, _target, Time.deltaTime * 13.2f);
+
 
             //raycast to see the height of target from ground
-            Physics.Raycast(target.position, Vector3.down, out RaycastHit hit, Mathf.Infinity);
-            hitDistance = hit.distance;
-            Debug.DrawRay(target.position, Vector3.down * hitDistance, Color.white);
-
-            targetY = Mathf.Clamp(hit.point.y + desiredHeight, target.parent.position.y,
+            Physics.Raycast(target.position, Vector3.down, out RaycastHit hit2, Mathf.Infinity);
+            hitDistance = hit2.distance;
+            targetY = Mathf.Clamp(hit2.point.y + desiredHeight, target.parent.position.y,
                 target.position.y + desiredHeight);
             calculatedY = Mathf.Lerp(calculatedY, targetY, Time.deltaTime * lookPositionLerpSpeed);
             lookPosition = new Vector3(target.position.x, calculatedY, target.position.z);
