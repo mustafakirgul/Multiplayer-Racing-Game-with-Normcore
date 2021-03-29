@@ -102,13 +102,13 @@ public class ChaseCam : MonoBehaviour
             _target = target.position - currentRotation * Vector3.forward * distance;
 
             // Set the height of the camera
-            if (Physics.Raycast(_target + Vector3.up, Vector3.down, out RaycastHit hit0, minY))
+            if (Physics.Raycast(target.position + Vector3.up, Vector3.down, out RaycastHit hit0, minY))
                 _target = new Vector3(_target.x, hit0.point.y + minY, _target.z);
-            else if (Physics.Raycast(_target + Vector3.down, Vector3.up, out RaycastHit hit1, minY))
+            else if (Physics.Raycast(target.position + Vector3.down, Vector3.up, out RaycastHit hit1, minY))
                 _target = new Vector3(_target.x, hit1.point.y + minY, _target.z);
 
-            transform.position = Vector3.Lerp(transform.position, _target, Time.deltaTime * 3f);
-
+            transform.position = Vector3.Lerp(transform.position, _target, Time.deltaTime * rotationDamping);
+            Debug.DrawLine(transform.position, _target, Color.green);
 
             //raycast to see the height of target from ground
             Physics.Raycast(target.position, Vector3.down, out RaycastHit hit2, Mathf.Infinity);
