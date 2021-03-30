@@ -70,7 +70,8 @@ public class Melee : MonoBehaviour
         opponent = other.transform.GetComponent<Melee>();
         if (opponent != null)
             opponentController = opponent.controller;
-
+        else 
+            yield break;
         if (controller.isBoosting)
         {
             crashParticle.Play();

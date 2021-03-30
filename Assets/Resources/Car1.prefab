@@ -6594,6 +6594,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraArm
       objectReference: {fileID: 0}
+    - target: {fileID: 1317246655367920835, guid: f424a049af7dbf74eb236035255a4c20,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4184124015430810252, guid: f424a049af7dbf74eb236035255a4c20,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6678,6 +6683,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MiniMapSprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832650266950200171, guid: 4765103933428d44a8d19a74c1b68397,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8514420017275086027, guid: 4765103933428d44a8d19a74c1b68397,
         type: 3}
@@ -8136,6 +8146,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LootIndicator
       objectReference: {fileID: 0}
+    - target: {fileID: 1931530012236585579, guid: ce5cc8ce89eb1234e871fb837b1f82fb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4828573365378777354, guid: ce5cc8ce89eb1234e871fb837b1f82fb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8241,6 +8256,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6556314090636348903, guid: ce5cc8ce89eb1234e871fb837b1f82fb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6786848020379672300, guid: ce5cc8ce89eb1234e871fb837b1f82fb,
         type: 3}
       propertyPath: m_LocalRotation.y
@@ -8260,6 +8280,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7102138646602946842, guid: ce5cc8ce89eb1234e871fb837b1f82fb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8630811798701150704, guid: ce5cc8ce89eb1234e871fb837b1f82fb,
         type: 3}
