@@ -20,7 +20,7 @@ MonoBehaviour:
     min: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.05
+    m_Value: 0.02
     min: 0
   scatter:
     m_OverrideState: 0
@@ -66,7 +66,7 @@ MonoBehaviour:
     m_Value: 0
   contrast:
     m_OverrideState: 1
-    m_Value: -5
+    m_Value: 2.07
     min: -100
     max: 100
   colorFilter:
@@ -101,27 +101,27 @@ MonoBehaviour:
   m_AdvancedMode: 0
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 0.5921613, y: 0.93057066, z: 1, w: 0.16949162}
+    m_Value: {x: 0.483585, y: 0.8227078, z: 1, w: 0.050590217}
   midtones:
     m_OverrideState: 1
-    m_Value: {x: 0.28518945, y: 0.47205573, z: 1, w: 0.23305087}
+    m_Value: {x: 0.982006, y: 0.7728533, z: 1, w: 0.23305087}
   highlights:
     m_OverrideState: 1
-    m_Value: {x: 0.16578591, y: 0.8717627, z: 1, w: 0.5006895}
+    m_Value: {x: 0, y: 1, z: 0.80932283, w: 0.33205542}
   shadowsStart:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
     min: 0
   shadowsEnd:
-    m_OverrideState: 0
-    m_Value: 0.3
+    m_OverrideState: 1
+    m_Value: 0.54
     min: 0
   highlightsStart:
-    m_OverrideState: 0
-    m_Value: 0.55
+    m_OverrideState: 1
+    m_Value: 0.57
     min: 0
   highlightsEnd:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
     min: 0
 --- !u!114 &-179454802846881754
@@ -373,12 +373,12 @@ MonoBehaviour:
     max: 3
   brightness:
     m_OverrideState: 1
-    m_Value: 1.1
+    m_Value: 0.88
     min: 0
     max: 2
   contrast:
     m_OverrideState: 1
-    m_Value: 1.027
+    m_Value: 1.05
     min: 0.5
     max: 1.5
   daltonize:
@@ -531,7 +531,7 @@ MonoBehaviour:
     showEyeDropper: 1
   anamorphicFlaresIntensity:
     m_OverrideState: 1
-    m_Value: 0.01
+    m_Value: 0.02
     min: 0
     max: 10
   anamorphicFlaresThreshold:
@@ -541,7 +541,7 @@ MonoBehaviour:
     max: 5
   anamorphicFlaresTint:
     m_OverrideState: 1
-    m_Value: {r: 0.5801887, g: 1, b: 0.98119223, a: 0}
+    m_Value: {r: 0.7971698, g: 1, b: 0.9905219, a: 0}
     hdr: 0
     showAlpha: 1
     showEyeDropper: 1
@@ -555,7 +555,7 @@ MonoBehaviour:
     max: 2
   anamorphicFlaresDepthAtten:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.97
     min: 0
     max: 1
   anamorphicFlaresNearAtten:
