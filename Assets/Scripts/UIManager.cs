@@ -76,7 +76,7 @@ public class UIManager : MonoBehaviour
     GameObject ReadyToStartMenu;
 
     public GameObject AutoAimUI, ManualAim;
-
+    public Image HealthBar;
     private void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();
@@ -248,7 +248,7 @@ public class UIManager : MonoBehaviour
     private IEnumerator InitializeTruckHealthBar()
     {
         IronHogHPBar.SetActive(true);
-        Image HealthBar = IronHogHPBar.gameObject.transform.GetChild(0).GetComponent<Image>();
+        if (HealthBar==null) HealthBar = IronHogHPBar.gameObject.transform.GetChild(0).GetComponent<Image>();
 
         //while (HealthBar.fillAmount < 0.99f)
         {
@@ -262,7 +262,7 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator UpdateTruckHealthUI()
     {
-        Image HealthBar = IronHogHPBar.gameObject.transform.GetChild(0).GetComponent<Image>();
+        if (HealthBar==null) HealthBar = IronHogHPBar.gameObject.transform.GetChild(0).GetComponent<Image>();
 
         while (true)
         {

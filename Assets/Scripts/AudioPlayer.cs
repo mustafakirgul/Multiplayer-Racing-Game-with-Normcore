@@ -11,7 +11,6 @@ public class AudioPlayer : MonoBehaviour
     {
         if (source == null) source = GetComponent<AudioSource>();
         if (source == null) source = gameObject.AddComponent<AudioSource>();
-        source.playOnAwake = false;
     }
 
     private void Start()

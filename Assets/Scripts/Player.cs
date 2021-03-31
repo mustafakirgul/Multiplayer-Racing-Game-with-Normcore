@@ -36,7 +36,8 @@ public class Player : RealtimeComponent<PlayerModel>
                 currentModel.health = maxPlayerHealth;
                 currentModel.playerName = playerName;
                 currentModel.isBoosting = false;
-                currentModel.meleePower = controller.meleeDamageModifier;
+                if (controller != null)
+                    currentModel.meleePower = controller.meleeDamageModifier;
                 playerHealth = maxPlayerHealth;
                 ResetHealth();
             }
@@ -88,6 +89,7 @@ public class Player : RealtimeComponent<PlayerModel>
         if (controller == null) return;
         controller.IDDisplay.SetText(playerName);
         controller._currentName = model.playerName;
+        model.meleePower = controller.meleeDamageModifier;
     }
 
     public void ResetHealth()

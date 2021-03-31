@@ -49,7 +49,7 @@ public class NewCarController : MonoBehaviour
     public RealtimeView _realtimeView;
     private RealtimeTransform _realtimeTransform;
     private ChaseCam followCamera;
-    public Transform CameraContainer, fowardCamera, rearCamera;
+    public Transform CameraContainer, forwardCamera, rearCamera;
     public bool offlineTest;
 
     bool resetReverseView = false;
@@ -1118,7 +1118,7 @@ public class NewCarController : MonoBehaviour
             {
                 resetReverseView = false;
                 followCamera.ResetCam();
-                followCamera.InitCamera(fowardCamera);
+                followCamera.InitCamera(forwardCamera);
                 if (!CoroutineReset)
                 {
                     StartCoroutine(DelayCameraLerpReset());

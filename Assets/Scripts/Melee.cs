@@ -20,11 +20,13 @@ public class Melee : MonoBehaviour
     public Player player;
     public Realtime realtime => FindObjectOfType<Realtime>();
     public float testMeleeForce = 666f;
+    private WaitForSeconds meleeDelay;
 
     private void Start()
     {
         rt = GetComponent<RealtimeView>();
         originalOwnerID = rt.ownerIDInHierarchy;
+        meleeDelay = new WaitForSeconds(.333f);
         if (rt.isOwnedRemotelyInHierarchy)
         {
             foreach (var c in FindObjectsOfType<NewCarController>())
@@ -70,7 +72,7 @@ public class Melee : MonoBehaviour
         opponent = other.transform.GetComponent<Melee>();
         if (opponent != null)
             opponentController = opponent.controller;
-        else 
+        else
             yield break;
         if (controller.isBoosting)
         {
@@ -82,7 +84,7 @@ public class Melee : MonoBehaviour
         }
         else if (opponentController.isBoosting)
         {
-            GetHit();
+            StartCoroutine(GetHit());
             //Debug.LogWarning("Melee hit received by " + PlayerManager.instance.PlayerName(rt.ownerIDInHierarchy));
         }
     }
@@ -99,6 +101,8 @@ public class Melee : MonoBehaviour
         if (controller._realtimeView.isOwnedLocallyInHierarchy)
             carRB.AddForce((opponent.transform.position - transform.position).normalized * (testMeleeForce * .33f));
 
+        //Debug.LogWarning("Before Melee | Local loot: " + player.statsEntity._loot + "Remote loot: " + opponentStatsEntity._loot);
+
         if (opponentStatsEntity._loot > 0)
         {
             statsEntity.ReceiveStat(StatType.loot);
@@ -107,13 +111,18 @@ public class Melee : MonoBehaviour
         controller.currentAmmo++;
 
         controller.RegisterDamage(10f, controller._realtimeView);
+
+        //Debug.LogWarning("After Melee | Local loot: " + player.statsEntity._loot + "Remote loot: " + opponentStatsEntity._loot);
     }
 
-    private void GetHit()
+    private IEnumerator GetHit()
     {
         if (statsEntity == null) statsEntity = player.statsEntity;
         if (controller._realtimeView.isOwnedLocallyInHierarchy)
             carRB.AddForce((transform.position - opponent.transform.position).normalized * testMeleeForce);
+
+        yield return meleeDelay;
+
         if (statsEntity._loot > 0)
         {
             statsEntity.LoseLoot();
