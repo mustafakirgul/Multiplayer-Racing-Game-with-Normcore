@@ -41,7 +41,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2020452575983375805}
-  - component: {fileID: 4208989894391933577}
   m_Layer: 0
   m_Name: Weapon.MachineGun
   m_TagString: Untagged
@@ -70,24 +69,6 @@ Transform:
   m_Father: {fileID: 2854153014580812769}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
---- !u!114 &4208989894391933577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 261360126108952096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30e4f7109aab35d4dbd995d1c280d681, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  max: 1.25
-  min: 0
-  speed: 3
-  shellEjectionForce: 3
-  shell: {fileID: 2033931485074675334, guid: d92687622d066fe4db4f55bbc1379498, type: 3}
-  shellEjector: {fileID: 0}
 --- !u!1 &396072906015357025
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,8 +492,8 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 0
 --- !u!4 &1559248913749756004
 Transform:
   m_ObjectHideFlags: 0
@@ -539,19 +520,19 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.09
+  m_Intensity: 0.02
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 0.1
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -573,12 +554,12 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 5.63
@@ -587,7 +568,7 @@ Light:
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
-  m_ShadowAngle: 0
+  m_ShadowAngle: 45
 --- !u!1 &1559248914448759386
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,7 +867,6 @@ GameObject:
   - component: {fileID: 5015668269186728191}
   - component: {fileID: 2392340544039502348}
   - component: {fileID: 2983513391443519860}
-  - component: {fileID: 8970281668515383047}
   m_Layer: 13
   m_Name: WeaponBarrellMesh
   m_TagString: Untagged
@@ -955,24 +935,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &8970281668515383047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2047064199537306039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30e4f7109aab35d4dbd995d1c280d681, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  max: 1.25
-  min: 0
-  speed: 3
-  shellEjectionForce: 3
-  shell: {fileID: 2033931485074675334, guid: d92687622d066fe4db4f55bbc1379498, type: 3}
-  shellEjector: {fileID: 0}
 --- !u!1 &2076892858685825616
 GameObject:
   m_ObjectHideFlags: 0
@@ -1020,8 +982,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ModelToActiavte:
-  - {fileID: 2047064199537306039}
   - {fileID: 261360126108952096}
+  - {fileID: 2047064199537306039}
   - {fileID: 3922724956840233251}
 --- !u!1 &2137891368938638263
 GameObject:
@@ -1702,7 +1664,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5297573019433341435
 Transform:
   m_ObjectHideFlags: 0
@@ -1919,9 +1881,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1071502541251765697}
-  - component: {fileID: 8031400171369759675}
   m_Layer: 0
-  m_Name: Weapon.MineLauncher
+  m_Name: WeaponMineLauncher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1947,24 +1908,6 @@ Transform:
   m_Father: {fileID: 2854153014580812769}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
---- !u!114 &8031400171369759675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3922724956840233251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30e4f7109aab35d4dbd995d1c280d681, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  max: 1.25
-  min: 0
-  speed: 3
-  shellEjectionForce: 3
-  shell: {fileID: 2033931485074675334, guid: d92687622d066fe4db4f55bbc1379498, type: 3}
-  shellEjector: {fileID: 0}
 --- !u!1 &4040186461710214799
 GameObject:
   m_ObjectHideFlags: 0
@@ -2487,7 +2430,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2058227594237213098
 Transform:
   m_ObjectHideFlags: 0

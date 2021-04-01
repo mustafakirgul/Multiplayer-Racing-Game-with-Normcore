@@ -25,6 +25,11 @@ public class ContainerSelector : MonoBehaviour
         }
     }
 
+    public int GetChildCount()
+    {
+        return this.transform.childCount;
+    }
+
     public void ActivateItem(int itemIndexToActivate)
     {
         DeActivateChildren();

@@ -326,7 +326,9 @@ public class GameManager : MonoBehaviour
         _temp.GetComponent<Player>().SetPlayerName(playerName);
 
         _temp.GetComponent<ItemDataProcessor>().ObtainLoadOutData(lootManager.ObatinCurrentBuild());
-        _temp.GetComponent<ItemDataProcessor>().ProcessVisualIndices(lootManager.VisualModelIndex());
+        _temp.GetComponent<ItemDataProcessor>().ProcessVisualIndices(
+            new Vector3((_temp.GetComponent<ItemDataProcessor>().WeaponSelectorCount() - 1)
+            , lootManager.VisualModelIndex().y, lootManager.VisualModelIndex().z));
         MiniMapCamera _tempCam = FindObjectOfType<MiniMapCamera>();
         if (_tempCam != null)
         {

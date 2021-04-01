@@ -9,7 +9,9 @@ using UnityEngine.UI;
 
 public class NewCarController : MonoBehaviour
 {
-    [Space] [Space] [Header("Car Controller Main Settings")]
+    [Space]
+    [Space]
+    [Header("Car Controller Main Settings")]
     public Rigidbody CarRB;
 
     private float moveInput, turnInput;
@@ -42,21 +44,25 @@ public class NewCarController : MonoBehaviour
     float currentZ, currentX;
     float XTimer, ZTimer, XFactor, ZFactor;
 
-    [Space] [Space] [Header("Camera and Networking")]
+    [Space]
+    [Space]
+    [Header("Camera and Networking")]
     //Neworking Related Functionalities
     public Realtime _realtime;
 
     public RealtimeView _realtimeView;
     private RealtimeTransform _realtimeTransform;
     private ChaseCam followCamera;
-    public Transform CameraContainer,lookAtTarget, forwardCamera, rearCamera;
+    public Transform CameraContainer, lookAtTarget, forwardCamera, rearCamera;
     public bool offlineTest;
 
     bool resetReverseView = false;
     bool CoroutineReset = false;
 
 
-    [Space] [Space] [Header("Loot Based Modifiers")]
+    [Space]
+    [Space]
+    [Header("Loot Based Modifiers")]
     //Does the car need to know about these or does the game manager needs to know about these?
     //Car simply keeps track of what it encounters and talks to game managers to obtain loot or powerups
     public float meleeDamageModifier;
@@ -135,7 +141,9 @@ public class NewCarController : MonoBehaviour
     public GameObject OverHeatNotice;
     public GameObject WeaponSwitcherUI;
 
-    [Space] [Space] [Header("Health Params")]
+    [Space]
+    [Space]
+    [Header("Health Params")]
     //Health Controls
     public Player _player;
 
@@ -152,7 +160,9 @@ public class NewCarController : MonoBehaviour
     public CanvasGroup damageIndicatorCanvasGroup;
 
 
-    [Space] [Space] [Header("Boost Params")]
+    [Space]
+    [Space]
+    [Header("Boost Params")]
     //Boost Controls
     public Image boostRadialLoader;
 
@@ -162,7 +172,9 @@ public class NewCarController : MonoBehaviour
     public bool boosterReady, isBoosting;
     private float boosterCounter;
 
-    [Space] [Space] [Header("Light Controls")]
+    [Space]
+    [Space]
+    [Header("Light Controls")]
     //Light Controls
     public Light RHL;
 
@@ -181,7 +193,8 @@ public class NewCarController : MonoBehaviour
 
     [HideInInspector] public int _resets;
 
-    [Space] [Header("Suspension and Wheel Settings")]
+    [Space]
+    [Header("Suspension and Wheel Settings")]
     public bool identicalSuspension4AW;
 
     public float suspensionHeight; // these 2 only work if identical suspension for all wheels is true
@@ -386,7 +399,7 @@ public class NewCarController : MonoBehaviour
         WeaponProjectileBase LootWeaponBase = LootWeaponProjectile.GetComponent<WeaponProjectileBase>();
         if (LootWeaponBase != null)
         {
-            uIManager.SwitchProjectileDisplayInfo(LootWeaponBase.ProjectileToDisplay, (int) currentAmmo);
+            uIManager.SwitchProjectileDisplayInfo(LootWeaponBase.ProjectileToDisplay, (int)currentAmmo);
         }
 
         if (weaponType == 0)
@@ -409,7 +422,7 @@ public class NewCarController : MonoBehaviour
 
         if (savedWeaponBase != null)
         {
-            uIManager.SwitchProjectileDisplayInfo(savedWeaponBase.ProjectileToDisplay, (int) currentAmmo);
+            uIManager.SwitchProjectileDisplayInfo(savedWeaponBase.ProjectileToDisplay, (int)currentAmmo);
         }
 
         ResetSavedWeapon();
@@ -692,7 +705,7 @@ public class NewCarController : MonoBehaviour
 
             if (weaponType == 1)
             {
-                uIManager.UpdateAmmoCount((int) currentAmmo);
+                uIManager.UpdateAmmoCount((int)currentAmmo);
             }
         }
         else
@@ -964,6 +977,9 @@ public class NewCarController : MonoBehaviour
                             currentAmmo--;
                             currentAmmo = Mathf.Clamp(currentAmmo, 0, 999);
 
+                            if (m_BarrelShaker != null)
+                                m_BarrelShaker.StartShake();
+
                             _bulletBuffer = Realtime.Instantiate(SecondaryWeaponProjectile.name,
                                 position: _barrelTip.position,
                                 rotation: _barrelTip.rotation,
@@ -1031,6 +1047,7 @@ public class NewCarController : MonoBehaviour
                             PrimaryWeaponProjectile.GetComponent<WeaponProjectileBase>();
                         uIManager.SwitchProjectileDisplayInfo(PrimaryWeaponBase.ProjectileToDisplay, 999);
                         _barrelTip.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                        SwapWeaponMesh(weaponType);
                         break;
                     case 1:
                         WeaponProjectileBase SecondaryWeaponBase =
@@ -1038,7 +1055,8 @@ public class NewCarController : MonoBehaviour
                         _barrelTip.transform.localRotation =
                             Quaternion.Euler(0 - SecondaryWeaponBase.barrelFireAngle, 0, 0);
                         uIManager.SwitchProjectileDisplayInfo(SecondaryWeaponBase.ProjectileToDisplay,
-                            (int) currentAmmo);
+                            (int)currentAmmo);
+                        SwapWeaponMesh(weaponType);
                         break;
                 }
             }
@@ -1155,6 +1173,24 @@ public class NewCarController : MonoBehaviour
              * transform.rotation), Time.deltaTime * lerpRotationSpeed);
     }
 
+
+    void SwapWeaponMesh(float weapon)
+    {
+        ItemDataProcessor dataProcess = this.GetComponent<ItemDataProcessor>();
+
+        switch (weapon)
+        {
+            case 0:
+                dataProcess.ProcessVisualIndices(new Vector3((dataProcess.WeaponSelectorCount() - 1),
+                    lootManager.VisualIndex.y, lootManager.VisualIndex.z));
+                ObtainCorrectShaker();
+                break;
+            case 1:
+                dataProcess.ProcessVisualIndices(lootManager.VisualModelIndex());
+                ObtainCorrectShaker();
+                break;
+        }
+    }
     void LerpFallCorrection()
     {
         if (!isGrounded)

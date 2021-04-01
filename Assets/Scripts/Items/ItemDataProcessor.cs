@@ -70,6 +70,11 @@ public class ItemDataProcessor : MonoBehaviour
         EngineSelector.ActivateItem((int)indices.z);
     }
 
+    public int WeaponSelectorCount()
+    {
+        return WeaponSelector.GetChildCount();
+    }
+
     public void ProcessLoadOutData(ItemBase ItemPickUp)
     {
         switch (ItemPickUp._ItemType)

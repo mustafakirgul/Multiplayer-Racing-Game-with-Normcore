@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class BarrelShaker : MonoBehaviour
 {
-    public float max, min, speed, shellEjectionForce;
+    public float shakeDistance, shellEjectionForce;
     private float time;
+
+    public bool isEjectingShells = true;
 
     [SerializeField]
     private GameObject shell;
@@ -19,22 +21,28 @@ public class BarrelShaker : MonoBehaviour
     }
     private IEnumerator TriggerShake()
     {
-        EjectShell();
-        while (time < 0.5f)
+        if (isEjectingShells)
+        {
+            EjectShell();
+        }
+        while (time < 1f)
         {
             time += Time.deltaTime;
             transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y,
-                (Mathf.PingPong(time * speed, max - min) + min) * speed);
+                Mathf.Sin(time * 180f * Mathf.Deg2Rad) * 2f);
+
+            //transform.localPosition = Vector3.Lerp(transform.localPosition, (transform.localPosition + new Vector3(0,0,1)), time);
+
             yield return null;
         }
     }
     private void EjectShell()
     {
         GameObject EjectedShell = Instantiate(shell, shellEjector.transform.position, shell.transform.rotation
-            * Quaternion.Euler(Random.Range(0,45), Random.Range(0,45), Random.Range(0, 45)));
+            * Quaternion.Euler(Random.Range(0, 45), Random.Range(0, 45), Random.Range(0, 45)));
 
         Rigidbody RB = EjectedShell.GetComponent<Rigidbody>();
-        RB.AddForce((shellEjector.transform.right + shellEjector.transform.up + new Vector3(Random.Range(0, 0.3f), Random.Range(0, 0.3f))) 
+        RB.AddForce((shellEjector.transform.right + shellEjector.transform.up + new Vector3(Random.Range(0, 0.3f), Random.Range(0, 0.3f)))
             * shellEjectionForce, ForceMode.Impulse);
         StartCoroutine(DelayDestroy(EjectedShell));
     }
@@ -43,5 +51,10 @@ public class BarrelShaker : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         Destroy(shell);
+    }
+
+    private void OnDisable()
+    {
+        StopCoroutine(TriggerShake());
     }
 }
