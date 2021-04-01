@@ -1,28 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ChaseCam : MonoBehaviour
 {
     // The target we are following
     public Transform target;
+    public Transform lookTarget;
+
     private bool isInitialized = false;
 
-    // The distance in the x-z plane to the target
-    public float distance = 10.0f;
-
-    // the height we want the camera to be above the target
-    public float height = 5.0f;
-    public float rotationDamping;
-    public float heightDamping;
-
-    public bool bToggleRearView = false;
-    public float desiredHeight;
-    private float hitDistance, calculatedY, targetY;
+    public float lookAtSpeed;
+    public float positionSpeed;
     private Vector3 lookPosition;
-    public float lookPositionLerpSpeed;
-    public float minY = 4f;
     public Vector3 _target;
 
     private void OnDrawGizmos()
@@ -30,33 +18,17 @@ public class ChaseCam : MonoBehaviour
         if (target == null || _target == Vector3.zero) return;
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(target.position, 1f);
-        Gizmos.DrawWireSphere(_target, 1f);
-
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawLine(_target + Vector3.up, _target + (Vector3.down * minY));
-        Gizmos.DrawLine(_target + Vector3.down, _target + (Vector3.up * minY));
+        Gizmos.DrawWireSphere(transform.position, 1f);
     }
 
-    private void Start()
-    {
-        if (target != null)
-        {
-            InitCamera(target);
-        }
-    }
-
-    public void InitCamera(Transform _target)
+    public void InitCamera(Transform _target, Transform _lookTarget)
     {
         if (!isInitialized)
         {
             target = _target;
+            lookTarget = _lookTarget;
             isInitialized = true;
         }
-    }
-
-    public void ToggleRearView(Transform _target)
-    {
-        target = _target;
     }
 
     public void ResetCam()
@@ -73,57 +45,11 @@ public class ChaseCam : MonoBehaviour
 
         if (isInitialized)
         {
-            float wantedRotationAngle = target.eulerAngles.y;
-            //float wantedHeight = target.position.y + height;
-
-            float currentRotationAngle = transform.eulerAngles.y;
-            //float currentHeight = transform.position.y;
-
-            if (!bToggleRearView)
-            {
-                // Damp the rotation around the y-axis
-                currentRotationAngle = Mathf.LerpAngle(currentRotationAngle, wantedRotationAngle,
-                    rotationDamping * Time.deltaTime);
-
-                // Damp the height
-                //currentHeight = Mathf.Lerp(currentHeight, wantedHeight, heightDamping * Time.deltaTime);
-            }
-            else
-            {
-                currentRotationAngle = wantedRotationAngle;
-                //currentHeight = wantedHeight;
-            }
-
-            // Convert the angle into a rotation
-            Quaternion currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
-
-            // Set the position of the camera on the x-z plane to:
-            // distance meters behind the target
-            _target = target.position - currentRotation * Vector3.forward * distance;
-
-            // // Set the height of the camera
-            // if (Physics.Raycast(target.position + Vector3.up, Vector3.down, out RaycastHit hit0, minY))
-            //     _target = new Vector3(_target.x, hit0.point.y + minY, _target.z);
-            // else if (Physics.Raycast(target.position + (Vector3.up * minY), Vector3.down, out RaycastHit hit1,
-            //     Mathf.Infinity))
-            //     _target = new Vector3(_target.x, hit1.point.y + minY, _target.z);
-
-            transform.position = Vector3.Lerp(transform.position, _target, Time.deltaTime * rotationDamping);
+            _target = target.position;
+            transform.position = Vector3.Lerp(transform.position, _target, Time.deltaTime * positionSpeed);
             Debug.DrawLine(transform.position, _target, Color.green);
-
-            //raycast to see the height of target from ground
-            Physics.Raycast(target.position, Vector3.down, out RaycastHit hit2, Mathf.Infinity);
-            hitDistance = hit2.distance;
-            targetY = Mathf.Clamp(hit2.point.y + desiredHeight, target.parent.position.y,
-                target.position.y + desiredHeight);
-            calculatedY = Mathf.Lerp(calculatedY, targetY, Time.deltaTime * lookPositionLerpSpeed);
-            lookPosition = new Vector3(target.position.x, calculatedY, target.position.z);
-            // Always look at the target
+            lookPosition = Vector3.Lerp(lookPosition,lookTarget.position, Time.deltaTime * lookAtSpeed);
             transform.LookAt(lookPosition);
-        }
-        else if (target != null)
-        {
-            InitCamera(target);
         }
     }
 }

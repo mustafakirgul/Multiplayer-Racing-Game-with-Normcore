@@ -9,12 +9,26 @@ public class JukeBox : MonoBehaviour
     private AudioSource player;
     public State state;
     public Music[] musics;
+    [Range(0f, 1f)] public float desiredVolume;
+    public bool setVolume;
 
     void Start()
     {
         player = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
         player.playOnAwake = false;
         player.loop = true;
+    }
+
+    private void Update()
+    {
+        if (setVolume)
+        {
+            if (player != null)
+            {
+                player.volume = desiredVolume;
+                setVolume = false;
+            }
+        }
     }
 
     public void SwitchState(State _state)

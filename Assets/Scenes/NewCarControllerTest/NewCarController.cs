@@ -49,7 +49,7 @@ public class NewCarController : MonoBehaviour
     public RealtimeView _realtimeView;
     private RealtimeTransform _realtimeTransform;
     private ChaseCam followCamera;
-    public Transform CameraContainer, forwardCamera, rearCamera;
+    public Transform CameraContainer,lookAtTarget, forwardCamera, rearCamera;
     public bool offlineTest;
 
     bool resetReverseView = false;
@@ -348,7 +348,7 @@ public class NewCarController : MonoBehaviour
     void InitCamera()
     {
         followCamera = FindObjectOfType<ChaseCam>();
-        followCamera.InitCamera(CameraContainer);
+        followCamera.InitCamera(CameraContainer, lookAtTarget);
     }
 
     //Use this to apply weapons for loot
@@ -1105,27 +1105,6 @@ public class NewCarController : MonoBehaviour
             LHL.enabled = lights;
         }*/
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            resetReverseView = true;
-            followCamera.bToggleRearView = true;
-            followCamera.ToggleRearView(rearCamera);
-        }
-
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            if (resetReverseView)
-            {
-                resetReverseView = false;
-                followCamera.ResetCam();
-                followCamera.InitCamera(forwardCamera);
-                if (!CoroutineReset)
-                {
-                    StartCoroutine(DelayCameraLerpReset());
-                }
-            }
-        }
-
         if (GameManager.instance.isHost)
         {
             if (Input.GetKeyDown(KeyCode.Z))
@@ -1161,14 +1140,6 @@ public class NewCarController : MonoBehaviour
         }
 
         _player.ChangeIsBoosting(false);
-    }
-
-    private IEnumerator DelayCameraLerpReset()
-    {
-        CoroutineReset = true;
-        yield return new WaitForSeconds(0.1f);
-        followCamera.bToggleRearView = false;
-        CoroutineReset = false;
     }
 
     void GroundCheck()

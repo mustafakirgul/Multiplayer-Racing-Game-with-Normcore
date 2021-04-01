@@ -261,8 +261,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75dd03999f3a95040baa95847c5cee88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
-  playAtStart: 0
+  sounds:
+  - {fileID: 8300000, guid: f2fcb8cef3f7df1489d2536285dc2757, type: 3}
+  - {fileID: 8300000, guid: 1d77fb834f94c2949a8efa1d572426a3, type: 3}
+  - {fileID: 8300000, guid: aea84b1366d19c14ea9f2bf6436c48e3, type: 3}
+  playAtStart: 1
+  randomizeAtPlay: 1
 --- !u!82 &2758497742069785609
 AudioSource:
   m_ObjectHideFlags: 0
@@ -281,7 +285,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 187
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -319,7 +323,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.666
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -334,7 +338,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
