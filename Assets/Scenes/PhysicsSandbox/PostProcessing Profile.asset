@@ -531,7 +531,7 @@ MonoBehaviour:
     showEyeDropper: 1
   anamorphicFlaresIntensity:
     m_OverrideState: 1
-    m_Value: 0.02
+    m_Value: 0.03
     min: 0
     max: 10
   anamorphicFlaresThreshold:
