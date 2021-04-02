@@ -1262,7 +1262,7 @@ MonoBehaviour:
   mf_ItemOther: 0
   mf_maxItemCount: 0
   current_buildLoadOut: {fileID: 0}
-  WeaponSelector: {fileID: 0}
+  WeaponSelector: {fileID: 8151629332375594188}
   ArmourSelector: {fileID: 4469279682884567669}
   EngineSelector: {fileID: 7987094622537341634}
 --- !u!114 &7582280230186555917
