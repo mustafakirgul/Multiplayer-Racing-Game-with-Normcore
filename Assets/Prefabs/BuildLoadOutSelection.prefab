@@ -409,12 +409,12 @@ MonoBehaviour:
   - {fileID: 0}
   LootObjectContainers:
   - {fileID: 4399354424521758732}
-  - {fileID: 4399354425250235298}
   - {fileID: 4399354424300915912}
+  - {fileID: 4399354425250235298}
   - {fileID: 0}
   currentSelecteCategory: {fileID: 0}
   SelectionIcon: {fileID: 0}
-  selectionIndex: 0
+  selectionIndex: 3
   CycleIndex: 0
   weaponsSelections: []
   armourSelections: []
@@ -433,16 +433,9 @@ MonoBehaviour:
   EngineTotalCount: {fileID: 0}
   buildIndex: {fileID: 0}
   BuildTotalCount: {fileID: 0}
-  buildParams:
-  - {fileID: 11400000, guid: 81f790ab4df8e4a39a89313e0c17ac1e, type: 2}
-  - {fileID: 11400000, guid: 539d903eb73be4d0fab1b62bf75185cd, type: 2}
-  - {fileID: 11400000, guid: 18694bd1f9c27404aa3f650c613b861e, type: 2}
-  buildTemplates:
-  - {fileID: 11400000, guid: c608fd1f66df56842a99a83fd843a790, type: 2}
-  - {fileID: 11400000, guid: 8abcbed464f00ca4a8facb3129bba6fd, type: 2}
-  - {fileID: 11400000, guid: 6f847ef689960174d8dc3e617f14a94c, type: 2}
   currentSelectBuild: {fileID: 0}
   VisualStatsManager: {fileID: 0}
+  ConnectMenu: {fileID: 0}
 --- !u!1 &4399354424300915912
 GameObject:
   m_ObjectHideFlags: 0

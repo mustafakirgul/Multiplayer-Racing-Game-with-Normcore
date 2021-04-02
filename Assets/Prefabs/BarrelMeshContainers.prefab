@@ -85,6 +85,7 @@ MonoBehaviour:
   isEjectingShells: 1
   shell: {fileID: 2033931485074675334, guid: d92687622d066fe4db4f55bbc1379498, type: 3}
   shellEjector: {fileID: 0}
+  Parent: {fileID: 0}
 --- !u!1 &597819408748463591
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,6 +216,7 @@ MonoBehaviour:
   isEjectingShells: 1
   shell: {fileID: 2033931485074675334, guid: d92687622d066fe4db4f55bbc1379498, type: 3}
   shellEjector: {fileID: 0}
+  Parent: {fileID: 1728898207482360569}
 --- !u!1 &1000878444282430466
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,6 +347,7 @@ MonoBehaviour:
   isEjectingShells: 1
   shell: {fileID: 2033931485074675334, guid: d92687622d066fe4db4f55bbc1379498, type: 3}
   shellEjector: {fileID: 0}
+  Parent: {fileID: 0}
 --- !u!1 &1144015959283849448
 GameObject:
   m_ObjectHideFlags: 0
@@ -982,6 +985,7 @@ MonoBehaviour:
   isEjectingShells: 1
   shell: {fileID: 2033931485074675334, guid: d92687622d066fe4db4f55bbc1379498, type: 3}
   shellEjector: {fileID: 0}
+  Parent: {fileID: 0}
 --- !u!1 &4790578245276765688
 GameObject:
   m_ObjectHideFlags: 0

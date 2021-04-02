@@ -14,6 +14,9 @@ public class BarrelShaker : MonoBehaviour
 
     [SerializeField]
     private Transform shellEjector;
+
+    [SerializeField]
+    Transform Parent;
     public void StartShake()
     {
         time = 0;
@@ -28,7 +31,7 @@ public class BarrelShaker : MonoBehaviour
         while (time < 1f)
         {
             time += Time.deltaTime;
-            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y,
+            Parent.localPosition = new Vector3(Parent.localPosition.x, Parent.localPosition.y,
                 Mathf.Sin(time * 180f * Mathf.Deg2Rad) * 2f);
 
             //transform.localPosition = Vector3.Lerp(transform.localPosition, (transform.localPosition + new Vector3(0,0,1)), time);
