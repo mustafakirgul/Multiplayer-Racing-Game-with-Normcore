@@ -49,7 +49,7 @@ public class ChaseCam : MonoBehaviour
             Physics.Raycast(target.position, Vector3.down, out hit, Mathf.Infinity, mask);
             Debug.DrawLine(target.position, hit.point, Color.yellow);
             if (hit.distance > target.localPosition.y) //Safe Guard
-                bottomLimit = parent.position.y - minY;
+                bottomLimit = parent.position.y;
             else
                 bottomLimit = parent.position.y + minY;
 
@@ -57,7 +57,7 @@ public class ChaseCam : MonoBehaviour
                 Mathf.Clamp(hit.point.y + minY, bottomLimit, Mathf.Infinity), target.position.z);
             transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * positionSpeed);
             if (hit.distance > lookAtTarget.localPosition.y) //Safe Guard
-                bottomLimit = parent.position.y - lookY;
+                bottomLimit = parent.position.y;
             else
                 bottomLimit = parent.position.y + lookY;
 
