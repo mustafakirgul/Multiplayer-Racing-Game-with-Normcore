@@ -3,30 +3,33 @@
 public class ChaseCam : MonoBehaviour
 {
     // The target we are following
-    public Transform target;
-    public Transform lookTarget;
-
+    public Transform target, lookAtTarget, parent;
     private bool isInitialized = false;
 
     public float lookAtSpeed;
     public float positionSpeed;
-    private Vector3 lookPosition;
-    public Vector3 _target;
+    private Vector3 lookPosition, targetPosition, lookTargetPosition;
+    public float minY, lookY;
+    public LayerMask mask;
 
     private void OnDrawGizmos()
     {
-        if (target == null || _target == Vector3.zero) return;
+        if (target == null) return;
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(target.position, 1f);
-        Gizmos.DrawWireSphere(transform.position, 1f);
+        Gizmos.DrawWireCube(transform.position, Vector3.one);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(lookAtTarget.position, 1f);
+        Gizmos.DrawWireCube(lookPosition, Vector3.one);
     }
 
-    public void InitCamera(Transform _target, Transform _lookTarget)
+    public void InitCamera(Transform _target, Transform _lookAtTarget)
     {
         if (!isInitialized)
         {
             target = _target;
-            lookTarget = _lookTarget;
+            lookAtTarget = _lookAtTarget;
+            parent = target.parent;
             isInitialized = true;
         }
     }
@@ -38,17 +41,31 @@ public class ChaseCam : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (target == null)
-        {
-            isInitialized = false;
-        }
-
+        if (target == null) isInitialized = false;
         if (isInitialized)
         {
-            _target = target.position;
-            transform.position = Vector3.Lerp(transform.position, _target, Time.deltaTime * positionSpeed);
-            Debug.DrawLine(transform.position, _target, Color.green);
-            lookPosition = Vector3.Lerp(lookPosition,lookTarget.position, Time.deltaTime * lookAtSpeed);
+            RaycastHit hit;
+            var bottomLimit = 0f;
+            Physics.Raycast(target.position, Vector3.down, out hit, Mathf.Infinity, mask);
+            Debug.DrawLine(target.position, hit.point, Color.yellow);
+            if (hit.distance > target.localPosition.y) //Safe Guard
+                bottomLimit = parent.position.y - minY;
+            else
+                bottomLimit = parent.position.y + minY;
+
+            targetPosition = new Vector3(target.position.x,
+                Mathf.Clamp(hit.point.y + minY, bottomLimit, Mathf.Infinity), target.position.z);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * positionSpeed);
+            if (hit.distance > lookAtTarget.localPosition.y) //Safe Guard
+                bottomLimit = parent.position.y - lookY;
+            else
+                bottomLimit = parent.position.y + lookY;
+
+            Physics.Raycast(lookAtTarget.position, Vector3.down, out hit, Mathf.Infinity, mask);
+            Debug.DrawLine(lookAtTarget.position, hit.point, Color.yellow);
+            lookTargetPosition = new Vector3(lookAtTarget.position.x,
+                Mathf.Clamp(hit.point.y + lookY, bottomLimit, Mathf.Infinity), lookAtTarget.position.z);
+            lookPosition = Vector3.Lerp(lookPosition, lookTargetPosition, Time.deltaTime * lookAtSpeed);
             transform.LookAt(lookPosition);
         }
     }

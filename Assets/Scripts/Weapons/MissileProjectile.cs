@@ -80,7 +80,7 @@ public class MissileProjectile : WeaponProjectileBase
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.cyan;
-        Gizmos.DrawSphere(transform.position, missileDectectionRange);
+        Gizmos.DrawWireSphere(transform.position, missileDectectionRange);
     }
 
     private void MissileDetection()

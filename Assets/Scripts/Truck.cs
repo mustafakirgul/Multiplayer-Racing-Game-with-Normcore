@@ -67,13 +67,12 @@ public class Truck : RealtimeComponent<TruckModel>
     public float boombasticModeY = 25f;
     public float boombasticModeDuration = 33f;
     public ParticleSystem boombasticShield;
-    private SphereCollider shieldCollider => boombasticShield.transform.GetComponent<SphereCollider>();
+    private SphereCollider shieldCollider;
     private Rigidbody rb => GetComponent<Rigidbody>();
     private bool isGrounded;
     public float groundCheckRayLength, lerpRotationSpeed, groundedEngineFactor;
     public LayerMask groundLayer;
     private Vector3 boombasticModePoint = Vector3.zero;
-
     void GroundCheck()
     {
         isGrounded = Physics.Raycast(transform.position, -transform.up, groundCheckRayLength,
@@ -109,6 +108,9 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void Awake()
     {
+        shieldCollider = boombasticShield.transform.GetComponent<SphereCollider>();
+        if (shieldCollider != null) shieldCollider.enabled = false;
+        
         truckBody = GetComponent<Rigidbody>();
         _rTTransform = GetComponent<RealtimeTransform>();
         _rTTransforms = new List<RealtimeTransform>();
@@ -312,10 +314,12 @@ public class Truck : RealtimeComponent<TruckModel>
             rb.MovePosition(Vector3.Lerp(rb.position,
                 boombasticModePoint, Time.deltaTime * 6.66f));
             transform.up = Vector3.Lerp(transform.up, Vector3.up, Time.deltaTime * 6.66f);
+            shieldCollider.enabled = true;
         }
         else
         {
-            transform.Rotate(Vector3.up, Time.deltaTime * 133.2f);
+            transform.Rotate(Vector3.up, Time.deltaTime * 5f);
+            shieldCollider.enabled = false;
         }
     }
 
@@ -378,16 +382,17 @@ public class Truck : RealtimeComponent<TruckModel>
         rb.useGravity = !value;
         shieldCollider.enabled = value;
         Handrake(value);
-        UpdateTorqueFactor(0f);
+        
         if (value)
         {
-            boombasticModeY += transform.position.y;
+            UpdateTorqueFactor(1f);
             StartCoroutine(CR_BackToNormal());
             boombasticShield.Play();
         }
         else
         {
             boombasticShield.Stop();
+            UpdateTorqueFactor(0f);
         }
     }
 

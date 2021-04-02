@@ -67,7 +67,7 @@ public class TurretAutoAim : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawSphere(transform.position, turretDetectionRange);
+        Gizmos.DrawWireSphere(transform.position, turretDetectionRange);
     }
 
     private void Start()
