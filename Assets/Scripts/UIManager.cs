@@ -1,10 +1,8 @@
-﻿using Normal.Realtime;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
-using JetBrains.Annotations;
 
 
 public class UIManager : MonoBehaviour
