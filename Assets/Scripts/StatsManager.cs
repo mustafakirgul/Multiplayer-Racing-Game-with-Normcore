@@ -8,19 +8,19 @@ public class StatsManager : MonoBehaviour
 {
     #region Singleton Logic
 
-    public static StatsManager instance = null;
+    public static StatsManager instance;
 
     private void SingletonCheck()
     {
         if (instance != null && instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             return;
         }
 
         instance = this;
         transform.parent = null;
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
     #endregion

@@ -9,9 +9,7 @@ using UnityEngine.UI;
 
 public class NewCarController : MonoBehaviour
 {
-    [Space]
-    [Space]
-    [Header("Car Controller Main Settings")]
+    [Space] [Space] [Header("Car Controller Main Settings")]
     public Rigidbody CarRB;
 
     private float moveInput, turnInput;
@@ -44,9 +42,7 @@ public class NewCarController : MonoBehaviour
     float currentZ, currentX;
     float XTimer, ZTimer, XFactor, ZFactor;
 
-    [Space]
-    [Space]
-    [Header("Camera and Networking")]
+    [Space] [Space] [Header("Camera and Networking")]
     //Neworking Related Functionalities
     public Realtime _realtime;
 
@@ -60,9 +56,7 @@ public class NewCarController : MonoBehaviour
     bool CoroutineReset = false;
 
 
-    [Space]
-    [Space]
-    [Header("Loot Based Modifiers")]
+    [Space] [Space] [Header("Loot Based Modifiers")]
     //Does the car need to know about these or does the game manager needs to know about these?
     //Car simply keeps track of what it encounters and talks to game managers to obtain loot or powerups
     public float meleeDamageModifier;
@@ -141,9 +135,7 @@ public class NewCarController : MonoBehaviour
     public GameObject OverHeatNotice;
     public GameObject WeaponSwitcherUI;
 
-    [Space]
-    [Space]
-    [Header("Health Params")]
+    [Space] [Space] [Header("Health Params")]
     //Health Controls
     public Player _player;
 
@@ -160,9 +152,7 @@ public class NewCarController : MonoBehaviour
     public CanvasGroup damageIndicatorCanvasGroup;
 
 
-    [Space]
-    [Space]
-    [Header("Boost Params")]
+    [Space] [Space] [Header("Boost Params")]
     //Boost Controls
     public Image boostRadialLoader;
 
@@ -172,9 +162,7 @@ public class NewCarController : MonoBehaviour
     public bool boosterReady, isBoosting;
     private float boosterCounter;
 
-    [Space]
-    [Space]
-    [Header("Light Controls")]
+    [Space] [Space] [Header("Light Controls")]
     //Light Controls
     public Light RHL;
 
@@ -193,8 +181,7 @@ public class NewCarController : MonoBehaviour
 
     [HideInInspector] public int _resets;
 
-    [Space]
-    [Header("Suspension and Wheel Settings")]
+    [Space] [Header("Suspension and Wheel Settings")]
     public bool identicalSuspension4AW;
 
     public float suspensionHeight; // these 2 only work if identical suspension for all wheels is true
@@ -207,7 +194,9 @@ public class NewCarController : MonoBehaviour
     private int theKiller = -1;
     public GameObject lootIndicator;
     private Text lootIndicatorCountDisplay;
-
+    private AudioPlayer boostSound;
+    private LayeredAudioPlayer deathSound;
+    private WaitForSeconds wait1sec;
     public void RegisterDamage(float damage, RealtimeView realtimeView)
     {
         theKiller = realtimeView
@@ -241,6 +230,7 @@ public class NewCarController : MonoBehaviour
 
     private void Awake()
     {
+        wait1sec = new WaitForSeconds(1f);
         lootManager = FindObjectOfType<LootManager>();
         GetPhysicsParamsBasedOnBuild();
         if (lootIndicator != null)
@@ -399,7 +389,7 @@ public class NewCarController : MonoBehaviour
         WeaponProjectileBase LootWeaponBase = LootWeaponProjectile.GetComponent<WeaponProjectileBase>();
         if (LootWeaponBase != null)
         {
-            uIManager.SwitchProjectileDisplayInfo(LootWeaponBase.ProjectileToDisplay, (int)currentAmmo);
+            uIManager.SwitchProjectileDisplayInfo(LootWeaponBase.ProjectileToDisplay, (int) currentAmmo);
         }
 
         if (weaponType == 0)
@@ -422,7 +412,7 @@ public class NewCarController : MonoBehaviour
 
         if (savedWeaponBase != null)
         {
-            uIManager.SwitchProjectileDisplayInfo(savedWeaponBase.ProjectileToDisplay, (int)currentAmmo);
+            uIManager.SwitchProjectileDisplayInfo(savedWeaponBase.ProjectileToDisplay, (int) currentAmmo);
         }
 
         ResetSavedWeapon();
@@ -440,6 +430,8 @@ public class NewCarController : MonoBehaviour
     void Start()
     {
         StartCoroutine(CR_CosmeticHealthAnimator());
+        boostSound = GetComponent<AudioPlayer>();
+        deathSound = GetComponent<LayeredAudioPlayer>();
         if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             CreateMeleeEntity();
@@ -705,7 +697,7 @@ public class NewCarController : MonoBehaviour
 
             if (weaponType == 1)
             {
-                uIManager.UpdateAmmoCount((int)currentAmmo);
+                uIManager.UpdateAmmoCount((int) currentAmmo);
             }
         }
         else
@@ -742,24 +734,33 @@ public class NewCarController : MonoBehaviour
 
     private void PlayerDeath()
     {
-        isPlayerAlive = false;
-        moveInput = 0;
-        turnInput = 0;
-        DeathExplosion.SetActive(true);
-        CarRB.AddExplosionForce(20f, this.CarRB.transform.position + (-Vector3.up * 2f), 20f, 500f, ForceMode.Impulse);
-        if (theKiller > -1 && theKiller != _realtimeView.ownerIDInHierarchy
-        ) //prevent self kill and ghost killing (player dies for a different reason but points are registered to the player who had killed them last, in the past)
+        if (isPlayerAlive)
         {
-            StatsManager.instance.RegisterKill(theKiller);
-            theKiller = -1;
-        }
+            deathSound.Play();
+            isPlayerAlive = false;
+            moveInput = 0;
+            turnInput = 0;
+            DeathExplosion.SetActive(true);
+            CarRB.AddExplosionForce(20f, this.CarRB.transform.position + (-Vector3.up * 2f), 20f, 500f, ForceMode.Impulse);
+            if (theKiller > -1 && theKiller != _realtimeView.ownerIDInHierarchy
+            ) //prevent self kill and ghost killing (player dies for a different reason but points are registered to the player who had killed them last, in the past)
+            {
+                StatsManager.instance.RegisterKill(theKiller);
+                theKiller = -1;
+            }
 
-        StartCoroutine(RespawnCountDown(5f));
+            StartCoroutine(RespawnCountDown(5f));    
+        }
     }
 
     private IEnumerator RespawnCountDown(float duration)
     {
-        yield return new WaitForSeconds(duration);
+        var loop = Convert.ToInt32(duration);
+        for (int i = 0; i < loop; i++)
+        {
+            yield return wait1sec;
+            deathSound.Play();
+        }
         DeathExplosion.SetActive(false);
         ResetPlayerHealth();
     }
@@ -1055,7 +1056,7 @@ public class NewCarController : MonoBehaviour
                         _barrelTip.transform.localRotation =
                             Quaternion.Euler(0 - SecondaryWeaponBase.barrelFireAngle, 0, 0);
                         uIManager.SwitchProjectileDisplayInfo(SecondaryWeaponBase.ProjectileToDisplay,
-                            (int)currentAmmo);
+                            (int) currentAmmo);
                         SwapWeaponMesh(weaponType);
                         break;
                 }
@@ -1103,6 +1104,7 @@ public class NewCarController : MonoBehaviour
                 boosterReady = false;
                 for (int i = 0; i < boostParticles.Length; i++)
                 {
+                    boostSound.Play();
                     boostParticles[i].Play();
                     foreach (var particle in boostParticles[i].transform.GetComponentsInChildren<ParticleSystem>())
                     {
@@ -1191,6 +1193,7 @@ public class NewCarController : MonoBehaviour
                 break;
         }
     }
+
     void LerpFallCorrection()
     {
         if (!isGrounded)

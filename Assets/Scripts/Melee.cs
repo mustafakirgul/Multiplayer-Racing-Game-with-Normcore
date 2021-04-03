@@ -12,6 +12,7 @@ public class Melee : MonoBehaviour
     public Transform parent;
     public Melee opponent;
     public ParticleSystem crashParticle;
+    private LayeredAudioPlayer LAP;
     public NewCarController controller, opponentController;
     public Rigidbody carRB, rb;
     public WaitForSeconds wait;
@@ -53,6 +54,7 @@ public class Melee : MonoBehaviour
         rb.isKinematic = true;
         wait = new WaitForSeconds(.25f);
         if (crashParticle == null) crashParticle = GetComponentInChildren<ParticleSystem>();
+        LAP = GetComponent<LayeredAudioPlayer>();
     }
 
     private void Update()
@@ -76,16 +78,19 @@ public class Melee : MonoBehaviour
             yield break;
         if (controller.isBoosting)
         {
-            crashParticle.Play();
-            //Debug.LogWarning("Melee hit sent by " + PlayerManager.instance.PlayerName(rt.ownerIDInHierarchy));
-            yield return wait;
             HitOther();
+            crashParticle.Play();
+            LAP.Play();
+            yield return wait;
             crashParticle.Stop();
         }
         else if (opponentController.isBoosting)
         {
             StartCoroutine(GetHit());
-            //Debug.LogWarning("Melee hit received by " + PlayerManager.instance.PlayerName(rt.ownerIDInHierarchy));
+            crashParticle.Play();
+            LAP.Play();
+            yield return wait;
+            crashParticle.Stop();
         }
     }
 

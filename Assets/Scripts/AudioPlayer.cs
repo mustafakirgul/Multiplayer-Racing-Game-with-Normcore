@@ -5,7 +5,9 @@ public class AudioPlayer : MonoBehaviour
     AudioSource source;
     public AudioClip[] sounds;
     public bool playAtStart;
-    public bool randomizeAtPlay;
+    public bool randomizeAtStart;
+    [Range(0f, 1f)] public float spatialBlend = 0.666f;
+    [Range(0f, 360f)] public float spread = 0f;
 
     private void OnValidate()
     {
@@ -17,8 +19,8 @@ public class AudioPlayer : MonoBehaviour
         if (source == null) source = GetComponent<AudioSource>();
         if (source == null) source = gameObject.AddComponent<AudioSource>();
         source.playOnAwake = false;
-        source.spatialBlend = .666f;
-        source.spread = 180;
+        source.spatialBlend = spatialBlend;
+        source.spread = spread;
         source.minDistance = 1f;
         source.maxDistance = 500f;
     }
@@ -27,27 +29,41 @@ public class AudioPlayer : MonoBehaviour
     {
         Initialize();
         if (!playAtStart) return;
-        if (randomizeAtPlay) PlaySound(Random.Range(0, sounds.Length));
-        else PlaySound(0);
+        if (randomizeAtStart) PlayRandom();
+        else Play(0);
     }
 
-    public void PlaySound(int index)
+    public void PlayRandom()
     {
-        if (source == null) Initialize();
-        if (sounds != null)
+        Play(Random.Range(0, sounds.Length));
+    }
+
+    public void Play()
+    {
+        Play(0);
+    }
+
+    public void Play(int index)
+    {
+        if (AudioManager.instance.sfxIsOn)
         {
-            if (index <= sounds.Length)
+            if (source == null) Initialize();
+            if (sounds != null)
             {
-                if (sounds[index] != null)
+                if (index <= sounds.Length)
                 {
-                    if (source.isPlaying) source.Stop();
-                    source.clip = sounds[index];
-                    source.Play();
-                    return;
+                    if (sounds[index] != null)
+                    {
+                        if (source.isPlaying) source.Stop();
+                        source.clip = sounds[index];
+                        source.volume = AudioManager.instance.sfxVolume;
+                        source.Play();
+                        return;
+                    }
                 }
             }
-        }
 
-        Debug.LogWarning("Sound " + index + " for " + transform.name + " has no audio clip attached!");
+            Debug.LogWarning("Sound " + index + " for " + transform.name + " has no audio clip attached!");
+        }
     }
 }

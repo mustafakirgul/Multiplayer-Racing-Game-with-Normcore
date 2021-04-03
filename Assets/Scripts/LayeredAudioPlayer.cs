@@ -1,60 +1,57 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Tracing;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class LayeredAudioPlayer : MonoBehaviour
 {
-    public AudioSource[] sources;
-    public SoundPack[] soundPacks;
+    private AudioSource source;
+    public AudioLayer[] layers;
     public bool playAtStart;
     public bool randomizeAtPlay;
-
-    private void OnValidate()
-    {
-        Initialize();
-    }
+    [Range(0f, 1f)] public float spatialBlend = 0.666f;
+    [Range(0f, 360f)] public float spread = 0f;
 
     private void Initialize()
     {
-        if (soundPacks == null) return;
-        sources = new AudioSource[soundPacks.Length];
-        for (int i = 0; i < sources.Length; i++)
-        {
-            sources[i] = gameObject.AddComponent<AudioSource>();
-            sources[i].playOnAwake = false;
-            sources[i].spatialBlend = .666f;
-            sources[i].spread = 90;
-            sources[i].minDistance = 1f;
-            sources[i].maxDistance = 500f;
-        }
+        if (layers == null) return;
+        if (source == null) source = gameObject.AddComponent<AudioSource>();
+            source.playOnAwake = false;
+            source.spatialBlend = spatialBlend;
+            source.spread = spread;
+            source.minDistance = 1f;
+            source.maxDistance = 500f;
     }
 
     private void Start()
     {
         Initialize();
         if (!playAtStart) return;
-        PlaySound();
+        Play();
     }
 
-    public void PlaySound()
+    public void Play()
     {
-        if (sources == null) Initialize();
-        if (soundPacks != null)
+        if (AudioManager.instance.sfxIsOn)
         {
-            for (int i = 0; i < sources.Length; i++)
+            if (layers != null)
             {
-                var index = 0;
-                if (randomizeAtPlay) index = Random.Range(0, soundPacks[i].sounds.Length);
-
-                if (sources[i].isPlaying) sources[i].Stop();
-                sources[i].clip = soundPacks[i].sounds[index];
-                sources[i].Play();
-                return;
+                for (int i = 0; i < layers.Length; i++)
+                {
+                    var index = 0;
+                    if (randomizeAtPlay) index = Random.Range(0, layers[i].audioClips.Length);
+                    source.volume = AudioManager.instance.sfxVolume;
+                    source.PlayOneShot(layers[i].audioClips[index]);
+                }
             }
         }
     }
 }
 
-public struct SoundPack
+[Serializable]
+public struct AudioLayer
 {
     public string definition;
-    public AudioClip[] sounds;
+    public AudioClip[] audioClips;
 }

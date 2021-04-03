@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4657228065282159550}
   - component: {fileID: 8426010137019054103}
   - component: {fileID: 6160723597532551801}
+  - component: {fileID: 6926478755780907205}
   m_Layer: 14
   m_Name: Melee
   m_TagString: Untagged
@@ -132,6 +133,38 @@ MonoBehaviour:
   _syncScale: 0
   _syncVelocity: 1
   _maintainOwnershipWhileSleeping: 1
+--- !u!114 &6926478755780907205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5689408152762404242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cdb8b64a87efe440b557b7a64731914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sources: []
+  layers:
+  - definition: Debris
+    audioClips:
+    - {fileID: 8300000, guid: 5edee0e81da3ad74a89550f74bfb0783, type: 3}
+    - {fileID: 8300000, guid: 6b350c4a1b6ceec448290d38367b1d1f, type: 3}
+    - {fileID: 8300000, guid: 1d58286af9f8249468e5b12a017f698c, type: 3}
+    - {fileID: 8300000, guid: 12bad301425e33546b45b260c2d21db9, type: 3}
+    - {fileID: 8300000, guid: d8f1025ac9e0efe41a0f8c6f7f4046cf, type: 3}
+  - definition: Explosion
+    audioClips:
+    - {fileID: 8300000, guid: a315bfba89166824085e84b432c818f2, type: 3}
+    - {fileID: 8300000, guid: 2bc8cdcf305488b4ba6e21b286b8015f, type: 3}
+    - {fileID: 8300000, guid: c56c2452bf3dd7d4ea4356cf852e8a11, type: 3}
+    - {fileID: 8300000, guid: 384894c501bce3b4393bdab574bb22d5, type: 3}
+    - {fileID: 8300000, guid: dba163a8b96ab8a4d8624e623f757748, type: 3}
+  playAtStart: 0
+  randomizeAtPlay: 1
+  spatialBlend: 0.25
+  spread: 360
 --- !u!1001 &7925405432671183929
 PrefabInstance:
   m_ObjectHideFlags: 0

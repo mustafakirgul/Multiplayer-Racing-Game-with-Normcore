@@ -99,7 +99,8 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         if (GetComponent<TrailRenderer>() != null)
         {
             GetComponent<TrailRenderer>().emitting = false;
-        } else
+        }
+        else
         {
             TrailRenderer[] renders = GetComponentsInChildren<TrailRenderer>();
 
@@ -108,6 +109,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                 renders[i].emitting = false;
             }
         }
+
         rb.isKinematic = true;
         GetComponent<Collider>().enabled = false;
         projectile_Mesh.SetActive(false);
@@ -121,6 +123,7 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         //Set cosmetic explosion to false
         explosion = transform.GetChild(0).gameObject;
         explosion.SetActive(false);
+
 
         if (realtimeView.isOwnedLocallyInHierarchy)
         {
@@ -243,7 +246,6 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
         rb.isKinematic = true;
         explosion.SetActive(true);
         yield return wait1Sec;
-        explosion.SetActive(false);
         yield return wait1Sec;
         if (realtimeView.isOwnedLocallyInHierarchy) Realtime.Destroy(gameObject);
     }
@@ -267,6 +269,10 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
                 {
                     CosmeticExplode();
                 }
+            }
+            else
+            {
+                CosmeticExplode();
             }
         }
     }
