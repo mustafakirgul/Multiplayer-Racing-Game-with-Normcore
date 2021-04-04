@@ -197,6 +197,12 @@ public class NewCarController : MonoBehaviour
     private AudioPlayer boostSound;
     private LayeredAudioPlayer deathSound;
     private WaitForSeconds wait1sec;
+
+    public void ToggleController(bool state)
+    {
+        isPlayerAlive = state;
+    }
+
     public void RegisterDamage(float damage, RealtimeView realtimeView)
     {
         theKiller = realtimeView
@@ -230,6 +236,7 @@ public class NewCarController : MonoBehaviour
 
     private void Awake()
     {
+        ToggleController(false);
         wait1sec = new WaitForSeconds(1f);
         lootManager = FindObjectOfType<LootManager>();
         GetPhysicsParamsBasedOnBuild();
@@ -542,43 +549,43 @@ public class NewCarController : MonoBehaviour
         damageIndicatorCanvasGroup.alpha = 0f;
     }
 
-    void OnValidate()
-    {
-        if (wheels != null)
-        {
-            for (int i = 0; i < wheels.Length; i++)
-            {
-                if (wheels[i].t != null)
-                {
-                    if (wheels[i].wheelT == null)
-                    {
-                        wheels[i].wheelT = wheels[i].t.GetChild(0);
-                    }
-
-                    if (wheels[i].wheelRT == null)
-                    {
-                        wheels[i].wheelRT = wheels[i].t.GetComponent<RealtimeTransform>();
-                    }
-
-                    if (wheels[i].wheelRTV == null)
-                    {
-                        wheels[i].wheelRTV = wheels[i].t.GetComponent<RealtimeView>();
-                    }
-
-                    if (wheels[i].trail == null)
-                    {
-                        wheels[i].trail = wheels[i].t.GetChild(1).gameObject;
-                    }
-
-                    if (identicalSuspension4AW)
-                    {
-                        wheels[i].suspensionHeight = suspensionHeight;
-                        wheels[i].wheelSize = wheelSize;
-                    }
-                }
-            }
-        }
-    }
+    // void OnValidate()
+    // {
+    //     if (wheels != null)
+    //     {
+    //         for (int i = 0; i < wheels.Length; i++)
+    //         {
+    //             if (wheels[i].t != null)
+    //             {
+    //                 if (wheels[i].wheelT == null)
+    //                 {
+    //                     wheels[i].wheelT = wheels[i].t.GetChild(0);
+    //                 }
+    //
+    //                 if (wheels[i].wheelRT == null)
+    //                 {
+    //                     wheels[i].wheelRT = wheels[i].t.GetComponent<RealtimeTransform>();
+    //                 }
+    //
+    //                 if (wheels[i].wheelRTV == null)
+    //                 {
+    //                     wheels[i].wheelRTV = wheels[i].t.GetComponent<RealtimeView>();
+    //                 }
+    //
+    //                 if (wheels[i].trail == null)
+    //                 {
+    //                     wheels[i].trail = wheels[i].t.GetChild(1).gameObject;
+    //                 }
+    //
+    //                 if (identicalSuspension4AW)
+    //                 {
+    //                     wheels[i].suspensionHeight = suspensionHeight;
+    //                     wheels[i].wheelSize = wheelSize;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
     public IEnumerator CR_HealthAnimator()
     {
@@ -741,7 +748,8 @@ public class NewCarController : MonoBehaviour
             moveInput = 0;
             turnInput = 0;
             DeathExplosion.SetActive(true);
-            CarRB.AddExplosionForce(20f, this.CarRB.transform.position + (-Vector3.up * 2f), 20f, 500f, ForceMode.Impulse);
+            CarRB.AddExplosionForce(20f, this.CarRB.transform.position + (-Vector3.up * 2f), 20f, 500f,
+                ForceMode.Impulse);
             if (theKiller > -1 && theKiller != _realtimeView.ownerIDInHierarchy
             ) //prevent self kill and ghost killing (player dies for a different reason but points are registered to the player who had killed them last, in the past)
             {
@@ -749,7 +757,7 @@ public class NewCarController : MonoBehaviour
                 theKiller = -1;
             }
 
-            StartCoroutine(RespawnCountDown(5f));    
+            StartCoroutine(RespawnCountDown(5f));
         }
     }
 
@@ -761,6 +769,7 @@ public class NewCarController : MonoBehaviour
             yield return wait1sec;
             deathSound.Play();
         }
+
         DeathExplosion.SetActive(false);
         ResetPlayerHealth();
     }

@@ -61,7 +61,11 @@ public class GameManager : MonoBehaviour
 
     public bool GameStarted = false;
     [SerializeField] GameObject PanCamera;
+    WaitForSeconds wait2secs;
+    WaitForEndOfFrame waitFrame;
 
+
+    [Space] [Header("Start Settings")] public float countdownBeforeStart=10f;
     private void OnDrawGizmos()
     {
         float radians = direction * Mathf.Deg2Rad;
@@ -88,8 +92,6 @@ public class GameManager : MonoBehaviour
         }
 
         instance = this;
-        transform.parent = null;
-        DontDestroyOnLoad(gameObject);
     }
 
     #endregion
@@ -145,9 +147,11 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         SingletonCheck();
+        wait2secs = new WaitForSeconds(2f);
+        waitFrame = new WaitForEndOfFrame();
         phaseManager = GetComponent<PhaseManager>();
         gameSceneManager = FindObjectOfType<GameSceneManager>();
-        chaseCam = GameObject.FindObjectOfType<ChaseCam>();
+        chaseCam = FindObjectOfType<ChaseCam>();
         playerManager = FindObjectOfType<PlayerManager>();
         uIManager = FindObjectOfType<UIManager>();
         lootManager = FindObjectOfType<LootManager>();
@@ -156,7 +160,7 @@ public class GameManager : MonoBehaviour
         //HeatText = GameObject.FindGameObjectWithTag("OverHeatText");
         // Get the Realtime component on this game object
         _realtime = GetComponent<Realtime>();
-        spawnPoint = new Vector3(
+        spawnPoint = new Vector3(// todo move to startup logic
             UnityEngine.Random.Range(center.x - (size.x * .5f), center.x + (size.x * .5f)),
             UnityEngine.Random.Range(center.y - (size.y * .5f), center.y + (size.y * .5f)),
             UnityEngine.Random.Range(center.z - (size.z * .5f), center.z + (size.z * .5f))
@@ -192,8 +196,8 @@ public class GameManager : MonoBehaviour
             if (!truckIsKilled)
             {
                 truckIsKilled = true;
-                readyToStart = true;
                 phaseManager.NextPhase();
+                readyToStart = true;
                 //Debug.LogWarning("IronHog has been killed!");
             }
         }
@@ -201,7 +205,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator CheckTruckDistanceOutline()
     {
-        while (true)
+        while (instance.gameObject.activeSelf)
         {
             if (lootTruck != null &&
                 PlayerManager.instance.localPlayer != null)
@@ -217,7 +221,8 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(2f);
+            playerManager.UpdateExistingPlayers();
+            yield return wait2secs;
         }
     }
 
@@ -234,30 +239,22 @@ public class GameManager : MonoBehaviour
             if (!isCountingDown)
             {
                 isCountingDown = true;
-                StartCoroutine(CountDownTimeContinously());
+                StartCoroutine(CountDownTimeContinuously());
             }
         }
 
-        if (lootTruck != null && GameStarted)
-        {
-            TruckHealthCheck();
-        }
+        if (lootTruck != null)
+            if (GameStarted) TruckHealthCheck();
+            else lootTruck = FindObjectOfType<Truck>();
     }
 
-    private void DidDisconnectFromRoom(Realtime realtime)
+    public void RaceEnded()
     {
-        _realtime.didConnectToRoom -= DidConnectToRoom;
-        _realtime.didDisconnectFromRoom -= DidDisconnectFromRoom;
         chaseCam.ResetCam();
     }
 
-    public void ConnectToRoom(int _selection)
+    public void StartTheRace(int _selection)
     {
-        if (_realtime.connected)
-        {
-            _realtime.Disconnect();
-        }
-
         switch (_selection)
         {
             case 0:
@@ -269,19 +266,18 @@ public class GameManager : MonoBehaviour
             case 2:
                 preferredCar = "Car3";
                 break;
-            default:
-                break;
         }
 
         if (playerNameInputField.text.Length > 0)
         {
-            Debug.Log(preferredCar);
-            _realtime.didConnectToRoom += DidConnectToRoom;
-            _realtime.didDisconnectFromRoom += DidDisconnectFromRoom;
-            _roomName = LobbyManager.instance.RoomName();
-            _realtime.Connect(_roomName);
+            _roomName = LobbyManager.instance.roomName;
             Cursor.visible = false;
-            //Debug.LogWarning("Room name set to: " + _roomName);
+            SpawnCar();
+            if (isHost)
+            {
+                //spawn a new timer object to count down for the race start TODO
+            }
+            FixAssociations();  
         }
     }
 
@@ -302,9 +298,10 @@ public class GameManager : MonoBehaviour
         truckIsKilled = false;
     }
 
-    private void DidConnectToRoom(Realtime realtime)
+    private void SpawnCar()
     {
-        //isConnected = true;
+//pick a spawn point to put players in a line TODO
+
         _tempName = preferredCar != "" ? preferredCar : "Car1";
         GameObject _temp = Realtime.Instantiate(_tempName,
             position: spawnPoint,
@@ -313,75 +310,56 @@ public class GameManager : MonoBehaviour
             preventOwnershipTakeover: true,
             useInstance: _realtime);
 
-        if (_temp.GetComponent<NewCarController>()._realtime)
-        {
-            _temp.GetComponent<NewCarController>()._realtime = _realtime;
-        }
-        else
-        {
-            _temp.GetComponent<NewCarController>()._realtime = _realtime;
-        }
-
         playerName = playerNameInputField.text;
-        _temp.GetComponent<Player>().SetPlayerName(playerName);
 
-        _temp.GetComponent<ItemDataProcessor>().ObtainLoadOutData(lootManager.ObatinCurrentBuild());
+        _temp.GetComponent<Player>().SetPlayerName(playerName);
+        _temp.GetComponent<ItemDataProcessor>().ObtainLoadOutData(lootManager.ObtainCurrentBuild());
         _temp.GetComponent<ItemDataProcessor>().ProcessVisualIndices(
             new Vector3((_temp.GetComponent<ItemDataProcessor>().WeaponSelectorCount() - 1)
-            , lootManager.VisualModelIndex().y, lootManager.VisualModelIndex().z));
-        MiniMapCamera _tempCam = FindObjectOfType<MiniMapCamera>();
-        if (_tempCam != null)
-        {
-            _tempCam._master = _temp.transform;
-        }
-
+                , lootManager.VisualModelIndex().y, lootManager.VisualModelIndex().z));
         ResetBoolsForNewRound();
-        _race.ChangeIsOn(true);
         _enterNameCanvas.gameObject.SetActive(false);
-        //HeatText.SetActive(false);
-        //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
-        Walls = FindObjectsOfType<WallLocalMarker>();
+
+        Walls = FindObjectsOfType<WallLocalMarker>(); // todo move to race start logic
         if (isHost) ResetWalls();
+
         PlayerManager.instance.AddLocalPlayer(_temp.transform);
-        Invoke("KeepTrackOfWinConditions", 3f);
         jukebox.SwitchState(State.game);
-        _race.ChangeIsOn(true);
-        PanCamera.SetActive(true);
+        
+
+        PanCamera.SetActive(true); //todo integrate into start sequence
         if (PanCamera.GetComponentInChildren<CameraMover>() != null)
             PanCamera.GetComponentInChildren<CameraMover>().StartMoving();
-    }
 
-    private void KeepTrackOfWinConditions()
-    {
         lootTruck = FindObjectOfType<Truck>();
-        if (lootTruck != null)
-        {
-            TruckOutline = lootTruck.TruckOutline;
-            StartCoroutine(CheckTruckDistanceOutline());
-            //TruckOutline.enabled = false;
-        }
+        TruckOutline = lootTruck.TruckOutline;
 
-        _race = GetComponent<Race>();
-        _race.ChangeIsOn(true);
-        playerManager.UpdateExistingPlayers();
         phaseManager.StartPhaseSystem();
-
-        //TruckHealthCheckCR = StartCoroutine(LootTruckHealthCheck());
-        //Debug.LogWarning("HealthCheckStartedAtTheBeginningOfTheGame");
+        StartCoroutine(CheckTruckDistanceOutline());
+        if (isHost)
+        {
+             _race = Realtime.Instantiate("Race",
+                 position: spawnPoint,
+                 rotation: Quaternion.Euler(0, direction, 0),
+                 ownedByClient: true,
+                 preventOwnershipTakeover: true,
+                 useInstance: _realtime).GetComponent<Race>();
+             _race.ChangeIsOn(true);
+        }        
     }
 
-    private IEnumerator CountDownTimeContinously()
+    private IEnumerator CountDownTimeContinuously()
     {
-        while (true)
+        while (instance.gameObject.activeSelf)
         {
             while (isCountingDown)
             {
                 TimerCountDown();
-                yield return null;
+                yield return waitFrame;
             }
 
             isCountingDown = false;
-            yield return null;
+            yield return waitFrame;
         }
     }
 
@@ -410,11 +388,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void DisconnectFromServer()
-    {
-        _realtime.room.Disconnect();
-    }
-
     public void StartEndDisplaySequence()
     {
         _race.ChangeIsOn(false);
@@ -441,19 +414,16 @@ public class GameManager : MonoBehaviour
         //Disable other things that needs to be disabled in game
         uIManager.timeRemaining.ClearMesh();
         //Debug.LogWarning("HealthCheckStoppedAtTheEndOfTheGame");
-        _race.ChangeGameTime(0);
+        if (isHost)
+        {
+            _race.ChangeGameTime(0);
+            _race.ChangeIsOn(false);        
+        }
+        
     }
 
     public void Quit()
     {
         Application.Quit();
     }
-}
-
-public struct GameWinConditions
-{
-    //Parameters to fulfill winconditions
-    public int winConIndex;
-    public int playerIDtoAward;
-    public bool isCompleted;
 }

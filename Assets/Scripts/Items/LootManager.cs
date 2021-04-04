@@ -46,8 +46,6 @@ public class LootManager : MonoBehaviour
         }
 
         instance = this;
-        transform.parent = null;
-        DontDestroyOnLoad(gameObject);
     }
 
     #endregion
@@ -91,7 +89,7 @@ public class LootManager : MonoBehaviour
     [SerializeField]
     private LootDecoder lootDecoder;
 
-    public Vector3 VisualIndex = Vector3.zero;
+    public Vector3 VisualIndex;
     private void Awake()
     {
         SingletonCheck();
@@ -188,16 +186,9 @@ public class LootManager : MonoBehaviour
         selected_buildLoadOutToView = buildToDisplay;
     }
 
-    public BuildLoadOutSObj ObatinCurrentBuild()
+    public BuildLoadOutSObj ObtainCurrentBuild()
     {
-        if (current_buildLoadOut != null)
-        {
-            return current_buildLoadOut;
-        }
-        else
-        {
-            return null;
-        }
+        return current_buildLoadOut;
     }
 
     //For UI build buttons to use

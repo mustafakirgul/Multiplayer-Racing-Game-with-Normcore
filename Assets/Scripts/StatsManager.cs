@@ -19,8 +19,6 @@ public class StatsManager : MonoBehaviour
         }
 
         instance = this;
-        transform.parent = null;
-        DontDestroyOnLoad(gameObject);
     }
 
     #endregion

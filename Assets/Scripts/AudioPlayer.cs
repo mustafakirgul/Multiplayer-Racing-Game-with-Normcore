@@ -9,11 +9,6 @@ public class AudioPlayer : MonoBehaviour
     [Range(0f, 1f)] public float spatialBlend = 0.666f;
     [Range(0f, 360f)] public float spread = 0f;
 
-    private void OnValidate()
-    {
-        Initialize();
-    }
-
     private void Initialize()
     {
         if (source == null) source = GetComponent<AudioSource>();

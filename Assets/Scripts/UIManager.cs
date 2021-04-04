@@ -204,7 +204,7 @@ public class UIManager : MonoBehaviour
             BuildModelsAppearance[i].SetActive(false);
         }
 
-        GameManager.instance.ConnectToRoom(SelectedBuildToView);
+        GameManager.instance.StartTheRace(SelectedBuildToView);
         _lootManager.DeploySelectedBuild();
         lastbuildSelected = SelectedBuildToView;
     }

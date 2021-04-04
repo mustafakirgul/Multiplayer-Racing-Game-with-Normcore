@@ -71,7 +71,7 @@ public class Player : RealtimeComponent<PlayerModel>
         if (realtimeView.isOwnedLocallyInHierarchy)
         {
             statsEntity = Realtime.Instantiate("StatEntity",
-                position: Vector3.zero,
+                position: transform.position,
                 rotation: Quaternion.identity,
                 ownedByClient: true,
                 preventOwnershipTakeover: true,

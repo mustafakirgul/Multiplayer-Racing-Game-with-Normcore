@@ -41,8 +41,6 @@ public class GameSceneManager : MonoBehaviour
         }
 
         instance = this;
-        transform.SetParent(null);
-        DontDestroyOnLoad(this.gameObject);
     }
 
     #endregion
@@ -192,7 +190,6 @@ public class GameSceneManager : MonoBehaviour
             Debug.Log("Loading Game Scene");
             //Disable all start splashes
             //Start end sequence here
-            LobbyManager.instance.ConnectToLobby(GameManager.instance.isHost);
             LootManager.instance.RollForLoot();
             DisableEndSplashes();
             StartCoroutine(DelaySceneTransiton(0f));

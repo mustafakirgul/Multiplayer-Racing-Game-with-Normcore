@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class ContainerSelector : MonoBehaviour
 {
-    public List<GameObject> ModelToActiavte = new List<GameObject>();
+    public List<GameObject> ModelToActivate = new List<GameObject>();
     // Start is called before the first frame update
     private void OnValidate()
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (!ModelToActiavte.Contains(this.transform.GetChild(i).gameObject))
+            if (!ModelToActivate.Contains(this.transform.GetChild(i).gameObject))
             {
-                ModelToActiavte.Add(this.transform.GetChild(i).gameObject);
+                ModelToActivate.Add(this.transform.GetChild(i).gameObject);
             }
         }
     }
    
     public void DeActivateChildren()
     {
-        for (int i = 0; i < ModelToActiavte.Count; i++)
+        for (int i = 0; i < ModelToActivate.Count; i++)
         {
-            ModelToActiavte[i].SetActive(false);
+            ModelToActivate[i].SetActive(false);
         }
     }
 
@@ -33,6 +33,6 @@ public class ContainerSelector : MonoBehaviour
     public void ActivateItem(int itemIndexToActivate)
     {
         DeActivateChildren();
-        ModelToActiavte[itemIndexToActivate].SetActive(true);
+        ModelToActivate[itemIndexToActivate].SetActive(true);
     }
 }

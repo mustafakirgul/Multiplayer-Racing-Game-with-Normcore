@@ -1,24 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 using Normal.Realtime;
 using TMPro;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviour
 {
     public static LobbyManager instance;
     public bool isHost;
-    public int maxPlayers = 8;
-    private Lobbiest _lobbiest;
+    private readonly int maxPlayers = 16;
+    public Lobbiest _lobbiest;
     private Realtime _realtime => FindObjectOfType<Realtime>();
-    private RealtimeView _rtView => GetComponent<RealtimeView>();
     private Coroutine cr_RoomChecker;
 
     private bool isConnectedToALobby;
-    private bool tooManyPLayers;
     private bool tryingToConnect;
 
     public float serverCheckDelay = 1f;
@@ -27,39 +24,32 @@ public class LobbyManager : MonoBehaviour
     private WaitForSeconds wait => new WaitForSeconds(serverCheckDelay);
     public Image radialLoader, feedbackLoader;
     public Text playerNumber, readyPlayerNumber, feedback, maxPlayerNumber, garageGoFeedback;
-    private string roomName;
+    public string roomName;
     private UIManager uIManager;
-    private Canvas canvas;
-    public InputField roomNameCreate, roomNameJoin, numberOfPlayers;
+    public GameObject connectionPanel;
+    public InputField roomNameJoin;
     public TMP_InputField playerNameInputField;
     private RectTransform feedbackLoaderRectTransform;
-    private Coroutine cr_ConnectToRoom;
-    private bool stayDisconnected = true;
     private JukeBox jukebox => FindObjectOfType<JukeBox>();
-    private bool freshLobby = true;
     public Image readyLight;
-    
+    [Space] public char[] characters;
+
     private void Awake()
     {
-        lobbiests = new List<Lobbiest>();
-        uIManager = FindObjectOfType<UIManager>();
-        canvas = GetComponent<Canvas>();
-        feedbackLoaderRectTransform = feedbackLoader.GetComponent<RectTransform>();
+        instance = this;
     }
 
     private void Start()
     {
-        if (instance != null)
-        {
-            if (instance != this)
-            {
-                Destroy(gameObject);
-            }
-        }
-        else
-        {
-            instance = this;
-        }
+        lobbiests = new List<Lobbiest>();
+        uIManager = FindObjectOfType<UIManager>();
+        feedbackLoaderRectTransform = feedbackLoader.GetComponent<RectTransform>();
+    }
+
+
+    public void JoinRoom()
+    {
+        //TODO
     }
 
     private void Update()
@@ -70,6 +60,7 @@ public class LobbyManager : MonoBehaviour
         }
 
         feedbackLoader.fillAmount = tryingToConnect ? Time.timeSinceLevelLoad % 1f : 0f;
+        if (feedbackLoaderRectTransform == null) return;
         feedbackLoaderRectTransform.localEulerAngles = tryingToConnect
             ? new Vector3(feedbackLoaderRectTransform.localEulerAngles.x,
                 feedbackLoaderRectTransform.localEulerAngles.y,
@@ -94,13 +85,7 @@ public class LobbyManager : MonoBehaviour
             if (count == ready)
             {
                 isConnectedToALobby = false;
-                if (cr_ConnectToRoom != null)
-                    StopCoroutine(cr_ConnectToRoom);
-                float delay = 0f;
-                if (!isHost)
-                    delay = 1f;
-                //Debug.LogWarning("Count: " + count + " | Ready: " + ready);
-                cr_ConnectToRoom = StartCoroutine(CR_ConnectToRace(delay));
+                uIManager.ConnectToRoom();
             }
         }
         else
@@ -112,67 +97,33 @@ public class LobbyManager : MonoBehaviour
         maxPlayerNumber.text = "/ " + maxPlayers;
     }
 
-    IEnumerator CR_ConnectToRace(float delay)
+    public void CreateGame() // if create is false it will only try to connect an existing room
     {
-        yield return new WaitForSeconds(delay);
-        _realtime.Disconnect();
-    }
-
-    public void ConnectToLobby(bool create) // if create is false it will only try to connect an existing room
-    {
-        if (_realtime.connected)
-        {
-            _realtime.Disconnect();
-        }
-
         radialLoader.fillAmount = 0;
 
-        isHost = create;
+        isHost = true;
         GameManager.instance.isHost = isHost;
         tryingToConnect = true;
-        if (create)
-        {
-            if (roomNameCreate.text.Length == 0)
-            {
-                feedback.text += "Room name cannot be blank\n";
-                tryingToConnect = false;
-                return; //name cannot be blank
-            }
 
-            roomName = roomNameCreate.text;
-            feedback.text += "Trying to connect: " + roomName + "\n";
-
-            if (numberOfPlayers.text.Length != 1)
-            {
-                feedback.text += "Maximum player number must be single digit\n";
-                tryingToConnect = false;
-                return; //not a one digit number
-            }
-
-            if (!int.TryParse(numberOfPlayers.text, out maxPlayers))
-            {
-                feedback.text += "'" + numberOfPlayers.text + "' is not a number\n";
-                tryingToConnect = false;
-                return;
-            }
-        }
-        else
-        {
-            if (roomNameJoin.text.Length == 0)
-            {
-                feedback.text += "Room name cannot be blank\n";
-                tryingToConnect = false;
-                return; //name cannot be blank
-            }
-
-            roomName = roomNameJoin.text.ToLower();
-            feedback.text += "Trying to connect to room " + roomName + "\n";
-        }
-
-        _realtime.didConnectToRoom += DidConnectToLobby;
-        _realtime.didDisconnectFromRoom += DidDisconnectFromLobby;
+        roomName = GenerateRandomString(6);
+        Debug.LogWarning("ROOM: " + roomName);
         GameManager.instance._roomName = roomName;
+
+        _realtime.didConnectToRoom += DidConnectToGame;
+        _realtime.didDisconnectFromRoom += DidDisconnectFromGame;
+
         _realtime.Connect(roomName);
+    }
+
+    private string GenerateRandomString(int len)
+    {
+        var sb = new StringBuilder();
+        for (int i = 0; i < len; i++)
+        {
+            sb.Append(characters[Random.Range(0, characters.Length)]);
+        }
+
+        return sb.ToString();
     }
 
     public void DisconnectFromLobby()
@@ -201,7 +152,6 @@ public class LobbyManager : MonoBehaviour
             return;
         }
 
-        stayDisconnected = false;
         readyLight.enabled = true;
         _lobbiest.ChangeIsReady(true);
     }
@@ -209,11 +159,6 @@ public class LobbyManager : MonoBehaviour
     public void ClearGoFeedback()
     {
         if (playerNameInputField.text.Length > 0) garageGoFeedback.text = "";
-    }
-
-    public string RoomName()
-    {
-        return _lobbiest.roomName;
     }
 
     public void RegisterLobbiest(Lobbiest lobbiest)
@@ -228,7 +173,7 @@ public class LobbyManager : MonoBehaviour
             lobbiests.Remove(lobbiest);
     }
 
-    void DidConnectToLobby(Realtime realtime)
+    void DidConnectToGame(Realtime realtime)
     {
         GameObject _temp = Realtime.Instantiate("Lobbiest",
             position: Vector3.zero,
@@ -244,6 +189,7 @@ public class LobbyManager : MonoBehaviour
         cr_RoomChecker = StartCoroutine(CR_Checkroom());
         jukebox.SwitchState(State.menu);
         readyLight.enabled = false;
+        tryingToConnect = false;
     }
 
     private IEnumerator CR_Checkroom()
@@ -251,73 +197,36 @@ public class LobbyManager : MonoBehaviour
         yield return wait;
         _lobbiest.ChangeMaxPlayers(maxPlayers);
         var count = lobbiests.Count;
-        if (freshLobby)
+        if (GameManager.instance._race == null) GameManager.instance._race = FindObjectOfType<Race>();
+        if (GameManager.instance._race.m_isOn)
         {
-            freshLobby = false;
-            if (!isHost) //if not creating but just trying to join
-            {
-                if (count == 1) // there is only you in the room
-                {
-                    feedback.text += "This room does not exist!!! Try creating one\n";
-                    stayDisconnected = true;
-                    DisconnectFromLobby();
-                    yield break;
-                }
-
-                for (int i = 0; i < lobbiests.Count; i++)
-                {
-                    if (lobbiests[i].isHost)
-                        maxPlayers = lobbiests[i].maxPlayers;
-                }
-            }
-            else
-            {
-                if (GameManager.instance._race.m_isOn)
-                {
-                    feedback.text += "The race on this room has already started. Please create another room.";
-                    stayDisconnected = true;
-                    DisconnectFromLobby();
-                    yield break;
-                }
-
-                if (count > 1)
-                {
-                    feedback.text +=
-                        "A room with this name has already been created. Please try creating another room with a different name.";
-                    stayDisconnected = true;
-                    DisconnectFromLobby();
-                    yield break;
-                }
-            }
-
-            if (count > maxPlayers && maxPlayers > 0)
-            {
-                feedback.text += "Too Many Players!!! Max players for this room is limited to " + maxPlayers +
-                                 " and you are number " + count + "\n";
-                stayDisconnected = true;
-                DisconnectFromLobby();
-                yield break;
-            }
+            feedback.text += "The race on this room has already started. Please create another room.";
+            DisconnectFromLobby();
+            yield break;
         }
 
-        feedback.text += "Connected to lobby of " + roomName + "\n";
-        canvas.enabled = false;
-        stayDisconnected = true;
+        if (count > maxPlayers && maxPlayers > 0)
+        {
+            feedback.text += "Too Many Players!!! Max players for this room is limited to " + maxPlayers +
+                             " and you are number " + count + "\n";
+            DisconnectFromLobby();
+            yield break;
+        }
+
+        feedback.text += "Connected to room " + roomName + "\n";
+        connectionPanel.SetActive(false);
         feedback.text = "";
-        cr_RoomChecker = null;
+
         yield return new WaitForSeconds(2f);
         isConnectedToALobby = true;
         tryingToConnect = false;
-        feedback.text += "Max Player number is set to " + maxPlayers + "\n";
+        cr_RoomChecker = null;
     }
 
-    void DidDisconnectFromLobby(Realtime realtime)
+    void DidDisconnectFromGame(Realtime realtime)
     {
         isConnectedToALobby = false;
-        lobbiests.Clear();
-        _realtime.didConnectToRoom -= DidConnectToLobby;
-        _realtime.didDisconnectFromRoom -= DidDisconnectFromLobby;
-        if (stayDisconnected) return;
-        uIManager.ConnectToRoom();
+        _realtime.didConnectToRoom -= DidConnectToGame;
+        _realtime.didDisconnectFromRoom -= DidDisconnectFromGame;
     }
 }
