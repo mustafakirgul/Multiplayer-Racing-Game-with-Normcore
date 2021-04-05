@@ -3,7 +3,57 @@ guid: 2b01f3f9b067949a681aa78d04286809
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DuoGun.Base
+    second: {fileID: 2100000, guid: 0b8c9e1df927d4602b78538fbdd65e1d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DuoGun.Cylinders01
+    second: {fileID: 2100000, guid: 0a9393c4344d3435093d9ce179521ce7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DuoGun.Cylinders02
+    second: {fileID: 2100000, guid: 70522c9132ab0424aa785aeb0f0ec914, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DuoGun.Main
+    second: {fileID: 2100000, guid: edd4455914d34466097a0f5149d09830, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DuoGun.Part01
+    second: {fileID: 2100000, guid: 7523d14aa07724a49a938d82185a6cd7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DuoGun.Part02
+    second: {fileID: 2100000, guid: a1b8267271a6b4ffeb504865924f83a0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DuoGun.Part03
+    second: {fileID: 2100000, guid: fb491d8937fef48c8b49c902f6c541b2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DuoGun.Part04
+    second: {fileID: 2100000, guid: 4f551bc65cef74755a1f67d6b66ab880, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DuoGun.Pipes01
+    second: {fileID: 2100000, guid: a86b313846cc84d77b8e95aa61835c15, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DuoGun.Pipes02
+    second: {fileID: 2100000, guid: 337cea3fd76ce4c17826e9c7b3025e90, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

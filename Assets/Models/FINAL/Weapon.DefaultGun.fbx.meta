@@ -3,7 +3,52 @@ guid: e66fcebc5b65b4c07bbfc9108d88f5f1
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DefaultGun.Base
+    second: {fileID: 2100000, guid: 2c20339d4e10b4cd5a273bfe982075de, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DefaultGun.Cylinders
+    second: {fileID: 2100000, guid: 35afe95dc20f245899de67dc6788d5b2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DefaultGun.Part01
+    second: {fileID: 2100000, guid: c96e1762d600a4be1869aadc95573a98, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DefaultGun.Part02
+    second: {fileID: 2100000, guid: 04685c349e5fa476a89807492ceb7a08, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DefaultGun.Part03
+    second: {fileID: 2100000, guid: a7bd2ad8137be4d6c925a37237bcadd2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DefaultGun.Part04
+    second: {fileID: 2100000, guid: 65a30bfbedc784072b3314d02521a2d0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DefaultGun.Part05
+    second: {fileID: 2100000, guid: 2188d3fe20eab41ebbbe9aae64018d8a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DefaultGun.Part06
+    second: {fileID: 2100000, guid: 5b445053cc17044e2a050f21137b1f31, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.DefaultGun.Pipes
+    second: {fileID: 2100000, guid: f0895dd4198944e8e80e364e0c1ea332, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

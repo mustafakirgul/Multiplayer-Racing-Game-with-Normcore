@@ -3,7 +3,12 @@ guid: 8e32b420fc7f945f7b3cf39d05090127
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Melee.Tank.Lvl1
+    second: {fileID: 2100000, guid: 39d0039b3867c470a8b900487712f8ad, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

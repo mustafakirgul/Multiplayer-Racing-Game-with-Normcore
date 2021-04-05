@@ -3,7 +3,17 @@ guid: 4339a30a1521e4cb5a757615cd8b4b11
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Melee.Tank.Lvl3
+    second: {fileID: 2100000, guid: 39e6adc3eeddf4e638b7db7b493c8b2a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Melee.Tank.Lvl3.Spikes
+    second: {fileID: 2100000, guid: 1883a3587662b4d6ca1011461b3f7ce8, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
