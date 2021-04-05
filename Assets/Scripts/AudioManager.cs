@@ -50,7 +50,7 @@ public class AudioManager : MonoBehaviour
     {
         musicIsOn = !musicIsOn;
         toggleMusic.sprite = musicIsOn ? onImage : offImage;
-        if (musicIsOn) jukeBox.SwitchState(State.game);
+        if (musicIsOn) jukeBox.SwitchState(State.menu);
         else jukeBox.SwitchState(State.off);
     }
 

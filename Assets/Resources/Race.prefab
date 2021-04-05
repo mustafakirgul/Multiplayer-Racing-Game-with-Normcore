@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4882128743802882588}
   - component: {fileID: 4882128743802882578}
   - component: {fileID: 4882128743802882589}
+  - component: {fileID: 1481464651155700146}
   m_Layer: 0
   m_Name: Race
   m_TagString: Untagged
@@ -53,6 +54,8 @@ MonoBehaviour:
   _components:
   - componentID: 1
     component: {fileID: 4882128743802882589}
+  - componentID: 2
+    component: {fileID: 1481464651155700146}
   _childViews: []
 --- !u!114 &4882128743802882589
 MonoBehaviour:
@@ -70,3 +73,21 @@ MonoBehaviour:
   m_fRaceDuration: 5
   m_iPhase: 0
   m_isOn: 0
+--- !u!114 &1481464651155700146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4882128743802882591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1029778088, guid: 30f4fd177e1fad742be136a8237ab587, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolate: 0
+  _syncPosition: 0
+  _syncRotation: 0
+  _syncScale: 0
+  _syncVelocity: 1
+  _maintainOwnershipWhileSleeping: 0

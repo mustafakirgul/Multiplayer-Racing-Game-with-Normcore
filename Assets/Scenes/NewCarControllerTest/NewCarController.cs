@@ -142,7 +142,7 @@ public class NewCarController : MonoBehaviour
     public Image healthRadialLoader;
     public float m_fplayerLastHealth;
     public GameObject DeathExplosion;
-    bool isPlayerAlive = true;
+    public bool isPlayerAlive = true;
     public float explosionForce = 2000000f;
     public float resetHeight;
 

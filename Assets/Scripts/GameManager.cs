@@ -65,7 +65,8 @@ public class GameManager : MonoBehaviour
     WaitForEndOfFrame waitFrame;
 
 
-    [Space] [Header("Start Settings")] public float countdownBeforeStart=10f;
+    [Space] [Header("Start Settings")] public float countdownBeforeStart = 10f;
+
     private void OnDrawGizmos()
     {
         float radians = direction * Mathf.Deg2Rad;
@@ -155,12 +156,13 @@ public class GameManager : MonoBehaviour
         playerManager = FindObjectOfType<PlayerManager>();
         uIManager = FindObjectOfType<UIManager>();
         lootManager = FindObjectOfType<LootManager>();
+        _enterNameCanvas = GameObject.FindGameObjectWithTag("garage").GetComponent<Canvas>();
         _enterNameCanvas.gameObject.SetActive(true);
         //HeatMeter = GameObject.FindGameObjectWithTag("OverHeatMeter");
         //HeatText = GameObject.FindGameObjectWithTag("OverHeatText");
         // Get the Realtime component on this game object
         _realtime = GetComponent<Realtime>();
-        spawnPoint = new Vector3(// todo move to startup logic
+        spawnPoint = new Vector3( // todo move to startup logic
             UnityEngine.Random.Range(center.x - (size.x * .5f), center.x + (size.x * .5f)),
             UnityEngine.Random.Range(center.y - (size.y * .5f), center.y + (size.y * .5f)),
             UnityEngine.Random.Range(center.z - (size.z * .5f), center.z + (size.z * .5f))
@@ -172,6 +174,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator Start()
     {
+        FixAssociations();
         yield return new WaitForSeconds(1f);
         jukebox.SwitchState(State.menu);
     }
@@ -277,7 +280,8 @@ public class GameManager : MonoBehaviour
             {
                 //spawn a new timer object to count down for the race start TODO
             }
-            FixAssociations()
+
+            FixAssociations();
         }
     }
 
@@ -288,11 +292,8 @@ public class GameManager : MonoBehaviour
             playerNameInputField = GameObject.FindGameObjectWithTag("enterNameField").GetComponent<TextMeshProUGUI>();
         }
 
-        //_enterNameCanvas = GameObject.FindGameObjectWithTag("enterNameCanvas").GetComponent<Canvas>();
-        _miniMapCamera = GameObject.FindGameObjectWithTag("miniMapCamera").GetComponent<Camera>();
-
         gameSceneManager = FindObjectOfType<GameSceneManager>();
-        chaseCam = GameObject.FindObjectOfType<ChaseCam>();
+        chaseCam = FindObjectOfType<ChaseCam>();
         playerManager = FindObjectOfType<PlayerManager>();
         uIManager = FindObjectOfType<UIManager>();
         truckIsKilled = false;
@@ -318,14 +319,15 @@ public class GameManager : MonoBehaviour
             new Vector3((_temp.GetComponent<ItemDataProcessor>().WeaponSelectorCount() - 1)
                 , lootManager.VisualModelIndex().y, lootManager.VisualModelIndex().z));
         ResetBoolsForNewRound();
+        _enterNameCanvas = GameObject.FindGameObjectWithTag("garage").GetComponent<Canvas>();
         _enterNameCanvas.gameObject.SetActive(false);
 
         Walls = FindObjectsOfType<WallLocalMarker>(); // todo move to race start logic
-        if (isHost) ResetWalls();
+        if (LobbyManager.instance.isHost) ResetWalls();
 
         PlayerManager.instance.AddLocalPlayer(_temp.transform);
         jukebox.SwitchState(State.game);
-        
+
 
         PanCamera.SetActive(true); //todo integrate into start sequence
         if (PanCamera.GetComponentInChildren<CameraMover>() != null)
@@ -336,16 +338,16 @@ public class GameManager : MonoBehaviour
 
         phaseManager.StartPhaseSystem();
         StartCoroutine(CheckTruckDistanceOutline());
-        if (isHost)
+        if (LobbyManager.instance.isHost)
         {
-             _race = Realtime.Instantiate("Race",
-                 position: spawnPoint,
-                 rotation: Quaternion.Euler(0, direction, 0),
-                 ownedByClient: true,
-                 preventOwnershipTakeover: true,
-                 useInstance: _realtime).GetComponent<Race>();
-             _race.ChangeIsOn(true);
-        }        
+            _race = Realtime.Instantiate("Race",
+                position: transform.position,
+                rotation: Quaternion.Euler(0, direction, 0),
+                ownedByClient: true,
+                preventOwnershipTakeover: true,
+                useInstance: _realtime).GetComponent<Race>();
+            _race.ChangeIsOn(true);
+        }
     }
 
     private IEnumerator CountDownTimeContinuously()
@@ -417,9 +419,8 @@ public class GameManager : MonoBehaviour
         if (isHost)
         {
             _race.ChangeGameTime(0);
-            _race.ChangeIsOn(false);        
+            _race.ChangeIsOn(false);
         }
-        
     }
 
     public void Quit()

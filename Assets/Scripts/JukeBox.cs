@@ -31,9 +31,11 @@ public class JukeBox : MonoBehaviour
     public void SwitchState(State _state)
     {
         if (_state == state) return;
+        if (!AudioManager.instance.musicIsOn && _state != State.off) return;
         state = _state;
         source.Stop();
         source.clip = null;
+        if (state == State.off) return;
         for (int i = 0; i < musics.Length; i++)
         {
             if (musics[i].state == state)

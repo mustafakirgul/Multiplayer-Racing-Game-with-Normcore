@@ -18,6 +18,7 @@ TagManager:
   - OverHeatMeter
   - OverHeatText
   - boombasticPoint
+  - garage
   layers:
   - Default
   - TransparentFX
