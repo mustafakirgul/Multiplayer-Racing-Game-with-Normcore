@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current_buildType: 0
-  current_buildLoadOut: {fileID: 0}
+  current_buildLoadOut: {fileID: 11400000, guid: 3cb30a6725e004c43ac4cbf3cdf4c539,
+    type: 2}
   playerLootPoolSave: {fileID: 11400000, guid: f4af1a47b6b1a90409e63d9317c5340e, type: 2}
   selected_buildType: 0
   selected_buildLoadOutToView: {fileID: 0}
