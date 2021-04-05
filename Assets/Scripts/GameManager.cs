@@ -421,6 +421,10 @@ public class GameManager : MonoBehaviour
             _race.ChangeGameTime(0);
             _race.ChangeIsOn(false);
         }
+        
+        
+        //reset lobby manager
+        
     }
 
     public void Quit()

@@ -10,7 +10,7 @@ public class LobbyManager : MonoBehaviour
 {
     public static LobbyManager instance;
     public bool isHost;
-    private readonly int maxPlayers = 16;
+    private readonly int maxPlayers = 9;
     public Lobbiest _lobbiest;
     private Realtime _realtime => FindObjectOfType<Realtime>();
     private Coroutine cr_RoomChecker;
@@ -33,6 +33,7 @@ public class LobbyManager : MonoBehaviour
     private JukeBox jukebox => FindObjectOfType<JukeBox>();
     public Image readyLight;
     [Space] public char[] characters;
+    public Text roomNameBanner;
 
     private void Awake()
     {
@@ -50,6 +51,26 @@ public class LobbyManager : MonoBehaviour
     public void JoinRoom()
     {
         //TODO
+
+        radialLoader.fillAmount = 0;
+
+        isHost = false;
+        GameManager.instance.isHost = isHost;
+        tryingToConnect = true;
+
+        roomName = roomNameJoin.text;
+
+        //IF ROOMNAME IS EMPTY THEN DO STUFF, ELSE
+        if (roomName.Length == 0)
+            feedback.text += "Room name cannot be blank!\n";
+        else
+            feedback.text += "Connecting to room: " + roomName + "\n";
+        Debug.LogWarning("ROOM: " + roomName);
+        GameManager.instance._roomName = roomName;
+        roomNameBanner.text = roomName;
+        _realtime.didConnectToRoom += DidConnectToGame;
+        _realtime.didDisconnectFromRoom += DidDisconnectFromGame;
+        _realtime.Connect(roomName);
     }
 
     private void Update()
@@ -108,7 +129,7 @@ public class LobbyManager : MonoBehaviour
         roomName = GenerateRandomString(6);
         Debug.LogWarning("ROOM: " + roomName);
         GameManager.instance._roomName = roomName;
-
+        roomNameBanner.text = roomName;
         _realtime.didConnectToRoom += DidConnectToGame;
         _realtime.didDisconnectFromRoom += DidDisconnectFromGame;
 

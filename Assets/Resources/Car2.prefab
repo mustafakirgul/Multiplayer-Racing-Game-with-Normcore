@@ -1727,6 +1727,7 @@ MonoBehaviour:
   healthRadialLoader: {fileID: 0}
   m_fplayerLastHealth: 0
   DeathExplosion: {fileID: 5371537762756217213}
+  isPlayerAlive: 1
   explosionForce: 20000
   resetHeight: 1
   damageFeedbackDuration: 0.1
@@ -3689,7 +3690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d8c646653ed3544b3569ea1f3d76b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModelToActiavte:
+  ModelToActivate:
   - {fileID: 1744951448792026014}
   - {fileID: 7461194335150082659}
   - {fileID: 5980375494014014461}
@@ -5160,7 +5161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d8c646653ed3544b3569ea1f3d76b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModelToActiavte:
+  ModelToActivate:
   - {fileID: 2792938381728656358}
   - {fileID: 4392492816770721867}
   - {fileID: 46602320909143538}
@@ -5212,7 +5213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d8c646653ed3544b3569ea1f3d76b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModelToActiavte:
+  ModelToActivate:
   - {fileID: 3620063284068840863}
   - {fileID: 4227616304943241693}
   - {fileID: 4609708899130243137}
@@ -6820,7 +6821,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.90250003
+      value: 0.849
       objectReference: {fileID: 0}
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6828,19 +6829,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.076964855
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -3.1077134e-11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -1.3568869e-12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99703383
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_RootOrder
