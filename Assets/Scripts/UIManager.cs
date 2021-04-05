@@ -75,6 +75,12 @@ public class UIManager : MonoBehaviour
 
     public GameObject AutoAimUI, ManualAim;
     public Image HealthBar;
+
+    public Image OverheatMeter;
+    public GameObject OverheatMeterObj;
+    public GameObject OverheatNotice;
+    public GameObject WeaponSwitchIcon;
+
     private void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();

@@ -117,15 +117,14 @@ public class TurretAutoAim : MonoBehaviour
                     RotateTurretToMouse();
             }
 
-
-            if (Input.GetKey(KeyCode.B))
-            {
-                if (weaponChange == null)
-                {
-                    isSwitchingMode = true;
-                    weaponChange = StartCoroutine(ChangeWeaponMode());
-                }
-            }
+            //if (Input.GetKey(KeyCode.B))
+            //{
+            //    if (weaponChange == null)
+            //    {
+            //        isSwitchingMode = true;
+            //        weaponChange = StartCoroutine(ChangeWeaponMode());
+            //    }
+            //}
         }
     }
 
@@ -436,7 +435,7 @@ public class TurretAutoAim : MonoBehaviour
                     //Vector3 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
                     Vector3 direction = (hitInfo.point - this.transform.position);
                     targetRotation = Quaternion.LookRotation(direction);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 3f);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
                 }
                 else
                 {
