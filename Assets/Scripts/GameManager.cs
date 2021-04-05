@@ -277,7 +277,7 @@ public class GameManager : MonoBehaviour
             {
                 //spawn a new timer object to count down for the race start TODO
             }
-            FixAssociations();  
+            FixAssociations()
         }
     }
 
@@ -288,7 +288,7 @@ public class GameManager : MonoBehaviour
             playerNameInputField = GameObject.FindGameObjectWithTag("enterNameField").GetComponent<TextMeshProUGUI>();
         }
 
-        _enterNameCanvas = GameObject.FindGameObjectWithTag("enterNameCanvas").GetComponent<Canvas>();
+        //_enterNameCanvas = GameObject.FindGameObjectWithTag("enterNameCanvas").GetComponent<Canvas>();
         _miniMapCamera = GameObject.FindGameObjectWithTag("miniMapCamera").GetComponent<Camera>();
 
         gameSceneManager = FindObjectOfType<GameSceneManager>();

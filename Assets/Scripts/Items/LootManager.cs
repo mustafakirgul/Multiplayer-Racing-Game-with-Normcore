@@ -89,7 +89,7 @@ public class LootManager : MonoBehaviour
     [SerializeField]
     private LootDecoder lootDecoder;
 
-    public Vector3 VisualIndex;
+    public Vector3 VisualIndex = Vector3.zero;
     private void Awake()
     {
         SingletonCheck();

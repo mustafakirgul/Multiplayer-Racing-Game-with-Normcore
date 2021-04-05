@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d8c646653ed3544b3569ea1f3d76b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModelToActiavte:
+  ModelToActivate:
   - {fileID: 2590035623340855664}
   - {fileID: 8289042456866429554}
   - {fileID: 3296902542621513893}
@@ -1262,7 +1262,7 @@ MonoBehaviour:
   mf_ItemOther: 0
   mf_maxItemCount: 0
   current_buildLoadOut: {fileID: 0}
-  WeaponSelector: {fileID: 0}
+  WeaponSelector: {fileID: 8151629332375594188}
   ArmourSelector: {fileID: 4469279682884567669}
   EngineSelector: {fileID: 7987094622537341634}
 --- !u!114 &7582280230186555917
@@ -3830,7 +3830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d8c646653ed3544b3569ea1f3d76b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModelToActiavte:
+  ModelToActivate:
   - {fileID: 3662049737159792644}
   - {fileID: 2947026022674439081}
   - {fileID: 1492139448114806288}
@@ -5100,7 +5100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d8c646653ed3544b3569ea1f3d76b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModelToActiavte:
+  ModelToActivate:
   - {fileID: 2527833021096505943}
   - {fileID: 7046722758588291382}
   - {fileID: 8316060671752417419}
