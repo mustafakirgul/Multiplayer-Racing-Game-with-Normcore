@@ -236,7 +236,6 @@ public class NewCarController : MonoBehaviour
 
     private void Awake()
     {
-        ToggleController(false);
         wait1sec = new WaitForSeconds(1f);
         lootManager = FindObjectOfType<LootManager>();
         GetPhysicsParamsBasedOnBuild();

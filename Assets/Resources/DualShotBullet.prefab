@@ -386,7 +386,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 245fc645ef8fb7846a2c57345d3ec1f6, type: 3}
   - {fileID: 8300000, guid: 8195fbd1aa11f4b45b03bc32a12d7dc8, type: 3}
   playAtStart: 1
-  randomizeAtStart: 0
+  randomizeAtStart: 1
   spatialBlend: 0.666
   spread: 0
 --- !u!82 &2156398521149157021

@@ -4,7 +4,7 @@ using UnityEngine;
 public class JukeBox : MonoBehaviour
 {
     // Start is called before the first frame update
-    private AudioSource source;
+    public AudioSource source;
     public State state;
     public Music[] musics;
     [Range(0f, 1f)] public float desiredVolume;
@@ -12,7 +12,6 @@ public class JukeBox : MonoBehaviour
 
     void Start()
     {
-        source = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
         source.playOnAwake = false;
         source.loop = true;
     }
