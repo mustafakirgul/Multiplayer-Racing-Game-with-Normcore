@@ -3,7 +3,57 @@ guid: eafcacda7d4d04511baf7347b3b111ab
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.SuperGun.Base
+    second: {fileID: 2100000, guid: b882e0601921942139b2db544e7fc568, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.SuperGun.Cylinders
+    second: {fileID: 2100000, guid: 8ea413398b360491582f3d2c2d10c7b6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.SuperGun.Glow
+    second: {fileID: 2100000, guid: ed7452dcc426b42efab1dbddaea2addb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.SuperGun.Head
+    second: {fileID: 2100000, guid: 18e288d1e8e8d45f6a3fa95ac5250ec4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.SuperGun.Main
+    second: {fileID: 2100000, guid: 3c14d914f72b74ae896ec290a5cf597e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.SuperGun.Part01
+    second: {fileID: 2100000, guid: 5fc9f18fbe496412daab046f0e7e67b6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.SuperGun.Part02
+    second: {fileID: 2100000, guid: 21f0c8349d36e4f979c2ae6446e1cc7c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.SuperGun.Part03
+    second: {fileID: 2100000, guid: 1b8686bd12a5540a1a5d5f76c3a3ccae, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.SuperGun.Part04
+    second: {fileID: 2100000, guid: cb178035d3b444d4a8f9280bc911f571, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.SuperGun.Pipes
+    second: {fileID: 2100000, guid: 7b4487b8905684e99ae4158036fb69be, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

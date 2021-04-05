@@ -3,7 +3,47 @@ guid: 2ab3552f8a7ac4fb9bb68695159d663a
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Waepon.BoxGun.Box01
+    second: {fileID: 2100000, guid: f73d161d9ef2849eeb77e78a7ea27cb3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.BoxGun.Base
+    second: {fileID: 2100000, guid: dc6dbda9728da464a97f87478f32c45c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.BoxGun.Belt01
+    second: {fileID: 2100000, guid: b915247b047d94321a7583932eb8954d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.BoxGun.Belt02
+    second: {fileID: 2100000, guid: 3ccf9d67b878e4b85b43d58375b866cc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.BoxGun.Part01
+    second: {fileID: 2100000, guid: 7714f9161e11f4ab09452597362716ab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.BoxGun.Part02
+    second: {fileID: 2100000, guid: 108df489e7c4843cf8b8fb2b57357123, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.BoxGun.Part03
+    second: {fileID: 2100000, guid: 2fe2633d83aa04b22908522b3e9ae88f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Weapon.BoxGun.Part04
+    second: {fileID: 2100000, guid: c4c1836b262824d349a78977f5cc3da2, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

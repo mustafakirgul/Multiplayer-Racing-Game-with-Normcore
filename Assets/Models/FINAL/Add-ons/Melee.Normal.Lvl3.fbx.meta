@@ -3,7 +3,17 @@ guid: de0e2c490320547d4aa84e829ba79130
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Melee.Normal.Lvl3
+    second: {fileID: 2100000, guid: b673d664c941b4b1fa29201eb7e9008a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Melee.Normal.Lvl3.Spikes
+    second: {fileID: 2100000, guid: 125bc2b307c1e476f9e7cd348897deed, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

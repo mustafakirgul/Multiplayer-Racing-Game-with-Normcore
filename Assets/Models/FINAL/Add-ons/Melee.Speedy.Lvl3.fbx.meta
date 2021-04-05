@@ -3,7 +3,17 @@ guid: 576fd6baac2634ccfab51fbb87e87f82
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Melee.Speedy.Lvl3
+    second: {fileID: 2100000, guid: e2cff073377f34bc0b12dd618489544e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Melee.Speedy.Lvl3.Spikes
+    second: {fileID: 2100000, guid: 7bd58713d9925422c9e888883b2c338b, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
