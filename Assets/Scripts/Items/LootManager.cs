@@ -100,6 +100,7 @@ public class LootManager : MonoBehaviour
     {
         if (current_buildLoadOut == null)
         {
+            current_buildLoadOut = Balanced_buildLoadOut;
             SelectBuildToDisplay(Balanced_buildLoadOut);
         }
         else
