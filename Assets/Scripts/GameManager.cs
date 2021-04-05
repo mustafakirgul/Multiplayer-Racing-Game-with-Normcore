@@ -1,5 +1,4 @@
-﻿using System;
-using Normal.Realtime;
+﻿using Normal.Realtime;
 using TMPro;
 using System.Collections;
 using UnityEngine;
@@ -63,8 +62,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject PanCamera;
     WaitForSeconds wait2secs;
     WaitForEndOfFrame waitFrame;
-
-
+    public StartCountdown counter;
     [Space] [Header("Start Settings")] public float countdownBeforeStart = 10f;
 
     private void OnDrawGizmos()
@@ -148,6 +146,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         SingletonCheck();
+        counter = GetComponent<StartCountdown>();
         wait2secs = new WaitForSeconds(2f);
         waitFrame = new WaitForEndOfFrame();
         phaseManager = GetComponent<PhaseManager>();
@@ -305,8 +304,8 @@ public class GameManager : MonoBehaviour
 
         _tempName = preferredCar != "" ? preferredCar : "Car1";
         GameObject _temp = Realtime.Instantiate(_tempName,
-            position: spawnPoint,
-            rotation: Quaternion.Euler(0, direction, 0),
+            position: PlayerManager.instance.GetSpawnPoint(FindObjectsOfType<Player>().Length),
+            rotation: Quaternion.identity,
             ownedByClient: true,
             preventOwnershipTakeover: true,
             useInstance: _realtime);
@@ -327,7 +326,7 @@ public class GameManager : MonoBehaviour
 
         PlayerManager.instance.AddLocalPlayer(_temp.transform);
         jukebox.SwitchState(State.game);
-
+        _temp.transform.rotation = Quaternion.AngleAxis(PlayerManager.instance.directionOffset, Vector3.up);
 
         PanCamera.SetActive(true); //todo integrate into start sequence
         if (PanCamera.GetComponentInChildren<CameraMover>() != null)
@@ -347,6 +346,18 @@ public class GameManager : MonoBehaviour
                 preventOwnershipTakeover: true,
                 useInstance: _realtime).GetComponent<Race>();
             _race.ChangeIsOn(true);
+        }
+        else
+        {
+            _race = FindObjectOfType<Race>();
+        }
+    }
+
+    public void StartInitialCountdown()
+    {
+        if (GameManager.instance.isHost)
+        {
+            counter.Initialize(_race);
         }
     }
 
@@ -392,7 +403,11 @@ public class GameManager : MonoBehaviour
 
     public void StartEndDisplaySequence()
     {
-        _race.ChangeIsOn(false);
+        if (GameManager.instance.isHost)
+        {
+            _race.ChangeIsOn(false);
+        }
+
         StartCoroutine(EndDisplaySequence());
     }
 
@@ -421,10 +436,9 @@ public class GameManager : MonoBehaviour
             _race.ChangeGameTime(0);
             _race.ChangeIsOn(false);
         }
-        
-        
+
+
         //reset lobby manager
-        
     }
 
     public void Quit()

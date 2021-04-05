@@ -7,6 +7,7 @@ public partial class RaceModel
     [RealtimeProperty(1, true, true)] private double _gameStartTime;
     [RealtimeProperty(2, true, true)] private int _phase;
     [RealtimeProperty(3, true, true)] private bool _isOn;
+    [RealtimeProperty(4, true, true)] private int _countDown;
 }
 
 
@@ -48,10 +49,23 @@ public partial class RaceModel : RealtimeModel {
         }
     }
     
+    public int countDown {
+        get {
+            return _cache.LookForValueInCache(_countDown, entry => entry.countDownSet, entry => entry.countDown);
+        }
+        set {
+            if (this.countDown == value) return;
+            _cache.UpdateLocalCache(entry => { entry.countDownSet = true; entry.countDown = value; return entry; });
+            InvalidateReliableLength();
+            FireCountDownDidChange(value);
+        }
+    }
+    
     public delegate void PropertyChangedHandler<in T>(RaceModel model, T value);
     public event PropertyChangedHandler<double> gameStartTimeDidChange;
     public event PropertyChangedHandler<int> phaseDidChange;
     public event PropertyChangedHandler<bool> isOnDidChange;
+    public event PropertyChangedHandler<int> countDownDidChange;
     
     private struct LocalCacheEntry {
         public bool gameStartTimeSet;
@@ -60,6 +74,8 @@ public partial class RaceModel : RealtimeModel {
         public int phase;
         public bool isOnSet;
         public bool isOn;
+        public bool countDownSet;
+        public int countDown;
     }
     
     private LocalChangeCache<LocalCacheEntry> _cache = new LocalChangeCache<LocalCacheEntry>();
@@ -68,6 +84,7 @@ public partial class RaceModel : RealtimeModel {
         GameStartTime = 1,
         Phase = 2,
         IsOn = 3,
+        CountDown = 4,
     }
     
     public RaceModel() : this(null) {
@@ -104,6 +121,14 @@ public partial class RaceModel : RealtimeModel {
         }
     }
     
+    private void FireCountDownDidChange(int value) {
+        try {
+            countDownDidChange?.Invoke(this, value);
+        } catch (System.Exception exception) {
+            UnityEngine.Debug.LogException(exception);
+        }
+    }
+    
     protected override int WriteLength(StreamContext context) {
         int length = 0;
         if (context.fullModel) {
@@ -111,6 +136,7 @@ public partial class RaceModel : RealtimeModel {
             length += WriteStream.WriteDoubleLength((uint)PropertyID.GameStartTime);
             length += WriteStream.WriteVarint32Length((uint)PropertyID.Phase, (uint)_phase);
             length += WriteStream.WriteVarint32Length((uint)PropertyID.IsOn, _isOn ? 1u : 0u);
+            length += WriteStream.WriteVarint32Length((uint)PropertyID.CountDown, (uint)_countDown);
         } else if (context.reliableChannel) {
             LocalCacheEntry entry = _cache.localCache;
             if (entry.gameStartTimeSet) {
@@ -121,6 +147,9 @@ public partial class RaceModel : RealtimeModel {
             }
             if (entry.isOnSet) {
                 length += WriteStream.WriteVarint32Length((uint)PropertyID.IsOn, entry.isOn ? 1u : 0u);
+            }
+            if (entry.countDownSet) {
+                length += WriteStream.WriteVarint32Length((uint)PropertyID.CountDown, (uint)entry.countDown);
             }
         }
         return length;
@@ -133,9 +162,10 @@ public partial class RaceModel : RealtimeModel {
             stream.WriteDouble((uint)PropertyID.GameStartTime, _gameStartTime);
             stream.WriteVarint32((uint)PropertyID.Phase, (uint)_phase);
             stream.WriteVarint32((uint)PropertyID.IsOn, _isOn ? 1u : 0u);
+            stream.WriteVarint32((uint)PropertyID.CountDown, (uint)_countDown);
         } else if (context.reliableChannel) {
             LocalCacheEntry entry = _cache.localCache;
-            if (entry.gameStartTimeSet || entry.phaseSet || entry.isOnSet) {
+            if (entry.gameStartTimeSet || entry.phaseSet || entry.isOnSet || entry.countDownSet) {
                 _cache.PushLocalCacheToInflight(context.updateID);
                 ClearCacheOnStreamCallback(context);
             }
@@ -149,6 +179,10 @@ public partial class RaceModel : RealtimeModel {
             }
             if (entry.isOnSet) {
                 stream.WriteVarint32((uint)PropertyID.IsOn, entry.isOn ? 1u : 0u);
+                didWriteProperties = true;
+            }
+            if (entry.countDownSet) {
+                stream.WriteVarint32((uint)PropertyID.CountDown, (uint)entry.countDown);
                 didWriteProperties = true;
             }
             
@@ -186,6 +220,15 @@ public partial class RaceModel : RealtimeModel {
                     }
                     break;
                 }
+                case (uint)PropertyID.CountDown: {
+                    int previousValue = _countDown;
+                    _countDown = (int)stream.ReadVarint32();
+                    bool countDownExistsInChangeCache = _cache.ValueExistsInCache(entry => entry.countDownSet);
+                    if (!countDownExistsInChangeCache && _countDown != previousValue) {
+                        FireCountDownDidChange(_countDown);
+                    }
+                    break;
+                }
                 default: {
                     stream.SkipProperty();
                     break;
@@ -202,6 +245,7 @@ public partial class RaceModel : RealtimeModel {
         _gameStartTime = gameStartTime;
         _phase = phase;
         _isOn = isOn;
+        _countDown = countDown;
         _cache.Clear();
     }
     

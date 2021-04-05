@@ -128,6 +128,7 @@ public class LobbyManager : MonoBehaviour
 
         roomName = GenerateRandomString(6);
         Debug.LogWarning("ROOM: " + roomName);
+        GUIUtility.systemCopyBuffer = roomName;
         GameManager.instance._roomName = roomName;
         roomNameBanner.text = roomName;
         _realtime.didConnectToRoom += DidConnectToGame;

@@ -201,6 +201,7 @@ public class NewCarController : MonoBehaviour
     public void ToggleController(bool state)
     {
         isPlayerAlive = state;
+        CarRB.isKinematic = !state;
     }
 
     public void RegisterDamage(float damage, RealtimeView realtimeView)
@@ -209,9 +210,13 @@ public class NewCarController : MonoBehaviour
             .ownerIDInHierarchy; //everyone is the potential killer until the target survives the hit
         if (_realtimeView.isOwnedLocallyInHierarchy)
             _player.DamagePlayer(damage);
-        var difference = transform.position - realtimeView.transform.position;
-        _player.ChangeExplosionForce(difference);
-        ExplosionForce(difference);
+        if (theKiller == _realtimeView.ownerIDInHierarchy)
+        {
+            var difference = transform.position - realtimeView.transform.position;
+            _player.ChangeExplosionForce(difference);
+            ExplosionForce(difference);
+        }
+
         //Debug.LogWarning(PlayerManager.instance.PlayerName(_realtimeView.ownerIDInHierarchy) + " was " + (_player.playerHealth - damage <= 0 ? "killed" : "damaged") + " by " + PlayerManager.instance.PlayerName(theKiller));
     }
 
@@ -236,6 +241,7 @@ public class NewCarController : MonoBehaviour
 
     private void Awake()
     {
+        ToggleController(false);
         wait1sec = new WaitForSeconds(1f);
         lootManager = FindObjectOfType<LootManager>();
         GetPhysicsParamsBasedOnBuild();
@@ -488,6 +494,10 @@ public class NewCarController : MonoBehaviour
 
             WeaponProjectileBase PrimaryWeaponBase = PrimaryWeaponProjectile.GetComponent<WeaponProjectileBase>();
             uIManager.SwitchProjectileDisplayInfo(PrimaryWeaponBase.ProjectileToDisplay, 999);
+
+            //pick a start position and go there
+            var playerCount = FindObjectsOfType<Player>().Length;
+            transform.LookAt(FindObjectOfType<CountdownLights>().transform);
         }
         else
         {
@@ -664,6 +674,11 @@ public class NewCarController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.counter.current <= 0)
+        {
+            ToggleController(true);
+        }
+
         if (!Mathf.Approximately(m_fplayerLastHealth, _player.playerHealth))
         {
             UpdateHealth();
@@ -700,7 +715,6 @@ public class NewCarController : MonoBehaviour
             GroundCheck();
             LerpFallCorrection();
             transform.position = Vector3.Lerp(transform.position, CarRB.transform.position, 6.66f);
-
             if (weaponType == 1)
             {
                 uIManager.UpdateAmmoCount((int) currentAmmo);
@@ -747,8 +761,6 @@ public class NewCarController : MonoBehaviour
             moveInput = 0;
             turnInput = 0;
             DeathExplosion.SetActive(true);
-            CarRB.AddExplosionForce(20f, this.CarRB.transform.position + (-Vector3.up * 2f), 20f, 500f,
-                ForceMode.Impulse);
             if (theKiller > -1 && theKiller != _realtimeView.ownerIDInHierarchy
             ) //prevent self kill and ghost killing (player dies for a different reason but points are registered to the player who had killed them last, in the past)
             {
@@ -780,7 +792,7 @@ public class NewCarController : MonoBehaviour
         //Spawn in player animation
         CarRB.position = new Vector3(transform.position.x, transform.position.y + resetHeight, transform.position.z);
         Vector3 _rotation = CarRB.rotation.eulerAngles;
-        CarRB.transform.rotation = Quaternion.Euler(_rotation.x, _rotation.y, 0);
+        CarRB.transform.rotation = Quaternion.Euler(0f, _rotation.y, 0f);
         CarRB.velocity = Vector3.zero;
         isPlayerAlive = true;
     }

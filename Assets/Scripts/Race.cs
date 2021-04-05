@@ -7,7 +7,7 @@ public class Race : RealtimeComponent<RaceModel>
     public float m_fRaceDuration;
     public int m_iPhase;
     public bool m_isOn;
-
+    public int countDown;
 
     protected override void OnRealtimeModelReplaced(RaceModel previousModel, RaceModel currentModel)
     {
@@ -24,6 +24,7 @@ public class Race : RealtimeComponent<RaceModel>
             {
                 currentModel.phase = m_iPhase;
                 currentModel.isOn = m_isOn;
+                currentModel.countDown = GameManager.instance.counter.start;
             }
 
             currentModel.gameStartTimeDidChange += GameTimeChanged;
@@ -31,11 +32,22 @@ public class Race : RealtimeComponent<RaceModel>
             currentModel.isOnDidChange += IsOnChanged;
         }
     }
-    
+
     private void Update()
     {
         m_iPhase = model.phase;
         m_isOn = model.isOn;
+        countDown = model.countDown;
+    }
+
+    public int CountOneDown()
+    {
+        if (model.countDown > 0)
+        {
+            model.countDown--;
+        }
+
+        return model.countDown;
     }
 
     public void ChangeIsOn(bool state)

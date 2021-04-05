@@ -21,10 +21,48 @@ public class PlayerManager : MonoBehaviour
     [Range(0, 359)] public float spawnRotation;
 
     PrespawnManager prespawnManager;
-
+    public Vector3 spawnCenter;
+    public float directionOffset;
+    public float diameter;
+    public float maxFanAngle;
+    public int spawnPointCount = 9;
+    public float startHeight;
+    public Vector3[] spawnPoints;
+    public LayerMask groundLayer;
+    
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireMesh(gizmoMesh, spawnPoint, Quaternion.Euler(-90, spawnRotation, 0), new Vector3(293, 539, 293));
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(spawnCenter, 1f);
+        GenerateSpawnPoints();
+        for (int i = 0; i < spawnPoints.Length; i++)
+        {
+            Gizmos.color = Color.white;
+            Gizmos.DrawLine(spawnCenter, spawnPoints[i]);
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(spawnPoints[i], 1f);
+        }
+    }
+
+    public void GenerateSpawnPoints()
+    {
+        spawnPoints = new Vector3[spawnPointCount];
+        var diff = maxFanAngle / spawnPointCount;
+        var start = directionOffset - (maxFanAngle * .5f);
+        for (int i = 0; i < spawnPointCount; i++)
+        {
+            spawnPoints[i] = spawnCenter +
+                             (Quaternion.AngleAxis(start + (diff * i), Vector3.up) * (Vector3.forward * diameter));
+            Physics.Raycast(spawnPoints[i], Vector3.down, out RaycastHit hit, Mathf.Infinity, groundLayer);
+            spawnPoints[i] = hit.point + (Vector3.up * startHeight);
+        }
+    }
+
+    public Vector3 GetSpawnPoint(int index)
+    {
+        if (index > spawnPoints.Length) return spawnCenter;
+        return spawnPoints[index];
     }
 
     private void SingletonCheck()
