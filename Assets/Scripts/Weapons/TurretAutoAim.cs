@@ -418,7 +418,7 @@ public class TurretAutoAim : MonoBehaviour
                 if (hitInfo.transform.root.gameObject.name != this.transform.root.gameObject.name)
                 {
                     CrossHairUI.gameObject.SetActive(true);
-                    Debug.Log("Collided with " + hitInfo.collider.name);
+                    //Debug.Log("Collided with " + hitInfo.collider.name);
 
                     Truck = hitInfo.collider.gameObject.GetComponent<Truck>();
                     Player = hitInfo.collider.gameObject.GetComponent<NewCarController>();
@@ -436,14 +436,8 @@ public class TurretAutoAim : MonoBehaviour
                     //Vector3 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
                     Vector3 direction = (hitInfo.point - this.transform.position);
                     targetRotation = Quaternion.LookRotation(direction);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 3f);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 6.66f);
                 }
-                else
-                {
-                    return;
-                }
-
-                //Debug.Log("hit " + hitInfo.collider.name);
             }
             else
             {

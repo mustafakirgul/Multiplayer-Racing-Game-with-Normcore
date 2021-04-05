@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
@@ -26,38 +27,44 @@ public class AudioManager : MonoBehaviour
     [Range(0f, 1f)] public float masterVolume = .5f;
     public bool sfxIsOn = true;
     public bool musicIsOn = true;
-    public Slider sfx, music;
+    public Slider sfx, music, master;
     public Image toggleMusic;
     public Image toggleSFX;
     public Sprite onImage;
     public Sprite offImage;
     public JukeBox jukeBox;
+    public GameObject inGameOptions;
 
     private void Start()
     {
         if (PlayerPrefs.HasKey("masterV"))
         {
             masterVolume = PlayerPrefs.GetFloat("masterV");
+            master.value = masterVolume;
         }
 
         if (PlayerPrefs.HasKey("musicV"))
         {
             musicVolume = PlayerPrefs.GetFloat("musicV");
+            music.value = musicVolume;
         }
 
         if (PlayerPrefs.HasKey("SFXV"))
         {
             sfxVolume = PlayerPrefs.GetFloat("SFXV");
+            sfx.value = sfxVolume;
         }
 
         if (PlayerPrefs.HasKey("musicIsOn"))
         {
             musicIsOn = PlayerPrefs.GetInt("musicIsOn") == 1;
+            toggleMusic.sprite = musicIsOn ? onImage : offImage;
         }
 
         if (PlayerPrefs.HasKey("sfxIsOn"))
         {
             sfxIsOn = PlayerPrefs.GetInt("sfxIsOn") == 1;
+            toggleSFX.sprite = sfxIsOn ? onImage : offImage;
         }
     }
 
@@ -96,5 +103,18 @@ public class AudioManager : MonoBehaviour
         sfxIsOn = !sfxIsOn;
         toggleSFX.sprite = sfxIsOn ? onImage : offImage;
         PlayerPrefs.SetInt("sfxIsOn", sfxIsOn ? 1 : 0);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ToggleInGameOptions();
+        }
+    }
+
+    public void ToggleInGameOptions()
+    {
+        inGameOptions.SetActive(!inGameOptions.activeSelf);
     }
 }

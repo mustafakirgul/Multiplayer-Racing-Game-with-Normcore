@@ -55,6 +55,7 @@ public class TopRacersLive : MonoBehaviour
             return;
         }
 
+        if (StatsManager.instance == null) return;
         //return ordered results
         if (StatsManager.instance == null)
         {
