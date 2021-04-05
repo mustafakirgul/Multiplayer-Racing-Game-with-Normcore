@@ -448,7 +448,6 @@ public class NewCarController : MonoBehaviour
         {
             CreateMeleeEntity();
             uIManager = FindObjectOfType<UIManager>();
-            OverheatMeterObj.SetActive(true);
             if (uIManager != null)
             {
                 uIManager.EnableUI();
@@ -457,9 +456,13 @@ public class NewCarController : MonoBehaviour
                 IDDisplay.gameObject.SetActive(false);
                 IDDisplay = uIManager.playerName;
                 boostRadialLoader = uIManager.boostRadialLoader;
+                OverheatMeter = uIManager.OverheatMeter;
+                OverheatMeterObj = uIManager.OverheatMeterObj;
+                OverHeatNotice = uIManager.OverheatNotice;
+                WeaponSwitcherUI = uIManager.WeaponSwitchIcon;
                 damageIndicatorCanvasGroup = uIManager.damageIndicatorCanvasGroup;
             }
-
+            OverheatMeterObj.SetActive(true);
 
             //Decouple Sphere Physics from car model
             CarRB.transform.parent = null;
@@ -1291,7 +1294,7 @@ public class NewCarController : MonoBehaviour
 
     void CheckHeatLevels()
     {
-        if (heatLevel >= 100 &&
+        if (heatLevel >= maxHeatThreshold &&
             !Overheat)
         {
             OverHeatNotice.gameObject.SetActive(true);
