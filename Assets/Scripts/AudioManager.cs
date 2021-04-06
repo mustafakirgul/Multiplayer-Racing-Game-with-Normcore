@@ -53,6 +53,7 @@ public class AudioManager : MonoBehaviour
         {
             sfxVolume = PlayerPrefs.GetFloat("SFXV");
             sfx.value = sfxVolume;
+            UpdateEngineSoundLevels();
         }
 
         if (PlayerPrefs.HasKey("musicIsOn"))
@@ -68,6 +69,15 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    void UpdateEngineSoundLevels()
+    {
+        var engines = FindObjectsOfType<EngineSound>();
+        for (int i = 0; i < engines.Length; i++)
+        {
+            engines[i].source.volume = sfxVolume;
+        }
+    }
+
     public void UpdateMusicVolume(float value)
     {
         musicVolume = value * masterVolume;
@@ -78,6 +88,7 @@ public class AudioManager : MonoBehaviour
     public void UpdateSFXVolume(float value)
     {
         sfxVolume = value * masterVolume;
+        UpdateEngineSoundLevels();
         PlayerPrefs.SetFloat("SFXV", sfxVolume);
     }
 

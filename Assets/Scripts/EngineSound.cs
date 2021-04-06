@@ -19,8 +19,6 @@ public class EngineSound : MonoBehaviour
         if (source == null) source = GetComponent<AudioSource>();
         if (source == null) source = gameObject.AddComponent<AudioSource>();
         source.playOnAwake = false;
-        source.spatialBlend = .75f;
-        source.spread = 66f;
         source.minDistance = 1f;
         source.maxDistance = 50f;
 
@@ -34,9 +32,13 @@ public class EngineSound : MonoBehaviour
                     topSpeed = controller.MaxSpeed;
                 }
             }
+            source.spatialBlend = .75f;
+            source.spread = 66f;
         }
         else
         {
+            source.spatialBlend = 1f;
+            source.spread = 360f;
             topSpeed = 1.25f;
         }
 
