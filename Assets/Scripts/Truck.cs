@@ -127,6 +127,16 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void Update()
     {
+        if (isBoombastic)
+        {
+            uIManager.LootTruckInvincibleIcon.SetActive(true);
+        }
+        else
+        {
+            uIManager.LootTruckInvincibleIcon.SetActive(false);
+        }
+
+
         if (realtimeView.isOwnedRemotelyInHierarchy) return;
         if (isBoombastic)
         {
@@ -134,8 +144,6 @@ public class Truck : RealtimeComponent<TruckModel>
         }
         else
         {
-            if (uIManager.LootTruckInvincibleIcon.activeInHierarchy)
-            uIManager.LootTruckInvincibleIcon.SetActive(false);
             GroundCheck();
 
             // if (Input.GetKeyDown(KeyCode.P))
@@ -307,8 +315,7 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void BoombasticMode()
     {
-        uIManager.LootTruckInvincibleIcon.SetActive(true);
-
+      
         if (Vector3.Distance(rb.position, boombasticModePoint) > .1f)
         {
             rb.MovePosition(Vector3.Lerp(rb.position,
