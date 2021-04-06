@@ -500,8 +500,6 @@ public class NewCarController : MonoBehaviour
 
             WeaponProjectileBase PrimaryWeaponBase = PrimaryWeaponProjectile.GetComponent<WeaponProjectileBase>();
             uIManager.SwitchProjectileDisplayInfo(PrimaryWeaponBase.ProjectileToDisplay, 999);
-
-     
         }
         else
         {
@@ -529,14 +527,18 @@ public class NewCarController : MonoBehaviour
         }
 
         ObtainCorrectShaker();
+    }
+
+    public void PlaceCar()
+    {
         StartCoroutine(CR_PlaceCar());
     }
 
     IEnumerator CR_PlaceCar()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(.5f);
         if (SecondaryWeaponProjectile != null)
-        currentAmmo = SecondaryWeaponProjectile.GetComponent<WeaponProjectileBase>().startingAmmo;
+            currentAmmo = SecondaryWeaponProjectile.GetComponent<WeaponProjectileBase>().startingAmmo;
         CarRB.MovePosition(PlayerManager.instance.GetSpawnPoint(_realtimeView.ownerIDInHierarchy));
         CarRB.rotation =
             Quaternion.LookRotation(transform.position - FindObjectOfType<CountdownLights>().transform.position,
@@ -553,6 +555,7 @@ public class NewCarController : MonoBehaviour
             preventOwnershipTakeover: false,
             destroyWhenOwnerOrLastClientLeaves: true,
             useInstance: _realtime);
+        GameManager.instance.RecordRIGO(_temp);
         _temp.GetComponent<Melee>().Setup(this);
     }
 
@@ -1163,27 +1166,27 @@ public class NewCarController : MonoBehaviour
             RHL.enabled = lights;
             LHL.enabled = lights;
         }*/
-
-        if (GameManager.instance.isHost)
-        {
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                //PlayerManager
-                PlayerManager.instance.SpawnItems();
-            }
-        }
-
-        //AutoDamage Debug
-        //TO REMOVE in testing and final builds
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            _player.DamagePlayer(5f);
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            _player.HealPlayer(5f);
-        }
+        //
+        // if (GameManager.instance.isHost)
+        // {
+        //     if (Input.GetKeyDown(KeyCode.Z))
+        //     {
+        //         //PlayerManager
+        //         PlayerManager.instance.SpawnItems();
+        //     }
+        // }
+        //
+        // //AutoDamage Debug
+        // //TO REMOVE in testing and final builds
+        // if (Input.GetKeyDown(KeyCode.O))
+        // {
+        //     _player.DamagePlayer(5f);
+        // }
+        //
+        // if (Input.GetKeyDown(KeyCode.P))
+        // {
+        //     _player.HealPlayer(5f);
+        // }
     }
 
     IEnumerator StopBoostEffect()

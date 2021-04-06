@@ -27,6 +27,7 @@ public class StatsManager : MonoBehaviour
     [Space(10)] public StatsEntry[] stats;
     StringBuilder sb = new StringBuilder("", 666);
     private List<OrderedEntry> orderedResults;
+    public StatsEntity localStatsEntity;
 
     private void Awake()
     {
@@ -96,16 +97,7 @@ public class StatsManager : MonoBehaviour
 
     public StatsEntity ReturnLocalStatsEntity()
     {
-        StatsEntity[] temp = FindObjectsOfType<StatsEntity>();
-        for (int i = 0; i < temp.Length; i++)
-        {
-            if (temp[i].GetComponent<RealtimeView>().isOwnedLocallyInHierarchy)
-            {
-                return temp[i];
-            }
-        }
-
-        return null;
+        return localStatsEntity;
     }
 }
 

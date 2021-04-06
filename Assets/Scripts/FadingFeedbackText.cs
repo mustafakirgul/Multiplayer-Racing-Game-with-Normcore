@@ -44,9 +44,16 @@ public class FadingFeedbackText : MonoBehaviour
 
     private void PlaceCanvas()
     {
+        if (target == null) return;
         transform.position =
             target.position + ((lookAtTarget.position - target.position).normalized * distanceFromTarget);
+        if (lookAtTarget == null) return;
         transform.LookAt(lookAtTarget);
+    }
+
+    private void OnDestroy()
+    {
+        isAttached = false;
     }
 
     void LoadElements()

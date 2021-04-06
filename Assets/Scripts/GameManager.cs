@@ -1,6 +1,7 @@
 ﻿using Normal.Realtime;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -10,9 +11,7 @@ public class GameManager : MonoBehaviour
     [Range(0, 359)] public float direction; //y angle of the spawned player
     Vector3 spawnPoint;
 
-    [Space]
-    [Space]
-    [Header("UI and Camera")]
+    [Space] [Space] [Header("UI and Camera")]
     public TextMeshProUGUI playerNameInputField;
 
     public Canvas _enterNameCanvas;
@@ -36,9 +35,7 @@ public class GameManager : MonoBehaviour
 
     public float MinXrayTruckOutlineDistance;
 
-    [Space]
-    [Space]
-    [Header("Managers")]
+    [Space] [Space] [Header("Managers")]
     //Managers
     private PlayerManager playerManager;
 
@@ -68,6 +65,32 @@ public class GameManager : MonoBehaviour
     WaitForEndOfFrame waitFrame;
     public StartCountdown counter;
     [Space] [Header("Start Settings")] public float countdownBeforeStart = 10f;
+
+    public NewCarController localController;
+
+//all RIGOs (RIGO = Realtime Instantiated Game Object) will be recorded here, except for the projectiles and lobbiests.
+    [Space]
+    [Header("Settings for Realtime Instantiated GameObjects' Controls")]
+    [Tooltip("RIGO = Realtime Instantiated Game Object")]
+    public List<GameObject> RIGOs;
+
+    public void RecordRIGO(GameObject RIGO)
+    {
+        if (RIGOs == null) RIGOs = new List<GameObject>();
+        if (!RIGOs.Contains(RIGO)) RIGOs.Add(RIGO);
+    }
+
+    public void DestroyRIGOs()
+    {
+        if (RIGOs == null) return;
+        for (int i = 0; i < RIGOs.Count; i++)
+        {
+            if (RIGOs[i] == null) return;
+            Realtime.Destroy(RIGOs[i]);
+        }
+
+        RIGOs.Clear();
+    }
 
     private void OnDrawGizmos()
     {
@@ -147,10 +170,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private bool isFirstTime = true;
+
     private void Awake()
     {
         SingletonCheck();
         if (counter == null) counter = GetComponent<StartCountdown>();
+        else counter.Reset();
         wait2secs = new WaitForSeconds(2f);
         waitFrame = new WaitForEndOfFrame();
         phaseManager = GetComponent<PhaseManager>();
@@ -279,13 +305,19 @@ public class GameManager : MonoBehaviour
         {
             _roomName = LobbyManager.instance.roomName;
             Cursor.visible = false;
-            if (isHost)
-            {
-                //spawn a new timer object to count down for the race start TODO
-            }
-
             FixAssociations();
+            instance.DestroyRIGOs();
+            var phaseManagerPhase = instance.phaseManager.phases[0];
+            if (isFirstTime)
+            {
+                isFirstTime = false;
+                phaseManagerPhase.duration = 16f;
+            }
+            else phaseManagerPhase.duration = 3f;
+
+            instance.phaseManager.phases[0] = phaseManagerPhase;
             SpawnCar();
+            localController.GetComponent<NewCarController>().PlaceCar();
         }
     }
 
@@ -312,11 +344,11 @@ public class GameManager : MonoBehaviour
             ownedByClient: true,
             preventOwnershipTakeover: true,
             useInstance: _realtime);
-
+        instance.RecordRIGO(_temp);
         playerName = playerNameInputField.text;
 
         _temp.GetComponent<Player>().SetPlayerName(playerName);
-
+        localController = _temp.GetComponent<NewCarController>();
         ResetBoolsForNewRound();
         _enterNameCanvas = GameObject.FindGameObjectWithTag("garage").GetComponent<Canvas>();
         _enterNameCanvas.gameObject.SetActive(false);
@@ -339,12 +371,13 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CheckTruckDistanceOutline());
         if (LobbyManager.instance.isHost)
         {
-            _race = Realtime.Instantiate("Race",
+            var _tempRace = Realtime.Instantiate("Race",
                 position: transform.position,
                 rotation: Quaternion.Euler(0, direction, 0),
                 ownedByClient: true,
                 preventOwnershipTakeover: true,
-                useInstance: _realtime).GetComponent<Race>();
+                useInstance: _realtime);
+            _race = _tempRace.GetComponent<Race>();
             _race.ChangeIsOn(true);
         }
         else
@@ -445,15 +478,9 @@ public class GameManager : MonoBehaviour
         //Disable other things that needs to be disabled in game
         uIManager.timeRemaining.ClearMesh();
         //Debug.LogWarning("HealthCheckStoppedAtTheEndOfTheGame");
-        if (instance.isHost)
-        {
-            Realtime.Destroy(_race.gameObject);
-        }
-
-        LobbyManager.instance.Reset();
-
-
         //reset lobby manager
+        LobbyManager.instance.Reset();
+        RaceEnded();
     }
 
     public void Quit()

@@ -91,7 +91,6 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        transform.SetParent(null);
         if (damageIndicatorCanvasGroup != null)
             damageIndicatorCanvasGroup.alpha = 0f;
         _gameManager.FixAssociations();
@@ -288,6 +287,7 @@ public class UIManager : MonoBehaviour
     public void ReactivateLogin()
     {
         DisableUI();
+        LobbyManager.instance.Reset();
         enterNamePanel.SetActive(true);
         //Select Default build to display
         //To Do: remember the load saved build

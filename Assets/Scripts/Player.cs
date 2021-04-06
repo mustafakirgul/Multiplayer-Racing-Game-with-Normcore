@@ -70,13 +70,24 @@ public class Player : RealtimeComponent<PlayerModel>
     {
         if (realtimeView.isOwnedLocallyInHierarchy)
         {
-            statsEntity = Realtime.Instantiate("StatEntity",
-                position: transform.position,
-                rotation: Quaternion.identity,
-                ownedByClient: true,
-                preventOwnershipTakeover: true,
-                destroyWhenOwnerOrLastClientLeaves: true,
-                useInstance: realtime).GetComponent<StatsEntity>();
+            if (statsEntity == null)
+            {
+                var _temp = Realtime.Instantiate("StatEntity",
+                    position: transform.position,
+                    rotation: Quaternion.identity,
+                    ownedByClient: true,
+                    preventOwnershipTakeover: true,
+                    destroyWhenOwnerOrLastClientLeaves: true,
+                    useInstance: realtime);
+                statsEntity = _temp.GetComponent<StatsEntity>();
+                GameManager.instance.RecordRIGO(_temp);
+            }
+            else
+            {
+                statsEntity.ResetStats();
+            }
+
+            StatsManager.instance.localStatsEntity = statsEntity;
         }
     }
 

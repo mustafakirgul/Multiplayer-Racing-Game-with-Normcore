@@ -75,6 +75,7 @@ public class WallLocalMarker : MonoBehaviour
             preventOwnershipTakeover: true,
             destroyWhenOwnerOrLastClientLeaves: true,
             useInstance: _realtime);
+        GameManager.instance.RecordRIGO(networkedWall);
         //Debug.LogWarning("Networked Wall Instantiated");
         childRtView = networkedWall.GetComponent<RealtimeView>();
         childRtTransform = networkedWall.GetComponent<RealtimeTransform>();

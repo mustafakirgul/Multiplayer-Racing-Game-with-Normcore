@@ -8,6 +8,7 @@ public class StatsEntity : RealtimeComponent<StatsModel>
     public float _damageToTruck;
     public int _powerUp;
     public int _loot;
+
     protected override void OnRealtimeModelReplaced(StatsModel previousModel, StatsModel currentModel)
     {
         base.OnRealtimeModelReplaced(previousModel, currentModel);
@@ -77,6 +78,15 @@ public class StatsEntity : RealtimeComponent<StatsModel>
         }
     }
 
+    public void ResetStats()
+    {
+        model.loot = 0;
+        model.kills = 0;
+        model.killer = -1;
+        model.powerUp = 0;
+        model.damageToTruck = 0;
+    }
+
     public void ReceiveKiller(int killer)
     {
         if (model.isOwnedLocallyInHierarchy)
@@ -116,16 +126,16 @@ public class StatsEntity : RealtimeComponent<StatsModel>
 
 public struct ComparisonTableColumn
 {
-    public ComparisonTableColumn(int kills, int damage, int powerup, int loot)
+    public ComparisonTableColumn(int kills, int damage, int powerUp, int loot)
     {
         this.kills = kills;
         this.damage = damage;
-        this.powerup = powerup;
+        this.powerUp = powerUp;
         this.loot = loot;
     }
 
     public int kills;
     public int damage;
-    public int powerup;
+    public int powerUp;
     public int loot;
 }

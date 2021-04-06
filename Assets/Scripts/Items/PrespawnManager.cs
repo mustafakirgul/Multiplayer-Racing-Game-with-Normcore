@@ -49,6 +49,7 @@ public class PrespawnManager : MonoBehaviour
                 destroyWhenOwnerOrLastClientLeaves: true,
                 useInstance:
                 _realtime);
+            GameManager.instance.RecordRIGO(_temp);
             _temp.GetComponent<LootContainer>().SetID(lootID);
             _temp.transform.position = lootLocation;
         }

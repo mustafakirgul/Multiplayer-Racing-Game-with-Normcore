@@ -180,10 +180,12 @@ public class LobbyManager : MonoBehaviour
 
     public void Reset()
     {
+        jukebox.SwitchState(State.menu);
         _lobbiest.ChangeIsReady(false);
         readyLight.enabled = false;
         tryingToConnect = false;
-        ClearGoFeedback();
+        isConnectedToALobby = true;
+        garageGoFeedback.text = "";
     }
 
     public void ClearGoFeedback()

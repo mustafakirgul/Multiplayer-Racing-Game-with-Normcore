@@ -1,9 +1,10 @@
-﻿using System;
-using UnityEngine;
-using Normal.Realtime;
-using System.Collections.Generic;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using Normal.Realtime;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Truck : RealtimeComponent<TruckModel>
 {
@@ -14,15 +15,7 @@ public class Truck : RealtimeComponent<TruckModel>
     [Range(-20f, 20f)] public float _steeringAngle;
     public float maxSteeringAngle;
     public bool _handBrake;
-    int _length;
-    Vector3 _position;
-    Quaternion _rotation;
-    RealtimeTransform _rTTransform;
-    List<RealtimeTransform> _rTTransforms;
     public Vector3 explosionPoint;
-    Transform _ownerTransform;
-    Rigidbody truckBody;
-    Vector3 _startPosition => new Vector3(0, 30, 0);
     [Space] [Header("Loot Settings")] public Vector3 lootLaunchPoint;
     [Range(0, 1)] public float lootChance;
     public float throwForce;
@@ -34,77 +27,53 @@ public class Truck : RealtimeComponent<TruckModel>
 
     [SerializeField] private Transform currentWPT;
     [SerializeField] private float steerRefreshTimer = 1f / 60f;
-    [SerializeField] private int currentWPindex = 0;
+    [SerializeField] private int currentWPindex;
     public float waypointSwitchThreshold;
-    private bool damageFeedback;
-
-    WaitForSeconds waitASecond;
 
     public GameObject damageSphere;
-
-    private Vector3 _tempSizeForDamageSphere;
-
-    private Coroutine cr_DamageFeedback;
     public float damageDisplayTime;
-    private WaitForSeconds wait;
-
-    public RealtimeTransform rtTransform => GetComponent<RealtimeTransform>();
     public bool isInvincible = true;
 
     //X-Ray silhouette
     public Renderer TruckMesh;
     public Outline TruckOutline;
 
-    private bool postBoom = false;
-
     //Torque adjustment relative to elevation trend of the ground
     [SerializeField]
     private float angle, elevationTorqueFactor, elevationConstant, currentTorquePerWheel, torqueBoostAngleLimit;
-
-    private int theKiller;
 
     public bool isBoombastic;
     public float boombasticModeY = 25f;
     public float boombasticModeDuration = 33f;
     public ParticleSystem boombasticShield;
-    private SphereCollider shieldCollider;
-    private Rigidbody rb => GetComponent<Rigidbody>();
-    private bool isGrounded;
     public float groundCheckRayLength, lerpRotationSpeed, groundedEngineFactor;
     public LayerMask groundLayer;
+    private int _length;
+    private Transform _ownerTransform;
+    private Vector3 _position;
+    private Quaternion _rotation;
+    private RealtimeTransform _rTTransform;
+    private List<RealtimeTransform> _rTTransforms;
+
+    private Vector3 _tempSizeForDamageSphere;
     private Vector3 boombasticModePoint = Vector3.zero;
-    void GroundCheck()
-    {
-        isGrounded = Physics.Raycast(transform.position, -transform.up, groundCheckRayLength,
-            groundLayer);
-        Debug.DrawLine(transform.position, transform.position + (-transform.up * groundCheckRayLength), Color.cyan);
 
-        if (!isGrounded)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation,
-                (Quaternion.FromToRotation(transform.up, Vector3.up)
-                 * transform.rotation), Time.deltaTime * lerpRotationSpeed * 0.3f);
-            groundedEngineFactor = 0f;
-        }
-        else
-            groundedEngineFactor = 1f;
-    }
+    private Coroutine cr_DamageFeedback;
+    private bool damageFeedback;
+    private bool isGrounded;
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(transform.position + lootLaunchPoint, 1f);
-    }
+    private bool postBoom;
+    private SphereCollider shieldCollider;
 
-    public void UpdateTorqueFactor(float _f)
-    {
-        _torqueFactor = _f;
-        //Debug.LogWarning("Truck Torque Factor = " + _torqueFactor);
-    }
+    private int theKiller;
+    private Rigidbody truckBody;
+    private WaitForSeconds wait;
 
-    public void Handrake(bool state)
-    {
-        _handBrake = state;
-    }
+    private WaitForSeconds waitASecond;
+    private Vector3 _startPosition => new Vector3(0, 30, 0);
+
+    public RealtimeTransform rtTransform => GetComponent<RealtimeTransform>();
+    private Rigidbody rb => GetComponent<Rigidbody>();
 
     private void Awake()
     {
@@ -136,19 +105,116 @@ public class Truck : RealtimeComponent<TruckModel>
         InitializWaypointAI();
         waitASecond = new WaitForSeconds(steerRefreshTimer);
         if (damageSphere == null)
+        {
             Debug.LogError("No damage sphere for truck!");
+        }
         else
         {
             damageFeedback = true;
             damageSphere.SetActive(false);
         }
 
-        for (int i = 0; i < _wheels.Length; i++)
+        for (var i = 0; i < _wheels.Length; i++)
         {
             _wheels[i].model.GetComponent<RealtimeView>().RequestOwnership();
             _wheels[i].model.GetComponent<RealtimeView>().RequestOwnership();
             _wheels[i].model.GetComponent<RealtimeTransform>().RequestOwnership();
         }
+    }
+
+    private void Update()
+    {
+        if (realtimeView.isOwnedRemotelyInHierarchy) return;
+        if (isBoombastic)
+        {
+            BoombasticMode();
+        }
+        else
+        {
+            GroundCheck();
+
+            // if (Input.GetKeyDown(KeyCode.P))
+            // {
+            //     ResetTransform();
+            // }
+
+            //
+            // if (Input.GetKeyDown(KeyCode.L)) // Drop Loot
+            // {
+            //     DropLoot();
+            // }
+
+            if (Input.GetKeyDown(KeyCode.K)) // Kill Ironhog
+            {
+                model.health = 0f;
+            }
+
+            if (transform.position.y < -300) ResetTransform();
+
+            if (Input.GetKeyDown(KeyCode.Insert))
+            {
+                var pos = PlayerManager.instance.localPlayer.position;
+                transform.position = new Vector3(pos.x, pos.y + 10f, pos.z);
+            }
+
+            currentTorquePerWheel = maxTorque * _torqueFactor * elevationTorqueFactor;
+            if (_length > 0)
+                for (var i = 0; i < _length; i++)
+                {
+                    if (_handBrake)
+                    {
+                        _wheels[i].collider.motorTorque = 0f;
+                        _wheels[i].collider.brakeTorque = maxTorque;
+                    }
+                    else if (_wheels[i].isPowered)
+                    {
+                        _wheels[i].collider.brakeTorque = 0f;
+                        _wheels[i].collider.motorTorque = currentTorquePerWheel;
+                    }
+
+
+                    _wheels[i].collider.GetWorldPose(out _position, out _rotation);
+
+                    _wheels[i].model.position = _position;
+
+                    _wheels[i].model.rotation = _rotation;
+                }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position + lootLaunchPoint, 1f);
+    }
+
+    private void GroundCheck()
+    {
+        isGrounded = Physics.Raycast(transform.position, -transform.up, groundCheckRayLength,
+            groundLayer);
+        Debug.DrawLine(transform.position, transform.position + -transform.up * groundCheckRayLength, Color.cyan);
+
+        if (!isGrounded)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                Quaternion.FromToRotation(transform.up, Vector3.up)
+                * transform.rotation, Time.deltaTime * lerpRotationSpeed * 0.3f);
+            groundedEngineFactor = 0f;
+        }
+        else
+        {
+            groundedEngineFactor = 1f;
+        }
+    }
+
+    public void UpdateTorqueFactor(float _f)
+    {
+        _torqueFactor = _f;
+        //Debug.LogWarning("Truck Torque Factor = " + _torqueFactor);
+    }
+
+    public void Handrake(bool state)
+    {
+        _handBrake = state;
     }
 
     public void SetInvincibility(bool state)
@@ -159,13 +225,9 @@ public class Truck : RealtimeComponent<TruckModel>
     public void InitializWaypointAI()
     {
         m_wayPoints = new List<WayPoint>();
-        foreach (WayPoint waypoint in FindObjectsOfType<WayPoint>())
-        {
+        foreach (var waypoint in FindObjectsOfType<WayPoint>())
             if (waypoint.gameObject.activeInHierarchy && !m_wayPoints.Contains(waypoint))
-            {
                 m_wayPoints.Add(waypoint);
-            }
-        }
 
         m_wayPoints = m_wayPoints.OrderBy(waypoint => waypoint.index).ToList();
         SetWayPoint(0); // start moving towards first waypoint
@@ -182,7 +244,7 @@ public class Truck : RealtimeComponent<TruckModel>
                 waitASecond = new WaitForSeconds(steerRefreshTimer);
                 //Debug.LogWarning("Server time: " + _realtime.room.time);
 #endif
-                float _distanceToTarget = Vector3.Distance(transform.position, currentWPT.position);
+                var _distanceToTarget = Vector3.Distance(transform.position, currentWPT.position);
                 //Debug.Log("MGNTD: " + _distanceToTarget);
                 if (_distanceToTarget < waypointSwitchThreshold)
                 {
@@ -206,16 +268,16 @@ public class Truck : RealtimeComponent<TruckModel>
         elevationTorqueFactor = 1f + Mathf.Clamp01(angle / torqueBoostAngleLimit) * groundedEngineFactor;
     }
 
-    void SetWayPoint(int wayPointIndex)
+    private void SetWayPoint(int wayPointIndex)
     {
         if (m_wayPoints.Count == 0)
             return;
         currentWPT = m_wayPoints[wayPointIndex % m_wayPoints.Count].transform;
     }
 
-    void CalculateRoute()
+    private void CalculateRoute()
     {
-        for (int i = 0; i < _length; i++)
+        for (var i = 0; i < _length; i++)
         {
             _steeringAngle = maxSteeringAngle *
                              Vector3.Dot(
@@ -223,87 +285,19 @@ public class Truck : RealtimeComponent<TruckModel>
                                      (currentWPT.position - transform.position).normalized), Vector3.up);
 
             if (_wheels[i].isSteeringWheel)
-            {
                 _wheels[i].collider.steerAngle =
                     Mathf.Lerp(_wheels[i].collider.steerAngle, _steeringAngle, Time.deltaTime * 20f);
-            }
 
             if (_wheels[i].isReverseSteeringWheel)
-            {
                 _wheels[i].collider.steerAngle =
                     Mathf.Lerp(_wheels[i].collider.steerAngle, -_steeringAngle, Time.deltaTime * 20f);
-            }
         }
     }
 
-    void ResetTransform()
+    private void ResetTransform()
     {
         transform.position = _startPosition;
         transform.rotation = Quaternion.identity;
-    }
-
-    private void Update()
-    {
-        if (realtimeView.isOwnedRemotelyInHierarchy) return;
-        if (isBoombastic)
-        {
-            BoombasticMode();
-        }
-        else
-        {
-            GroundCheck();
-
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                ResetTransform();
-            }
-
-            if (Input.GetKeyDown(KeyCode.K)) // Kill Ironhog
-            {
-                model.health = 0f;
-            }
-
-            if (Input.GetKeyDown(KeyCode.L)) // Drop Loot
-            {
-                DropLoot();
-            }
-
-            if (transform.position.y < -300)
-            {
-                ResetTransform();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Insert))
-            {
-                Vector3 pos = PlayerManager.instance.localPlayer.position;
-                transform.position = new Vector3(pos.x, pos.y + 10f, pos.z);
-            }
-
-            currentTorquePerWheel = maxTorque * _torqueFactor * elevationTorqueFactor;
-            if (_length > 0)
-            {
-                for (int i = 0; i < _length; i++)
-                {
-                    if (_handBrake)
-                    {
-                        _wheels[i].collider.motorTorque = 0f;
-                        _wheels[i].collider.brakeTorque = maxTorque;
-                    }
-                    else if (_wheels[i].isPowered)
-                    {
-                        _wheels[i].collider.brakeTorque = 0f;
-                        _wheels[i].collider.motorTorque = currentTorquePerWheel;
-                    }
-
-
-                    _wheels[i].collider.GetWorldPose(out _position, out _rotation);
-
-                    _wheels[i].model.position = _position;
-
-                    _wheels[i].model.rotation = _rotation;
-                }
-            }
-        }
     }
 
     private void BoombasticMode()
@@ -311,7 +305,7 @@ public class Truck : RealtimeComponent<TruckModel>
         if (Vector3.Distance(rb.position, boombasticModePoint) > .1f)
         {
             rb.MovePosition(Vector3.Lerp(rb.position,
-                boombasticModePoint, Time.deltaTime*2f));
+                boombasticModePoint, Time.deltaTime * 2f));
             transform.up = Vector3.Lerp(transform.up, Vector3.up, Time.deltaTime * 6.66f);
         }
         else
@@ -329,10 +323,7 @@ public class Truck : RealtimeComponent<TruckModel>
         }
         else
         {
-            if (_explosionForce != _origin)
-            {
-                ChangeExplosionForce(_origin);
-            }
+            if (_explosionForce != _origin) ChangeExplosionForce(_origin);
         }
     }
 
@@ -379,7 +370,7 @@ public class Truck : RealtimeComponent<TruckModel>
         rb.useGravity = !value;
         shieldCollider.enabled = value;
         Handrake(value);
-        
+
         if (value)
         {
             UpdateTorqueFactor(0f);
@@ -439,11 +430,11 @@ public class Truck : RealtimeComponent<TruckModel>
     private IEnumerator SetTruckScaleableHealthCR()
     {
         yield return new WaitForSeconds(5f);
-        int numberOfPlayers = PlayerManager.instance.allPlayers.Length;
+        var numberOfPlayers = PlayerManager.instance.allPlayers.Length;
         GameManager.instance.GameStarted = true;
-        model.maxHealth = (scaleableHealth * numberOfPlayers);
+        model.maxHealth = scaleableHealth * numberOfPlayers;
         //_maxHealth = (scaleableHealth * numberOfPlayers);
-        model.health = (scaleableHealth * numberOfPlayers);
+        model.health = scaleableHealth * numberOfPlayers;
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
@@ -456,7 +447,7 @@ public class Truck : RealtimeComponent<TruckModel>
             DropRandomLoot();
         }
 
-        if (_health < (_maxHealth / 2f) && !postBoom)
+        if (_health < _maxHealth * .5f && !postBoom)
         {
             PlayerManager.instance.SpawnItems();
             postBoom = true;
@@ -472,7 +463,7 @@ public class Truck : RealtimeComponent<TruckModel>
         cr_DamageFeedback = StartCoroutine(CR_DamageFeedback());
     }
 
-    IEnumerator CR_DamageFeedback()
+    private IEnumerator CR_DamageFeedback()
     {
 #if UNITY_EDITOR
         wait = new WaitForSeconds(damageDisplayTime);
@@ -486,50 +477,47 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void DropRandomLoot()
     {
-        if (UnityEngine.Random.Range(0, 1f) < lootChance) //random chance of loot drop
-        {
+        if (Random.Range(0, 1f) < lootChance) //random chance of loot drop
             DropLoot();
-        }
     }
 
     private void DropLoot()
     {
-        GameObject _temp = Realtime.Instantiate("Loot",
-            position: transform.position + lootLaunchPoint,
-            rotation: Quaternion.identity,
-            ownedByClient:
+        var _temp = Realtime.Instantiate("Loot",
+            transform.position + lootLaunchPoint,
+            Quaternion.identity,
             true,
-            preventOwnershipTakeover:
             false,
             useInstance:
             realtime);
-        int PUCount =
-            (LootManager.instance.playerLootPoolSave.PlayerPowerUps.Count - 1);
-        int LootCount =
-            (LootManager.instance.playerLootPoolSave.m_RollPool.Count - 1);
-        int RandomID = UnityEngine.Random.Range(-PUCount, LootCount);
+        GameManager.instance.RecordRIGO(_temp);
+        var PUCount =
+            LootManager.instance.playerLootPoolSave.PlayerPowerUps.Count - 1;
+        var LootCount =
+            LootManager.instance.playerLootPoolSave.m_RollPool.Count - 1;
+        var RandomID = Random.Range(-PUCount, LootCount);
         //Debug.Log("PU id is" + RandomID);
 
         _temp.GetComponent<LootContainer>().SetID(RandomID);
 
 
-        Vector3 _tempDir = UnityEngine.Random.onUnitSphere;
+        var _tempDir = Random.onUnitSphere;
         _tempDir = new Vector3(_tempDir.x, Mathf.Abs(_tempDir.y), _tempDir.z) * throwForce;
         Debug.DrawLine(lootLaunchPoint, lootLaunchPoint + _tempDir, Color.blue, 3f);
         _temp.GetComponent<Rigidbody>().AddForce(_tempDir, ForceMode.Impulse);
     }
 
-    void HealthChanged(TruckModel model, float value)
+    private void HealthChanged(TruckModel model, float value)
     {
         _health = value;
     }
 
-    void MaxHealthChanged(TruckModel model, float value)
+    private void MaxHealthChanged(TruckModel model, float value)
     {
         _maxHealth = value;
     }
 
-    void ForcesChanged(TruckModel model, Vector3 value)
+    private void ForcesChanged(TruckModel model, Vector3 value)
     {
         _explosionForce = value;
     }

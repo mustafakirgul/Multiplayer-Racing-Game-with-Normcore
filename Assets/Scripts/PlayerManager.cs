@@ -70,7 +70,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (instance != null && instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             return;
         }
 
@@ -162,13 +162,13 @@ public class PlayerManager : MonoBehaviour
         //Debug.LogWarning("Local player set as " + (GameManager.instance.isHost ? "host" : "guest"));
         if (GameManager.instance.isHost)
         {
-            Truck truck = FindObjectOfType<Truck>();
-            if (truck != null)
-            {
-                truck.realtimeView.RequestOwnership();
-                truck.rtTransform.RequestOwnership();
-                Realtime.Destroy(truck.gameObject);
-            }
+            // Truck truck = FindObjectOfType<Truck>();
+            // if (truck != null)
+            // {
+            //     truck.realtimeView.RequestOwnership();
+            //     truck.rtTransform.RequestOwnership();
+            //     Realtime.Destroy(truck.gameObject);
+            // }
 
             _temp = Realtime.Instantiate("WeirdTruck",
                 position: spawnPoint,
@@ -177,6 +177,7 @@ public class PlayerManager : MonoBehaviour
                 preventOwnershipTakeover: true,
                 destroyWhenOwnerOrLastClientLeaves: true,
                 useInstance: _realtime);
+            GameManager.instance.RecordRIGO(_temp);
             _temp.GetComponent<Truck>().StartHealth();
             if (prespawnManager != null)
                 prespawnManager._realtime = _realtime;

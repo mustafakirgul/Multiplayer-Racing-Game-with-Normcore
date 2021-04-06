@@ -25,6 +25,14 @@ public class StartCountdown : MonoBehaviour
         current = start;
     }
 
+    public void Reset()
+    {
+        Initialize(race);
+        if (countdownLights != null)
+            countdownLights = FindObjectOfType<CountdownLights>();
+        countdownLights.Reset();
+    }
+
     public void Initialize(Race _race)
     {
         audioPlayer = GetComponent<AudioPlayer>();
