@@ -2,7 +2,7 @@
 
 public class MenuController : MonoBehaviour
 {
-    public GameObject startMenu, options, credits, connectionPanel;
+    public GameObject startMenu, options, credits, connectionPanel, helpPanel;
     public RectTransform joinRoomPanel, console;
 
     private readonly float joinRoomPanelOpenX = 520f,
@@ -76,6 +76,16 @@ public class MenuController : MonoBehaviour
     public void OpenJoinGamePanel()
     {
         ToggleJoinRoomPanel(true);
+    }
+
+    public void OpenHelpPanel()
+    {
+        helpPanel.SetActive(true);
+    }
+    
+    public void CloseHelpPanel()
+    {
+        helpPanel.SetActive(false);
     }
 
     public void CloseJoinGamePanel()
