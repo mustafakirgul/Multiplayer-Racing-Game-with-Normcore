@@ -51,6 +51,7 @@ public class StartCountdown : MonoBehaviour
     {
         while (current > 0)
         {
+            if (race == null) race = FindObjectOfType<Race>();
             current = race.CountOneDown();
             countdownLights.TurnOntheLight(current);
             audioPlayer.Play();
