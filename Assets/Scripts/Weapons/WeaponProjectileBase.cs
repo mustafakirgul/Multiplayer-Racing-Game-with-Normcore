@@ -42,6 +42,8 @@ public class WeaponProjectileBase : RealtimeComponent<ProjectileModel>
 
     public StatsEntity statEntity;
 
+    public float startingAmmo;
+
     protected override void OnRealtimeModelReplaced(ProjectileModel previousModel, ProjectileModel currentModel)
     {
         base.OnRealtimeModelReplaced(previousModel, currentModel);

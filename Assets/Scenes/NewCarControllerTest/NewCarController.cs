@@ -500,6 +500,8 @@ public class NewCarController : MonoBehaviour
 
             WeaponProjectileBase PrimaryWeaponBase = PrimaryWeaponProjectile.GetComponent<WeaponProjectileBase>();
             uIManager.SwitchProjectileDisplayInfo(PrimaryWeaponBase.ProjectileToDisplay, 999);
+
+     
         }
         else
         {
@@ -533,6 +535,7 @@ public class NewCarController : MonoBehaviour
     IEnumerator CR_PlaceCar()
     {
         yield return new WaitForSeconds(5f);
+        currentAmmo = SecondaryWeaponProjectile.GetComponent<WeaponProjectileBase>().startingAmmo;
         CarRB.MovePosition(PlayerManager.instance.GetSpawnPoint(_realtimeView.ownerIDInHierarchy));
         CarRB.rotation =
             Quaternion.LookRotation(transform.position - FindObjectOfType<CountdownLights>().transform.position,
@@ -1218,12 +1221,11 @@ public class NewCarController : MonoBehaviour
         switch (weapon)
         {
             case 0:
-                dataProcess.ProcessVisualIndices(new Vector3((dataProcess.WeaponSelectorCount() - 1),
-                    lootManager.VisualIndex.y, lootManager.VisualIndex.z));
+                dataProcess.ProcessVisualIndices(false);
                 ObtainCorrectShaker();
                 break;
             case 1:
-                dataProcess.ProcessVisualIndices(lootManager.VisualModelIndex());
+                dataProcess.ProcessVisualIndices(true);
                 ObtainCorrectShaker();
                 break;
         }

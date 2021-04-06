@@ -10,7 +10,9 @@ public class GameManager : MonoBehaviour
     [Range(0, 359)] public float direction; //y angle of the spawned player
     Vector3 spawnPoint;
 
-    [Space] [Space] [Header("UI and Camera")]
+    [Space]
+    [Space]
+    [Header("UI and Camera")]
     public TextMeshProUGUI playerNameInputField;
 
     public Canvas _enterNameCanvas;
@@ -34,7 +36,9 @@ public class GameManager : MonoBehaviour
 
     public float MinXrayTruckOutlineDistance;
 
-    [Space] [Space] [Header("Managers")]
+    [Space]
+    [Space]
+    [Header("Managers")]
     //Managers
     private PlayerManager playerManager;
 
@@ -275,13 +279,13 @@ public class GameManager : MonoBehaviour
         {
             _roomName = LobbyManager.instance.roomName;
             Cursor.visible = false;
-            SpawnCar();
             if (isHost)
             {
                 //spawn a new timer object to count down for the race start TODO
             }
 
             FixAssociations();
+            SpawnCar();
         }
     }
 
@@ -312,10 +316,7 @@ public class GameManager : MonoBehaviour
         playerName = playerNameInputField.text;
 
         _temp.GetComponent<Player>().SetPlayerName(playerName);
-        _temp.GetComponent<ItemDataProcessor>().ObtainLoadOutData(lootManager.ObtainCurrentBuild());
-        _temp.GetComponent<ItemDataProcessor>().ProcessVisualIndices(
-            new Vector3((_temp.GetComponent<ItemDataProcessor>().WeaponSelectorCount() - 1)
-                , lootManager.VisualModelIndex().y, lootManager.VisualModelIndex().z));
+
         ResetBoolsForNewRound();
         _enterNameCanvas = GameObject.FindGameObjectWithTag("garage").GetComponent<Canvas>();
         _enterNameCanvas.gameObject.SetActive(false);
@@ -350,7 +351,24 @@ public class GameManager : MonoBehaviour
         {
             _race = FindObjectOfType<Race>();
         }
+
+        StartCoroutine(WaitToSyncWeaponVisuals(_temp));
     }
+
+    IEnumerator WaitToSyncWeaponVisuals(GameObject _temp)
+    {
+        yield return new WaitForSeconds(2f);
+
+        //Vector3 CheckVector = new Vector3((_temp.GetComponent<ItemDataProcessor>().WeaponSelectorCount() - 1)
+        //        , lootManager.VisualModelIndex().y, lootManager.VisualModelIndex().z);
+
+        //Debug.Log("Check Vector is " + CheckVector);
+        lootManager.ActivateVisualIndex();
+
+        _temp.GetComponent<ItemDataProcessor>().ObtainLoadOutData(lootManager.ObtainCurrentBuild());
+        _temp.GetComponent<ItemDataProcessor>().ProcessVisualIndices(false);
+    }
+
 
     public void StartInitialCountdown()
     {

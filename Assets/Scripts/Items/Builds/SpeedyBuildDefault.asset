@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: SpeedyBuildDefault
   m_EditorClassIdentifier: 
   buildType: 1
-  Weapon: {fileID: 11400000, guid: 3e6e53f0fdc6c3c41b6b6d548a07439c, type: 2}
+  Weapon: {fileID: 11400000, guid: 214f17fdd6b44b947b733acc5b32961b, type: 2}
   Armour: {fileID: 11400000, guid: c99ba97fdf25fed4fa5ea5290863151f, type: 2}
   Engine: {fileID: 11400000, guid: e28629993c1879c4d8ca0b8585d3c884, type: 2}

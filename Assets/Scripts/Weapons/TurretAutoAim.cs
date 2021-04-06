@@ -83,17 +83,6 @@ public class TurretAutoAim : MonoBehaviour
             parentCanvas = m_uiManager.ScreenCanvas.GetComponent<RectTransform>();
             StartCoroutine(DelayRadarAtStart());
             CrossHairUI.gameObject.SetActive(true);
-
-            if (isPlayerControlled)
-            {
-                m_uiManager.AutoAimUI.SetActive(false);
-                m_uiManager.ManualAim.SetActive(true);
-            }
-            else
-            {
-                m_uiManager.AutoAimUI.SetActive(true);
-                m_uiManager.ManualAim.SetActive(false);
-            }
         }
     }
 
@@ -133,17 +122,6 @@ public class TurretAutoAim : MonoBehaviour
         //Add weapon Change UI here
         yield return new WaitForSeconds(2f);
         isPlayerControlled = !isPlayerControlled;
-
-        if (isPlayerControlled)
-        {
-            m_uiManager.AutoAimUI.SetActive(false);
-            m_uiManager.ManualAim.SetActive(true);
-        }
-        else
-        {
-            m_uiManager.AutoAimUI.SetActive(true);
-            m_uiManager.ManualAim.SetActive(false);
-        }
 
         isSwitchingMode = false;
         weaponChange = null;

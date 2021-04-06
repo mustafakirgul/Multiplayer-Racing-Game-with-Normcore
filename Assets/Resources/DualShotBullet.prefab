@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startSpeed: 5
-  damage: 2
+  damage: 4
   explosiveRange: 5
   weaponLifeTime: 5
   truckDamageFactor: 1
@@ -282,6 +282,7 @@ MonoBehaviour:
   ProjectileToDisplay: {fileID: 2800000, guid: 2452e46bca22740c8abc1fa974c7cf7b, type: 3}
   _realtimeView: {fileID: -2444969834895540377}
   statEntity: {fileID: 0}
+  startingAmmo: 40
   bulletSpeed: 100
 --- !u!114 &-2444969834895540377
 MonoBehaviour:

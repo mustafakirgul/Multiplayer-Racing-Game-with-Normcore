@@ -73,7 +73,6 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     GameObject ReadyToStartMenu;
 
-    public GameObject AutoAimUI, ManualAim;
     public Image HealthBar;
 
     public Image OverheatMeter;
@@ -143,7 +142,17 @@ public class UIManager : MonoBehaviour
     public void UpdateCarVisualModelsWeapons(int indexToActivate)
     {
         //Index 0 is the weapon
-        VisualModelSelectors[0].ActivateItem(indexToActivate);
+        if (indexToActivate < 7)
+        {
+            VisualModelSelectors[3].DeActivateChildren();
+            VisualModelSelectors[0].ActivateItem(indexToActivate);
+        }
+        else
+        {
+            //Activate melee armour instead
+            VisualModelSelectors[0].ActivateItem(6);
+            VisualModelSelectors[3].ActivateItem(indexToActivate - 8);
+        }
     }
 
     public void UpdateCarVisualModelsArmour(int indexToActivate)
@@ -252,7 +261,7 @@ public class UIManager : MonoBehaviour
     private IEnumerator InitializeTruckHealthBar()
     {
         IronHogHPBar.SetActive(true);
-        if (HealthBar==null) HealthBar = IronHogHPBar.gameObject.transform.GetChild(0).GetComponent<Image>();
+        if (HealthBar == null) HealthBar = IronHogHPBar.gameObject.transform.GetChild(0).GetComponent<Image>();
 
         //while (HealthBar.fillAmount < 0.99f)
         {
@@ -266,7 +275,7 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator UpdateTruckHealthUI()
     {
-        if (HealthBar==null) HealthBar = IronHogHPBar.gameObject.transform.GetChild(0).GetComponent<Image>();
+        if (HealthBar == null) HealthBar = IronHogHPBar.gameObject.transform.GetChild(0).GetComponent<Image>();
 
         while (true)
         {
@@ -402,8 +411,8 @@ public class UIManager : MonoBehaviour
 
     public void ResetLootUI()
     {
-        if(m_buildScrollSelector!= null)
-        m_buildScrollSelector.InitializeManualSelection();
+        if (m_buildScrollSelector != null)
+            m_buildScrollSelector.InitializeManualSelection();
     }
 
     public void ResizeUILootContainers()

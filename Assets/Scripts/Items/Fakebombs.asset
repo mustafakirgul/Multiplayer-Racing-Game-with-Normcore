@@ -24,7 +24,7 @@ MonoBehaviour:
   f_weight: 0
   f_boostTimer: 0
   f_boostForce: 0
-  f_itemVisualIndex: 0
+  f_itemVisualIndex: 4
   itemText: Bombs That look like Loot ;)
   itemImage: {fileID: 2800000, guid: a9641f2e84ba44489bbe961566ccf2dd, type: 3}
   WeaponProjectile: {fileID: 3112086905854782875, guid: 7eef150191a6ed248aea79d0269d8922,

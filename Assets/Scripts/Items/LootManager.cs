@@ -130,13 +130,19 @@ public class LootManager : MonoBehaviour
 
     public Vector3 VisualModelIndex()
     {
-        VisualIndex =
+        {
+            VisualIndex =
             new Vector3(current_buildLoadOut.Weapon.m_itemVisualIndex,
                         current_buildLoadOut.Armour.m_itemVisualIndex,
                         current_buildLoadOut.Engine.m_itemVisualIndex);
 
+            return VisualIndex;
+        }
+    }
 
-        return VisualIndex;
+    public void ActivateVisualIndex()
+    {
+        VisualModelIndex();
     }
 
     public void RollForLoot()

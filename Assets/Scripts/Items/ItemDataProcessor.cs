@@ -28,6 +28,11 @@ public class ItemDataProcessor : MonoBehaviour
     [SerializeField] private ContainerSelector WeaponSelector;
     [SerializeField] private ContainerSelector ArmourSelector;
     [SerializeField] private ContainerSelector EngineSelector;
+    [SerializeField] private ContainerSelector MeleeSelector;
+
+    public Vector4 visualDebug;
+
+    LootManager lootManager;
 
     private void Awake()
     {
@@ -35,6 +40,7 @@ public class ItemDataProcessor : MonoBehaviour
         m_playerHealth = GetComponent<Player>();
         //Modifications for player speed/weapons
         m_playerCarController = GetComponent<NewCarController>();
+        lootManager = FindObjectOfType<LootManager>();
     }
 
     //Use this for temporary items that will boost the attack or defense
@@ -63,11 +69,39 @@ public class ItemDataProcessor : MonoBehaviour
         }
     }
 
-    public void ProcessVisualIndices(Vector3 indices)
+    public void ProcessVisualIndices(bool isSecondary)
     {
-        WeaponSelector.ActivateItem((int)indices.x);
-        ArmourSelector.ActivateItem((int)indices.y);
-        EngineSelector.ActivateItem((int)indices.z);
+        if (lootManager.VisualIndex.x < 6)
+        {
+
+            //visualDebug = indices;
+            if(isSecondary)
+            WeaponSelector.ActivateItem((int)lootManager.VisualIndex.x);
+            else
+            WeaponSelector.ActivateItem((WeaponSelectorCount() - 1));
+            ArmourSelector.ActivateItem((int)lootManager.VisualIndex.y);
+            EngineSelector.ActivateItem((int)lootManager.VisualIndex.z);
+
+            //WeaponSelector.ActivateItem((int)indices.x);
+            //ArmourSelector.ActivateItem((int)indices.y);
+            //EngineSelector.ActivateItem((int)indices.z);
+        }
+        else
+        {
+            //visualDebug = indices;
+
+            WeaponSelector.ActivateItem(6);
+
+            int meleeindex = ((int)lootManager.VisualIndex.x - 8);
+            MeleeSelector.ActivateItem(meleeindex);
+            ArmourSelector.ActivateItem((int)lootManager.VisualIndex.y);
+            EngineSelector.ActivateItem((int)lootManager.VisualIndex.z);
+
+
+            //ArmourSelector.ActivateItem((int)indices.y);
+            //EngineSelector.ActivateItem((int)indices.z);
+            //MeleeSelector.ActivateItem((int)indices.x - 4);
+        }
     }
 
     public int WeaponSelectorCount()
@@ -154,7 +188,7 @@ public class ItemDataProcessor : MonoBehaviour
                     m_playerCarController.GetCarParams().SetWeight(ItemPickUp.m_weight);
                 }
 
-                if(ItemPickUp.m_turnSpd != 0)
+                if (ItemPickUp.m_turnSpd != 0)
                 {
                     m_playerCarController.GetCarParams().SetTurnSpd(ItemPickUp.m_turnSpd);
                 }
