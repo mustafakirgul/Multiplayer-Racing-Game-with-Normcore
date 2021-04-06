@@ -525,9 +525,11 @@ public class NewCarController : MonoBehaviour
         IDDisplay.SetText(_player.playerName);
 
         if (WeaponSwitcherUI != null)
+        {
             WeaponSwitcherUI.SetActive(false);
-        OverHeatNotice.gameObject.SetActive(false);
-        OverheatMeterObj.SetActive(_realtimeView.isOwnedLocallyInHierarchy);
+            OverHeatNotice.gameObject.SetActive(false);
+            OverheatMeterObj.SetActive(_realtimeView.isOwnedLocallyInHierarchy);
+        }
         ObtainCorrectShaker();
     }
 
@@ -1305,6 +1307,7 @@ public class NewCarController : MonoBehaviour
         if (heatLevel >= maxHeatThreshold &&
             !Overheat)
         {
+            if(OverHeatNotice!= null)
             OverHeatNotice.gameObject.SetActive(true);
             Overheat = true;
             StartCoroutine(WeaponCoolDown());
@@ -1314,7 +1317,8 @@ public class NewCarController : MonoBehaviour
     IEnumerator WeaponCoolDown()
     {
         yield return new WaitForSeconds(OverheatCoolTimer);
-        OverHeatNotice.gameObject.SetActive(false);
+        if (OverHeatNotice != null)
+            OverHeatNotice.gameObject.SetActive(false);
         heatLevel = 0;
         Overheat = false;
     }
