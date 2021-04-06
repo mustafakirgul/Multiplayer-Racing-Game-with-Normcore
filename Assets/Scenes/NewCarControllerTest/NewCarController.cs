@@ -393,6 +393,11 @@ public class NewCarController : MonoBehaviour
             savedTempDamageRate = tempTruckDamageModifier;
         }
 
+        //SuperGunMesh Activator
+        ItemDataProcessor dataProcess = this.GetComponent<ItemDataProcessor>();
+        dataProcess.AccessWeaponSelector().ActivateItem(5);
+        ObtainCorrectShaker();
+
         SecondaryWeaponProjectile = LootWeaponProjectile;
         secondaryfireRate = lootFireRate;
         secondayFireTimer = 1f / secondaryfireRate;
@@ -424,6 +429,10 @@ public class NewCarController : MonoBehaviour
         currentAmmo = savedWeaponAmmo;
 
         WeaponProjectileBase savedWeaponBase = savedWeaponProjectile.GetComponent<WeaponProjectileBase>();
+
+        ItemDataProcessor dataProcess = this.GetComponent<ItemDataProcessor>();
+        dataProcess.AccessWeaponSelector().ActivateItem(dataProcess.currentweaponIndex);
+        ObtainCorrectShaker();
 
         if (savedWeaponBase != null)
         {

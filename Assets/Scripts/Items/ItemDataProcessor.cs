@@ -34,6 +34,8 @@ public class ItemDataProcessor : MonoBehaviour
 
     LootManager lootManager;
 
+    public int currentweaponIndex;
+
     private void Awake()
     {
         //Modifications for player health/defense/armour
@@ -41,6 +43,11 @@ public class ItemDataProcessor : MonoBehaviour
         //Modifications for player speed/weapons
         m_playerCarController = GetComponent<NewCarController>();
         lootManager = FindObjectOfType<LootManager>();
+    }
+
+    public ContainerSelector AccessWeaponSelector()
+    {
+        return WeaponSelector;
     }
 
     //Use this for temporary items that will boost the attack or defense
@@ -75,10 +82,14 @@ public class ItemDataProcessor : MonoBehaviour
         {
 
             //visualDebug = indices;
-            if(isSecondary)
-            WeaponSelector.ActivateItem((int)lootManager.VisualIndex.x);
+            if (isSecondary)
+            {
+                WeaponSelector.ActivateItem((int)lootManager.VisualIndex.x);
+                currentweaponIndex = ((int)lootManager.VisualIndex.x);
+            }
             else
-            WeaponSelector.ActivateItem((WeaponSelectorCount() - 1));
+                WeaponSelector.ActivateItem((WeaponSelectorCount() - 1));
+            currentweaponIndex = (WeaponSelectorCount() - 1);
             ArmourSelector.ActivateItem((int)lootManager.VisualIndex.y);
             EngineSelector.ActivateItem((int)lootManager.VisualIndex.z);
 
@@ -94,6 +105,7 @@ public class ItemDataProcessor : MonoBehaviour
 
             int meleeindex = ((int)lootManager.VisualIndex.x - 8);
             MeleeSelector.ActivateItem(meleeindex);
+            currentweaponIndex = meleeindex;
             ArmourSelector.ActivateItem((int)lootManager.VisualIndex.y);
             EngineSelector.ActivateItem((int)lootManager.VisualIndex.z);
 
