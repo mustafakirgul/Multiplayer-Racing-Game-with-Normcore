@@ -127,15 +127,14 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void Update()
     {
-        if (isBoombastic)
-        {
-            uIManager.LootTruckInvincibleIcon.SetActive(true);
-        }
-        else
-        {
-            uIManager.LootTruckInvincibleIcon.SetActive(false);
-        }
-
+        //if (isBoombastic)
+        //{
+        //    uIManager.LootTruckInvincibleIcon.SetActive(true);
+        //}
+        //else
+        //{
+        //    uIManager.LootTruckInvincibleIcon.SetActive(false);
+        //}
 
         if (realtimeView.isOwnedRemotelyInHierarchy) return;
         if (isBoombastic)
