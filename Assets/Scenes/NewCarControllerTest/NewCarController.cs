@@ -245,7 +245,27 @@ public class NewCarController : MonoBehaviour
         wait1sec = new WaitForSeconds(1f);
         lootManager = FindObjectOfType<LootManager>();
         GetPhysicsParamsBasedOnBuild();
-        if (lootIndicator != null)
+
+        if (_realtimeView.isOwnedLocallyInHierarchy)
+        {
+            uIManager = FindObjectOfType<UIManager>();
+            if (uIManager != null)
+            {
+                uIManager.EnableUI();
+                speedDisplay = uIManager.speedometer;
+                healthRadialLoader = uIManager.playerHealthRadialLoader;
+                IDDisplay.gameObject.SetActive(false);
+                IDDisplay = uIManager.playerName;
+                boostRadialLoader = uIManager.boostRadialLoader;
+                OverheatMeter = uIManager.OverheatMeter;
+                OverheatMeterObj = uIManager.OverheatMeterObj;
+                OverHeatNotice = uIManager.OverheatNotice;
+                WeaponSwitcherUI = uIManager.WeaponSwitchIcon;
+                damageIndicatorCanvasGroup = uIManager.damageIndicatorCanvasGroup;
+            }
+            OverheatMeterObj.SetActive(true);
+        }
+            if (lootIndicator != null)
         {
             lootIndicator.SetActive(false);
             lootIndicatorCountDisplay = lootIndicator.GetComponentInChildren<Text>();
@@ -447,22 +467,6 @@ public class NewCarController : MonoBehaviour
         if (_realtimeView.isOwnedLocallyInHierarchy)
         {
             CreateMeleeEntity();
-            uIManager = FindObjectOfType<UIManager>();
-            if (uIManager != null)
-            {
-                uIManager.EnableUI();
-                speedDisplay = uIManager.speedometer;
-                healthRadialLoader = uIManager.playerHealthRadialLoader;
-                IDDisplay.gameObject.SetActive(false);
-                IDDisplay = uIManager.playerName;
-                boostRadialLoader = uIManager.boostRadialLoader;
-                OverheatMeter = uIManager.OverheatMeter;
-                OverheatMeterObj = uIManager.OverheatMeterObj;
-                OverHeatNotice = uIManager.OverheatNotice;
-                WeaponSwitcherUI = uIManager.WeaponSwitchIcon;
-                damageIndicatorCanvasGroup = uIManager.damageIndicatorCanvasGroup;
-            }
-            OverheatMeterObj.SetActive(true);
 
             //Decouple Sphere Physics from car model
             CarRB.transform.parent = null;
@@ -519,7 +523,8 @@ public class NewCarController : MonoBehaviour
         }
 
         IDDisplay.SetText(_player.playerName);
-        if (WeaponSwitcherUI.activeInHierarchy)
+
+        if (WeaponSwitcherUI != null)
             WeaponSwitcherUI.SetActive(false);
         OverHeatNotice.gameObject.SetActive(false);
         OverheatMeterObj.SetActive(_realtimeView.isOwnedLocallyInHierarchy);
@@ -874,7 +879,7 @@ public class NewCarController : MonoBehaviour
         }
 
         //yield return new WaitForSeconds(1f);
-        if (WeaponSwitcherUI.activeInHierarchy)
+        if (WeaponSwitcherUI != null)
             WeaponSwitcherUI.SetActive(false);
     }
 
@@ -1063,6 +1068,7 @@ public class NewCarController : MonoBehaviour
             {
                 weaponType++;
                 weaponType %= 2;
+                if(WeaponSwitcherUI != null)
                 WeaponSwitcherUI.gameObject.SetActive(true);
                 StartCoroutine(CheckSwitchUI());
 
@@ -1287,7 +1293,7 @@ public class NewCarController : MonoBehaviour
         muzzleFlash.SetActive(true);
         StartCoroutine(MuzzleToggle());
         yield return primaryWait;
-        if (WeaponSwitcherUI.activeInHierarchy)
+        if (WeaponSwitcherUI != null)
         {
             WeaponSwitcherUI.SetActive(false);
         }
@@ -1319,7 +1325,7 @@ public class NewCarController : MonoBehaviour
         muzzleFlash.SetActive(true);
         StartCoroutine(MuzzleToggle());
         yield return secondaryWait;
-        if (WeaponSwitcherUI.activeInHierarchy)
+        if (WeaponSwitcherUI != null)
         {
             WeaponSwitcherUI.SetActive(false);
         }
