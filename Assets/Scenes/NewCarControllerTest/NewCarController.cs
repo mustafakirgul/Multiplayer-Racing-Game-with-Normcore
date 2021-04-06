@@ -519,7 +519,8 @@ public class NewCarController : MonoBehaviour
         }
 
         IDDisplay.SetText(_player.playerName);
-        WeaponSwitcherUI.SetActive(false);
+        if (WeaponSwitcherUI.activeInHierarchy)
+            WeaponSwitcherUI.SetActive(false);
         OverHeatNotice.gameObject.SetActive(false);
         OverheatMeterObj.SetActive(_realtimeView.isOwnedLocallyInHierarchy);
         ObtainCorrectShaker();
@@ -873,7 +874,8 @@ public class NewCarController : MonoBehaviour
         }
 
         //yield return new WaitForSeconds(1f);
-        WeaponSwitcherUI.SetActive(false);
+        if (WeaponSwitcherUI.activeInHierarchy)
+            WeaponSwitcherUI.SetActive(false);
     }
 
     private void TurnTheWheels()
@@ -1285,7 +1287,7 @@ public class NewCarController : MonoBehaviour
         muzzleFlash.SetActive(true);
         StartCoroutine(MuzzleToggle());
         yield return primaryWait;
-        //if (WeaponSwitcherUI.activeInHierarchy)
+        if (WeaponSwitcherUI.activeInHierarchy)
         {
             WeaponSwitcherUI.SetActive(false);
         }
@@ -1317,7 +1319,7 @@ public class NewCarController : MonoBehaviour
         muzzleFlash.SetActive(true);
         StartCoroutine(MuzzleToggle());
         yield return secondaryWait;
-        //if (WeaponSwitcherUI.activeInHierarchy)
+        if (WeaponSwitcherUI.activeInHierarchy)
         {
             WeaponSwitcherUI.SetActive(false);
         }
