@@ -97,7 +97,6 @@ public class UIManager : MonoBehaviour
         _gameManager.FixAssociations();
         AssignLootToDisplayAtStart();
         AssignLoadOutLootItemVisualImage(_lootManager.selected_buildLoadOutToView);
-        LootTruckInvincibleIcon.SetActive(false);
         ContainerSelector[] selector = BuildModelsAppearance[0].GetComponentsInChildren<ContainerSelector>();
 
         VisualModelSelectors.Clear();

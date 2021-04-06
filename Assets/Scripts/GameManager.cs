@@ -303,6 +303,7 @@ public class GameManager : MonoBehaviour
 
             instance.phaseManager.phases[0] = phaseManagerPhase;
             SpawnCar();
+            uIManager.LootTruckInvincibleIcon.SetActive(false);
             localController.GetComponent<NewCarController>().PlaceCar();
         }
     }
