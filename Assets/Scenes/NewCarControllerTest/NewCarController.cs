@@ -195,7 +195,7 @@ public class NewCarController : MonoBehaviour
     public GameObject lootIndicator;
     private Text lootIndicatorCountDisplay;
     public AudioPlayer boostSound;
-    private LayeredAudioPlayer deathSound;
+    public LayeredAudioPlayer deathSound;
     private WaitForSeconds wait1sec;
 
     public void ToggleController(bool state)
@@ -246,7 +246,7 @@ public class NewCarController : MonoBehaviour
         lootManager = FindObjectOfType<LootManager>();
         GetPhysicsParamsBasedOnBuild();
 
-            if (lootIndicator != null)
+        if (lootIndicator != null)
         {
             lootIndicator.SetActive(false);
             lootIndicatorCountDisplay = lootIndicator.GetComponentInChildren<Text>();
@@ -464,8 +464,10 @@ public class NewCarController : MonoBehaviour
                     WeaponSwitcherUI = uIManager.WeaponSwitchIcon;
                     damageIndicatorCanvasGroup = uIManager.damageIndicatorCanvasGroup;
                 }
+
                 OverheatMeterObj.SetActive(true);
             }
+
             CreateMeleeEntity();
 
             //Decouple Sphere Physics from car model
@@ -530,6 +532,7 @@ public class NewCarController : MonoBehaviour
             OverHeatNotice.gameObject.SetActive(false);
             OverheatMeterObj.SetActive(_realtimeView.isOwnedLocallyInHierarchy);
         }
+
         ObtainCorrectShaker();
     }
 
@@ -1070,8 +1073,8 @@ public class NewCarController : MonoBehaviour
             {
                 weaponType++;
                 weaponType %= 2;
-                if(WeaponSwitcherUI != null)
-                WeaponSwitcherUI.gameObject.SetActive(true);
+                if (WeaponSwitcherUI != null)
+                    WeaponSwitcherUI.gameObject.SetActive(true);
                 StartCoroutine(CheckSwitchUI());
 
                 switch (weaponType)
@@ -1299,6 +1302,7 @@ public class NewCarController : MonoBehaviour
         {
             WeaponSwitcherUI.SetActive(false);
         }
+
         readyToFire = true;
     }
 
@@ -1307,8 +1311,8 @@ public class NewCarController : MonoBehaviour
         if (heatLevel >= maxHeatThreshold &&
             !Overheat)
         {
-            if(OverHeatNotice!= null)
-            OverHeatNotice.gameObject.SetActive(true);
+            if (OverHeatNotice != null)
+                OverHeatNotice.gameObject.SetActive(true);
             Overheat = true;
             StartCoroutine(WeaponCoolDown());
         }
@@ -1333,6 +1337,7 @@ public class NewCarController : MonoBehaviour
         {
             WeaponSwitcherUI.SetActive(false);
         }
+
         readyToFire = true;
     }
 
