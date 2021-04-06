@@ -300,7 +300,6 @@ public class GameManager : MonoBehaviour
 
     private void SpawnCar()
     {
-
         _tempName = preferredCar != "" ? preferredCar : "Car1";
         GameObject _temp = Realtime.Instantiate(_tempName,
             position: PlayerManager.instance.GetSpawnPoint(FindObjectsOfType<Lobbiest>().Length),
@@ -354,10 +353,7 @@ public class GameManager : MonoBehaviour
 
     public void StartInitialCountdown()
     {
-        if (instance.isHost)
-        {
-            counter.Initialize(_race);
-        }
+        counter.Initialize(_race);
     }
 
     private IEnumerator CountDownTimeContinuously()
