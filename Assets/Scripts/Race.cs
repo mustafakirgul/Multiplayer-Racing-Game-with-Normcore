@@ -42,6 +42,7 @@ public class Race : RealtimeComponent<RaceModel>
 
     public int CountOneDown()
     {
+        if (model == null) return -1;
         if (model.countDown > 0)
         {
             model.countDown--;

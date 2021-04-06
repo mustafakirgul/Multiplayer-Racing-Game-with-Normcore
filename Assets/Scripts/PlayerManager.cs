@@ -29,13 +29,14 @@ public class PlayerManager : MonoBehaviour
     public float startHeight;
     public Vector3[] spawnPoints;
     public LayerMask groundLayer;
-    
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireMesh(gizmoMesh, spawnPoint, Quaternion.Euler(-90, spawnRotation, 0), new Vector3(293, 539, 293));
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(spawnCenter, 1f);
-        GenerateSpawnPoints();
+        if (spawnPoints == null) GenerateSpawnPoints();
+        if (spawnPoints.Length == 0) GenerateSpawnPoints();
         for (int i = 0; i < spawnPoints.Length; i++)
         {
             Gizmos.color = Color.white;
@@ -61,7 +62,7 @@ public class PlayerManager : MonoBehaviour
 
     public Vector3 GetSpawnPoint(int index)
     {
-        if (index > spawnPoints.Length) return spawnCenter;
+        index %= spawnPoints.Length;
         return spawnPoints[index];
     }
 

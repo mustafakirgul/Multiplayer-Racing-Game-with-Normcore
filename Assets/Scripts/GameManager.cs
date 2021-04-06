@@ -146,7 +146,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         SingletonCheck();
-        counter = GetComponent<StartCountdown>();
+        if (counter == null) counter = GetComponent<StartCountdown>();
         wait2secs = new WaitForSeconds(2f);
         waitFrame = new WaitForEndOfFrame();
         phaseManager = GetComponent<PhaseManager>();
@@ -161,11 +161,12 @@ public class GameManager : MonoBehaviour
         //HeatText = GameObject.FindGameObjectWithTag("OverHeatText");
         // Get the Realtime component on this game object
         _realtime = GetComponent<Realtime>();
-        spawnPoint = new Vector3( // todo move to startup logic
-            UnityEngine.Random.Range(center.x - (size.x * .5f), center.x + (size.x * .5f)),
-            UnityEngine.Random.Range(center.y - (size.y * .5f), center.y + (size.y * .5f)),
-            UnityEngine.Random.Range(center.z - (size.z * .5f), center.z + (size.z * .5f))
-        );
+        spawnPoint =
+            new Vector3( // this is just for the start, each car will move to a different spot before the race starts
+                UnityEngine.Random.Range(center.x - (size.x * .5f), center.x + (size.x * .5f)),
+                UnityEngine.Random.Range(center.y - (size.y * .5f), center.y + (size.y * .5f)),
+                UnityEngine.Random.Range(center.z - (size.z * .5f), center.z + (size.z * .5f))
+            );
         //StartCoroutine(gameSceneManager.FadeToBlackOutSquare(false, 1));
         if (gameCreationMenu == null) return;
         gameCreationMenu.SetActive(true);
@@ -302,7 +303,7 @@ public class GameManager : MonoBehaviour
     {
         _tempName = preferredCar != "" ? preferredCar : "Car1";
         GameObject _temp = Realtime.Instantiate(_tempName,
-            position: PlayerManager.instance.GetSpawnPoint(FindObjectsOfType<Lobbiest>().Length),
+            position: spawnPoint,
             rotation: Quaternion.identity,
             ownedByClient: true,
             preventOwnershipTakeover: true,

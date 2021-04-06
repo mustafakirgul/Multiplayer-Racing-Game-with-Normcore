@@ -110,7 +110,6 @@ public class Truck : RealtimeComponent<TruckModel>
     {
         shieldCollider = boombasticShield.transform.GetComponent<SphereCollider>();
         if (shieldCollider != null) shieldCollider.enabled = false;
-        
         truckBody = GetComponent<Rigidbody>();
         _rTTransform = GetComponent<RealtimeTransform>();
         _rTTransforms = new List<RealtimeTransform>();
@@ -312,14 +311,12 @@ public class Truck : RealtimeComponent<TruckModel>
         if (Vector3.Distance(rb.position, boombasticModePoint) > .1f)
         {
             rb.MovePosition(Vector3.Lerp(rb.position,
-                boombasticModePoint, Time.deltaTime * 6.66f));
+                boombasticModePoint, Time.deltaTime*2f));
             transform.up = Vector3.Lerp(transform.up, Vector3.up, Time.deltaTime * 6.66f);
-            shieldCollider.enabled = true;
         }
         else
         {
             transform.Rotate(Vector3.up, Time.deltaTime * 5f);
-            shieldCollider.enabled = false;
         }
     }
 
@@ -385,14 +382,14 @@ public class Truck : RealtimeComponent<TruckModel>
         
         if (value)
         {
-            UpdateTorqueFactor(1f);
+            UpdateTorqueFactor(0f);
             StartCoroutine(CR_BackToNormal());
             boombasticShield.Play();
         }
         else
         {
             boombasticShield.Stop();
-            UpdateTorqueFactor(0f);
+            UpdateTorqueFactor(1f);
         }
     }
 

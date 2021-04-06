@@ -447,27 +447,24 @@ public class NewCarController : MonoBehaviour
         deathSound = GetComponent<LayeredAudioPlayer>();
         if (_realtimeView.isOwnedLocallyInHierarchy)
         {
-            if (_realtimeView.isOwnedLocallyInHierarchy)
+            uIManager = FindObjectOfType<UIManager>();
+            if (uIManager != null)
             {
-                uIManager = FindObjectOfType<UIManager>();
-                if (uIManager != null)
-                {
-                    uIManager.EnableUI();
-                    speedDisplay = uIManager.speedometer;
-                    healthRadialLoader = uIManager.playerHealthRadialLoader;
-                    IDDisplay.gameObject.SetActive(false);
-                    IDDisplay = uIManager.playerName;
-                    boostRadialLoader = uIManager.boostRadialLoader;
-                    OverheatMeter = uIManager.OverheatMeter;
-                    OverheatMeterObj = uIManager.OverheatMeterObj;
-                    OverHeatNotice = uIManager.OverheatNotice;
-                    WeaponSwitcherUI = uIManager.WeaponSwitchIcon;
-                    damageIndicatorCanvasGroup = uIManager.damageIndicatorCanvasGroup;
-                }
-
-                OverheatMeterObj.SetActive(true);
+                uIManager.EnableUI();
+                speedDisplay = uIManager.speedometer;
+                healthRadialLoader = uIManager.playerHealthRadialLoader;
+                IDDisplay.gameObject.SetActive(false);
+                IDDisplay = uIManager.playerName;
+                boostRadialLoader = uIManager.boostRadialLoader;
+                OverheatMeter = uIManager.OverheatMeter;
+                OverheatMeterObj = uIManager.OverheatMeterObj;
+                OverHeatNotice = uIManager.OverheatNotice;
+                WeaponSwitcherUI = uIManager.WeaponSwitchIcon;
+                damageIndicatorCanvasGroup = uIManager.damageIndicatorCanvasGroup;
             }
 
+            OverheatMeterObj.SetActive(true);
+            GameManager.instance.counter.localController = this;
             CreateMeleeEntity();
 
             //Decouple Sphere Physics from car model
@@ -503,10 +500,6 @@ public class NewCarController : MonoBehaviour
 
             WeaponProjectileBase PrimaryWeaponBase = PrimaryWeaponProjectile.GetComponent<WeaponProjectileBase>();
             uIManager.SwitchProjectileDisplayInfo(PrimaryWeaponBase.ProjectileToDisplay, 999);
-
-            //pick a start position and go there
-            var playerCount = FindObjectsOfType<Player>().Length;
-            transform.LookAt(FindObjectOfType<CountdownLights>().transform);
         }
         else
         {
@@ -534,6 +527,17 @@ public class NewCarController : MonoBehaviour
         }
 
         ObtainCorrectShaker();
+        StartCoroutine(CR_PlaceCar());
+    }
+
+    IEnumerator CR_PlaceCar()
+    {
+        yield return new WaitForSeconds(5f);
+        CarRB.MovePosition(PlayerManager.instance.GetSpawnPoint(_realtimeView.ownerIDInHierarchy));
+        CarRB.rotation =
+            Quaternion.LookRotation(transform.position - FindObjectOfType<CountdownLights>().transform.position,
+                Vector3.up);
+        yield return null;
     }
 
     private void CreateMeleeEntity()
@@ -688,11 +692,6 @@ public class NewCarController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.instance.counter.current <= 0)
-        {
-            ToggleController(true);
-        }
-
         if (!Mathf.Approximately(m_fplayerLastHealth, _player.playerHealth))
         {
             UpdateHealth();

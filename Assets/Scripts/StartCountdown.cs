@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,8 +16,9 @@ public class StartCountdown : MonoBehaviour
     private Coroutine cr_Countdown;
     private WaitForSeconds waitASec;
     private AudioPlayer audioPlayer;
-    public UnityEvent endEvent;
     public CountdownLights countdownLights;
+    public NewCarController localController;
+    public UnityEvent endEvent;
 
     private void Start()
     {
@@ -49,6 +49,7 @@ public class StartCountdown : MonoBehaviour
             yield return waitASec;
         }
 
+        localController.ToggleController(true);
         endEvent.Invoke();
         yield return null;
     }
