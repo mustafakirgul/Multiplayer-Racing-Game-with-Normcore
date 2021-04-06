@@ -35,8 +35,7 @@ public class PlayerManager : MonoBehaviour
         Gizmos.DrawWireMesh(gizmoMesh, spawnPoint, Quaternion.Euler(-90, spawnRotation, 0), new Vector3(293, 539, 293));
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(spawnCenter, 1f);
-        if (spawnPoints == null) GenerateSpawnPoints();
-        if (spawnPoints.Length == 0) GenerateSpawnPoints();
+        GenerateSpawnPoints();
         for (int i = 0; i < spawnPoints.Length; i++)
         {
             Gizmos.color = Color.white;
