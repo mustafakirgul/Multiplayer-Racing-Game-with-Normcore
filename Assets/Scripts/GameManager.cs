@@ -363,10 +363,6 @@ public class GameManager : MonoBehaviour
         PanCamera.SetActive(true); //todo integrate into start sequence
         if (PanCamera.GetComponentInChildren<CameraMover>() != null)
             PanCamera.GetComponentInChildren<CameraMover>().StartMoving();
-
-        lootTruck = FindObjectOfType<Truck>();
-        TruckOutline = lootTruck.TruckOutline;
-
         phaseManager.StartPhaseSystem();
         StartCoroutine(CheckTruckDistanceOutline());
         if (LobbyManager.instance.isHost)
@@ -391,7 +387,8 @@ public class GameManager : MonoBehaviour
     IEnumerator WaitToSyncWeaponVisuals(GameObject _temp)
     {
         yield return new WaitForSeconds(2f);
-
+        lootTruck = FindObjectOfType<Truck>();
+        TruckOutline = lootTruck.TruckOutline;
         //Vector3 CheckVector = new Vector3((_temp.GetComponent<ItemDataProcessor>().WeaponSelectorCount() - 1)
         //        , lootManager.VisualModelIndex().y, lootManager.VisualModelIndex().z);
 

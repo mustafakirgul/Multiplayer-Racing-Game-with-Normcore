@@ -6,6 +6,7 @@ public class CountdownLights : MonoBehaviour
 
     public void TurnOntheLight(int index)
     {
+        index = Mathf.Clamp(index, 0, lights.Length);
         lights[index].SetActive(true);
     }
 
