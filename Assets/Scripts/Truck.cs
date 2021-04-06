@@ -102,6 +102,7 @@ public class Truck : RealtimeComponent<TruckModel>
             return;
         }
 
+        uIManager.LootTruckInvincibleIcon.SetActive(false);
         var temp = GameObject.FindGameObjectWithTag("boombasticPoint");
         if (temp != null) boombasticModePoint = temp.transform.position;
         StartHealth();
@@ -127,15 +128,6 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void Update()
     {
-        //if (isBoombastic)
-        //{
-        //    uIManager.LootTruckInvincibleIcon.SetActive(true);
-        //}
-        //else
-        //{
-        //    uIManager.LootTruckInvincibleIcon.SetActive(false);
-        //}
-
         if (realtimeView.isOwnedRemotelyInHierarchy) return;
         if (isBoombastic)
         {
@@ -156,18 +148,18 @@ public class Truck : RealtimeComponent<TruckModel>
             //     DropLoot();
             // }
 
-            if (Input.GetKeyDown(KeyCode.K)) // Kill Ironhog
+            /*if (Input.GetKeyDown(KeyCode.K)) // Kill Ironhog
             {
                 model.health = 0f;
-            }
+            }*/
 
             if (transform.position.y < -300) ResetTransform();
 
-            if (Input.GetKeyDown(KeyCode.Insert))
+            /*if (Input.GetKeyDown(KeyCode.Insert))
             {
                 var pos = PlayerManager.instance.localPlayer.position;
                 transform.position = new Vector3(pos.x, pos.y + 10f, pos.z);
-            }
+            }*/
 
             currentTorquePerWheel = maxTorque * _torqueFactor * elevationTorqueFactor;
             if (_length > 0)
@@ -314,7 +306,6 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void BoombasticMode()
     {
-      
         if (Vector3.Distance(rb.position, boombasticModePoint) > .1f)
         {
             rb.MovePosition(Vector3.Lerp(rb.position,
@@ -383,6 +374,7 @@ public class Truck : RealtimeComponent<TruckModel>
         rb.useGravity = !value;
         shieldCollider.enabled = value;
         Handrake(value);
+        uIManager.LootTruckInvincibleIcon.SetActive(value);
 
         if (value)
         {

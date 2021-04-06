@@ -92,18 +92,6 @@ public class GameManager : MonoBehaviour
         RIGOs.Clear();
     }
 
-    private void OnDrawGizmos()
-    {
-        float radians = direction * Mathf.Deg2Rad;
-        float x = Mathf.Cos(radians);
-        float y = Mathf.Sin(radians);
-        Vector3 pos = new Vector3(x, 0, y); //Vector2 is fine, if you're in 2D
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(center, size);
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(center, center + (pos * 5f));
-    }
-
     #region Singleton Logic
 
     public static GameManager instance = null;

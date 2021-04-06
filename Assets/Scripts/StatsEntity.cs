@@ -46,12 +46,12 @@ public class StatsEntity : RealtimeComponent<StatsModel>
         _powerUp = model.powerUp;
         _loot = model.loot;
 
-        //To be removed in final build
+        /*//To be removed in final build
         if (Input.GetKeyDown(KeyCode.N))
         {
             model.loot++;
             LootManager.instance.numberOfLootRolls++;
-        }
+        }*/
     }
 
     public void ReceiveStat(StatType type, float value)

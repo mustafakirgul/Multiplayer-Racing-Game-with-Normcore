@@ -1119,12 +1119,12 @@ public class NewCarController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.M))
+        /*if (Input.GetKeyDown(KeyCode.M))
         {
             CycleSyncPhysicsParamsData();
-        }
+        }*/
 
-        if ((Input.GetKeyDown(KeyCode.V) || Input.GetMouseButtonDown(1) && turretAim.targetList.Count > 0))
+        /*if ((Input.GetKeyDown(KeyCode.V) || Input.GetMouseButtonDown(1) && turretAim.targetList.Count > 0))
         {
             if (!turretAim.isManualTargeting)
             {
@@ -1137,7 +1137,7 @@ public class NewCarController : MonoBehaviour
             }
 
             turretAim.CycleSelectTarget();
-        }
+        }*/
 
         //Need to add reset timer to avoid spamming
         if (Input.GetKeyDown(KeyCode.R)) //reset
