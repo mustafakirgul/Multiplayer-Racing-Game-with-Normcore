@@ -187,6 +187,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29376be9c10be2a468f0062239288e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  image: {fileID: 0}
+  animators: []
   images:
   - {fileID: 2800000, guid: 6f2935872ead24dfb90bebbfcfb0333d, type: 3}
   - {fileID: 2800000, guid: 0f50da9c3b7724074a10e1ec89e68ef7, type: 3}
@@ -255,7 +258,7 @@ PrefabInstance:
     - target: {fileID: 5718491033719958419, guid: 41502c455c1aa43a082d4124fac25cbf,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -73.22
+      value: -310
       objectReference: {fileID: 0}
     - target: {fileID: 5718491033719958419, guid: 41502c455c1aa43a082d4124fac25cbf,
         type: 3}
