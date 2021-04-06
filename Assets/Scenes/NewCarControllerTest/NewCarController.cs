@@ -246,25 +246,6 @@ public class NewCarController : MonoBehaviour
         lootManager = FindObjectOfType<LootManager>();
         GetPhysicsParamsBasedOnBuild();
 
-        if (_realtimeView.isOwnedLocallyInHierarchy)
-        {
-            uIManager = FindObjectOfType<UIManager>();
-            if (uIManager != null)
-            {
-                uIManager.EnableUI();
-                speedDisplay = uIManager.speedometer;
-                healthRadialLoader = uIManager.playerHealthRadialLoader;
-                IDDisplay.gameObject.SetActive(false);
-                IDDisplay = uIManager.playerName;
-                boostRadialLoader = uIManager.boostRadialLoader;
-                OverheatMeter = uIManager.OverheatMeter;
-                OverheatMeterObj = uIManager.OverheatMeterObj;
-                OverHeatNotice = uIManager.OverheatNotice;
-                WeaponSwitcherUI = uIManager.WeaponSwitchIcon;
-                damageIndicatorCanvasGroup = uIManager.damageIndicatorCanvasGroup;
-            }
-            OverheatMeterObj.SetActive(true);
-        }
             if (lootIndicator != null)
         {
             lootIndicator.SetActive(false);
@@ -466,6 +447,25 @@ public class NewCarController : MonoBehaviour
         deathSound = GetComponent<LayeredAudioPlayer>();
         if (_realtimeView.isOwnedLocallyInHierarchy)
         {
+            if (_realtimeView.isOwnedLocallyInHierarchy)
+            {
+                uIManager = FindObjectOfType<UIManager>();
+                if (uIManager != null)
+                {
+                    uIManager.EnableUI();
+                    speedDisplay = uIManager.speedometer;
+                    healthRadialLoader = uIManager.playerHealthRadialLoader;
+                    IDDisplay.gameObject.SetActive(false);
+                    IDDisplay = uIManager.playerName;
+                    boostRadialLoader = uIManager.boostRadialLoader;
+                    OverheatMeter = uIManager.OverheatMeter;
+                    OverheatMeterObj = uIManager.OverheatMeterObj;
+                    OverHeatNotice = uIManager.OverheatNotice;
+                    WeaponSwitcherUI = uIManager.WeaponSwitchIcon;
+                    damageIndicatorCanvasGroup = uIManager.damageIndicatorCanvasGroup;
+                }
+                OverheatMeterObj.SetActive(true);
+            }
             CreateMeleeEntity();
 
             //Decouple Sphere Physics from car model
