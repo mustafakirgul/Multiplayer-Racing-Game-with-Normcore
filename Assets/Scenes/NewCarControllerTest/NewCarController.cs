@@ -198,9 +198,11 @@ public class NewCarController : MonoBehaviour
     public LayeredAudioPlayer deathSound;
     private WaitForSeconds wait1sec;
 
+    public bool isRunning;
+
     public void ToggleController(bool state)
     {
-        isPlayerAlive = state;
+        isRunning = state;
         CarRB.isKinematic = !state;
     }
 
@@ -361,7 +363,7 @@ public class NewCarController : MonoBehaviour
         }
     }
 
-    void InitCamera()
+    public void InitCamera()
     {
         followCamera = FindObjectOfType<ChaseCam>();
         followCamera.InitCamera(CameraContainer, lookAtTarget);
@@ -450,7 +452,7 @@ public class NewCarController : MonoBehaviour
             uIManager = FindObjectOfType<UIManager>();
             if (uIManager != null)
             {
-                uIManager.EnableUI();
+                uIManager.DisableUI();
                 speedDisplay = uIManager.speedometer;
                 healthRadialLoader = uIManager.playerHealthRadialLoader;
                 IDDisplay.gameObject.SetActive(false);
@@ -726,9 +728,12 @@ public class NewCarController : MonoBehaviour
             //disable controls when player is dead
             if (isPlayerAlive)
             {
-                DetectInput();
-                RotationCheck();
-                TurnTheWheels();
+                if (isRunning)
+                {
+                    DetectInput();
+                    RotationCheck();
+                    TurnTheWheels();
+                }
             }
 
             DragCheck();

@@ -24,7 +24,9 @@ public class Race : RealtimeComponent<RaceModel>
             {
                 currentModel.phase = m_iPhase;
                 currentModel.isOn = m_isOn;
-                currentModel.countDown = GameManager.instance.counter.start;
+                currentModel.countDown = GameManager.instance.counter != null
+                    ? GameManager.instance.counter.start
+                    : FindObjectOfType<CountdownLights>().lights.Length;
             }
 
             currentModel.gameStartTimeDidChange += GameTimeChanged;

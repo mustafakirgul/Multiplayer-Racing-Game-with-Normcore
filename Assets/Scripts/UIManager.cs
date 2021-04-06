@@ -88,7 +88,6 @@ public class UIManager : MonoBehaviour
         _lootManager = FindObjectOfType<LootManager>();
         CrossHairUI.gameObject.SetActive(false);
         uIPanel = transform.GetChild(0).gameObject;
-        EnableUI();
     }
 
     private void Start()

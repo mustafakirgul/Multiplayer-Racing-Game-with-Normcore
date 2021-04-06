@@ -39,7 +39,7 @@ public class LootDecoder : MonoBehaviour
 
         foreach (GameObject promptToAdd in LootDecoderUnits)
         {
-            promptToAdd.transform.parent = this.gameObject.transform;
+            promptToAdd.transform.SetParent(transform);
 
             //Normalize position and scale
 

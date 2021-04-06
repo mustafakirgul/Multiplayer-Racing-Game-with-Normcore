@@ -855,22 +855,22 @@ MonoBehaviour:
     m_Value: 1
   eyeAdaptationMinExposure:
     m_OverrideState: 1
-    m_Value: 0.287
+    m_Value: 0.033
     min: 0
     max: 1
   eyeAdaptationMaxExposure:
-    m_OverrideState: 0
-    m_Value: 37.1
+    m_OverrideState: 1
+    m_Value: 14.8
     min: 1
     max: 100
   eyeAdaptationSpeedToLight:
-    m_OverrideState: 0
-    m_Value: 0.4
+    m_OverrideState: 1
+    m_Value: 0.84
     min: 0
     max: 1
   eyeAdaptationSpeedToDark:
-    m_OverrideState: 0
-    m_Value: 0.2
+    m_OverrideState: 1
+    m_Value: 0.434
     min: 0
     max: 1
   purkinje:

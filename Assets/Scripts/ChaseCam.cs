@@ -11,6 +11,7 @@ public class ChaseCam : MonoBehaviour
     private Vector3 lookPosition, targetPosition, lookTargetPosition;
     public float minY, lookY;
     public LayerMask mask;
+    public MeshRenderer meshSphere;
 
     private void OnDrawGizmos()
     {
@@ -21,6 +22,11 @@ public class ChaseCam : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(lookAtTarget.position, 1f);
         Gizmos.DrawWireCube(lookPosition, Vector3.one);
+    }
+
+    public void OpenCameraCover()
+    {
+        meshSphere.enabled = false;
     }
 
     public void InitCamera(Transform _target, Transform _lookAtTarget)

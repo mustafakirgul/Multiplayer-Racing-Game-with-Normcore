@@ -19,30 +19,22 @@ public class StartCountdown : MonoBehaviour
     public CountdownLights countdownLights;
     public NewCarController localController;
     public UnityEvent endEvent;
+    private UIManager uiManager;
 
     private void Start()
     {
+        uiManager = FindObjectOfType<UIManager>();
         current = start;
     }
-
-    public void Reset()
-    {
-        Initialize(race);
-        if (countdownLights != null)
-            countdownLights = FindObjectOfType<CountdownLights>();
-        countdownLights.Reset();
-    }
-
     public void Initialize(Race _race)
     {
         audioPlayer = GetComponent<AudioPlayer>();
         waitASec = new WaitForSeconds(1f);
         if (cr_Countdown != null) StopCoroutine(cr_Countdown);
         race = _race;
-        if (autoStartCount)
-            if (countdownLights != null)
-                countdownLights = FindObjectOfType<CountdownLights>();
-        start = countdownLights.lights.Length;
+        countdownLights = FindObjectOfType<CountdownLights>();
+        if (autoStartCount && countdownLights != null)
+            start = countdownLights.lights.Length;
         current = start;
         cr_Countdown = StartCoroutine(CR_Countdown());
     }
@@ -58,7 +50,9 @@ public class StartCountdown : MonoBehaviour
             yield return waitASec;
         }
 
+        StatsManager.instance.RefreshStatEntities();
         localController.ToggleController(true);
+        uiManager.EnableUI();
         endEvent.Invoke();
         yield return null;
     }

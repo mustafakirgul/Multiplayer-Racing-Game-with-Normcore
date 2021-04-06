@@ -14,8 +14,8 @@ public class CameraMover : MonoBehaviour
     [SerializeField] float MarkDistance;
 
     [SerializeField] float lerpValue;
-
     private UIManager uiManager;
+
 
     public void StartMoving()
     {
@@ -80,6 +80,6 @@ public class CameraMover : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         gameObject.SetActive(false);
-        uiManager.EnableUI();
+        FindObjectOfType<ChaseCam>().OpenCameraCover();
     }
 }

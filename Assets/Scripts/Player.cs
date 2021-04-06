@@ -63,7 +63,8 @@ public class Player : RealtimeComponent<PlayerModel>
 
     private void PlayerIsBoostingChanged(PlayerModel playerModel, bool value)
     {
-        controller.isBoosting = value;
+        if (controller != null)
+            controller.isBoosting = value;
     }
 
     private void Start()

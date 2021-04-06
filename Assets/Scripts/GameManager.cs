@@ -175,8 +175,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         SingletonCheck();
-        if (counter == null) counter = GetComponent<StartCountdown>();
-        else counter.Reset();
+        counter = FindObjectOfType<StartCountdown>();
         wait2secs = new WaitForSeconds(2f);
         waitFrame = new WaitForEndOfFrame();
         phaseManager = GetComponent<PhaseManager>();
@@ -306,7 +305,6 @@ public class GameManager : MonoBehaviour
             _roomName = LobbyManager.instance.roomName;
             Cursor.visible = false;
             FixAssociations();
-            instance.DestroyRIGOs();
             var phaseManagerPhase = instance.phaseManager.phases[0];
             if (isFirstTime)
             {
@@ -381,6 +379,7 @@ public class GameManager : MonoBehaviour
             _race = FindObjectOfType<Race>();
         }
 
+        FindObjectOfType<CountdownLights>().Reset();
         StartCoroutine(WaitToSyncWeaponVisuals(_temp));
     }
 
@@ -477,6 +476,7 @@ public class GameManager : MonoBehaviour
         //Debug.LogWarning("HealthCheckStoppedAtTheEndOfTheGame");
         //reset lobby manager
         LobbyManager.instance.Reset();
+        localController.ToggleController(false);
         RaceEnded();
     }
 

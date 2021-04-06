@@ -56,17 +56,12 @@ public class LootManager : MonoBehaviour
     //Even for specific builds where 2 of a kind of item can be equipped
     //Still only use 1 extra type
 
-    [Space]
-    [Space]
-    [Header("In-Game Applied LoadOut")]
+    [Space] [Space] [Header("In-Game Applied LoadOut")]
     public BuildType current_buildType;
 
     [SerializeField] private BuildLoadOutSObj current_buildLoadOut;
 
-    [Space]
-    [Space]
-    [Header("Garage Settings")]
-    [SerializeField]
+    [Space] [Space] [Header("Garage Settings")] [SerializeField]
     public RollPoolAndPlayerItemSave playerLootPoolSave;
 
     public BuildType selected_buildType;
@@ -86,10 +81,10 @@ public class LootManager : MonoBehaviour
     //[SerializeField]
     public int numberOfLootRolls;
 
-    [SerializeField]
-    private LootDecoder lootDecoder;
+    [SerializeField] private LootDecoder lootDecoder;
 
     public Vector3 VisualIndex = Vector3.zero;
+
     private void Awake()
     {
         SingletonCheck();
@@ -132,9 +127,9 @@ public class LootManager : MonoBehaviour
     {
         {
             VisualIndex =
-            new Vector3(current_buildLoadOut.Weapon.m_itemVisualIndex,
-                        current_buildLoadOut.Armour.m_itemVisualIndex,
-                        current_buildLoadOut.Engine.m_itemVisualIndex);
+                new Vector3(current_buildLoadOut.Weapon.m_itemVisualIndex,
+                    current_buildLoadOut.Armour.m_itemVisualIndex,
+                    current_buildLoadOut.Engine.m_itemVisualIndex);
 
             return VisualIndex;
         }
@@ -168,7 +163,9 @@ public class LootManager : MonoBehaviour
             GameSceneManager.instance.DisableEndSplashes();
             lootDecoder.canCheck = true;
         }
+
         //Reset once roll is complete
+        GameManager.instance.DestroyRIGOs();
         numberOfLootRolls = 0;
     }
 

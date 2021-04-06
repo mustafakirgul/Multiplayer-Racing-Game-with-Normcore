@@ -47,7 +47,7 @@ public class StatsManager : MonoBehaviour
         }
     }
 
-    public OrderedEntry[] ReturnOrderedStats()
+    public void RefreshStatEntities()
     {
         entities = FindObjectsOfType<StatsEntity>();
         var length = entities.Length;
@@ -57,6 +57,12 @@ public class StatsManager : MonoBehaviour
             var entity = entities[i];
             stats[i] = new StatsEntry(entity);
         }
+    }
+
+
+    public OrderedEntry[] ReturnOrderedStats()
+    {
+        RefreshStatEntities();
 
         //clear ordered list to use it as a buffer before ordering
         if (orderedResults == null)
@@ -64,6 +70,7 @@ public class StatsManager : MonoBehaviour
         else
             orderedResults.Clear();
         //copy everything to ordered list (without ordering, yet)
+        var length = entities.Length;
         for (int i = 0; i < length; i++)
         {
             //calculate score
