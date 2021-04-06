@@ -535,6 +535,7 @@ public class NewCarController : MonoBehaviour
     IEnumerator CR_PlaceCar()
     {
         yield return new WaitForSeconds(5f);
+        if (SecondaryWeaponProjectile != null)
         currentAmmo = SecondaryWeaponProjectile.GetComponent<WeaponProjectileBase>().startingAmmo;
         CarRB.MovePosition(PlayerManager.instance.GetSpawnPoint(_realtimeView.ownerIDInHierarchy));
         CarRB.rotation =
