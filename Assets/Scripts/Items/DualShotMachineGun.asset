@@ -26,7 +26,7 @@ MonoBehaviour:
   f_boostForce: 0
   f_itemVisualIndex: 3
   itemText: Double Machine Guns
-  itemImage: {fileID: 2800000, guid: a9641f2e84ba44489bbe961566ccf2dd, type: 3}
+  itemImage: {fileID: 2800000, guid: e1999700b35834a4dbdac2ae1c3e83a7, type: 3}
   WeaponProjectile: {fileID: 3112086905854782875, guid: e8fe70c914838de4ba10869c750f1c43,
     type: 3}
   m_CosmeticModelToBeApplied: {fileID: 0}

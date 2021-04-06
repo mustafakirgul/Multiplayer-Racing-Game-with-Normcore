@@ -80,6 +80,8 @@ public class UIManager : MonoBehaviour
     public GameObject OverheatNotice;
     public GameObject WeaponSwitchIcon;
 
+    public GameObject LootTruckInvincibleIcon;
+
     private void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();

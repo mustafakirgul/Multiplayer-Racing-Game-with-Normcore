@@ -26,6 +26,6 @@ MonoBehaviour:
   f_boostForce: 0
   f_itemVisualIndex: 9
   itemText: Melee Power increase by 10%
-  itemImage: {fileID: 2800000, guid: a76e8223b5a504144be5364047b0dd5f, type: 3}
+  itemImage: {fileID: 2800000, guid: 8ade84321767e4e89af01924b33f467e, type: 3}
   WeaponProjectile: {fileID: 0}
   m_CosmeticModelToBeApplied: {fileID: 0}

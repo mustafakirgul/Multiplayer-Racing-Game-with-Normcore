@@ -75,6 +75,8 @@ public class Truck : RealtimeComponent<TruckModel>
     public RealtimeTransform rtTransform => GetComponent<RealtimeTransform>();
     private Rigidbody rb => GetComponent<Rigidbody>();
 
+    private UIManager uIManager;
+
     private void Awake()
     {
         shieldCollider = boombasticShield.transform.GetComponent<SphereCollider>();
@@ -89,6 +91,7 @@ public class Truck : RealtimeComponent<TruckModel>
         centerOfMass = new Vector3(centerOfMass.x, centerOfMass.y - 5, centerOfMass.z);
         truckBody.centerOfMass = centerOfMass;
         wait = new WaitForSeconds(damageDisplayTime);
+        uIManager = FindObjectOfType<UIManager>();
     }
 
     private void Start()
@@ -131,6 +134,8 @@ public class Truck : RealtimeComponent<TruckModel>
         }
         else
         {
+            if (uIManager.LootTruckInvincibleIcon.activeInHierarchy)
+            uIManager.LootTruckInvincibleIcon.SetActive(false);
             GroundCheck();
 
             // if (Input.GetKeyDown(KeyCode.P))
@@ -302,6 +307,8 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private void BoombasticMode()
     {
+        uIManager.LootTruckInvincibleIcon.SetActive(true);
+
         if (Vector3.Distance(rb.position, boombasticModePoint) > .1f)
         {
             rb.MovePosition(Vector3.Lerp(rb.position,
