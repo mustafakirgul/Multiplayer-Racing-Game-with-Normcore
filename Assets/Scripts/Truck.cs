@@ -101,8 +101,6 @@ public class Truck : RealtimeComponent<TruckModel>
             damageSphere.SetActive(false);
             return;
         }
-
-        uIManager.LootTruckInvincibleIcon.SetActive(false);
         var temp = GameObject.FindGameObjectWithTag("boombasticPoint");
         if (temp != null) boombasticModePoint = temp.transform.position;
         StartHealth();
