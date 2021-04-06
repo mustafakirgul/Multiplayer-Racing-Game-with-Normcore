@@ -194,7 +194,7 @@ public class NewCarController : MonoBehaviour
     private int theKiller = -1;
     public GameObject lootIndicator;
     private Text lootIndicatorCountDisplay;
-    private AudioPlayer boostSound;
+    public AudioPlayer boostSound;
     private LayeredAudioPlayer deathSound;
     private WaitForSeconds wait1sec;
 

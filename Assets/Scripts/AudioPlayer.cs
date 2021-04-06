@@ -25,20 +25,20 @@ public class AudioPlayer : MonoBehaviour
         Initialize();
         if (!playAtStart) return;
         if (randomizeAtStart) PlayRandom();
-        else Play(0);
+        else PlayIndex(0);
     }
 
     public void PlayRandom()
     {
-        Play(Random.Range(0, sounds.Length));
+        PlayIndex(Random.Range(0, sounds.Length));
     }
 
     public void Play()
     {
-        Play(0);
+        PlayIndex(0);
     }
 
-    public void Play(int index)
+    public void PlayIndex(int index)
     {
         if (AudioManager.instance.sfxIsOn)
         {

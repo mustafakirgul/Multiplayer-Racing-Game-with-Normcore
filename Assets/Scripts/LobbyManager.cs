@@ -178,6 +178,14 @@ public class LobbyManager : MonoBehaviour
         _lobbiest.ChangeIsReady(true);
     }
 
+    public void Reset()
+    {
+        _lobbiest.ChangeIsReady(false);
+        readyLight.enabled = false;
+        tryingToConnect = false;
+        ClearGoFeedback();
+    }
+
     public void ClearGoFeedback()
     {
         if (playerNameInputField.text.Length > 0) garageGoFeedback.text = "";

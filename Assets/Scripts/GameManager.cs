@@ -355,7 +355,7 @@ public class GameManager : MonoBehaviour
 
     public void StartInitialCountdown()
     {
-        if (GameManager.instance.isHost)
+        if (instance.isHost)
         {
             counter.Initialize(_race);
         }
@@ -431,11 +431,12 @@ public class GameManager : MonoBehaviour
         //Disable other things that needs to be disabled in game
         uIManager.timeRemaining.ClearMesh();
         //Debug.LogWarning("HealthCheckStoppedAtTheEndOfTheGame");
-        if (isHost)
+        if (instance.isHost)
         {
-            _race.ChangeGameTime(0);
-            _race.ChangeIsOn(false);
+            Realtime.Destroy(_race.gameObject);
         }
+
+        LobbyManager.instance.Reset();
 
 
         //reset lobby manager
