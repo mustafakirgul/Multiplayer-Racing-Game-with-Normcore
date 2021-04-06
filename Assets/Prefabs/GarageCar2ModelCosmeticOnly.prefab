@@ -1804,7 +1804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d8c646653ed3544b3569ea1f3d76b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModelToActiavte:
+  ModelToActivate:
   - {fileID: 6448887035838343062}
   - {fileID: 5902392094644095956}
   - {fileID: 6105466182465366600}
@@ -1855,9 +1855,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d8c646653ed3544b3569ea1f3d76b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModelToActiavte:
-  - {fileID: 3020106679256905227}
+  ModelToActivate:
   - {fileID: 7282500138362803511}
+  - {fileID: 3020106679256905227}
   - {fileID: 7992323525720439089}
 --- !u!1 &4160357542858801652
 GameObject:
@@ -3282,7 +3282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d8c646653ed3544b3569ea1f3d76b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModelToActiavte:
+  ModelToActivate:
   - {fileID: 8319644878075206039}
   - {fileID: 921404214743685226}
   - {fileID: 4160357542858801652}

@@ -251,7 +251,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 824003522699543541}
-  m_LocalRotation: {x: 0.27635825, y: -0.060174707, z: -0.015346472, w: 0.95904624}
+  m_LocalRotation: {x: 0.2763587, y: -0.06015068, z: -0.015340344, w: 0.9590477}
   m_LocalPosition: {x: 3.4600008, y: 5.62, z: -4.0999994}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -981,7 +981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d8c646653ed3544b3569ea1f3d76b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModelToActiavte:
+  ModelToActivate:
   - {fileID: 261360126108952096}
   - {fileID: 2047064199537306039}
   - {fileID: 3922724956840233251}
@@ -5085,7 +5085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d8c646653ed3544b3569ea1f3d76b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModelToActiavte:
+  ModelToActivate:
   - {fileID: 8451834079798072181}
   - {fileID: 2383070668158153803}
   - {fileID: 3743026700039404979}
@@ -5291,7 +5291,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.5518868, b: 0.9183822, a: 1}
-  m_Intensity: 0.48
+  m_Intensity: 0.3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -5893,7 +5893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d8c646653ed3544b3569ea1f3d76b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModelToActiavte:
+  ModelToActivate:
   - {fileID: 5907102735879464706}
   - {fileID: 7005785550883942729}
   - {fileID: 6106509645646236361}
