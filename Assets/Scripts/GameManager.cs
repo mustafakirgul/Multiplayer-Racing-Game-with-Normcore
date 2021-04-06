@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
     {
         if (lootTruck != null)
         {
-            lootTruck.Handrake(_b);
+            lootTruck.Handbrake(_b);
         }
     }
 

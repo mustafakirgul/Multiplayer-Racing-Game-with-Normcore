@@ -214,7 +214,7 @@ public class Truck : RealtimeComponent<TruckModel>
         //Debug.LogWarning("Truck Torque Factor = " + _torqueFactor);
     }
 
-    public void Handrake(bool state)
+    public void Handbrake(bool state)
     {
         _handBrake = state;
     }
@@ -371,7 +371,7 @@ public class Truck : RealtimeComponent<TruckModel>
         rb.isKinematic = value;
         rb.useGravity = !value;
         shieldCollider.enabled = value;
-        Handrake(value);
+        Handbrake(value);
         uIManager.LootTruckInvincibleIcon.SetActive(value);
 
         if (value)
@@ -397,6 +397,25 @@ public class Truck : RealtimeComponent<TruckModel>
     private void IsBoombasticChanged(TruckModel truckModel, bool value)
     {
         isBoombastic = value;
+        model.isBoombastic = value;
+        isInvincible = value;
+        rb.isKinematic = value;
+        rb.useGravity = !value;
+        shieldCollider.enabled = value;
+        Handbrake(value);
+        uIManager.LootTruckInvincibleIcon.SetActive(value);
+
+        if (value)
+        {
+            UpdateTorqueFactor(0f);
+            StartCoroutine(CR_BackToNormal());
+            boombasticShield.Play();
+        }
+        else
+        {
+            boombasticShield.Stop();
+            UpdateTorqueFactor(1f);
+        }
     }
 
     public void RegisterDamage(float damage, RealtimeView _realtimeView)
