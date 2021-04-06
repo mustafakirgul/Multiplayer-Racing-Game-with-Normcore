@@ -300,11 +300,10 @@ public class GameManager : MonoBehaviour
 
     private void SpawnCar()
     {
-//pick a spawn point to put players in a line TODO
 
         _tempName = preferredCar != "" ? preferredCar : "Car1";
         GameObject _temp = Realtime.Instantiate(_tempName,
-            position: PlayerManager.instance.GetSpawnPoint(FindObjectsOfType<Player>().Length),
+            position: PlayerManager.instance.GetSpawnPoint(FindObjectsOfType<Lobbiest>().Length),
             rotation: Quaternion.identity,
             ownedByClient: true,
             preventOwnershipTakeover: true,
