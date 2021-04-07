@@ -409,6 +409,7 @@ public class Truck : RealtimeComponent<TruckModel>
         {
             UpdateTorqueFactor(0f);
             StartCoroutine(CR_BackToNormal());
+            postBoom = true;
             boombasticShield.Play();
         }
         else

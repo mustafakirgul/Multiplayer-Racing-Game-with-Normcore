@@ -70,7 +70,7 @@ public class EngineSound : MonoBehaviour
         if (engineStart != null)
         {
             PlaySound(engineStart, false);
-            yield return new WaitForSeconds(engineStart.length * .7f);
+            yield return new WaitForSeconds(engineStart.length);
         }
 
         PlaySound(engineRun, true);

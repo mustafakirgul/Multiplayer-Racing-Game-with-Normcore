@@ -82,11 +82,9 @@ public class GameManager : MonoBehaviour
 
     public void DestroyRIGOs()
     {
-        if (RIGOs == null) return;
         for (int i = 0; i < RIGOs.Count; i++)
         {
-            if (RIGOs[i] == null) return;
-            Realtime.Destroy(RIGOs[i]);
+            if (RIGOs[i] != null) Realtime.Destroy(RIGOs[i]);
         }
 
         RIGOs.Clear();

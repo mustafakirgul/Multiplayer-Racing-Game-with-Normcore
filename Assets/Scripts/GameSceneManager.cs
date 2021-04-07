@@ -72,15 +72,17 @@ public class GameSceneManager : MonoBehaviour
             BlackFadeBox.SetActive(false);
 
             m_fFadeTime = 0;
-
-            for (int i = 0; i < GameStartSplashes.Length; i++)
+            if (GameStartSplashes != null)
             {
-                GameStartSplashes[i].duration = 0;
-            }
+                for (int i = 0; i < GameStartSplashes.Length; i++)
+                {
+                    GameStartSplashes[i].duration = 0;
+                }
 
-            for (int i = 0; i < GameEndSplashes.Length; i++)
-            {
-                GameEndSplashes[i].duration = 0;
+                for (int i = 0; i < GameEndSplashes.Length; i++)
+                {
+                    GameEndSplashes[i].duration = 0;
+                }
             }
         }
         else
@@ -88,15 +90,17 @@ public class GameSceneManager : MonoBehaviour
             BlackFadeBox.SetActive(true);
 
             m_fFadeTime = buildFadeTime;
-
-            for (int i = 0; i < GameStartSplashes.Length; i++)
+            if (GameStartSplashes != null)
             {
-                GameStartSplashes[i].duration = buildSplashTime;
-            }
+                for (int i = 0; i < GameStartSplashes.Length; i++)
+                {
+                    GameStartSplashes[i].duration = buildSplashTime;
+                }
 
-            for (int i = 0; i < GameEndSplashes.Length; i++)
-            {
-                GameEndSplashes[i].duration = buildSplashTime;
+                for (int i = 0; i < GameEndSplashes.Length; i++)
+                {
+                    GameEndSplashes[i].duration = buildSplashTime;
+                }
             }
         }
     }
@@ -191,6 +195,7 @@ public class GameSceneManager : MonoBehaviour
             //Disable all start splashes
             //Start end sequence here
             LootManager.instance.RollForLoot();
+            GameManager.instance.DestroyRIGOs();
             DisableEndSplashes();
             StartCoroutine(DelaySceneTransiton(0f));
             //Fade to Game Scene

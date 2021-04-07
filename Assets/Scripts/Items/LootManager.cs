@@ -165,7 +165,6 @@ public class LootManager : MonoBehaviour
         }
 
         //Reset once roll is complete
-        GameManager.instance.DestroyRIGOs();
         numberOfLootRolls = 0;
     }
 

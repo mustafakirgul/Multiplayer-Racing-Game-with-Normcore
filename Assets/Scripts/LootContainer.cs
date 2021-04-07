@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using Normal.Realtime;
 using UnityEngine;
 
@@ -128,7 +127,8 @@ public class LootContainer : MonoBehaviour
     {
         if (_realtime.isOwnedLocallyInHierarchy)
         {
-            GetComponent<Rigidbody>().AddForce(other.transform.position - transform.position * 6.66f);
+            GetComponent<Rigidbody>().AddForce((other.transform.position - transform.position).normalized +
+                                               UnityEngine.Random.onUnitSphere * 66.6f);
         }
     }
 }
