@@ -70,7 +70,7 @@ public class EngineSound : MonoBehaviour
         if (engineStart != null)
         {
             PlaySound(engineStart, false);
-            yield return new WaitForSeconds(engineStart.length);
+            yield return new WaitForSeconds(engineStart.length * .7f);
         }
 
         PlaySound(engineRun, true);
@@ -80,11 +80,16 @@ public class EngineSound : MonoBehaviour
 
     public void PlaySound(AudioClip a, bool loop)
     {
+        if (!AudioManager.instance.sfxIsOn) return;
         if (isInitialized) Initialize();
-        source.loop = loop;
-        if (source.isPlaying) source.Stop();
-        source.clip = a;
-        source.Play();
+        if (loop)
+        {
+            source.loop = true;
+            if (source.isPlaying) source.Stop();
+            source.clip = a;
+            source.Play();
+        }
+        else source.PlayOneShot(a);
     }
 
     private void Update()
@@ -96,6 +101,6 @@ public class EngineSound : MonoBehaviour
     {
         currentSpeed = isLocal ? controller.CarRB.velocity.magnitude : 1f;
         pitch = currentSpeed / (topSpeed / divider);
-        source.pitch = Mathf.Clamp(pitch,.25f,1f);
+        source.pitch = Mathf.Clamp(pitch, .25f, 1f);
     }
 }

@@ -76,6 +76,8 @@ public class Melee : MonoBehaviour
             opponentController = opponent.controller;
         else
             yield break;
+        if (controller == null) yield break;
+
         if (controller.isBoosting)
         {
             HitOther();

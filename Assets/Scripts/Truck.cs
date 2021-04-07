@@ -473,7 +473,10 @@ public class Truck : RealtimeComponent<TruckModel>
         {
             PlayerManager.instance.SpawnItems();
             postBoom = true;
-            ChangeIsBoombastic(true);
+            if (GameManager.instance.isHost)
+            {
+                ChangeIsBoombastic(true);    
+            }
         }
     }
 

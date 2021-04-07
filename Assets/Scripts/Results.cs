@@ -28,12 +28,6 @@ public class Results : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (gameObject.activeSelf)
-            PopulateList();
-    }
-
     public void PopulateList()
     {
 //return ordered results

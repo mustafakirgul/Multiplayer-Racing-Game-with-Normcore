@@ -123,4 +123,12 @@ public class LootContainer : MonoBehaviour
         if (_realtime.isOwnedLocallyInHierarchy) Realtime.Destroy(gameObject);
         cr_Die = null;
     }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (_realtime.isOwnedLocallyInHierarchy)
+        {
+            GetComponent<Rigidbody>().AddForce(other.transform.position - transform.position * 6.66f);
+        }
+    }
 }

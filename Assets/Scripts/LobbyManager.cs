@@ -50,16 +50,11 @@ public class LobbyManager : MonoBehaviour
 
     public void JoinRoom()
     {
-        //TODO
-
         radialLoader.fillAmount = 0;
-
         isHost = false;
         GameManager.instance.isHost = isHost;
         tryingToConnect = true;
-
         roomName = roomNameJoin.text;
-
         //IF ROOMNAME IS EMPTY THEN DO STUFF, ELSE
         if (roomName.Length == 0)
             feedback.text += "Room name cannot be blank!\n";
@@ -241,6 +236,13 @@ public class LobbyManager : MonoBehaviour
         {
             feedback.text += "Too Many Players!!! Max players for this room is limited to " + maxPlayers +
                              " and you are number " + count + "\n";
+            DisconnectFromLobby();
+            yield break;
+        }
+
+        if (count == 1&&!isHost)
+        {
+            feedback.text += "this room does not exist! " + "\n";
             DisconnectFromLobby();
             yield break;
         }

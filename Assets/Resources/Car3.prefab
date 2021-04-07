@@ -1547,6 +1547,7 @@ MonoBehaviour:
   lootIndicator: {fileID: 9209631861832915875}
   boostSound: {fileID: 0}
   deathSound: {fileID: 0}
+  isRunning: 0
 --- !u!114 &626174094056757393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1622,6 +1623,7 @@ MonoBehaviour:
   EngineSelector: {fileID: 8905629557048173725}
   MeleeSelector: {fileID: 5022773357219907083}
   visualDebug: {x: 0, y: 0, z: 0, w: 0}
+  currentweaponIndex: 0
 --- !u!114 &7582280230186555917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1703,12 +1705,8 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 0ecdfb69e90c68b479a675fb317a1842, type: 3}
   - definition: Glass
     audioClips:
-    - {fileID: 8300000, guid: 1201e5b2f8e1da74ab5215f50afc258a, type: 3}
-    - {fileID: 8300000, guid: 0ba7745fd62fdf74f982123efa000f22, type: 3}
-    - {fileID: 8300000, guid: 966b37539b7a3ce43b1f982f3ceb0e38, type: 3}
-    - {fileID: 8300000, guid: 2fbb4a7001d7e3b46b366b8519f541a1, type: 3}
-    - {fileID: 8300000, guid: c41125653cd80c0448a9d987023abd75, type: 3}
-    - {fileID: 8300000, guid: ca24646cb488e3f4c848fc89cc9c9e59, type: 3}
+    - {fileID: 8300000, guid: a1f7abf0dd920704dab30efe19ec8631, type: 3}
+    - {fileID: 8300000, guid: 61ad195ee0adbcf43a81943f1745cb23, type: 3}
   - definition: Debris
     audioClips:
     - {fileID: 8300000, guid: 8862962733d60fc43a7f7c086351052c, type: 3}
@@ -8132,6 +8130,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: EngineSound
       objectReference: {fileID: 0}
+    - target: {fileID: 4831010280370556151, guid: e4ff5c40df31ac94bbf6fea98bb46e3a,
+        type: 3}
+      propertyPath: engineRun
+      value: 
+      objectReference: {fileID: 8300000, guid: c0191f5eddde47443a5bfd777e6d37b6, type: 3}
+    - target: {fileID: 4831010280370556151, guid: e4ff5c40df31ac94bbf6fea98bb46e3a,
+        type: 3}
+      propertyPath: engineStart
+      value: 
+      objectReference: {fileID: 8300000, guid: 83b01c9913ac6c649a9f58245964abf2, type: 3}
+    - target: {fileID: 4831010280370556151, guid: e4ff5c40df31ac94bbf6fea98bb46e3a,
+        type: 3}
+      propertyPath: engineStop
+      value: 
+      objectReference: {fileID: 8300000, guid: 1421411ab6360694ba8e3c33d11a4c48, type: 3}
     - target: {fileID: 6592302261998787487, guid: e4ff5c40df31ac94bbf6fea98bb46e3a,
         type: 3}
       propertyPath: m_LocalPosition.x

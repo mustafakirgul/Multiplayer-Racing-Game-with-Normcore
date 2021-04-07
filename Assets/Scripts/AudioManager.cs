@@ -53,7 +53,6 @@ public class AudioManager : MonoBehaviour
         {
             sfxVolume = PlayerPrefs.GetFloat("SFXV");
             sfx.value = sfxVolume;
-            UpdateEngineSoundLevels();
         }
 
         if (PlayerPrefs.HasKey("musicIsOn"))
@@ -67,6 +66,8 @@ public class AudioManager : MonoBehaviour
             sfxIsOn = PlayerPrefs.GetInt("sfxIsOn") == 1;
             toggleSFX.sprite = sfxIsOn ? onImage : offImage;
         }
+
+        UpdateEngineSoundLevels();
     }
 
     void UpdateEngineSoundLevels()
@@ -75,6 +76,10 @@ public class AudioManager : MonoBehaviour
         for (int i = 0; i < engines.Length; i++)
         {
             engines[i].source.volume = sfxVolume;
+            if (!sfxIsOn)
+                engines[i].StopEngine();
+            else
+                engines[i].StartEngine();
         }
     }
 
@@ -114,11 +119,12 @@ public class AudioManager : MonoBehaviour
         sfxIsOn = !sfxIsOn;
         toggleSFX.sprite = sfxIsOn ? onImage : offImage;
         PlayerPrefs.SetInt("sfxIsOn", sfxIsOn ? 1 : 0);
+        UpdateEngineSoundLevels();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && GameManager.instance._race.m_isOn)
         {
             ToggleInGameOptions();
         }
