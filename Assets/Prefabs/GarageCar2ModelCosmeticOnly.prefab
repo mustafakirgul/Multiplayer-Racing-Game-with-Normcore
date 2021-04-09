@@ -2489,7 +2489,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -8050,6 +8050,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GaragePodium
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2bb06d2ccf5b349b79ec47153b512b79,
+        type: 3}
+      propertyPath: m_Layer
+      value: 22
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bb06d2ccf5b349b79ec47153b512b79, type: 3}

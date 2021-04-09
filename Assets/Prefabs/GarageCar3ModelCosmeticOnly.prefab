@@ -1876,7 +1876,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -1910,7 +1910,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2782326360014604909}
   m_LocalRotation: {x: -0.13052596, y: -0, z: -0, w: 0.99144495}
-  m_LocalPosition: {x: -0.047, y: -0.04, z: -0.007}
+  m_LocalPosition: {x: 0.07499974, y: -0.08299993, z: 0.23500004}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 3347941527545607348}
@@ -5912,7 +5912,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6186464837639082619}
   m_LocalRotation: {x: -0.13052596, y: -0, z: -0, w: 0.99144495}
-  m_LocalPosition: {x: -0.166, y: -0.127, z: 0.028}
+  m_LocalPosition: {x: -0.044, y: -0.17, z: 0.27}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 8000968046891940223}
@@ -7403,7 +7403,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2161521636464570588
 Transform:
   m_ObjectHideFlags: 0
@@ -7412,7 +7412,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7812990879325072341}
   m_LocalRotation: {x: -0.13052596, y: -0, z: -0, w: 0.99144495}
-  m_LocalPosition: {x: 0.02, y: -0.138, z: 0.055}
+  m_LocalPosition: {x: 0.14199974, y: -0.18099993, z: 0.29700005}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 343930238046043822}
@@ -8625,6 +8625,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GaragePodium
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2bb06d2ccf5b349b79ec47153b512b79,
+        type: 3}
+      propertyPath: m_Layer
+      value: 22
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bb06d2ccf5b349b79ec47153b512b79, type: 3}
