@@ -107,12 +107,12 @@ MonoBehaviour:
   m_Cameras:
   - {fileID: 0}
   - {fileID: 0}
-  m_RendererIndex: -1
+  m_RendererIndex: 0
   m_VolumeLayerMask:
     serializedVersion: 2
     m_Bits: 8386359
   m_VolumeTrigger: {fileID: 0}
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 2
   m_AntialiasingQuality: 2
   m_StopNaN: 0

@@ -126,7 +126,7 @@ public class LootContainer : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (_realtime.isOwnedLocallyInHierarchy&&)
+        if (_realtime.isOwnedLocallyInHierarchy && other.gameObject.layer != groundMask)
         {
             GetComponent<Rigidbody>().AddForce((other.transform.position - transform.position).normalized +
                                                UnityEngine.Random.onUnitSphere * 66.6f);

@@ -37,6 +37,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
+        jukeBox = FindObjectOfType<JukeBox>();
         if (PlayerPrefs.HasKey("masterV"))
         {
             masterVolume = PlayerPrefs.GetFloat("masterV");

@@ -13,21 +13,6 @@
       "source": "builtin",
       "dependencies": {}
     },
-    "com.unity.2d.tilemap": {
-      "version": "1.0.0",
-      "depth": 0,
-      "source": "builtin",
-      "dependencies": {}
-    },
-    "com.unity.analytics": {
-      "version": "3.3.5",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.ugui": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
     "com.unity.ext.nunit": {
       "version": "1.0.0",
       "depth": 0,
@@ -36,36 +21,18 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-      "version": "3.0.4",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.test-framework": "1.1.1"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.postprocessing": {
-      "version": "2.3.0",
+      "version": "3.0.5",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.unity.probuilder": {
-      "version": "4.5.0",
+    "com.unity.postprocessing": {
+      "version": "3.0.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.settings-manager": "1.0.3"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.progrids": {
-      "version": "3.0.3-preview.6",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.settings-manager": "1.0.2"
+        "com.unity.modules.physics": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
@@ -79,7 +46,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.core": {
-      "version": "7.3.1",
+      "version": "7.5.1",
       "depth": 2,
       "source": "registry",
       "dependencies": {
@@ -88,38 +55,31 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.lightweight": {
-      "version": "7.3.1",
+      "version": "7.5.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.render-pipelines.universal": "7.3.1",
+        "com.unity.render-pipelines.universal": "7.5.1",
         "com.unity.postprocessing": "2.1.7"
       },
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.universal": {
-      "version": "7.3.1",
+      "version": "7.5.1",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.render-pipelines.core": "7.3.1",
-        "com.unity.shadergraph": "7.3.1"
+        "com.unity.render-pipelines.core": "7.5.1",
+        "com.unity.shadergraph": "7.5.1"
       },
       "url": "https://packages.unity.com"
     },
-    "com.unity.settings-manager": {
-      "version": "1.0.3",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
     "com.unity.shadergraph": {
-      "version": "7.3.1",
+      "version": "7.5.1",
       "depth": 2,
       "source": "registry",
       "dependencies": {
-        "com.unity.render-pipelines.core": "7.3.1"
+        "com.unity.render-pipelines.core": "7.5.1"
       },
       "url": "https://packages.unity.com"
     },

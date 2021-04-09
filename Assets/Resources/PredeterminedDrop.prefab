@@ -124,6 +124,9 @@ MonoBehaviour:
   id: 0
   collectedBy: -1
   dieDelay: 1
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &2652169859653945631
 MonoBehaviour:
   m_ObjectHideFlags: 0
