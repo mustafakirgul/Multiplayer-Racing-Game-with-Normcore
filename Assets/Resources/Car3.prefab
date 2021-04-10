@@ -8402,6 +8402,26 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.44062153
       objectReference: {fileID: 0}
+    - target: {fileID: -7367969798833568068, guid: 4b9b6e3d03f384fdc9a5730a90adbdff,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6333757259818441642, guid: 4b9b6e3d03f384fdc9a5730a90adbdff,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5382518650228832859, guid: 4b9b6e3d03f384fdc9a5730a90adbdff,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1072125979191454154, guid: 4b9b6e3d03f384fdc9a5730a90adbdff,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4b9b6e3d03f384fdc9a5730a90adbdff,
         type: 3}
       propertyPath: m_Name
@@ -8411,6 +8431,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037728820956590314, guid: 4b9b6e3d03f384fdc9a5730a90adbdff,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3377094723875070930, guid: 4b9b6e3d03f384fdc9a5730a90adbdff,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234935283677944712, guid: 4b9b6e3d03f384fdc9a5730a90adbdff,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4480735157044744288, guid: 4b9b6e3d03f384fdc9a5730a90adbdff,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5783681775614143807, guid: 4b9b6e3d03f384fdc9a5730a90adbdff,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6685297299755915431, guid: 4b9b6e3d03f384fdc9a5730a90adbdff,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b9b6e3d03f384fdc9a5730a90adbdff, type: 3}

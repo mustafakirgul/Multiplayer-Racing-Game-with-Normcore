@@ -9286,10 +9286,80 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.43574882
       objectReference: {fileID: 0}
+    - target: {fileID: -8021675350142378982, guid: 69944f8345d0143508b5330eca1b32c8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5349466572711704673, guid: 69944f8345d0143508b5330eca1b32c8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2090418140184652306, guid: 69944f8345d0143508b5330eca1b32c8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1956545834561373950, guid: 69944f8345d0143508b5330eca1b32c8,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 69944f8345d0143508b5330eca1b32c8,
         type: 3}
       propertyPath: m_Name
       value: Car.Speedy.Body
+      objectReference: {fileID: 0}
+    - target: {fileID: 933892643166719869, guid: 69944f8345d0143508b5330eca1b32c8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828932997536234360, guid: 69944f8345d0143508b5330eca1b32c8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2719799263873848438, guid: 69944f8345d0143508b5330eca1b32c8,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700732333211885537, guid: 69944f8345d0143508b5330eca1b32c8,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4005858596983485613, guid: 69944f8345d0143508b5330eca1b32c8,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5315761270993257890, guid: 69944f8345d0143508b5330eca1b32c8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5431555212130331741, guid: 69944f8345d0143508b5330eca1b32c8,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5505897183663596491, guid: 69944f8345d0143508b5330eca1b32c8,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6233533656181487041, guid: 69944f8345d0143508b5330eca1b32c8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9191615085401538319, guid: 69944f8345d0143508b5330eca1b32c8,
+        type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69944f8345d0143508b5330eca1b32c8, type: 3}
