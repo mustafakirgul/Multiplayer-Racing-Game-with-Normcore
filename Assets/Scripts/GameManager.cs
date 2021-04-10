@@ -286,6 +286,8 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
+        LobbyManager.instance.SendData(_selection);
+
         if (playerNameInputField.text.Length > 0)
         {
             _roomName = LobbyManager.instance.roomName;

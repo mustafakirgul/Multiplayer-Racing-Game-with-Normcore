@@ -395,8 +395,7 @@ public class TurretAutoAim : MonoBehaviour
                 if (hitInfo.transform.root.gameObject.name != this.transform.root.gameObject.name)
                 {
                     CrossHairUI.gameObject.SetActive(true);
-                    Debug.Log("Collided with " + hitInfo.collider.name);
-
+                    //Debug.Log("Collided with " + hitInfo.collider.name);
                     Truck = hitInfo.collider.gameObject.GetComponent<Truck>();
                     Player = hitInfo.collider.gameObject.GetComponent<NewCarController>();
 

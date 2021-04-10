@@ -4,6 +4,7 @@ using System.Text;
 using Normal.Realtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviour
@@ -34,6 +35,8 @@ public class LobbyManager : MonoBehaviour
     public Image readyLight;
     [Space] public char[] characters;
     public Text roomNameBanner;
+    public string statisticsURL;
+    private int userId;
 
     private void Awake()
     {
@@ -42,9 +45,34 @@ public class LobbyManager : MonoBehaviour
 
     private void Start()
     {
+        CheckUserID();
         lobbiests = new List<Lobbiest>();
         uIManager = FindObjectOfType<UIManager>();
         feedbackLoaderRectTransform = feedbackLoader.GetComponent<RectTransform>();
+    }
+
+    private void CheckUserID()
+    {
+        if (PlayerPrefs.HasKey("USERID"))
+            userId = PlayerPrefs.GetInt("USERID");
+        else
+        {
+            userId = GenerateUserID();
+            PlayerPrefs.SetInt("USERID", userId);
+        }
+    }
+
+    private int GenerateUserID()
+    {
+        return
+            Random.Range(1, 9) * 10000000 +
+            Random.Range(1, 9) * 1000000 +
+            Random.Range(1, 9) * 100000 +
+            Random.Range(1, 9) * 10000 +
+            Random.Range(1, 9) * 1000 +
+            Random.Range(1, 9) * 100 +
+            Random.Range(1, 9) * 10 +
+            Random.Range(1, 9);
     }
 
 
@@ -240,7 +268,7 @@ public class LobbyManager : MonoBehaviour
             yield break;
         }
 
-        if (count == 1&&!isHost)
+        if (count == 1 && !isHost)
         {
             feedback.text += "this room does not exist! " + "\n";
             DisconnectFromLobby();
@@ -262,5 +290,33 @@ public class LobbyManager : MonoBehaviour
         isConnectedToALobby = false;
         _realtime.didConnectToRoom -= DidConnectToGame;
         _realtime.didDisconnectFromRoom -= DidDisconnectFromGame;
+    }
+
+    public void SendData(int buildNo)
+    {
+        StartCoroutine(CR_SendData(buildNo));
+    }
+
+    IEnumerator CR_SendData(int buildNo)
+    {
+        string uRL = statisticsURL + "?userId=" + userId + "&odaId=" + roomName + "&status=" +
+                     (isHost ? "host" : "user") + "&car=" + buildNo;
+        //Debug.Log("REQUEST TRACKABLES FOR RESEARCH " + researchID + " ON: " + uRL);
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(uRL))
+        {
+            // Request and wait for the desired page.
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.isNetworkError)
+            {
+                Debug.Log("Data send error!");
+            }
+            else
+            {
+                Debug.Log("Data sent!");
+            }
+        }
+
+        yield return null;
     }
 }
