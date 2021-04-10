@@ -47,6 +47,182 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
     min: 0
+--- !u!114 &-4107963193718140640
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d877ec3e844f2ca46830012e8e79319b, type: 3}
+  m_Name: PhysicallyBasedSky
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  rotation:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+    max: 360
+  skyIntensityMode:
+    m_OverrideState: 0
+    m_Value: 0
+  exposure:
+    m_OverrideState: 0
+    m_Value: 0
+  multiplier:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  upperHemisphereLuxValue:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  upperHemisphereLuxColor:
+    m_OverrideState: 0
+    m_Value: {x: 0, y: 0, z: 0}
+  desiredLuxValue:
+    m_OverrideState: 0
+    m_Value: 20000
+  updateMode:
+    m_OverrideState: 0
+    m_Value: 0
+  updatePeriod:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+  includeSunInBaking:
+    m_OverrideState: 0
+    m_Value: 0
+  earthPreset:
+    m_OverrideState: 1
+    m_Value: 1
+  sphericalMode:
+    m_OverrideState: 1
+    m_Value: 1
+  seaLevel:
+    m_OverrideState: 0
+    m_Value: 0
+  planetaryRadius:
+    m_OverrideState: 0
+    m_Value: 6378100
+    min: 0
+  planetCenterPosition:
+    m_OverrideState: 1
+    m_Value: {x: 0, y: -6378100, z: 0}
+  airDensityR:
+    m_OverrideState: 0
+    m_Value: 0.04534
+    min: 0
+    max: 1
+  airDensityG:
+    m_OverrideState: 0
+    m_Value: 0.10237241
+    min: 0
+    max: 1
+  airDensityB:
+    m_OverrideState: 0
+    m_Value: 0.23264056
+    min: 0
+    max: 1
+  airTint:
+    m_OverrideState: 0
+    m_Value: {r: 0.9, g: 0.9, b: 1, a: 1}
+    hdr: 0
+    showAlpha: 0
+    showEyeDropper: 1
+  airMaximumAltitude:
+    m_OverrideState: 0
+    m_Value: 55261.973
+    min: 0
+  aerosolDensity:
+    m_OverrideState: 0
+    m_Value: 0.01192826
+    min: 0
+    max: 1
+  aerosolTint:
+    m_OverrideState: 0
+    m_Value: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    hdr: 0
+    showAlpha: 0
+    showEyeDropper: 1
+  aerosolMaximumAltitude:
+    m_OverrideState: 0
+    m_Value: 8289.296
+    min: 0
+  aerosolAnisotropy:
+    m_OverrideState: 0
+    m_Value: 0
+    min: -1
+    max: 1
+  numberOfBounces:
+    m_OverrideState: 0
+    m_Value: 8
+    min: 1
+    max: 10
+  groundTint:
+    m_OverrideState: 1
+    m_Value: {r: 0.4, g: 0.25, b: 0.15, a: 1}
+    hdr: 0
+    showAlpha: 0
+    showEyeDropper: 0
+  groundColorTexture:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+  groundEmissionTexture:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+  groundEmissionMultiplier:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  planetRotation:
+    m_OverrideState: 1
+    m_Value: {x: 0, y: 0, z: 0}
+  spaceEmissionTexture:
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+  spaceEmissionMultiplier:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0
+  spaceRotation:
+    m_OverrideState: 1
+    m_Value: {x: 0, y: 6, z: 0}
+  colorSaturation:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+    max: 1
+  alphaSaturation:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+    max: 1
+  alphaMultiplier:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+    max: 1
+  horizonTint:
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    hdr: 0
+    showAlpha: 0
+    showEyeDropper: 0
+  zenithTint:
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    hdr: 0
+    showAlpha: 0
+    showEyeDropper: 0
+  horizonZenithShift:
+    m_OverrideState: 0
+    m_Value: 0
+    min: -1
+    max: 1
 --- !u!114 &-2498054609081722675
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -172,27 +348,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c01700fd266d6914ababb731e09af2eb, type: 3}
   m_Name: DepthOfField
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
+  <displayName>k__BackingField: 
   m_AdvancedMode: 0
   mode:
     m_OverrideState: 1
     m_Value: 1
   gaussianStart:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 10
     min: 0
   gaussianEnd:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 30
     min: 0
   gaussianMaxRadius:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
     min: 0.5
     max: 1.5
   highQualitySampling:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 1
   focusDistance:
     m_OverrideState: 0
     m_Value: 10
@@ -235,14 +412,7 @@ MonoBehaviour:
   m_Name: PostProcessing Profile
   m_EditorClassIdentifier: 
   components:
-  - {fileID: 7018304662001665348}
-  - {fileID: -1641579043243705081}
-  - {fileID: -1494825033208560242}
-  - {fileID: -6448409072762559173}
-  - {fileID: 5351155870562839746}
-  - {fileID: -179454802846881754}
-  - {fileID: 8420370319788265650}
-  - {fileID: -2498054609081722675}
+  - {fileID: -4107963193718140640}
 --- !u!114 &5351155870562839746
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -255,751 +425,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97c23e3b12dc18c42a140437e53d3951, type: 3}
   m_Name: Tonemapping
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
+  <displayName>k__BackingField: 
   m_AdvancedMode: 0
   mode:
     m_OverrideState: 1
-    m_Value: 1
---- !u!114 &7018304662001665348
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c133717c76e564a5fa90d7f12908d17e, type: 3}
-  m_Name: Beautify
-  m_EditorClassIdentifier: 
-  active: 1
-  m_AdvancedMode: 0
-  disabled:
-    m_OverrideState: 1
-    m_Value: 0
-  compareMode:
-    m_OverrideState: 1
-    m_Value: 0
-  compareLineAngle:
-    m_OverrideState: 0
-    m_Value: 1.4
-  compareLineWidth:
-    m_OverrideState: 0
-    m_Value: 0.002
-  hideInSceneView:
-    m_OverrideState: 1
-    m_Value: 0
-  debugOutput:
-    m_OverrideState: 0
-    m_Value: 0
-  turboMode:
-    m_OverrideState: 1
-    m_Value: 1
-  directWrite:
-    m_OverrideState: 1
-    m_Value: 1
-  downsampling:
-    m_OverrideState: 1
-    m_Value: 0
-  downsamplingMultiplier:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 1
-    max: 8
-  downsamplingBilinear:
-    m_OverrideState: 0
-    m_Value: 0
-  optimizeBuildBeautifyAuto:
-    m_OverrideState: 1
-    m_Value: 1
-  stripBeautifyTonemapping:
-    m_OverrideState: 1
-    m_Value: 0
-  stripBeautifySharpen:
-    m_OverrideState: 1
-    m_Value: 0
-  stripBeautifyDithering:
-    m_OverrideState: 1
-    m_Value: 0
-  stripBeautifyLUT:
-    m_OverrideState: 1
-    m_Value: 0
-  stripBeautifyColorTweaks:
-    m_OverrideState: 1
-    m_Value: 0
-  stripBeautifyBloom:
-    m_OverrideState: 1
-    m_Value: 0
-  stripBeautifyLensDirt:
-    m_OverrideState: 1
-    m_Value: 0
-  stripBeautifyDoF:
-    m_OverrideState: 1
-    m_Value: 0
-  stripBeautifyDoFTransparentSupport:
-    m_OverrideState: 1
-    m_Value: 0
-  stripBeautifyEyeAdaptation:
-    m_OverrideState: 1
-    m_Value: 0
-  stripBeautifyPurkinje:
-    m_OverrideState: 1
-    m_Value: 0
-  stripBeautifyVignetting:
-    m_OverrideState: 1
-    m_Value: 0
-  stripBeautifyOutline:
-    m_OverrideState: 1
-    m_Value: 0
-  stripBeautifyNightVision:
-    m_OverrideState: 1
-    m_Value: 0
-  optimizeBuildUnityPPSAuto:
-    m_OverrideState: 1
-    m_Value: 0
-  stripUnityFilmGrain:
-    m_OverrideState: 1
-    m_Value: 0
-  stripUnityTonemapping:
-    m_OverrideState: 1
-    m_Value: 0
-  stripUnityBloom:
-    m_OverrideState: 1
-    m_Value: 0
-  stripUnityChromaticAberration:
-    m_OverrideState: 1
-    m_Value: 0
-  stripUnityDistortion:
-    m_OverrideState: 1
-    m_Value: 0
-  sharpenIntensity:
-    m_OverrideState: 1
-    m_Value: 5.7
-  sharpenDepthThreshold:
-    m_OverrideState: 0
-    m_Value: 0.024
-  sharpenMinMaxDepth:
-    m_OverrideState: 0
-    m_Value: {x: 0, y: 0.999}
-    min: 0
-    max: 1.1
-  sharpenMinMaxDepthFallOff:
-    m_OverrideState: 0
-    m_Value: 0
-  sharpenRelaxation:
-    m_OverrideState: 0
-    m_Value: 0.08
-  sharpenClamp:
-    m_OverrideState: 0
-    m_Value: 0.45
-  sharpenMotionSensibility:
-    m_OverrideState: 0
-    m_Value: 0.5
-  tonemap:
-    m_OverrideState: 1
-    m_Value: 0
-  tonemapExposurePre:
-    m_OverrideState: 0
-    m_Value: 1
-  tonemapBrightnessPost:
-    m_OverrideState: 0
-    m_Value: 1
-  saturate:
-    m_OverrideState: 1
-    m_Value: -0.29
-    min: -2
-    max: 3
-  brightness:
-    m_OverrideState: 1
-    m_Value: 0.88
-    min: 0
-    max: 2
-  contrast:
-    m_OverrideState: 1
-    m_Value: 1.05
-    min: 0.5
-    max: 1.5
-  daltonize:
-    m_OverrideState: 0
-    m_Value: 0.1
-    min: 0
-    max: 2
-  sepia:
-    m_OverrideState: 0
-    m_Value: 0.357
-    min: 0
-    max: 1
-  tintColor:
-    m_OverrideState: 1
-    m_Value: {r: 0.4009434, g: 0.94568205, b: 1, a: 0}
-    hdr: 0
-    showAlpha: 1
-    showEyeDropper: 1
-  colorTemp:
-    m_OverrideState: 1
-    m_Value: 7966
-    min: 1000
-    max: 40000
-  colorTempBlend:
-    m_OverrideState: 1
-    m_Value: 0.458
-    min: 0
-    max: 1
-  lut:
-    m_OverrideState: 0
-    m_Value: 0
-  lutIntensity:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 1
-  lutTexture:
-    m_OverrideState: 0
-    m_Value: {fileID: 0}
-  bloomIntensity:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 10
-  bloomThreshold:
-    m_OverrideState: 0
-    m_Value: 0.75
-    min: 0
-    max: 5
-  bloomMaxBrightness:
-    m_OverrideState: 0
-    m_Value: 503.99
-  bloomDepthAtten:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 1
-  bloomNearAtten:
-    m_OverrideState: 0
-    m_Value: 108.2
-  bloomExcludeLayers:
-    m_OverrideState: 0
-    m_Value: 0
-  bloomExclusionLayerMask:
-    m_OverrideState: 0
-    m_Value:
-      serializedVersion: 2
-      m_Bits: 0
-  bloomExclusionZBias:
-    m_OverrideState: 0
-    m_Value: -0.0001
-    min: -0.1
-    max: 0.1
-  bloomAntiflicker:
-    m_OverrideState: 0
-    m_Value: 0
-  bloomResolution:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 1
-    max: 10
-  bloomCustomize:
-    m_OverrideState: 0
-    m_Value: 0
-  bloomWeight0:
-    m_OverrideState: 0
-    m_Value: 0.5
-    min: 0
-    max: 1
-  bloomBoost0:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 3
-  bloomWeight1:
-    m_OverrideState: 0
-    m_Value: 0.5
-    min: 0
-    max: 1
-  bloomBoost1:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 3
-  bloomWeight2:
-    m_OverrideState: 0
-    m_Value: 0.5
-    min: 0
-    max: 1
-  bloomBoost2:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 3
-  bloomWeight3:
-    m_OverrideState: 0
-    m_Value: 0.5
-    min: 0
-    max: 1
-  bloomBoost3:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 3
-  bloomWeight4:
-    m_OverrideState: 0
-    m_Value: 0.5
-    min: 0
-    max: 1
-  bloomBoost4:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 3
-  bloomWeight5:
-    m_OverrideState: 0
-    m_Value: 0.5
-    min: 0
-    max: 1
-  bloomBoost5:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 3
-  bloomTint:
-    m_OverrideState: 0
-    m_Value: {r: 0.5, g: 0.5, b: 1, a: 0}
-    hdr: 0
-    showAlpha: 1
-    showEyeDropper: 1
-  anamorphicFlaresIntensity:
-    m_OverrideState: 1
-    m_Value: 0.01
-    min: 0
-    max: 10
-  anamorphicFlaresThreshold:
-    m_OverrideState: 1
-    m_Value: 0
-    min: 0
-    max: 5
-  anamorphicFlaresTint:
-    m_OverrideState: 1
-    m_Value: {r: 0.7971698, g: 1, b: 0.9905219, a: 0}
-    hdr: 0
-    showAlpha: 1
-    showEyeDropper: 1
-  anamorphicFlaresVertical:
-    m_OverrideState: 0
-    m_Value: 0
-  anamorphicFlaresSpread:
-    m_OverrideState: 1
-    m_Value: 0.59
-    min: 0.1
-    max: 2
-  anamorphicFlaresDepthAtten:
-    m_OverrideState: 1
-    m_Value: 0.97
-    min: 0
-    max: 1
-  anamorphicFlaresNearAtten:
-    m_OverrideState: 0
-    m_Value: -2.19
-  anamorphicFlaresAntiflicker:
-    m_OverrideState: 1
-    m_Value: 0
-  anamorphicFlaresResolution:
-    m_OverrideState: 1
-    m_Value: 7
-    min: 1
-    max: 10
-  sunFlaresIntensity:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 1
-  sunFlaresTint:
-    m_OverrideState: 0
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
-    hdr: 0
-    showAlpha: 1
-    showEyeDropper: 1
-  sunFlaresSolarWindSpeed:
-    m_OverrideState: 0
-    m_Value: 0.01
-    min: 0
-    max: 1
-  sunFlaresRotationDeadZone:
-    m_OverrideState: 0
-    m_Value: 0
-  sunFlaresDownsampling:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 1
-    max: 5
-  sunFlaresUseLayerMask:
-    m_OverrideState: 0
-    m_Value: 0
-  sunFlaresLayerMask:
-    m_OverrideState: 0
-    m_Value:
-      serializedVersion: 2
-      m_Bits: 4294967295
-  sunFlaresAttenSpeed:
-    m_OverrideState: 0
-    m_Value: 30
-  sunFlaresSunIntensity:
-    m_OverrideState: 0
-    m_Value: 0.1
-    min: 0
-    max: 1
-  sunFlaresSunDiskSize:
-    m_OverrideState: 0
-    m_Value: 0.05
-    min: 0
-    max: 1
-  sunFlaresSunRayDiffractionIntensity:
-    m_OverrideState: 0
-    m_Value: 3.5
-    min: 0
-    max: 25
-  sunFlaresSunRayDiffractionThreshold:
-    m_OverrideState: 0
-    m_Value: 0.13
-    min: 0
-    max: 1
-  sunFlaresCoronaRays1Length:
-    m_OverrideState: 0
-    m_Value: 0.02
-    min: 0
-    max: 0.2
-  sunFlaresCoronaRays1Streaks:
-    m_OverrideState: 0
-    m_Value: 12
-    min: 2
-    max: 30
-  sunFlaresCoronaRays1Spread:
-    m_OverrideState: 0
-    m_Value: 0.001
-    min: 0
-    max: 0.1
-  sunFlaresCoronaRays1AngleOffset:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 6.2831855
-  sunFlaresCoronaRays2Length:
-    m_OverrideState: 0
-    m_Value: 0.05
-    min: 0
-    max: 0.2
-  sunFlaresCoronaRays2Streaks:
-    m_OverrideState: 0
-    m_Value: 12
-    min: 2
-    max: 30
-  sunFlaresCoronaRays2Spread:
-    m_OverrideState: 0
-    m_Value: 0.1
-    min: 0
-    max: 0.1
-  sunFlaresCoronaRays2AngleOffset:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 6.2831855
-  sunFlaresGhosts1Size:
-    m_OverrideState: 0
-    m_Value: 0.03
-    min: 0
-    max: 1
-  sunFlaresGhosts1Offset:
-    m_OverrideState: 0
-    m_Value: 1.04
-    min: -3
-    max: 3
-  sunFlaresGhosts1Brightness:
-    m_OverrideState: 0
-    m_Value: 0.037
-    min: 0
-    max: 1
-  sunFlaresGhosts2Size:
-    m_OverrideState: 0
-    m_Value: 0.1
-    min: 0
-    max: 1
-  sunFlaresGhosts2Offset:
-    m_OverrideState: 0
-    m_Value: 0.71
-    min: -3
-    max: 3
-  sunFlaresGhosts2Brightness:
-    m_OverrideState: 0
-    m_Value: 0.03
-    min: 0
-    max: 1
-  sunFlaresGhosts3Size:
-    m_OverrideState: 0
-    m_Value: 0.24
-    min: 0
-    max: 1
-  sunFlaresGhosts3Offset:
-    m_OverrideState: 0
-    m_Value: 0.31
-    min: -3
-    max: 3
-  sunFlaresGhosts3Brightness:
-    m_OverrideState: 0
-    m_Value: 0.025
-    min: 0
-    max: 1
-  sunFlaresGhosts4Size:
-    m_OverrideState: 0
-    m_Value: 0.016
-    min: 0
-    max: 1
-  sunFlaresGhosts4Offset:
-    m_OverrideState: 0
-    m_Value: 0
-    min: -3
-    max: 3
-  sunFlaresGhosts4Brightness:
-    m_OverrideState: 0
-    m_Value: 0.017
-    min: 0
-    max: 1
-  sunFlaresHaloOffset:
-    m_OverrideState: 0
-    m_Value: 0.22
-    min: 0
-    max: 1
-  sunFlaresHaloAmplitude:
-    m_OverrideState: 0
-    m_Value: 15.1415
-    min: 0
-    max: 50
-  sunFlaresHaloIntensity:
-    m_OverrideState: 0
-    m_Value: 0.01
-    min: 0
-    max: 1
-  lensDirtIntensity:
-    m_OverrideState: 0
-    m_Value: 0
-  lensDirtThreshold:
-    m_OverrideState: 0
-    m_Value: 0.5
-    min: 0
-    max: 1
-  lensDirtTexture:
-    m_OverrideState: 0
-    m_Value: {fileID: 0}
-  lensDirtSpread:
-    m_OverrideState: 0
-    m_Value: 3
-    min: 3
-    max: 5
-  depthOfField:
-    m_OverrideState: 1
-    m_Value: 1
-  depthOfFieldFocusMode:
-    m_OverrideState: 0
-    m_Value: 0
-  depthOfFieldAutofocusMinDistance:
-    m_OverrideState: 0
-    m_Value: 0
-  depthOfFieldAutofocusMaxDistance:
-    m_OverrideState: 0
-    m_Value: 10000
-  depthOfFieldAutofocusViewportPoint:
-    m_OverrideState: 0
-    m_Value: {x: 0.5, y: 0.5}
-  depthOfFieldAutofocusDistanceShift:
-    m_OverrideState: 0
-    m_Value: 0
-  depthOfFieldAutofocusLayerMask:
-    m_OverrideState: 0
-    m_Value:
-      serializedVersion: 2
-      m_Bits: 4294967295
-  depthOfFieldDistance:
-    m_OverrideState: 0
-    m_Value: 7.99
-  depthOfFieldFocalLength:
-    m_OverrideState: 0
-    m_Value: 0.005
-    min: 0.005
-    max: 0.5
-  depthOfFieldAperture:
-    m_OverrideState: 0
-    m_Value: 35.16
-  depthOfFieldFocusSpeed:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0.001
-    max: 5
-  depthOfFieldTransparentSupport:
-    m_OverrideState: 0
-    m_Value: 0
-  depthOfFieldTransparentLayerMask:
-    m_OverrideState: 0
-    m_Value:
-      serializedVersion: 2
-      m_Bits: 1
-  depthOfFieldForegroundBlur:
-    m_OverrideState: 0
-    m_Value: 1
-  depthOfFieldForegroundBlurHQ:
-    m_OverrideState: 0
-    m_Value: 0
-  depthOfFieldForegroundBlurHQSpread:
-    m_OverrideState: 0
-    m_Value: 4
-    min: 0
-    max: 32
-  depthOfFieldForegroundDistance:
-    m_OverrideState: 0
-    m_Value: 0.25
-  depthOfFieldBokeh:
-    m_OverrideState: 0
-    m_Value: 1
-  depthOfFieldBokehThreshold:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0.5
-    max: 3
-  depthOfFieldBokehIntensity:
-    m_OverrideState: 0
     m_Value: 2
-    min: 0
-    max: 8
-  depthOfFieldDownsampling:
-    m_OverrideState: 0
-    m_Value: 2
-    min: 1
-    max: 5
-  depthOfFieldMaxSamples:
-    m_OverrideState: 0
-    m_Value: 6
-    min: 2
-    max: 16
-  depthOfFieldMaxBrightness:
-    m_OverrideState: 0
-    m_Value: 1000
-  depthOfFieldMaxDistance:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0
-    max: 1
-  depthOfFieldFilterMode:
-    m_OverrideState: 0
-    m_Value: 1
-  eyeAdaptation:
-    m_OverrideState: 1
-    m_Value: 1
-  eyeAdaptationMinExposure:
-    m_OverrideState: 1
-    m_Value: 0.033
-    min: 0
-    max: 1
-  eyeAdaptationMaxExposure:
-    m_OverrideState: 1
-    m_Value: 14.8
-    min: 1
-    max: 100
-  eyeAdaptationSpeedToLight:
-    m_OverrideState: 1
-    m_Value: 0.84
-    min: 0
-    max: 1
-  eyeAdaptationSpeedToDark:
-    m_OverrideState: 1
-    m_Value: 0.434
-    min: 0
-    max: 1
-  purkinje:
-    m_OverrideState: 0
-    m_Value: 0
-  purkinjeAmount:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0
-    max: 5
-  purkinjeLuminanceThreshold:
-    m_OverrideState: 0
-    m_Value: 0.15
-    min: 0
-    max: 1
-  vignettingOuterRing:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 1
-  vignettingInnerRing:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 1
-  vignettingFade:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 1
-  vignettingCircularShape:
-    m_OverrideState: 0
-    m_Value: 0
-  vignettingAspectRatio:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0
-    max: 1
-  vignettingBlink:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 1
-  vignettingBlinkStyle:
-    m_OverrideState: 0
-    m_Value: 0
-  vignettingCenter:
-    m_OverrideState: 0
-    m_Value: {x: 0.5, y: 0.5}
-  vignettingColor:
-    m_OverrideState: 0
-    m_Value: {r: 0, g: 0, b: 0, a: 1}
-    hdr: 0
-    showAlpha: 1
-    showEyeDropper: 1
-  vignettingMask:
-    m_OverrideState: 0
-    m_Value: {fileID: 0}
-  outline:
-    m_OverrideState: 0
-    m_Value: 1
-  outlineColor:
-    m_OverrideState: 0
-    m_Value: {r: 0, g: 0, b: 0, a: 0.8}
-    hdr: 0
-    showAlpha: 1
-    showEyeDropper: 1
-  outlineThreshold:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0
-    max: 1
-  nightVision:
-    m_OverrideState: 0
-    m_Value: 0
-  nightVisionColor:
-    m_OverrideState: 0
-    m_Value: {r: 0.5, g: 1, b: 0.5, a: 0.5}
-    hdr: 0
-    showAlpha: 1
-    showEyeDropper: 1
-  blurIntensity:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 4
-  ditherIntensity:
-    m_OverrideState: 0
-    m_Value: 0.005
-    min: 0
-    max: 0.02
 --- !u!114 &8420370319788265650
 MonoBehaviour:
   m_ObjectHideFlags: 3

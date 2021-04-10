@@ -1,0 +1,304 @@
+Using pre-set license
+Built from '2021.1/staging' branch; Version is '2021.1.2f1 (e5d502d80fbb) revision 15062274'; Using compiler version '192528614'; Build Type 'Release'
+OS: 'Windows 10 Education; OS build 18363.1440; Version 1909; 64bit' Language: 'en' Physical Memory: 32716 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
+
+ COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2021.1.2f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+E:/SUPERDUPERCAPSTONE/UGP_URP/UGP_URP
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+5788
+Successfully changed project path to: E:/SUPERDUPERCAPSTONE/UGP_URP/UGP_URP
+E:/SUPERDUPERCAPSTONE/UGP_URP/UGP_URP
+Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 125.61 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2021.1.2f1 (e5d502d80fbb)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.1.2f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path E:/SUPERDUPERCAPSTONE/UGP_URP/UGP_URP/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce GTX 1070 Ti (ID=0x1b82)
+    Vendor:   NVIDIA
+    VRAM:     8079 MB
+    Driver:   27.21.14.6589
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.1.2f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.1.2f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.1.2f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56928
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.1.2f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.1.2f1/Editor/Data/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.1.2f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.1.2f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
+Registered in 0.002690 seconds.
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 131.37 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.789 seconds
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.057836 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 127.47 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.235 seconds
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
+Refreshing native plugins compatible for Editor in 2.31 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3648 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 174.3 MB.
+System memory in use after: 174.5 MB.
+
+Unloading 27 unused Assets to reduce memory usage. Loaded Objects now: 4131.
+Total: 3.270700 ms (FindLiveObjects: 0.461600 ms CreateObjectMapping: 0.127000 ms MarkObjects: 2.573800 ms  DeleteObjects: 0.106900 ms)
+
+========================================================================
+Received Import Request.
+  path: Assets/Resources/Turret.prefab
+  artifactKey: Guid(935415009223c0c41964561406fe5838) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Turret.prefab using Guid(935415009223c0c41964561406fe5838) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0de19a7dee7d92c9ba3a5923789692ea') in 0.120955 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000224 seconds.
+  path: Assets/Resources/PredeterminedDrop.prefab
+  artifactKey: Guid(ccb964df359b5ca498d9dea5c95d3f5d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/PredeterminedDrop.prefab using Guid(ccb964df359b5ca498d9dea5c95d3f5d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '722d17d76951ec176fb129a9535d102f') in 0.026988 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000245 seconds.
+  path: Assets/Resources/Wall.prefab
+  artifactKey: Guid(1aec1b231f21c95439dba8bd1e681eaa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Wall.prefab using Guid(1aec1b231f21c95439dba8bd1e681eaa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9f96b6a8156c6616991d2a20c43d0edc') in 0.019484 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000246 seconds.
+  path: Assets/Resources/NewBombs.prefab
+  artifactKey: Guid(faaa7fc8be60d0744a8fa08762d869e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/NewBombs.prefab using Guid(faaa7fc8be60d0744a8fa08762d869e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c3524ec65be37d699176ea26abb225d3') in 0.026967 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000255 seconds.
+  path: Assets/Resources/Car3.prefab
+  artifactKey: Guid(cd3e3136cfb3b7544a1f4af54c930f75) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Car3.prefab using Guid(cd3e3136cfb3b7544a1f4af54c930f75) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7d66bd36e79948081015ef86cd6586af') in 0.150545 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000257 seconds.
+  path: Assets/Resources/Lobbiest.prefab
+  artifactKey: Guid(e44877b409bccf2418ef88b355adea0d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Lobbiest.prefab using Guid(e44877b409bccf2418ef88b355adea0d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cafc002cb6563817d13a1dd452ec6696') in 0.008793 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000203 seconds.
+  path: Assets/Resources/Missile.prefab
+  artifactKey: Guid(5dfb8fa6b064c5341a1a2ed8e2b7ab15) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Missile.prefab using Guid(5dfb8fa6b064c5341a1a2ed8e2b7ab15) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '944706d34fb32e5879c9eb80c7014111') in 0.018748 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000167 seconds.
+  path: Assets/Resources/Car1.prefab
+  artifactKey: Guid(596866776eb1887498cbeb0199ffd611) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Car1.prefab using Guid(596866776eb1887498cbeb0199ffd611) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ede90d55579452105c62121d6d48bc71') in 0.066916 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000192 seconds.
+  path: Assets/Resources/Pointer.prefab
+  artifactKey: Guid(d0f57281f99b37f4a98a75ab737f9a5f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Pointer.prefab using Guid(d0f57281f99b37f4a98a75ab737f9a5f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '86efaf2fe9251aeb8a3fd12cddde4138') in 0.011670 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000162 seconds.
+  path: Assets/Resources/FakeBombs.prefab
+  artifactKey: Guid(7eef150191a6ed248aea79d0269d8922) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/FakeBombs.prefab using Guid(7eef150191a6ed248aea79d0269d8922) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2c6cdae841baabfbe512cfca4c6405f5') in 0.021121 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000149 seconds.
+  path: Assets/Resources/SuperGunBullet.prefab
+  artifactKey: Guid(ef92a2c0c3fb2af43a149768530d0d25) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/SuperGunBullet.prefab using Guid(ef92a2c0c3fb2af43a149768530d0d25) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4e3172c4893541537f87b65c45cb90bb') in 0.014553 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000215 seconds.
+  path: Assets/Resources/Race.prefab
+  artifactKey: Guid(48f7b1da9dedefd488e758a5060c86e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Race.prefab using Guid(48f7b1da9dedefd488e758a5060c86e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fe27253935a483a291f7a94210375af2') in 0.007262 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000137 seconds.
+  path: Assets/Resources/DualShotBullet.prefab
+  artifactKey: Guid(e8fe70c914838de4ba10869c750f1c43) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/DualShotBullet.prefab using Guid(e8fe70c914838de4ba10869c750f1c43) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0c6d7af61f213a306ec49dced77dff28') in 0.013562 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000149 seconds.
+  path: Assets/Resources/StatEntity.prefab
+  artifactKey: Guid(d22ac4436b8784f42845c9647da434a2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/StatEntity.prefab using Guid(d22ac4436b8784f42845c9647da434a2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a31fdc5ecbf3698a17c22c4a15d20238') in 0.006601 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000189 seconds.
+  path: Assets/Resources/Loot.prefab
+  artifactKey: Guid(003815b80adcebc4daeaad872669d65d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Loot.prefab using Guid(003815b80adcebc4daeaad872669d65d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a91f697a1ebb10bdc8e20bfad4973bc7') in 0.016214 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000136 seconds.
+  path: Assets/Resources/MachineGunBullet.prefab
+  artifactKey: Guid(e220297a90909d147a2ac03c3dc95e92) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/MachineGunBullet.prefab using Guid(e220297a90909d147a2ac03c3dc95e92) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fbf108647597b2adafb8f8d31131f522') in 0.014732 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000133 seconds.
+  path: Assets/Resources/Car2.prefab
+  artifactKey: Guid(d0e06fe13126c6f4fb67d6315d424754) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Car2.prefab using Guid(d0e06fe13126c6f4fb67d6315d424754) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ae9fd5646124d9ab2cd2f6364a928de6') in 0.061601 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000217 seconds.
+  path: Assets/Resources/Melee.prefab
+  artifactKey: Guid(0472b9beae6b7104994084be3e82eab3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Melee.prefab using Guid(0472b9beae6b7104994084be3e82eab3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bc0f024f8cf93b2d9bc3461ec08248a1') in 0.007972 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000145 seconds.
+  path: Assets/Scripts
+  artifactKey: Guid(02a3527b6b33a924e8ec66aa805ea717) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts using Guid(02a3527b6b33a924e8ec66aa805ea717) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '51c0377f5c7a27db7397236c6e6c0c51') in 0.004615 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000160 seconds.
+  path: Assets/Resources/MachineGunBulletSecondary.prefab
+  artifactKey: Guid(d0fbdeae4a9693947a59bb7d1c7d2482) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/MachineGunBulletSecondary.prefab using Guid(d0fbdeae4a9693947a59bb7d1c7d2482) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '284a80808f8016947f3d6b2c343f5611') in 0.014186 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000146 seconds.
+  path: Assets/Resources/Bullet.prefab
+  artifactKey: Guid(dbd7eee6578666f48b9d77f675245bb0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Bullet.prefab using Guid(dbd7eee6578666f48b9d77f675245bb0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c5829788b263e5464f80841ef0813af4') in 0.013615 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000187 seconds.
+  path: Assets/Resources/WeirdTruck.prefab
+  artifactKey: Guid(93adefdb48c1cd140a850e19ea486ee3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/WeirdTruck.prefab using Guid(93adefdb48c1cd140a850e19ea486ee3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '23dcd636d5b43b051617b815bd72da65') in 0.021986 seconds 
+========================================================================
+Received Prepare
+Switching render pipeline b7161b31557cd034ba3b9963caf02ec3 -> 00000000000000000000000000000000
+Refreshing native plugins compatible for Editor in 4.63 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 21 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 93.7 MB.
+System memory in use after: 94.0 MB.
+
+Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 4144.
+Total: 2.747700 ms (FindLiveObjects: 0.328500 ms CreateObjectMapping: 0.102100 ms MarkObjects: 2.298500 ms  DeleteObjects: 0.017700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.003032 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 271.95 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+HDRP Internally changed the storage of Cube Cookie to use Octahedral Projection inside the 2D Cookie Atlas. It is recommended that you increase the size of the 2D Cookie Atlas if your cookies no longer fit.
+0x00007ff60d724cdc (Unity) StackWalker::GetCurrentCallstack
+0x00007ff60d72ae79 (Unity) StackWalker::ShowCallstack
+0x00007ff60df1d803 (Unity) GetStacktrace
+0x00007ff60ee19f8a (Unity) DebugStringToFile
+0x00007ff60d8a9a0d (Unity) DebugLogHandler_CUSTOM_Internal_Log
+0x000002a4b08747fb (Mono JIT Code) (wrapper managed-to-native) UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+0x000002a4b087441b (Mono JIT Code) UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+0x000002a4b08741a0 (Mono JIT Code) UnityEngine.Logger:Log (UnityEngine.LogType,object)
+0x000002a4b0874068 (Mono JIT Code) UnityEngine.Debug:Log (object)
+0x000002a4b0873feb (Mono JIT Code) [HDRenderPipelineAsset.Migration.cs:127] UnityEngine.Rendering.HighDefinition.HDRenderPipelineAsset/<>c:<.cctor>b__106_12 (UnityEngine.Rendering.HighDefinition.HDRenderPipelineAsset) 
+0x000002a4b08739f7 (Mono JIT Code) [MigrationStep.cs:52] UnityEngine.Rendering.HighDefinition.MigrationStep`2<UnityEngine.Rendering.HighDefinition.HDRenderPipelineAsset/Version, UnityEngine.Rendering.HighDefinition.HDRenderPipelineAsset>:Migrate (UnityEngine.Rendering.HighDefinition.HDRenderPipelineAsset) 
+0x000002a4b087371b (Mono JIT Code) [MigrationDescription.cs:102] UnityEngine.Rendering.HighDefinition.MigrationDescription`2<UnityEngine.Rendering.HighDefinition.HDRenderPipelineAsset/Version, UnityEngine.Rendering.HighDefinition.HDRenderPipelineAsset>:Migrate (UnityEngine.Rendering.HighDefinition.HDRenderPipelineAsset) 
+0x000002a4b08735f3 (Mono JIT Code) [HDRenderPipelineAsset.Migration.cs:146] UnityEngine.Rendering.HighDefinition.HDRenderPipelineAsset:OnEnable () 
+0x000002a4e1c98cd0 (Mono JIT Code) (wrapper runtime-invoke) object:runtime_invoke_void__this__ (object,intptr,intptr,intptr)
+0x00007ffed328e640 (mono-2.0-bdwgc) [mini-runtime.c:2812] mono_jit_runtime_invoke 
+0x00007ffed3212ad2 (mono-2.0-bdwgc) [object.c:2921] do_runtime_invoke 
+0x00007ffed321bb2f (mono-2.0-bdwgc) [object.c:2968] mono_runtime_invoke 
+0x00007ff60d671134 (Unity) scripting_method_invoke
+0x00007ff60d66c7a1 (Unity) ScriptingInvocation::Invoke
+0x00007ff60d66c8fe (Unity) ScriptingInvocation::InvokeChecked
+0x00007ff60d6c3d96 (Unity) SerializableManagedRef::CallMethod
+0x00007ff60d63c88a (Unity) MonoBehaviour::AwakeFromLoad
+0x00007ff60d63c3be (Unity) MonoBehaviour::AwakeAfterRestoreFromBackup
+0x00007ff60d6c386e (Unity) SerializableManagedRefsUtilities::AwakeInstancesAfterBackupRestoration
+0x00007ff60d63f240 (Unity) MonoManager::EndReloadAssembly
+0x00007ff60d645e1d (Unity) MonoManager::ReloadAssembly
+0x00007ff60dddf562 (Unity) LoadDomainAndUserAssemblies
+0x00007ff60dddf91c (Unity) LoadUserAssemblies
+0x00007ff60dfea798 (Unity) <lambda_15c8da1c90a30e86cd2096f929d4dd2f>::operator()
+0x00007ff60e06f742 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)> >::do_complete
+0x00007ff60e0719b0 (Unity) asio::detail::win_iocp_io_service::do_one
+0x00007ff60e07509e (Unity) asio::io_service::run
+0x00007ff60e01472a (Unity) RunAssetImportWorkerClientV2
+0x00007ff60e014780 (Unity) RunAssetImporterV2
+0x00007ff60db19376 (Unity) Application::InitializeProject
+0x00007ff60df26eb7 (Unity) WinMain
+0x00007ff60fa89672 (Unity) __scrt_common_main_seh
+0x00007fff3fe37c24 (KERNEL32) BaseThreadInitThunk
+0x00007fff415cd721 (ntdll) RtlUserThreadStart
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.888 seconds
+Platform modules already initialized, skipping
+Switching render pipeline b7161b31557cd034ba3b9963caf02ec3 -> 00000000000000000000000000000000
+Refreshing native plugins compatible for Editor in 3.53 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3631 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 195.6 MB.
+System memory in use after: 195.8 MB.
+
+Unloading 22 unused Assets to reduce memory usage. Loaded Objects now: 4334.
+Total: 6.652700 ms (FindLiveObjects: 0.622900 ms CreateObjectMapping: 0.149500 ms MarkObjects: 5.839300 ms  DeleteObjects: 0.038700 ms)
+
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 5.07 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 21 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 114.1 MB.
+System memory in use after: 114.3 MB.
+
+Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 4334.
+Total: 3.971400 ms (FindLiveObjects: 0.551900 ms CreateObjectMapping: 0.123800 ms MarkObjects: 3.270300 ms  DeleteObjects: 0.023400 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 5934.767725 seconds.
+  path: Assets/HDRPDefaultResources/HDRenderPipelineAsset.asset
+  artifactKey: Guid(b7161b31557cd034ba3b9963caf02ec3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/HDRPDefaultResources/HDRenderPipelineAsset.asset using Guid(b7161b31557cd034ba3b9963caf02ec3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '426ed28350e54a2b5b818cf648d4ea6a') in 0.019998 seconds 
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
