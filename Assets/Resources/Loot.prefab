@@ -415,6 +415,7 @@ GameObject:
   - component: {fileID: 5009331288887253395}
   - component: {fileID: 2652169859653945631}
   - component: {fileID: 2544536521401722885}
+  - component: {fileID: 6853053983819183478}
   m_Layer: 16
   m_Name: Loot
   m_TagString: Loot
@@ -534,6 +535,8 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 512
+  pickupSound: {fileID: 0}
+  lootSound: {fileID: 6853053983819183478}
 --- !u!114 &2652169859653945631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -676,6 +679,25 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &6853053983819183478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2693471331447668595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75dd03999f3a95040baa95847c5cee88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identifier: Loot
+  sounds:
+  - {fileID: 8300000, guid: 10f1e528c940282409bd352761276637, type: 3}
+  playAtStart: 0
+  randomizeAtStart: 0
+  spatialBlend: 0
+  spread: 360
 --- !u!1 &4052958314711375227
 GameObject:
   m_ObjectHideFlags: 0

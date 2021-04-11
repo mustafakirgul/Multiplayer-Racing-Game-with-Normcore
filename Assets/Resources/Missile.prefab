@@ -268,7 +268,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: aea84b1366d19c14ea9f2bf6436c48e3, type: 3}
   playAtStart: 1
   randomizeAtStart: 1
-  spatialBlend: 0.666
+  spatialBlend: 0.88
   spread: 0
 --- !u!82 &2758497742069785609
 AudioSource:

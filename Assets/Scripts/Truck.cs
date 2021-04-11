@@ -529,7 +529,7 @@ public class Truck : RealtimeComponent<TruckModel>
 
         var _tempDir = Random.onUnitSphere;
         _tempDir = new Vector3(_tempDir.x, Mathf.Abs(_tempDir.y), _tempDir.z) * throwForce;
-        Debug.DrawLine(lootLaunchPoint, lootLaunchPoint + _tempDir, Color.blue, 3f);
+        //Debug.DrawLine(lootLaunchPoint, lootLaunchPoint + _tempDir, Color.blue, 3f);
         _temp.GetComponent<Rigidbody>().AddForce(_tempDir, ForceMode.Impulse);
     }
 

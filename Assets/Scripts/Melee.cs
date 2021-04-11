@@ -22,6 +22,7 @@ public class Melee : MonoBehaviour
     public Realtime realtime => FindObjectOfType<Realtime>();
     public float testMeleeForce = 666f;
     private WaitForSeconds meleeDelay;
+    public AudioPlayer lootSound;
 
     private void Start()
     {
@@ -77,12 +78,12 @@ public class Melee : MonoBehaviour
         else
             yield break;
         if (controller == null) yield break;
-
+        LAP.Play();
         if (controller.isBoosting)
         {
             HitOther();
             crashParticle.Play();
-            LAP.Play();
+
             yield return wait;
             crashParticle.Stop();
         }
@@ -90,7 +91,6 @@ public class Melee : MonoBehaviour
         {
             StartCoroutine(GetHit());
             crashParticle.Play();
-            LAP.Play();
             yield return wait;
             crashParticle.Stop();
         }
@@ -113,6 +113,7 @@ public class Melee : MonoBehaviour
         if (opponentStatsEntity._loot > 0)
         {
             statsEntity.ReceiveStat(StatType.loot);
+            lootSound.PlayIndex(0);
         }
 
         controller.currentAmmo++;
@@ -133,6 +134,7 @@ public class Melee : MonoBehaviour
         if (statsEntity._loot > 0)
         {
             statsEntity.LoseLoot();
+            lootSound.PlayIndex(1);
         }
 
         controller.RegisterDamage(10f * opponent.player.meleeModifier, controller._realtimeView);

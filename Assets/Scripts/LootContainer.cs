@@ -18,6 +18,8 @@ public class LootContainer : MonoBehaviour
     private Camera mainCamera;
     public LootCollectionFeedback lCF => FindObjectOfType<LootCollectionFeedback>();
     public LayerMask groundMask;
+    public AudioPlayer sound;
+
 
     private void OnDrawGizmos()
     {
@@ -39,6 +41,7 @@ public class LootContainer : MonoBehaviour
 
     private void Update()
     {
+        if (transform.position.y < -1000f) Realtime.Destroy(gameObject);
         if (content == null) return;
         if (selection == null || !customMesh) return;
         selection.localEulerAngles = new Vector3(0, selection.localEulerAngles.y + (180 * Time.deltaTime), 0);
@@ -77,10 +80,12 @@ public class LootContainer : MonoBehaviour
             if (content.id < 0)
             {
                 PlayerManager.instance.ReturnPlayer(_collectorID).statsEntity.ReceiveStat(StatType.powerup);
+                if (sound != null) sound.PlayIndex(0);
             }
             else
             {
                 PlayerManager.instance.ReturnPlayer(_collectorID).statsEntity.ReceiveStat(StatType.loot);
+                if (sound != null) sound.PlayIndex(1);
             }
         }
     }

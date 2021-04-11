@@ -158,6 +158,7 @@ MonoBehaviour:
   ProjectileToDisplay: {fileID: 2800000, guid: 2452e46bca22740c8abc1fa974c7cf7b, type: 3}
   _realtimeView: {fileID: -2444969834895540377}
   statEntity: {fileID: 0}
+  startingAmmo: 0
   bulletSpeed: 100
 --- !u!114 &-2444969834895540377
 MonoBehaviour:
@@ -367,8 +368,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e43bf7ca0f437784c9ade519db4e136e, type: 3}
   playAtStart: 1
   randomizeAtStart: 1
-  spatialBlend: 0.666
-  spread: 0
+  spatialBlend: 0.888
+  spread: 360
 --- !u!82 &7094090451157276102
 AudioSource:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@
 
 public class AudioPlayer : MonoBehaviour
 {
+    public string identifier; //cosmetic
     AudioSource source;
     public AudioClip[] sounds;
     public bool playAtStart;
@@ -45,20 +46,15 @@ public class AudioPlayer : MonoBehaviour
             if (source == null) Initialize();
             if (sounds != null)
             {
-                if (index <= sounds.Length)
+                if (index < sounds.Length)
                 {
                     if (sounds[index] != null)
                     {
-                        if (source.isPlaying) source.Stop();
-                        source.clip = sounds[index];
                         source.volume = AudioManager.instance.sfxVolume;
-                        source.Play();
-                        return;
+                        source.PlayOneShot(sounds[index]);
                     }
                 }
             }
-
-            //Debug.LogWarning("Sound " + index + " for " + transform.name + " has no audio clip attached!");
         }
     }
 }

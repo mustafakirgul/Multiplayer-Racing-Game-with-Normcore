@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class ChaseCam : MonoBehaviour
 {
@@ -27,6 +28,16 @@ public class ChaseCam : MonoBehaviour
     public void OpenCameraCover()
     {
         meshSphere.enabled = false;
+    }
+
+    public void CloseCameraCover()
+    {
+        meshSphere.enabled = true;
+    }
+
+    private void Start()
+    {
+        CloseCameraCover();
     }
 
     public void InitCamera(Transform _target, Transform _lookAtTarget)

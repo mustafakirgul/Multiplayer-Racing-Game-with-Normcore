@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8426010137019054103}
   - component: {fileID: 6160723597532551801}
   - component: {fileID: 6926478755780907205}
+  - component: {fileID: 7692451247767753724}
   m_Layer: 14
   m_Name: Melee
   m_TagString: Untagged
@@ -86,6 +87,7 @@ MonoBehaviour:
   statsEntity: {fileID: 0}
   player: {fileID: 0}
   testMeleeForce: 66666
+  lootSound: {fileID: 7692451247767753724}
 --- !u!65 &4657228065282159550
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -145,7 +147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cdb8b64a87efe440b557b7a64731914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sources: []
   layers:
   - definition: Debris
     audioClips:
@@ -163,8 +164,28 @@ MonoBehaviour:
     - {fileID: 8300000, guid: dba163a8b96ab8a4d8624e623f757748, type: 3}
   playAtStart: 0
   randomizeAtPlay: 1
-  spatialBlend: 0.25
+  spatialBlend: 0.666
   spread: 360
+--- !u!114 &7692451247767753724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5689408152762404242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75dd03999f3a95040baa95847c5cee88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identifier: meleeLootSounds
+  sounds:
+  - {fileID: 8300000, guid: 5e11cb288b84068489b30966b11e7a89, type: 3}
+  - {fileID: 8300000, guid: fb55ac04691cbe24fa494eb6156d64c7, type: 3}
+  playAtStart: 0
+  randomizeAtStart: 0
+  spatialBlend: 0.666
+  spread: 0
 --- !u!1001 &7925405432671183929
 PrefabInstance:
   m_ObjectHideFlags: 0
