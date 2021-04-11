@@ -1991,12 +1991,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75dd03999f3a95040baa95847c5cee88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  identifier: 
   sounds:
   - {fileID: 8300000, guid: c60b99684df42fe48afd8c2c5dc11143, type: 3}
   playAtStart: 0
   randomizeAtStart: 0
-  spatialBlend: 0.5
-  spread: 0
+  spatialBlend: 1
+  spread: 360
 --- !u!114 &7014614640156444692
 MonoBehaviour:
   m_ObjectHideFlags: 0

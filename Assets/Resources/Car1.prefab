@@ -1562,12 +1562,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75dd03999f3a95040baa95847c5cee88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  identifier: 
   sounds:
   - {fileID: 8300000, guid: c60b99684df42fe48afd8c2c5dc11143, type: 3}
   playAtStart: 0
   randomizeAtStart: 0
-  spatialBlend: 0.5
-  spread: 0
+  spatialBlend: 1
+  spread: 360
 --- !u!82 &1884677596128750212
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1587,7 +1588,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 5
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -1624,7 +1625,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -7865,21 +7866,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EngineSound
       objectReference: {fileID: 0}
-    - target: {fileID: 4831010280370556151, guid: e4ff5c40df31ac94bbf6fea98bb46e3a,
-        type: 3}
-      propertyPath: divider
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4831010280370556151, guid: e4ff5c40df31ac94bbf6fea98bb46e3a,
-        type: 3}
-      propertyPath: engineStart
-      value: 
-      objectReference: {fileID: 8300000, guid: 83b01c9913ac6c649a9f58245964abf2, type: 3}
-    - target: {fileID: 4831010280370556151, guid: e4ff5c40df31ac94bbf6fea98bb46e3a,
-        type: 3}
-      propertyPath: engineRun
-      value: 
-      objectReference: {fileID: 8300000, guid: 316224186e8ae6543990a05f4dc13981, type: 3}
     - target: {fileID: 6592302261998787487, guid: e4ff5c40df31ac94bbf6fea98bb46e3a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9138,6 +9124,11 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198985416474409296, guid: 61bb62591466c3649bdf4905822d72f6,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61bb62591466c3649bdf4905822d72f6, type: 3}
 --- !u!4 &4178565765777044032 stripped
@@ -9714,6 +9705,11 @@ PrefabInstance:
       value: 0.6666667
       objectReference: {fileID: 0}
     - target: {fileID: 198124144702787664, guid: 61bb62591466c3649bdf4905822d72f6,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198985416474409296, guid: 61bb62591466c3649bdf4905822d72f6,
         type: 3}
       propertyPath: playOnAwake
       value: 0

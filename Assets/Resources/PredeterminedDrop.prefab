@@ -173,8 +173,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   identifier: Powerup
   sounds:
-  - {fileID: 8300000, guid: ad933e3605570e148ae874c37976f552, type: 3}
   - {fileID: 8300000, guid: 10f1e528c940282409bd352761276637, type: 3}
+  - {fileID: 8300000, guid: ad933e3605570e148ae874c37976f552, type: 3}
   playAtStart: 0
   randomizeAtStart: 0
   spatialBlend: 0

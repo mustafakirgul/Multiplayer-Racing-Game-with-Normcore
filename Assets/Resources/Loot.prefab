@@ -535,8 +535,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 512
-  pickupSound: {fileID: 0}
-  lootSound: {fileID: 6853053983819183478}
+  sound: {fileID: 6853053983819183478}
 --- !u!114 &2652169859653945631
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -45,11 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   source: {fileID: -4583507705421803237}
-  engineStart: {fileID: 8300000, guid: 14a52186b23de334d96811bfb525ad7c, type: 3}
-  engineRun: {fileID: 8300000, guid: 23aa469cceef2a44581be1b1fbaf3f62, type: 3}
+  engineStart: {fileID: 8300000, guid: 83b01c9913ac6c649a9f58245964abf2, type: 3}
+  engineRun: {fileID: 8300000, guid: 316224186e8ae6543990a05f4dc13981, type: 3}
   engineStop: {fileID: 8300000, guid: 9aa5bd33d5ef3ad4e89f1e70a6953cea, type: 3}
   topSpeed: 0
-  divider: 0
+  divider: 3
   currentSpeed: 0
   pitch: 0
   controller: {fileID: 0}
@@ -127,7 +127,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.25
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

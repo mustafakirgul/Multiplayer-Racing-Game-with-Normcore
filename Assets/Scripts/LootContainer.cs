@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Media;
 using Normal.Realtime;
 using UnityEngine;
 
@@ -72,6 +73,7 @@ public class LootContainer : MonoBehaviour
     {
         if (cr_Die == null)
         {
+            if (sound == null) GetComponent<AudioPlayer>();
             SetCollectedBy(_collectorID);
             GetComponent<Rigidbody>().isKinematic = true;
             GetComponent<BoxCollider>().enabled = false;
@@ -80,12 +82,12 @@ public class LootContainer : MonoBehaviour
             if (content.id < 0)
             {
                 PlayerManager.instance.ReturnPlayer(_collectorID).statsEntity.ReceiveStat(StatType.powerup);
-                if (sound != null) sound.PlayIndex(0);
+                if (sound != null) sound.PlayIndex(1);
             }
             else
             {
                 PlayerManager.instance.ReturnPlayer(_collectorID).statsEntity.ReceiveStat(StatType.loot);
-                if (sound != null) sound.PlayIndex(1);
+                if (sound != null) sound.PlayIndex(0);
             }
         }
     }

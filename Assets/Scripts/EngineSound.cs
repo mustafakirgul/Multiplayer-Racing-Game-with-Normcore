@@ -32,8 +32,8 @@ public class EngineSound : MonoBehaviour
                     topSpeed = controller.MaxSpeed;
                 }
             }
-            source.spatialBlend = .75f;
-            source.spread = 66f;
+            source.spatialBlend = 1f;
+            source.spread = 0f;
         }
         else
         {
