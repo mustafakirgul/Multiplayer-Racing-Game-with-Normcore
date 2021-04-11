@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class MenuController : MonoBehaviour
 {
@@ -14,6 +15,12 @@ public class MenuController : MonoBehaviour
     private float consoleTargetY, joinRoomTargetX;
     public float movementSpeed = 200f;
     private bool backToMainMenu;
+
+    private void Start()
+    {
+        AudioManager.instance.RegisterMenuController(this);
+    }
+
     public void QuitGame()
     {
         Application.Quit();
@@ -43,7 +50,7 @@ public class MenuController : MonoBehaviour
             }
         }
 
-        if (!joinRoomPanelIsMoving&&!consoleIsMoving&&backToMainMenu)
+        if (!joinRoomPanelIsMoving && !consoleIsMoving && backToMainMenu)
         {
             backToMainMenu = false;
             ToggleConsole(false);
@@ -52,7 +59,6 @@ public class MenuController : MonoBehaviour
             options.SetActive(false);
             credits.SetActive(false);
         }
-        
     }
 
     void ToggleConsole(bool show)
@@ -82,7 +88,7 @@ public class MenuController : MonoBehaviour
     {
         helpPanel.SetActive(true);
     }
-    
+
     public void CloseHelpPanel()
     {
         helpPanel.SetActive(false);
@@ -119,11 +125,17 @@ public class MenuController : MonoBehaviour
     public void ShowOptions()
     {
         options.SetActive(true);
+        Cursor.visible = true;
+        if (GameManager.instance.counter.localController != null)
+            GameManager.instance.counter.localController.ToggleController(false);
     }
 
     public void HideOptions()
     {
         options.SetActive(false);
+        Cursor.visible = FindObjectOfType<Race>().m_isOn;
+        if (GameManager.instance.counter.localController != null)
+            GameManager.instance.counter.localController.ToggleController(true);
     }
 
     public void ShowCredits()

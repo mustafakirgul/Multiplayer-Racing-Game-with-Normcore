@@ -62,6 +62,7 @@ public class EngineSound : MonoBehaviour
     public void StopEngine()
     {
         isRunning = false;
+        source.Stop();
         PlaySound(engineStop, false);
     }
 
@@ -70,7 +71,7 @@ public class EngineSound : MonoBehaviour
         if (engineStart != null)
         {
             PlaySound(engineStart, false);
-            yield return new WaitForSeconds(engineStart.length);
+            yield return new WaitForSeconds(engineStart.length * .9f);
         }
 
         PlaySound(engineRun, true);
@@ -85,7 +86,6 @@ public class EngineSound : MonoBehaviour
         if (loop)
         {
             source.loop = true;
-            if (source.isPlaying) source.Stop();
             source.clip = a;
             source.Play();
         }

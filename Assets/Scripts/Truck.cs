@@ -108,7 +108,7 @@ public class Truck : RealtimeComponent<TruckModel>
         waitASecond = new WaitForSeconds(steerRefreshTimer);
         if (damageSphere == null)
         {
-            Debug.LogError("No damage sphere for truck!");
+            //Debug.LogError("No damage sphere for truck!");
         }
         else
         {

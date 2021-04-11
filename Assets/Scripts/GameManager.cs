@@ -286,7 +286,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        LobbyManager.instance.SendData(_selection);
+        LobbyManager.instance.SendData(_selection + 1);
 
         if (playerNameInputField.text.Length > 0)
         {

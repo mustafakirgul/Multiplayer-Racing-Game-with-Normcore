@@ -58,7 +58,7 @@ public class AudioPlayer : MonoBehaviour
                 }
             }
 
-            Debug.LogWarning("Sound " + index + " for " + transform.name + " has no audio clip attached!");
+            //Debug.LogWarning("Sound " + index + " for " + transform.name + " has no audio clip attached!");
         }
     }
 }

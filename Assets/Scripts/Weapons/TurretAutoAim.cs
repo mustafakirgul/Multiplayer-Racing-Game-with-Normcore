@@ -309,21 +309,11 @@ public class TurretAutoAim : MonoBehaviour
                 currentLerpTime = 0;
             }
         }
-        else
-        {
-            Debug.Log("No Targets in Range");
-            return;
-        }
     }
 
     void AutoSelectTarget()
     {
-        if (targetList.Count == 0)
-        {
-            Debug.Log("No Targets in Range");
-            return;
-        }
-        else
+        if (targetList.Count != 0)
         {
             if (truck != null)
             {

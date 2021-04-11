@@ -1,10 +1,15 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
+    private MenuController menuController;
+
+    public void RegisterMenuController(MenuController _menuController)
+    {
+        menuController = _menuController;
+    }
 
     private void SingletonCheck()
     {
@@ -33,7 +38,7 @@ public class AudioManager : MonoBehaviour
     public Sprite onImage;
     public Sprite offImage;
     public JukeBox jukeBox;
-    public GameObject inGameOptions;
+    private bool menuState;
 
     private void Start()
     {
@@ -127,12 +132,12 @@ public class AudioManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape) && GameManager.instance._race.m_isOn)
         {
-            ToggleInGameOptions();
+            if (menuController != null)
+            {
+                menuState = !menuState;
+                if (menuState) menuController.ShowOptions();
+                else menuController.HideOptions();
+            }
         }
-    }
-
-    public void ToggleInGameOptions()
-    {
-        inGameOptions.SetActive(!inGameOptions.activeSelf);
     }
 }

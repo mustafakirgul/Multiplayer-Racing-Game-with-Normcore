@@ -56,7 +56,7 @@ public class CarPhysicsParamsSObj : ScriptableObject
     {
         if (templateData != null)
         {
-            Debug.Log("Running Sobj Logic");
+            //Debug.Log("Running Sobj Logic");
             tempMelee = templateData.f_meleePower;
             tempTopSpd = templateData.f_topSpd;
             tempAccel = templateData.f_acceleration;

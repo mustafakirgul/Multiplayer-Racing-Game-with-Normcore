@@ -9146,6 +9146,11 @@ PrefabInstance:
       propertyPath: engineStop
       value: 
       objectReference: {fileID: 8300000, guid: 3400a7fa3a56048499ed3e90add1aa17, type: 3}
+    - target: {fileID: 4831010280370556151, guid: e4ff5c40df31ac94bbf6fea98bb46e3a,
+        type: 3}
+      propertyPath: divider
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6592302261998787487, guid: e4ff5c40df31ac94bbf6fea98bb46e3a,
         type: 3}
       propertyPath: m_LocalPosition.x

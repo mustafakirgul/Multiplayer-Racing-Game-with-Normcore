@@ -8134,7 +8134,7 @@ PrefabInstance:
         type: 3}
       propertyPath: engineRun
       value: 
-      objectReference: {fileID: 8300000, guid: c0191f5eddde47443a5bfd777e6d37b6, type: 3}
+      objectReference: {fileID: 8300000, guid: ff89099d49f4dfb46981d1be1b34544d, type: 3}
     - target: {fileID: 4831010280370556151, guid: e4ff5c40df31ac94bbf6fea98bb46e3a,
         type: 3}
       propertyPath: engineStart
@@ -8145,6 +8145,16 @@ PrefabInstance:
       propertyPath: engineStop
       value: 
       objectReference: {fileID: 8300000, guid: 1421411ab6360694ba8e3c33d11a4c48, type: 3}
+    - target: {fileID: 4831010280370556151, guid: e4ff5c40df31ac94bbf6fea98bb46e3a,
+        type: 3}
+      propertyPath: topSpeed
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4831010280370556151, guid: e4ff5c40df31ac94bbf6fea98bb46e3a,
+        type: 3}
+      propertyPath: divider
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6592302261998787487, guid: e4ff5c40df31ac94bbf6fea98bb46e3a,
         type: 3}
       propertyPath: m_LocalPosition.x
