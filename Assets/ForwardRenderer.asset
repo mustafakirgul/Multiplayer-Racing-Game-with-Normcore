@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Beautify
   m_EditorClassIdentifier: 
   m_Active: 1
-  shader: {fileID: 0}
+  shader: {fileID: 4800000, guid: 55d70ca4ea7504a38b66170bbe587b2f, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
   m_Name: ForwardRenderer
   m_EditorClassIdentifier: 
   m_RendererFeatures:
-  - {fileID: -4358367611760626606}
+  - {fileID: 0}
   m_RendererFeatureMap: 52b470acbff783c3
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   shaders:
