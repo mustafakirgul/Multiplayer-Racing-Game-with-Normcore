@@ -82,6 +82,10 @@ public class UIManager : MonoBehaviour
 
     public GameObject LootTruckInvincibleIcon;
 
+    public Image BoostPUMeter, DefensePUMeter, HandlinePUMeter, HogDmgPUMeter;
+
+    public Text currentLootCount;
+
     private void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();

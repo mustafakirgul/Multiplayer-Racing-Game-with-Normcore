@@ -9,7 +9,9 @@ using UnityEngine.UI;
 
 public class NewCarController : MonoBehaviour
 {
-    [Space] [Space] [Header("Car Controller Main Settings")]
+    [Space]
+    [Space]
+    [Header("Car Controller Main Settings")]
     public Rigidbody CarRB;
 
     private float moveInput, turnInput;
@@ -42,7 +44,9 @@ public class NewCarController : MonoBehaviour
     float currentZ, currentX;
     float XTimer, ZTimer, XFactor, ZFactor;
 
-    [Space] [Space] [Header("Camera and Networking")]
+    [Space]
+    [Space]
+    [Header("Camera and Networking")]
     //Neworking Related Functionalities
     public Realtime _realtime;
 
@@ -56,7 +60,9 @@ public class NewCarController : MonoBehaviour
     bool CoroutineReset = false;
 
 
-    [Space] [Space] [Header("Loot Based Modifiers")]
+    [Space]
+    [Space]
+    [Header("Loot Based Modifiers")]
     //Does the car need to know about these or does the game manager needs to know about these?
     //Car simply keeps track of what it encounters and talks to game managers to obtain loot or powerups
     public float meleeDamageModifier;
@@ -72,6 +78,7 @@ public class NewCarController : MonoBehaviour
     public float tempTruckDamageModifier = 0f;
     public float tempBoostModifier = 0;
 
+    int boostUIid = 0, defesenUIid = 0, handlingUIid = 0, hogdmgUIid = 0, lootCount = 0;
     [Space]
     [Space]
     [Header("Weapon Controls")]
@@ -135,7 +142,9 @@ public class NewCarController : MonoBehaviour
     public GameObject OverHeatNotice;
     public GameObject WeaponSwitcherUI;
 
-    [Space] [Space] [Header("Health Params")]
+    [Space]
+    [Space]
+    [Header("Health Params")]
     //Health Controls
     public Player _player;
 
@@ -152,7 +161,9 @@ public class NewCarController : MonoBehaviour
     public CanvasGroup damageIndicatorCanvasGroup;
 
 
-    [Space] [Space] [Header("Boost Params")]
+    [Space]
+    [Space]
+    [Header("Boost Params")]
     //Boost Controls
     public Image boostRadialLoader;
 
@@ -162,7 +173,9 @@ public class NewCarController : MonoBehaviour
     public bool boosterReady, isBoosting;
     private float boosterCounter;
 
-    [Space] [Space] [Header("Light Controls")]
+    [Space]
+    [Space]
+    [Header("Light Controls")]
     //Light Controls
     public Light RHL;
 
@@ -181,7 +194,8 @@ public class NewCarController : MonoBehaviour
 
     [HideInInspector] public int _resets;
 
-    [Space] [Header("Suspension and Wheel Settings")]
+    [Space]
+    [Header("Suspension and Wheel Settings")]
     public bool identicalSuspension4AW;
 
     public float suspensionHeight; // these 2 only work if identical suspension for all wheels is true
@@ -262,6 +276,11 @@ public class NewCarController : MonoBehaviour
             _realtimeTransform = GetComponent<RealtimeTransform>();
             _realtimeView.enabled = true;
             _realtimeTransform.enabled = true;
+            boostUIid = 0;
+            defesenUIid = 0;
+            handlingUIid = 0;
+            hogdmgUIid = 0;
+            lootCount = 0;
         }
 
         SetWeaponFireRates();
@@ -409,7 +428,7 @@ public class NewCarController : MonoBehaviour
         WeaponProjectileBase LootWeaponBase = LootWeaponProjectile.GetComponent<WeaponProjectileBase>();
         if (LootWeaponBase != null)
         {
-            uIManager.SwitchProjectileDisplayInfo(LootWeaponBase.ProjectileToDisplay, (int) currentAmmo);
+            uIManager.SwitchProjectileDisplayInfo(LootWeaponBase.ProjectileToDisplay, (int)currentAmmo);
         }
 
         if (weaponType == 0)
@@ -436,7 +455,7 @@ public class NewCarController : MonoBehaviour
 
         if (savedWeaponBase != null)
         {
-            uIManager.SwitchProjectileDisplayInfo(savedWeaponBase.ProjectileToDisplay, (int) currentAmmo);
+            uIManager.SwitchProjectileDisplayInfo(savedWeaponBase.ProjectileToDisplay, (int)currentAmmo);
         }
 
         ResetSavedWeapon();
@@ -751,7 +770,7 @@ public class NewCarController : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, CarRB.transform.position, 6.66f);
             if (weaponType == 1)
             {
-                uIManager.UpdateAmmoCount((int) currentAmmo);
+                uIManager.UpdateAmmoCount((int)currentAmmo);
             }
         }
         else
@@ -1112,7 +1131,7 @@ public class NewCarController : MonoBehaviour
                         _barrelTip.transform.localRotation =
                             Quaternion.Euler(0 - SecondaryWeaponBase.barrelFireAngle, 0, 0);
                         uIManager.SwitchProjectileDisplayInfo(SecondaryWeaponBase.ProjectileToDisplay,
-                            (int) currentAmmo);
+                            (int)currentAmmo);
                         SwapWeaponMesh(weaponType);
                         break;
                 }
@@ -1385,6 +1404,16 @@ public class NewCarController : MonoBehaviour
                         //Use a decode or script obj to determine what   each temp powerup should be
                         ApplyPowerUpToPlayer(lootManager.DecodePowerUp(LootRoll));
                     }
+                    else
+                    {
+                        //Add lootbox count here
+                        if (uIManager.currentLootCount != null)
+                        {
+                            lootCount++;
+                            uIManager.currentLootCount.text =
+                                lootCount.ToString();
+                        }
+                    }
                 }
             }
         }
@@ -1401,10 +1430,16 @@ public class NewCarController : MonoBehaviour
             case PowerUpType.Boost:
                 //Custom boost condition here to do
                 tempBoostModifier = PowerUp.PrimaryModifierValue;
+                uIManager.BoostPUMeter.gameObject.SetActive(true);
+                cyclePUcolours(boostUIid, uIManager.BoostPUMeter.gameObject);
+                boostUIid++;
                 break;
             case PowerUpType.Defense:
                 tempDefenseModifier = PowerUp.PrimaryModifierValue;
                 _player.UpdateTempDefenseModifier(tempDefenseModifier);
+                uIManager.DefensePUMeter.gameObject.SetActive(true);
+                cyclePUcolours(defesenUIid, uIManager.DefensePUMeter.gameObject);
+                defesenUIid++;
                 break;
             case PowerUpType.Health:
                 //Heals are per float value based on health
@@ -1413,6 +1448,9 @@ public class NewCarController : MonoBehaviour
                 break;
             case PowerUpType.Speed:
                 tempSpeedModifier = PowerUp.PrimaryModifierValue;
+                uIManager.HandlinePUMeter.gameObject.SetActive(true);
+                cyclePUcolours(handlingUIid, uIManager.HandlinePUMeter.gameObject);
+                handlingUIid++;
                 break;
             case PowerUpType.SuperGun:
                 //Set super gun Projectile Here
@@ -1421,13 +1459,48 @@ public class NewCarController : MonoBehaviour
                 break;
             case PowerUpType.TruckAttack:
                 tempTruckDamageModifier = PowerUp.PrimaryModifierValue;
+                uIManager.HogDmgPUMeter.gameObject.SetActive(true);
+                cyclePUcolours(hogdmgUIid, uIManager.HogDmgPUMeter.gameObject);
+                hogdmgUIid++;
                 break;
             default:
                 Debug.Log("PowerUp Type Not recognized, Check Power Up ID");
                 break;
         }
     }
+
+    public void cyclePUcolours(int UIid, GameObject UIGobj)
+    {
+        Image PUUIcolor = UIGobj.GetComponent<Image>();
+
+        if (PUUIcolor != null)
+        {
+            if (UIid < 4)
+            {
+                switch (UIid)
+                {
+                    case 0:
+                        PUUIcolor.color = Color.white;
+                        break;
+                    case 1:
+                        PUUIcolor.color = Color.yellow;
+                        break;
+                    case 2:
+                        PUUIcolor.color = Color.green;
+                        break;
+                    case 3:
+                        PUUIcolor.color = Color.magenta;
+                        break;
+                }
+            }
+            else
+            {
+                PUUIcolor.color = Color.red;
+            }
+        }
+    }
 }
+
 
 [Serializable]
 public struct ArcadeWheel
