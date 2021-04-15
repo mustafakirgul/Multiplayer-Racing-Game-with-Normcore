@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MenuController : MonoBehaviour
 {
@@ -19,6 +18,7 @@ public class MenuController : MonoBehaviour
     private void Start()
     {
         AudioManager.instance.RegisterMenuController(this);
+        BackToMainMenu();
     }
 
     public void QuitGame()

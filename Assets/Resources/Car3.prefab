@@ -1723,8 +1723,8 @@ MonoBehaviour:
     - {fileID: 8300000, guid: ec8f3b6a5f22a7f4dacecde8b299c660, type: 3}
   playAtStart: 0
   randomizeAtPlay: 1
-  spatialBlend: 0.192
-  spread: 0
+  spatialBlend: 0.666
+  spread: 360
 --- !u!1 &1132834545641700119
 GameObject:
   m_ObjectHideFlags: 0
@@ -8618,12 +8618,12 @@ PrefabInstance:
     - target: {fileID: 9174195615824833754, guid: db948a332f991f846b4413064869b205,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.66
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9174195615824833754, guid: db948a332f991f846b4413064869b205,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 9174195615824833754, guid: db948a332f991f846b4413064869b205,
         type: 3}

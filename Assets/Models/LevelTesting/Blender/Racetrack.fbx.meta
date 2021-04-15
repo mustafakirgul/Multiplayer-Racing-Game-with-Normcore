@@ -174,13 +174,14 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    extraUserProperties: []
+    extraUserProperties:
+    - '#BAKERY{"meshName":["Building01_Detail09","Building01_Detail02","Debris07","Building01_Detail17","Transparency","Level.pt5","Level.pt4","Level.pt3","Level.pt1","Cliff02","Building01_Detail14","LevelRing01","Building02","Building01_Detail01","Building02_Detail01","Building02_Detail06","Building01_Detail16","Building02_Detail02","Building01_Detail15","Building01_Detail07","Building01_Detail08","Cliff01","LevelRing02","Debris05","Building01_Detail04","Building02_Detail05","Building01_Detail03","Building01_Detail19"],"padding":[1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"unwrapper":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}'
     clipAnimations: []
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
-    meshCompression: 0
+    meshCompression: 3
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
@@ -201,8 +202,8 @@ ModelImporter:
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
-    secondaryUVAreaDistortion: 15.000001
-    secondaryUVHardAngle: 88
+    secondaryUVAreaDistortion: 15
+    secondaryUVHardAngle: 67
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
@@ -211,7 +212,7 @@ ModelImporter:
     tangentImportMode: 3
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
-    blendShapeNormalImportMode: 1
+    blendShapeNormalImportMode: 0
     normalSmoothingSource: 0
   referencedClips: []
   importAnimation: 1

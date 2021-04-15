@@ -1,0 +1,47 @@
+#############################
+Skybox Photographer
+Unity Engine - 2018
+v1.0
+#############################
+
+Skybox Photographer allow you to turn any 3D scene you created in Unity into a Skybox.
+Simply choose a view point and let this package handle everything.
+
+======================================
+How to use
+======================================
+1) Open the scene you want to turn into a Skybox
+2) Select a GameObject inside your scene to use as the skybox's viewpoint
+3) Click on the new menu "SkyboxPhotographer/Photograph !"
+4) Change the texture resolution and view range if needed
+5) Click "Photograph !"
+6) Choose where to save your new skybox material.
+
+======================================
+Notes
+======================================
+- High texture resolution (>1024) may take a long time to generate and can result into instabilities during the generation process.
+- You can use a skybox in the scene you intent to turn into a skybox.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

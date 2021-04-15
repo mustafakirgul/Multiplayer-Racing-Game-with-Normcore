@@ -66,17 +66,17 @@ public class ChaseCam : MonoBehaviour
             Physics.Raycast(target.position, Vector3.down, out hit, Mathf.Infinity, mask);
             Debug.DrawLine(target.position, hit.point, Color.yellow);
             if (hit.distance > target.localPosition.y) //Safe Guard
-                bottomLimit = parent.position.y;
+                bottomLimit = Mathf.Lerp(bottomLimit, parent.position.y, positionSpeed);
             else
-                bottomLimit = parent.position.y + minY;
+                bottomLimit = Mathf.Lerp(bottomLimit, parent.position.y + minY, positionSpeed);
 
             targetPosition = new Vector3(target.position.x,
                 Mathf.Clamp(hit.point.y + minY, bottomLimit, Mathf.Infinity), target.position.z);
             transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * positionSpeed);
             if (hit.distance > lookAtTarget.localPosition.y) //Safe Guard
-                bottomLimit = parent.position.y;
+                bottomLimit = Mathf.Lerp(bottomLimit, parent.position.y, lookAtSpeed);
             else
-                bottomLimit = parent.position.y + lookY;
+                bottomLimit = Mathf.Lerp(bottomLimit, parent.position.y - lookY, lookAtSpeed);
 
             Physics.Raycast(lookAtTarget.position, Vector3.down, out hit, Mathf.Infinity, mask);
             Debug.DrawLine(lookAtTarget.position, hit.point, Color.yellow);
