@@ -279,7 +279,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2936733036267682185}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &981269346667904289
 Rigidbody:
@@ -888,6 +888,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 942479272258074867}
   - {fileID: 4670419330297740283}
   - {fileID: 4235312854223079570}
   - {fileID: 8304280435202539225}
@@ -898,7 +899,6 @@ Transform:
   - {fileID: 7854981460229884561}
   - {fileID: 923221157116433905}
   - {fileID: 6152565574332940811}
-  - {fileID: 942479272258074867}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -24476,10 +24476,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 69cb3cf5f596fc8449a131a6c3f5ccd0, type: 3}
   playAtStart: 0
   randomizeAtStart: 0
-  spatialBlend: 0.5
+  spatialBlend: 0.85
   spread: 360
-  isAmbient: 0
-  ambientVolumeFactor: 0
+  isAmbient: 1
+  ambientVolumeFactor: 0.15
 --- !u!1 &2538681255026893905
 GameObject:
   m_ObjectHideFlags: 0
@@ -24695,7 +24695,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2936733036267682185}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &6868588109228608087
 AudioSource:
@@ -24707,7 +24707,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: e734e2620c08d844ca687b3844d869aa, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 640b1652d02200548b81b6deba0fbb8c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -24718,9 +24718,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 250
+  MaxDistance: 200
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -24753,7 +24753,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.75
+      value: 0.88
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -24768,7 +24768,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -24783,7 +24783,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.825
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -25001,7 +25001,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2936733036267682185}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &6982355070559366913
 BoxCollider:
@@ -25199,7 +25199,7 @@ Transform:
   - {fileID: 3472191607826187490}
   - {fileID: 8021423443765769448}
   m_Father: {fileID: 2936733036267682185}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7171928374169545690
 GameObject:
@@ -25230,7 +25230,7 @@ Transform:
   m_Children:
   - {fileID: 7312734504721995457}
   m_Father: {fileID: 2936733036267682185}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7339307853700243158
 GameObject:
@@ -25263,7 +25263,7 @@ Transform:
   m_LocalScale: {x: 12, y: 12, z: 22}
   m_Children: []
   m_Father: {fileID: 2936733036267682185}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!33 &2269118190703564015
 MeshFilter:
@@ -25581,7 +25581,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2936733036267682185}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8377603498330548561
 GameObject:
@@ -25784,7 +25784,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4850216584067524, guid: b8cba1113eab4ae41951ebb3c43200d1, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4850216584067524, guid: b8cba1113eab4ae41951ebb3c43200d1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -25823,15 +25823,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 927402870228085813}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &923221157116433905 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4850216584067524, guid: b8cba1113eab4ae41951ebb3c43200d1,
-    type: 3}
-  m_PrefabInstance: {fileID: 927402870228085813}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &1017615277261355035 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 198580925921170478, guid: b8cba1113eab4ae41951ebb3c43200d1,
+    type: 3}
+  m_PrefabInstance: {fileID: 927402870228085813}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &923221157116433905 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4850216584067524, guid: b8cba1113eab4ae41951ebb3c43200d1,
     type: 3}
   m_PrefabInstance: {fileID: 927402870228085813}
   m_PrefabAsset: {fileID: 0}
@@ -25880,7 +25880,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 6beea6b44e268425995d54106e74bb38,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6beea6b44e268425995d54106e74bb38,
         type: 3}
@@ -26027,7 +26027,7 @@ PrefabInstance:
     - target: {fileID: 8514420017275086027, guid: 4765103933428d44a8d19a74c1b68397,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8514420017275086027, guid: 4765103933428d44a8d19a74c1b68397,
         type: 3}
@@ -26102,7 +26102,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b67dd13b7115c4584bf9c7bcf241a4b9,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b67dd13b7115c4584bf9c7bcf241a4b9,
         type: 3}

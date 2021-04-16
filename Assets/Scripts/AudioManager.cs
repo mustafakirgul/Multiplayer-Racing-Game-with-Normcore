@@ -127,6 +127,12 @@ public class AudioManager : MonoBehaviour
         toggleSFX.sprite = sfxIsOn ? onImage : offImage;
         PlayerPrefs.SetInt("sfxIsOn", sfxIsOn ? 1 : 0);
         UpdateEngineSoundLevels();
+        var truck = FindObjectOfType<Truck>();
+        if (truck == null) return;
+        if (sfxIsOn)
+            truck.transform.GetChild(0).GetComponent<AudioSource>().Play();
+        else
+            truck.transform.GetChild(0).GetComponent<AudioSource>().Stop();
     }
 
     private void Update()

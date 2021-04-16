@@ -1414,7 +1414,7 @@ MonoBehaviour:
   reverseAccel: 0
   turnSpd: 140
   turningFwdSpeed: 35
-  airDrag: 0.75
+  airDrag: 0.35
   groundDrag: 4
   groundLayer:
     serializedVersion: 2
@@ -1681,8 +1681,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c4f2f0c6690788544b50bc787eb80a21, type: 3}
   playAtStart: 0
   randomizeAtStart: 0
-  spatialBlend: 0.88
-  spread: 360
+  spatialBlend: 0.95
+  spread: 180
+  isAmbient: 0
+  ambientVolumeFactor: 0
 --- !u!114 &6091771624008812604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1729,8 +1731,8 @@ MonoBehaviour:
     - {fileID: 8300000, guid: ec8f3b6a5f22a7f4dacecde8b299c660, type: 3}
   playAtStart: 0
   randomizeAtPlay: 1
-  spatialBlend: 1
-  spread: 360
+  spatialBlend: 0.666
+  spread: 180
 --- !u!1 &1132834545641700119
 GameObject:
   m_ObjectHideFlags: 0
@@ -8087,6 +8089,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MiniMapSprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832650266950200171, guid: 4765103933428d44a8d19a74c1b68397,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8514420017275086027, guid: 4765103933428d44a8d19a74c1b68397,
         type: 3}

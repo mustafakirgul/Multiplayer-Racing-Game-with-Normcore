@@ -17,7 +17,7 @@ public class Winners : MonoBehaviour
 
     private void OnEnable()
     {
-        FindObjectOfType<TopRacersLive>().isRunning = false;
+        FindObjectOfType<TopRacersLive>().Status(false);
         RetrieveResults();
         if (results == null) return;
         UpdateWinner();

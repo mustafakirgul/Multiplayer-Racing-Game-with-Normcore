@@ -162,7 +162,6 @@ public class LootManager : MonoBehaviour
 
             lootDecoder.StartSequence();
             GameSceneManager.instance.DisableEndSplashes();
-            lootOpenSound.PlayRandom();
             lootDecoder.canCheck = true;
         }
 

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class TopRacersLive : MonoBehaviour
 {
     public float interval;
-    public Text display;
+    public TopRacerLine[] displays;
     private Coroutine cr_Check;
     private WaitForSeconds wait;
     public bool isRunning;
@@ -16,13 +16,35 @@ public class TopRacersLive : MonoBehaviour
     private List<OrderedEntry> orderedResults;
     [Space(10)] public StatsEntry[] stats;
     StringBuilder sb = new StringBuilder("", 666);
+    public StatsManager statsManager;
 
-    private void OnEnable()
+    public void Status(bool state)
     {
-        if (!isRunning)
+        if (state == isRunning) return;
+        ClearDisplays();
+        switch (state)
         {
-            StartCheck();
+            case true:
+                if (!isRunning)
+                {
+                    StartCheck();
+                }
+
+                break;
+            case false:
+                if (isRunning)
+                {
+                    StopCheck();
+                }
+
+                break;
         }
+    }
+
+    private void StopCheck()
+    {
+        isRunning = false;
+        if (cr_Check != null) StopCoroutine(cr_Check);
     }
 
     public void StartCheck()
@@ -30,12 +52,57 @@ public class TopRacersLive : MonoBehaviour
         isRunning = true;
         if (interval <= 0)
             interval = 1f;
-        if (display == null)
-            display = GetComponent<Text>();
-        display.text = "";
         wait = new WaitForSeconds(interval);
         if (cr_Check != null) StopCoroutine(cr_Check);
+        if (statsManager == null) statsManager = StatsManager.instance;
+        if (statsManager == null) statsManager = FindObjectOfType<StatsManager>();
+
         cr_Check = StartCoroutine(CR_Check());
+    }
+
+    private void ClearDisplays()
+    {
+        if (displays != null)
+            for (int i = 0; i < displays.Length; i++)
+            {
+                HideDisplayLine(i);
+            }
+    }
+
+    void UpdateDisplay(int index, string _name, int score)
+    {
+        UnHideDisplayLine(index);
+        if (_name == GameManager.instance.playerName)
+        {
+            displays[index].name.transform.parent.parent.GetChild(0).gameObject.SetActive(true);
+            displays[index].name.transform.parent.parent.GetChild(1).gameObject.SetActive(false);
+        }
+        else
+        {
+            displays[index].name.transform.parent.parent.GetChild(0).gameObject.SetActive(false);
+            displays[index].name.transform.parent.parent.GetChild(1).gameObject.SetActive(true);
+        }
+
+        displays[index].name.text = _name;
+        displays[index].score.text = score.ToString();
+    }
+
+    void HideDisplayLine(int index)
+    {
+        displays[index].name.text = "";
+        displays[index].score.text = "";
+        displays[index].name.transform.parent.parent.GetChild(0).gameObject.SetActive(false);
+        displays[index].name.transform.parent.parent.GetChild(1).gameObject.SetActive(true);
+        displays[index].name.transform.parent.parent.gameObject.SetActive(false);
+    }
+
+    void UnHideDisplayLine(int index)
+    {
+        displays[index].name.text = "";
+        displays[index].score.text = "";
+        displays[index].name.transform.parent.parent.GetChild(0).gameObject.SetActive(false);
+        displays[index].name.transform.parent.parent.GetChild(1).gameObject.SetActive(true);
+        displays[index].name.transform.parent.parent.gameObject.SetActive(true);
     }
 
     private IEnumerator CR_Check()
@@ -49,15 +116,15 @@ public class TopRacersLive : MonoBehaviour
 
     private void GetResults()
     {
-        if (display == null)
+        Debug.LogWarning("Got Results");
+        if (displays == null)
         {
-            Debug.LogWarning("No display to show top racers!");
+            Debug.LogWarning("No displays to show top racers!");
             return;
         }
 
-        if (StatsManager.instance == null) return;
         //return ordered results
-        if (StatsManager.instance == null)
+        if (statsManager == null)
         {
             Debug.LogWarning("Stats Manager instance is missing!");
             return;
@@ -67,27 +134,28 @@ public class TopRacersLive : MonoBehaviour
             orderedResults = new List<OrderedEntry>();
         else
             orderedResults.Clear();
-        orderedResults.AddRange(StatsManager.instance.ReturnOrderedStats());
-        var length = orderedResults.Count;
+        orderedResults.AddRange(statsManager.ReturnOrderedStats());
+        var resultLength = orderedResults.Count;
+        var length = displays.Length;
         //convert information to string to show it on the game screen live!
-        sb.Clear();
-        sb.Append("RACER_____SCORE\n");
         for (int i = 0; i < length; i++)
         {
-            sb.Append((i + 1) + ". " + orderedResults[i].result.playerName);
-            for (int j = 1; j == 11 - orderedResults[i].result.playerName.Length; j++)
+            if (i < resultLength)
             {
-                sb.Append(" ");
+                displays[i].name.transform.parent.gameObject.SetActive(true);
+                UpdateDisplay(i, orderedResults[i].result.playerName, orderedResults[i].score);
             }
-
-            sb.Append(" / SCORE " + orderedResults[i].score);
-
-            if (i < length - 1)
+            else
             {
-                sb.Append("\n");
+                HideDisplayLine(i);
             }
         }
-
-        display.text = sb.ToString();
     }
+}
+
+[Serializable]
+public struct TopRacerLine
+{
+    public Text name;
+    public Text score;
 }

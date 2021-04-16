@@ -20,7 +20,7 @@ public class EngineSound : MonoBehaviour
         if (source == null) source = gameObject.AddComponent<AudioSource>();
         source.playOnAwake = false;
         source.minDistance = 1f;
-        source.maxDistance = 50f;
+        source.maxDistance = 200f;
 
         isLocal = transform.parent.GetComponent<RealtimeView>().isOwnedLocallyInHierarchy;
         if (isLocal)
@@ -32,13 +32,13 @@ public class EngineSound : MonoBehaviour
                     topSpeed = controller.MaxSpeed;
                 }
             }
-            source.spatialBlend = 1f;
-            source.spread = 0f;
+            source.spatialBlend =.666f;
+            source.spread = 180f;
         }
         else
         {
             source.spatialBlend = 1f;
-            source.spread = 360f;
+            source.spread = 180f;
             topSpeed = 1.25f;
         }
 

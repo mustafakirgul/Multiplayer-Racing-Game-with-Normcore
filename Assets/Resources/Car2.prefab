@@ -1735,7 +1735,7 @@ MonoBehaviour:
   reverseAccel: 0
   turnSpd: 125
   turningFwdSpeed: 60
-  airDrag: 0.4
+  airDrag: 0.25
   groundDrag: 3
   groundLayer:
     serializedVersion: 2
@@ -2002,8 +2002,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c4f2f0c6690788544b50bc787eb80a21, type: 3}
   playAtStart: 0
   randomizeAtStart: 0
-  spatialBlend: 0.88
-  spread: 360
+  spatialBlend: 0.95
+  spread: 180
+  isAmbient: 0
+  ambientVolumeFactor: 0
 --- !u!114 &7014614640156444692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2050,8 +2052,8 @@ MonoBehaviour:
     - {fileID: 8300000, guid: ec8f3b6a5f22a7f4dacecde8b299c660, type: 3}
   playAtStart: 0
   randomizeAtPlay: 1
-  spatialBlend: 1
-  spread: 360
+  spatialBlend: 0.666
+  spread: 180
 --- !u!1 &417533368538674588
 GameObject:
   m_ObjectHideFlags: 0

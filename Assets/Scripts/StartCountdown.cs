@@ -48,18 +48,20 @@ public class StartCountdown : MonoBehaviour
             if (race == null) race = FindObjectOfType<Race>();
             current = race.CountOneDown();
             countdownLights.TurnOntheLight(current);
-            if (current<start)
+            if (current < start)
             {
-                audioPlayer.PlayIndex(Mathf.Clamp(Convert.ToInt32(current - 1),0,audioPlayer.sounds.Length));
-                
+                audioPlayer.PlayIndex(0);
             }
+
             yield return waitASec;
         }
 
         StatsManager.instance.RefreshStatEntities();
         localController.ToggleController(true);
         uiManager.EnableUI();
+        FindObjectOfType<TopRacersLive>().Status(true);
         endEvent.Invoke();
+        audioPlayer.PlayIndex(1);
         yield return null;
     }
 }
