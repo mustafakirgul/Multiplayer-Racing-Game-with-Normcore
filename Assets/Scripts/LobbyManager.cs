@@ -253,11 +253,14 @@ public class LobbyManager : MonoBehaviour
         _lobbiest.ChangeMaxPlayers(maxPlayers);
         var count = lobbiests.Count;
         if (GameManager.instance._race == null) GameManager.instance._race = FindObjectOfType<Race>();
-        if (GameManager.instance._race.m_isOn)
+        if (GameManager.instance._race != null)
         {
-            feedback.text += "The race on this room has already started. Please create another room.";
-            DisconnectFromLobby();
-            yield break;
+            if (GameManager.instance._race.m_isOn)
+            {
+                feedback.text += "The race on this room has already started. Please create another room.";
+                DisconnectFromLobby();
+                yield break;
+            }
         }
 
         if (count > maxPlayers && maxPlayers > 0)

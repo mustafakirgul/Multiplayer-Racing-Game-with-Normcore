@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -26,6 +27,7 @@ public class StartCountdown : MonoBehaviour
         uiManager = FindObjectOfType<UIManager>();
         current = start;
     }
+
     public void Initialize(Race _race)
     {
         audioPlayer = GetComponent<AudioPlayer>();
@@ -46,7 +48,11 @@ public class StartCountdown : MonoBehaviour
             if (race == null) race = FindObjectOfType<Race>();
             current = race.CountOneDown();
             countdownLights.TurnOntheLight(current);
-            audioPlayer.Play();
+            if (current<start)
+            {
+                audioPlayer.PlayIndex(Mathf.Clamp(Convert.ToInt32(current - 1),0,audioPlayer.sounds.Length));
+                
+            }
             yield return waitASec;
         }
 

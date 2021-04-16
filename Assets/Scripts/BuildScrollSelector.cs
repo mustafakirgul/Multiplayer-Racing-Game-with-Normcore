@@ -213,6 +213,7 @@ public class BuildScrollSelector : MonoBehaviour
 
     void CycleItem(bool isRight)
     {
+        uIManager.sounds.PlayRandom();
         if (isRight)
             CycleIndex++;
         else
@@ -322,6 +323,7 @@ public class BuildScrollSelector : MonoBehaviour
 
     void SwitchCollectionType(bool isDown)
     {
+        uIManager.sounds.PlayRandom();
         if (isDown)
         {
             selectionIndex++;

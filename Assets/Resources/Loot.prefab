@@ -690,12 +690,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75dd03999f3a95040baa95847c5cee88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  identifier: Loot
+  identifier: collectible
   sounds:
   - {fileID: 8300000, guid: 10f1e528c940282409bd352761276637, type: 3}
+  - {fileID: 8300000, guid: ad933e3605570e148ae874c37976f552, type: 3}
   playAtStart: 0
   randomizeAtStart: 0
-  spatialBlend: 0
+  spatialBlend: 0.565
   spread: 360
 --- !u!1 &4052958314711375227
 GameObject:

@@ -77,8 +77,11 @@ public class Truck : RealtimeComponent<TruckModel>
 
     private UIManager uIManager;
 
+    public AudioPlayer sounds;
+
     private void Awake()
     {
+        if (sounds == null) sounds = GetComponent<AudioPlayer>();
         shieldCollider = boombasticShield.transform.GetComponent<SphereCollider>();
         if (shieldCollider != null) shieldCollider.enabled = false;
         truckBody = GetComponent<Rigidbody>();
@@ -101,6 +104,7 @@ public class Truck : RealtimeComponent<TruckModel>
             damageSphere.SetActive(false);
             return;
         }
+
         var temp = GameObject.FindGameObjectWithTag("boombasticPoint");
         if (temp != null) boombasticModePoint = temp.transform.position;
         StartHealth();
@@ -363,6 +367,20 @@ public class Truck : RealtimeComponent<TruckModel>
         }
     }
 
+    void BoombasticModeSound(bool state)
+    {
+        switch (state)
+        {
+            case true:
+                sounds.PlayIndex(0);
+                sounds.LoopIndex(1);
+                break;
+            case false:
+                sounds.StopAll();
+                break;
+        }
+    }
+
     private void ChangeIsBoombastic(bool value)
     {
         isBoombastic = value;
@@ -373,7 +391,7 @@ public class Truck : RealtimeComponent<TruckModel>
         shieldCollider.enabled = value;
         Handbrake(value);
         uIManager.LootTruckInvincibleIcon.SetActive(value);
-
+        BoombasticModeSound(value);
         if (value)
         {
             UpdateTorqueFactor(0f);
@@ -404,7 +422,7 @@ public class Truck : RealtimeComponent<TruckModel>
         shieldCollider.enabled = value;
         Handbrake(value);
         uIManager.LootTruckInvincibleIcon.SetActive(value);
-
+        BoombasticModeSound(value);
         if (value)
         {
             UpdateTorqueFactor(0f);
@@ -476,7 +494,7 @@ public class Truck : RealtimeComponent<TruckModel>
             postBoom = true;
             if (GameManager.instance.isHost)
             {
-                ChangeIsBoombastic(true);    
+                ChangeIsBoombastic(true);
             }
         }
     }
@@ -525,7 +543,6 @@ public class Truck : RealtimeComponent<TruckModel>
         //Debug.Log("PU id is" + RandomID);
 
         _temp.GetComponent<LootContainer>().SetID(RandomID);
-
 
         var _tempDir = Random.onUnitSphere;
         _tempDir = new Vector3(_tempDir.x, Mathf.Abs(_tempDir.y), _tempDir.z) * throwForce;

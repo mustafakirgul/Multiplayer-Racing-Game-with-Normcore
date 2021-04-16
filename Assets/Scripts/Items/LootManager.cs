@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Items.TempMods;
 using UnityEngine;
 
@@ -84,6 +83,7 @@ public class LootManager : MonoBehaviour
     [SerializeField] private LootDecoder lootDecoder;
 
     public Vector3 VisualIndex = Vector3.zero;
+    public AudioPlayer lootOpenSound;
 
     private void Awake()
     {
@@ -93,6 +93,7 @@ public class LootManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (lootOpenSound == null) lootOpenSound = GetComponent<AudioPlayer>();
         if (current_buildLoadOut == null)
         {
             current_buildLoadOut = Balanced_buildLoadOut;
@@ -161,6 +162,7 @@ public class LootManager : MonoBehaviour
 
             lootDecoder.StartSequence();
             GameSceneManager.instance.DisableEndSplashes();
+            lootOpenSound.PlayRandom();
             lootDecoder.canCheck = true;
         }
 

@@ -89,6 +89,7 @@ public class LootDecoder : MonoBehaviour
             prompt.GetComponent<RectTransform>().localScale = Vector3.one;
 
             prompt.SetActive(true);
+            lootManager.lootOpenSound.PlayRandom();
         }
         else
         {

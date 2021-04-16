@@ -74,6 +74,8 @@ public class GameManager : MonoBehaviour
     [Tooltip("RIGO = Realtime Instantiated Game Object")]
     public List<GameObject> RIGOs;
 
+    public AudioPlayer ambientSound;
+
     public void RecordRIGO(GameObject RIGO)
     {
         if (RIGOs == null) RIGOs = new List<GameObject>();
@@ -266,6 +268,20 @@ public class GameManager : MonoBehaviour
             else lootTruck = FindObjectOfType<Truck>();
     }
 
+    public void AmbientSound(bool state)
+    {
+        switch (state)
+        {
+            case true:
+                ambientSound.PlayIndex(0);
+                ambientSound.LoopIndex(1);
+                break;
+            case false:
+                ambientSound.StopAll();
+                break;
+        }
+    }
+
     public void RaceEnded()
     {
         chaseCam.ResetCam();
@@ -348,6 +364,8 @@ public class GameManager : MonoBehaviour
         _temp.transform.rotation = Quaternion.AngleAxis(PlayerManager.instance.directionOffset, Vector3.up);
 
         PanCamera.SetActive(true); //todo integrate into start sequence
+        AmbientSound(true);
+
         if (PanCamera.GetComponentInChildren<CameraMover>() != null)
             PanCamera.GetComponentInChildren<CameraMover>().StartMoving();
         phaseManager.StartPhaseSystem();
@@ -467,6 +485,7 @@ public class GameManager : MonoBehaviour
         LobbyManager.instance.Reset();
         localController.ToggleController(false);
         RaceEnded();
+        AmbientSound(false);
     }
 
     public void Quit()

@@ -85,7 +85,7 @@ public class UIManager : MonoBehaviour
     public Image BoostPUMeter, DefensePUMeter, HandlinePUMeter, HogDmgPUMeter;
 
     public Text currentLootCount;
-
+    public AudioPlayer sounds;
     private void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();
@@ -96,6 +96,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        if (sounds == null) sounds = GetComponent<AudioPlayer>();
         if (damageIndicatorCanvasGroup != null)
             damageIndicatorCanvasGroup.alpha = 0f;
         _gameManager.FixAssociations();

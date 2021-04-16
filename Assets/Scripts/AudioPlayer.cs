@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics.Tracing;
+using UnityEngine;
 
 public class AudioPlayer : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class AudioPlayer : MonoBehaviour
     public bool randomizeAtStart;
     [Range(0f, 1f)] public float spatialBlend = 0.666f;
     [Range(0f, 360f)] public float spread = 0f;
+    public bool isAmbient = false;
+    [Range(0f, 1f)] public float ambientVolumeFactor;
 
     private void Initialize()
     {
@@ -39,6 +42,35 @@ public class AudioPlayer : MonoBehaviour
         PlayIndex(0);
     }
 
+    public void LoopIndex(int index)
+    {
+        if (AudioManager.instance.sfxIsOn)
+        {
+            if (source == null) Initialize();
+            if (sounds != null)
+            {
+                if (index < sounds.Length)
+                {
+                    if (sounds[index] != null)
+                    {
+                        source.volume = isAmbient
+                            ? AudioManager.instance.sfxVolume * ambientVolumeFactor
+                            : AudioManager.instance.sfxVolume;
+                        source.loop = true;
+                        source.clip = sounds[index];
+                        source.Play();
+                    }
+                }
+            }
+        }
+    }
+
+    public void StopAll()
+    {
+        if (source == null) return;
+        source.Stop();
+    }
+
     public void PlayIndex(int index)
     {
         if (AudioManager.instance.sfxIsOn)
@@ -51,6 +83,7 @@ public class AudioPlayer : MonoBehaviour
                     if (sounds[index] != null)
                     {
                         source.volume = AudioManager.instance.sfxVolume;
+                        source.loop = false;
                         source.PlayOneShot(sounds[index]);
                     }
                 }

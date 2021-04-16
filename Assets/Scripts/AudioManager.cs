@@ -123,6 +123,7 @@ public class AudioManager : MonoBehaviour
     public void ToggleSFX()
     {
         sfxIsOn = !sfxIsOn;
+        GameManager.instance.AmbientSound(sfxIsOn);
         toggleSFX.sprite = sfxIsOn ? onImage : offImage;
         PlayerPrefs.SetInt("sfxIsOn", sfxIsOn ? 1 : 0);
         UpdateEngineSoundLevels();

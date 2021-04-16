@@ -1,5 +1,153 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &946392552
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 946392553}
+  - component: {fileID: 946392555}
+  - component: {fileID: 946392554}
+  m_Layer: 0
+  m_Name: AmbientSound
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &946392553
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946392552}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3256981861654351052}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &946392555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946392552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75dd03999f3a95040baa95847c5cee88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identifier: Ambient Sound
+  sounds:
+  - {fileID: 8300000, guid: d90bb6355df8e0f4786454251f2731d3, type: 3}
+  - {fileID: 8300000, guid: 284a04fa72e8ebd43a07fc9623524dd6, type: 3}
+  playAtStart: 0
+  randomizeAtStart: 0
+  spatialBlend: 0.5
+  spread: 0
+--- !u!82 &946392554
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946392552}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3256981861654351055
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,16 +158,17 @@ GameObject:
   m_Component:
   - component: {fileID: 3256981861654351052}
   - component: {fileID: 3256981861654351053}
-  - component: {fileID: 3256981861654351048}
   - component: {fileID: 3256981861654351050}
   - component: {fileID: 3256981861654351049}
-  - component: {fileID: 3256981861654351051}
+  - component: {fileID: 1882657306}
+  - component: {fileID: 1882657307}
+  - component: {fileID: 1882657308}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: enterNameCanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &3256981861654351052
 Transform:
@@ -31,7 +180,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 946392553}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -52,28 +202,6 @@ MonoBehaviour:
     type: 2}
   _roomToJoinOnStart: 
   _joinRoomOnStart: 0
---- !u!114 &3256981861654351048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3256981861654351055}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -363599832, guid: 30f4fd177e1fad742be136a8237ab587, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _realtime: {fileID: 0}
-  _sceneViewUUID: 
-  _viewUUID: 
-  _sceneViewPreventOwnershipTakeover: 0
-  _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _isRootPrefabView: 1
-  _components:
-  - componentID: 1
-    component: {fileID: 3256981861654351051}
-  _childViews: []
 --- !u!114 &3256981861654351050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,20 +214,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60c0cc347c3515449888f5933297e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  center: {x: 15.12, y: 6.1, z: 580.64}
-  size: {x: 20, y: 5, z: 20}
-  direction: 0
+  _realtime: {fileID: 0}
+  center: {x: 255, y: 166, z: 1461}
+  size: {x: 35, y: 1, z: 1}
+  direction: 108
   playerNameInputField: {fileID: 0}
   _enterNameCanvas: {fileID: 0}
+  HeatMeter: {fileID: 0}
+  HeatText: {fileID: 0}
   _miniMapCamera: {fileID: 0}
   preferredCar: Car1
   chaseCam: {fileID: 0}
   m_fMaxTimer: 0
   m_localTimer: 0
   m_iNumOfPlayersForGameStart: 10
-  _race: {fileID: 3256981861654351051}
+  _race: {fileID: 3256981861654351051, guid: c4243823ecb99bd4bbfff6f0ba948113, type: 3}
   readyToStart: 0
   lootTruck: {fileID: 0}
+  TruckOutline: {fileID: 0}
+  MinXrayTruckOutlineDistance: 250
   uIManager: {fileID: 0}
   lootManager: {fileID: 0}
   gameSceneManager: {fileID: 0}
@@ -107,7 +240,22 @@ MonoBehaviour:
   Walls:
   - {fileID: 0}
   - {fileID: 0}
-  CanMoveWalls: 0
+  truckIsKilled: 0
+  isHost: 0
+  gameCreationMenu: {fileID: 0}
+  _roomName: 
+  isDebugBuild: 0
+  debugTruckHealth: 5
+  playerName: 
+  results: {fileID: 0}
+  trl: {fileID: 0}
+  GameStarted: 0
+  PanCamera: {fileID: 0}
+  counter: {fileID: 0}
+  countdownBeforeStart: 10
+  localController: {fileID: 0}
+  RIGOs: []
+  ambientSound: {fileID: 0}
 --- !u!114 &3256981861654351049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,10 +271,21 @@ MonoBehaviour:
   phases:
   - startMessage: Welcome to the game!
     type: 0
-    duration: 5
+    duration: 16
     startEvent:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 3256981861654351050}
+          m_MethodName: UpdateInvincibilityOfTruck
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
   - startMessage: Hunt will begin soon!
     type: 0
     duration: 5
@@ -134,29 +293,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 3256981861654351050}
-          m_MethodName: AssignWallsIDs
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 1
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_MethodName: SpawnPredeterminedItems
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 3256981861654351050}
-          m_MethodName: MakeWallsGoDown
+          m_MethodName: StartInitialCountdown
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -183,9 +320,81 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_MethodName: InitTruckHealth
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 3256981861654351050}
+          m_MethodName: UpdateLootTruckHandBrakeState
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 3256981861654351050}
+          m_MethodName: UpdateInvincibilityOfTruck
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - startMessage: Iron Hog is killed!!!
     type: 0
-    duration: 3
+    duration: 5
+    startEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3256981861654351050}
+          m_MethodName: UpdateLootTruckTorqueFactor
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 3256981861654351050}
+          m_MethodName: UpdateLootTruckHandBrakeState
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 3256981861654351050}
+          m_MethodName: MakeWallsGoUp
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - startMessage: GAME END
+    type: 0
+    duration: 5
     startEvent:
       m_PersistentCalls:
         m_Calls:
@@ -200,8 +409,8 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 3256981861654351050}
-          m_MethodName: MakeWallsGoUp
+        - m_Target: {fileID: 0}
+          m_MethodName: DeactivateTruckHealthUI
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -215,20 +424,11 @@ MonoBehaviour:
   messageTMPro: {fileID: 0}
   endOfPhasesEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11500000, guid: e60c0cc347c3515449888f5933297e1e, type: 3}
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  Walls: []
---- !u!114 &3256981861654351051
+      m_Calls: []
+  Walls:
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &1882657306
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,9 +437,88 @@ MonoBehaviour:
   m_GameObject: {fileID: 3256981861654351055}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc652a63fc7b2784ebf8aea703e56289, type: 3}
+  m_Script: {fileID: 11500000, guid: d6777c14f07c7164e8ec4fdf15bdb8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_fGameStartTime: 0
-  m_fRaceDuration: 10
-  m_iPhase: 0
+  start: 5
+  autoStartCount: 1
+  current: 0
+  countdownLights: {fileID: 0}
+  localController: {fileID: 0}
+  endEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3256981861654351050}
+        m_MethodName: MakeWallsGoDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1882657308}
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1882657307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3256981861654351055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75dd03999f3a95040baa95847c5cee88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identifier: 
+  sounds:
+  - {fileID: 8300000, guid: ff9f360f2f68f5447a43ba0762179422, type: 3}
+  - {fileID: 8300000, guid: 3617aeca519a6544086b79775bb07b62, type: 3}
+  - {fileID: 8300000, guid: f58396143c641f342bd2f3a481e7b168, type: 3}
+  - {fileID: 8300000, guid: 687dc91861cda324391d47165723b915, type: 3}
+  - {fileID: 8300000, guid: 08225003abd6ba94d9ea6e9ffe9c7410, type: 3}
+  playAtStart: 0
+  randomizeAtStart: 0
+  spatialBlend: 0.666
+  spread: 360
+--- !u!114 &1882657308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3256981861654351055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cdb8b64a87efe440b557b7a64731914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layers:
+  - definition: DoorOpen9
+    audioClips:
+    - {fileID: 8300000, guid: c60b99684df42fe48afd8c2c5dc11143, type: 3}
+  - definition: DeviceStart3
+    audioClips:
+    - {fileID: 8300000, guid: 11fd6ddf961772e4696ab4c8863c8d62, type: 3}
+  - definition: DeviceStart6
+    audioClips:
+    - {fileID: 8300000, guid: b00ceba2d7ae95d4b934b6100f38e63a, type: 3}
+  - definition: DeviceStart7
+    audioClips:
+    - {fileID: 8300000, guid: b3f3744d14bd4d04dadadd7d7853f372, type: 3}
+  playAtStart: 0
+  randomizeAtPlay: 0
+  spatialBlend: 0.555
+  spread: 180
