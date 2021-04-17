@@ -150,7 +150,7 @@ public class LobbyManager : MonoBehaviour
         tryingToConnect = true;
 
         roomName = GenerateRandomString(6);
-        Debug.LogWarning("ROOM: " + roomName);
+        //Debug.LogWarning("ROOM: " + roomName);
         GUIUtility.systemCopyBuffer = roomName;
         GameManager.instance._roomName = roomName;
         roomNameBanner.text = roomName;

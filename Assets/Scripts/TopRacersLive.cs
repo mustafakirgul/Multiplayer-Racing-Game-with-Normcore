@@ -116,7 +116,7 @@ public class TopRacersLive : MonoBehaviour
 
     private void GetResults()
     {
-        Debug.LogWarning("Got Results");
+        //Debug.LogWarning("Got Results");
         if (displays == null)
         {
             Debug.LogWarning("No displays to show top racers!");
