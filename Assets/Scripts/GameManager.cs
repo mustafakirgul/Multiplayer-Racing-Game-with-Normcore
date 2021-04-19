@@ -341,7 +341,7 @@ public class GameManager : MonoBehaviour
     private void SpawnCar()
     {
         playerName = playerNameInputField.text;
-        Debug.LogWarning("Comparison: " + String.Compare(playerName, "franking", StringComparison.OrdinalIgnoreCase));
+        Debug.LogWarning("Comparison: " + String.Compare(playerName, "francking", StringComparison.OrdinalIgnoreCase));
         if (String.Compare(playerName, "franking", StringComparison.OrdinalIgnoreCase) == 1)
             preferredCar = "Car4";
 
