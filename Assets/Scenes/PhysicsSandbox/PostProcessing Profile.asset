@@ -179,7 +179,7 @@ MonoBehaviour:
     m_Value: 1
   directWrite:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   downsampling:
     m_OverrideState: 1
     m_Value: 0
@@ -189,7 +189,7 @@ MonoBehaviour:
     min: 1
     max: 8
   downsamplingBilinear:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   optimizeBuildBeautifyAuto:
     m_OverrideState: 1
