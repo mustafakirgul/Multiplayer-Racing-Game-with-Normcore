@@ -930,27 +930,16 @@ public class NewCarController : MonoBehaviour
             wheels[i].wheelT.localPosition = new Vector3(wheels[i].wheelT.localPosition.x,
                 wheels[i].originY - _tempSuspensionDistance + wheels[i].wheelSize, wheels[i].wheelT.localPosition.z);
 
+            if (wheels[i].isPowered && moveInput != 0)
+                wheels[i].wheelT.Rotate(Vector3.right * Time.deltaTime * moveInput * wheelTurnFactor);
+            else
+                wheels[i].wheelT.Rotate(Vector3.right * Time.deltaTime * LocalVelocity() * wheelTurnFactor);
+            
             if (wheels[i].isSteeringWheel)
             {
                 _tempQ = wheels[i].t.localRotation;
                 wheels[i].wheelT.localEulerAngles = new Vector3(_tempQ.eulerAngles.x, turnInput * maxSteeringAngle,
                     _tempQ.eulerAngles.z);
-            }
-
-            if (wheels[i].isPowered)
-            {
-                if (moveInput != 0)
-                {
-                    wheels[i].wheelT.Rotate(Vector3.right * Time.deltaTime * moveInput * -wheelTurnFactor);
-                }
-                else
-                {
-                    wheels[i].wheelT.Rotate(Vector3.right * Time.deltaTime * LocalVelocity() * -wheelTurnFactor);
-                }
-            }
-            else
-            {
-                wheels[i].wheelT.Rotate(Vector3.right * Time.deltaTime * LocalVelocity() * -wheelTurnFactor);
             }
         }
     }

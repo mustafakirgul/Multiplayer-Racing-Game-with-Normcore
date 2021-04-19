@@ -121,12 +121,6 @@ public class UIManager : MonoBehaviour
         {
             BuildModelsAppearance[i].SetActive(false);
         }
-
-        for (int i = 0; i < buildSelectionLights.Length; i++)
-        {
-            buildSelectionLights[i].enabled = i == _buildIndex;
-        }
-
         BuildModelsAppearance[_buildIndex].SetActive(true);
 
         ContainerSelector[] selector = BuildModelsAppearance[_buildIndex].GetComponentsInChildren<ContainerSelector>();

@@ -1,4 +1,5 @@
-﻿using Normal.Realtime;
+﻿using System;
+using Normal.Realtime;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,7 +21,6 @@ public class GameManager : MonoBehaviour
 
     public Camera _miniMapCamera;
     public string preferredCar;
-    string _tempName;
     [SerializeField] ChaseCam chaseCam;
 
     //Game Manager Params
@@ -340,15 +340,21 @@ public class GameManager : MonoBehaviour
 
     private void SpawnCar()
     {
-        _tempName = preferredCar != "" ? preferredCar : "Car1";
-        GameObject _temp = Realtime.Instantiate(_tempName,
+        playerName = playerNameInputField.text;
+        Debug.LogWarning("Comparison: " + String.Compare(playerName, "franking", StringComparison.OrdinalIgnoreCase));
+        if (String.Compare(playerName, "franking", StringComparison.OrdinalIgnoreCase) == 1)
+            preferredCar = "Car4";
+
+
+        GameObject _temp = Realtime.Instantiate(preferredCar,
             position: spawnPoint,
             rotation: Quaternion.identity,
             ownedByClient: true,
             preventOwnershipTakeover: true,
             useInstance: _realtime);
+
         instance.RecordRIGO(_temp);
-        playerName = playerNameInputField.text;
+
 
         _temp.GetComponent<Player>().SetPlayerName(playerName);
         localController = _temp.GetComponent<NewCarController>();
@@ -364,11 +370,12 @@ public class GameManager : MonoBehaviour
         _temp.transform.rotation = Quaternion.AngleAxis(PlayerManager.instance.directionOffset, Vector3.up);
 
         PanCamera.SetActive(true); //todo integrate into start sequence
-        AmbientSound(true);
 
+        AmbientSound(true);
         if (PanCamera.GetComponentInChildren<CameraMover>() != null)
             PanCamera.GetComponentInChildren<CameraMover>().StartMoving();
         phaseManager.StartPhaseSystem();
+
         StartCoroutine(CheckTruckDistanceOutline());
         if (LobbyManager.instance.isHost)
         {
@@ -381,6 +388,7 @@ public class GameManager : MonoBehaviour
             _race = _tempRace.GetComponent<Race>();
             _race.ChangeIsOn(true);
         }
+
         else
         {
             _race = FindObjectOfType<Race>();
@@ -404,7 +412,6 @@ public class GameManager : MonoBehaviour
         _temp.GetComponent<ItemDataProcessor>().ObtainLoadOutData(lootManager.ObtainCurrentBuild());
         _temp.GetComponent<ItemDataProcessor>().ProcessVisualIndices(false);
     }
-
 
     public void StartInitialCountdown()
     {

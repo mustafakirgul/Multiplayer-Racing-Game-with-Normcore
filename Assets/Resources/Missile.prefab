@@ -55,7 +55,7 @@ MonoBehaviour:
   startSpeed: 5
   damage: 40
   explosiveRange: 5
-  weaponLifeTime: 5
+  weaponLifeTime: 15
   truckDamageFactor: 1
   truckDamageTempModifier: 0
   weaponFireRate: 1
@@ -262,6 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75dd03999f3a95040baa95847c5cee88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  identifier: 
   sounds:
   - {fileID: 8300000, guid: f2fcb8cef3f7df1489d2536285dc2757, type: 3}
   - {fileID: 8300000, guid: 1d77fb834f94c2949a8efa1d572426a3, type: 3}
@@ -270,6 +271,8 @@ MonoBehaviour:
   randomizeAtStart: 1
   spatialBlend: 0.88
   spread: 0
+  isAmbient: 0
+  ambientVolumeFactor: 0
 --- !u!82 &2758497742069785609
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9963,6 +9966,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75dd03999f3a95040baa95847c5cee88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  identifier: 
   sounds:
   - {fileID: 8300000, guid: c0c167e03c19fee48a48a42a6d0e3545, type: 3}
   - {fileID: 8300000, guid: 5dbb785afaf949e4cbca2fd67d1cf802, type: 3}
@@ -9985,6 +9989,8 @@ MonoBehaviour:
   randomizeAtStart: 1
   spatialBlend: 0.666
   spread: 90
+  isAmbient: 0
+  ambientVolumeFactor: 0
 --- !u!82 &8000539080208704115
 AudioSource:
   m_ObjectHideFlags: 0

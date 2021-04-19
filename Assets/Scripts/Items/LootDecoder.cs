@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class LootDecoder : MonoBehaviour
 {
-    [SerializeField]
-    LootManager lootManager;
+    [SerializeField] LootManager lootManager;
 
     public List<GameObject> LootDecoderUnits = new List<GameObject>();
     public int indexToActivate;
@@ -14,6 +13,7 @@ public class LootDecoder : MonoBehaviour
     public bool canCheck;
 
     public GameObject LootDecoderUnitToSpawn;
+
     private void Start()
     {
         lootManager = FindObjectOfType<LootManager>();
@@ -54,6 +54,7 @@ public class LootDecoder : MonoBehaviour
 
             LootDecoderUnits[0].SetActive(true);
             indexToActivate = 0;
+            lootManager.lootOpenSound.PlayRandom();
         }
     }
 
@@ -101,8 +102,8 @@ public class LootDecoder : MonoBehaviour
     {
         if (indexToActivate < CheckForChildren())
         {
-            float animTime = this.transform.GetChild(indexToActivate).gameObject.GetComponentInChildren<Animator>().
-                GetCurrentAnimatorStateInfo(0).normalizedTime;
+            float animTime = this.transform.GetChild(indexToActivate).gameObject.GetComponentInChildren<Animator>()
+                .GetCurrentAnimatorStateInfo(0).normalizedTime;
 
             if (animTime >= 1)
             {
